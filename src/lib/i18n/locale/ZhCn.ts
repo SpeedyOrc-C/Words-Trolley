@@ -1,0 +1,425 @@
+import type {I18nTemplate} from "$lib/i18n/I18nTemplate"
+import {Language} from "$lib/i18n/Language"
+
+const ZhCn: I18nTemplate = {
+	hello: "你好！",
+	login: "登录",
+	signup: "注册",
+	login_and_signup: "登录 / 注册",
+	logout: "登出",
+	search: "搜索",
+	help: "帮助",
+	email: "邮箱",
+	password: "密码",
+	submit: "提交",
+	name: "名字",
+	display_name: "对外展示名字",
+	continue: "继续",
+	return: "返回",
+	edit: "编辑",
+	delete: "删除",
+	insert: "插入",
+	close: "关闭",
+	more: "更多",
+	word_set: "单词集",
+	goto: "前往",
+	copy: "复制",
+	copy_unicode: "复制 Unicode",
+	copied: "已复制",
+	paste: "粘贴",
+	pasted: "已粘贴",
+	print: "打印",
+	not_specified: "未指定",
+	wiktionary: "维基词典",
+	file: {
+		_: "文件",
+		properties: "属性",
+		import: {
+			_: "导入…",
+			win: "导入成功。",
+			bad_file_error: "文件已损坏，请前往控制台查看错误详情。",
+		},
+		export: "导出",
+	},
+	learning_resources: {
+		_: "学习资源",
+		meta_description: "学习各种语言的资源。",
+		japanese: {
+			_: "日语",
+			alphabet: {
+				_: "假名表",
+				inner: {
+					title: "日语假名表",
+					meta_description: "附带罗马字的日语平假名与片假名表。",
+				}
+			}
+		},
+		mandarin: {
+			_: "现代汉语",
+			alphabet: {
+				_: "拼音表",
+				inner: {
+					title: "现代汉语拼音表",
+					meta_description: "现代汉语的声母、韵母、声调与整体认读音节表。",
+					initial: "声母",
+					final: "韵母",
+					atomic: "整体认读音节",
+					use_single_layer_ag: "使用单层 a 与 g 字体",
+				}
+			},
+			spelling_converter: {
+				_: "拼读转换器",
+				description: "在拼音和注音之间转换。",
+				inner: {
+					title: "现代汉语拼读转换器",
+					meta_description: "在现代汉语的拼音和注音之间转换的工具。"
+				}
+			}
+		},
+		egyptian: {
+			_: "埃及语",
+			alphabet: {
+				_: "字母表",
+				inner: {
+					title: "埃及语字母表",
+					meta_description: "包含国际音标与转写的古埃及语单字符圣书字字母表。",
+					letter: "字母"
+				}
+			},
+			typewriter: {
+				_: "打字机",
+				inner: {
+					title: "埃及文打字机",
+					meta_description: "输入古埃及文圣书字（象形文字）。"
+				}
+			},
+			transliteration_converter: {
+				_: "转写转换器",
+				description: "在不同的转写方案之间转换。",
+				inner: {
+					title: "埃及语转写转换器",
+					meta_description: "在不同的古埃及语转写方案之间进行转换的工具。"
+				}
+			},
+			other_input_methods: {
+				_: "其他输入法"
+			},
+		},
+		tibetan: {
+			_: "藏语",
+			alphabet: {
+				_: "字母表",
+				inner: {
+					title: "藏语字母表",
+					meta_description: "附带威利转写的藏语字母表。",
+				}
+			}
+		},
+	},
+	onboarding: {
+		complete_your_profile: "完善您的个人资料",
+	},
+	my_profile: {
+		_: "个人资料",
+		name: "名字",
+		save: {
+			_: "保存",
+			win: "保存成功",
+		}
+	},
+	settings: {
+		_: "设置",
+		follows_your_system: "跟随系统",
+		appearance: {
+			_: "外观",
+			ui_language: "语言",
+			colour_scheme: {
+				_: "配色方案",
+				light: "浅色",
+				dark: "深色",
+			}
+		},
+		learning: {
+			_: "学习",
+			shuffle_words: "打乱单词",
+			show_meaning_in_the_front: "在正面显示单词意思",
+			show_pronunciation: "显示单词发音",
+		},
+		editor: {
+			_: "编辑器",
+			autosave: "自动保存",
+		},
+		mandarin: {
+			_: "现代汉语",
+			spelling_scheme: "拼读方案",
+		},
+		egyptian: {
+			_: "埃及语",
+			transliteration_scheme: {
+				_: "转写方案",
+				fuzzy_sz: "音变：/z/ 归入 /s/",
+				when_read: "阅读时",
+				when_edit: "编辑时",
+				determinative_scheme: {
+					_: "定符方案",
+				},
+			},
+			input_method: {
+				_: "输入法",
+				mode: {
+					_: "模式",
+					text_field: "文本框",
+					virtual_keyboard: "虚拟键盘",
+				}
+			},
+			hieroglyphs_font: "圣书字字体",
+		},
+		hieroglyphs_style: {
+			_: "圣书字风格",
+			sans_serif: "无衬线",
+			colourful: "彩色",
+		},
+		customise_voices: {
+			_: "自定义语音",
+			tip: "给想要更改声音的语言打钩。",
+		},
+	},
+	home: {
+		_: "主页",
+		welcome_to_words_trolley: "欢迎来到 Words Trolley",
+		welcome_back: "欢迎回来",
+		create_a_word_set: "创建一套单词集",
+		created_by_me: "我做的单词集",
+		saved_by_me: "我收藏的单词集",
+	},
+	new: {
+		_: "新建",
+		create_a_new_word_set: "创建一套新单词集……",
+	},
+	set: {
+		title: name => `单词集《${name}》`,
+		learn: "学习",
+		test: "测验",
+		preview: "预览",
+		origin: "源头",
+		creator_label: name => `作者：${name}`,
+		creator_profile_missing: "作者个人资料不存在",
+		main_language: "主要语言",
+		main_language_label: language => `主要语言：${language}`,
+		main_language_missing: "单词集源语言信息不存在",
+		save: "收藏",
+		unsave: "取消收藏",
+		word_count_label: count => `单词数量：${count}`,
+	},
+	creator: {
+		title: name => `${name}的单词集`,
+		title_me: "我的单词集",
+	},
+	learn: {
+		title: name => `学习《${name}》`,
+		speak: "朗读",
+		previous: "上一个",
+		next: "下一个",
+		flip: "翻面",
+		progress: "学习进度",
+	},
+	test: {
+		title: name => `测验《${name}》`,
+		show_answer: "显示答案",
+		next: "下一个",
+		finish: "结束",
+		progress: "测验进度",
+	},
+	editor: {
+		_: "单词集编辑器",
+		title: {
+			edit: name => `编辑《${name}》`,
+			unsaved: name => `未保存《${name}》`
+		},
+		save: "保存",
+		saving: "保存中",
+		saved: "已保存",
+		you_have_unsaved_changes: "您有未保存的更改，确定要离开吗？",
+		fork: {
+			_: "创建副本",
+			success: "成功创建副本",
+		},
+		delete: "删除…",
+		deleting: "删除中",
+		delete_confirm: {
+			this_will_be_deleted: "删除这个单词集：",
+			are_you_sure: "你确定吗？",
+		},
+		rename: "改名…",
+		renaming: "改名中",
+		new_name: "新名字",
+		word: "单词",
+		meaning: "含义",
+		word_type: "单词类型",
+		extra: "额外信息",
+		add_a_word: "添加一个单词",
+		move_up: "上移",
+		move_down: "下移",
+		insert_here: "在这里插入",
+		card_type_select_label: i => `第 ${i} 个卡片的类型`,
+		initialise: "初始化…",
+		initialisation: {
+			_: "初始化",
+			word_count: "单词数量",
+			create_blank: {
+				_: n => `新建${n}个空单词`,
+				tip: "此操作将删除原有的所有单词。",
+			},
+			word_language: "单词语言",
+			set_all_languages: {
+				_: "批量设置单词语言",
+				tip: "此操作将删除所有单词携带的有关其语言特性的信息，但单词本身以及意思将会留下。比如法语名词的阴阳性将会被删除。",
+			},
+			create_and_set_languages: "先新建再设置语言"
+		},
+		view: {
+			_: "视图",
+			word_operations: "单词操作",
+			extra_options: "额外选项",
+		},
+		furigana_editor: {
+			merge_into_above: "合并到上方",
+			merge_into_below: "合并到下方",
+			split: "拆分",
+		},
+	},
+	input_egyptian: {
+		move_cursor_left: "左移光标",
+		move_cursor_right: "右移光标",
+		backspace: "退格",
+		make_ligature: "创建连字",
+		ungroup: "取消组合",
+		add_cartouche: "添加王名框",
+		join_horizontally: "横向连接",
+		join_vertically: "纵向连接",
+		syntax_error: "语法错误",
+		determinative_label: "定",
+		mode: {
+			determinative: "定符",
+			gardiner: "高德纳",
+			number: "数字",
+		},
+		gardiner_table: {
+			_: "高德纳符号表",
+			abbr: "高",
+		}
+	},
+	block_editor: {
+		_: "块编辑器",
+		paragraph: "段落",
+		raw_text: "文本",
+		inlined: "内联",
+		bold: "加粗",
+		italic: "斜体",
+		heading: "标题",
+		subheading: "副标题",
+		new_line: "换行",
+		divider: "分隔符",
+		view: {
+			left_right: "左右布局",
+			top_bottom: "上下布局",
+			editor_only: "仅编辑器",
+			preview: "预览",
+		},
+		quick_start: {
+			_: "快速开始",
+			detail_fine_pointer: "您可以点击其他块周围的缝来插入一个块。把鼠标移到缝隙上的时候就可以看到了。这段话的下面就有一条缝，点击它开始吧。",
+			detail_coarse_pointer: "您可以通过点击其他块周围的缝来插入新的块。这段话的下面就有一条缝，点击它开始吧。",
+		},
+	},
+	WordType: {
+		Simple: "正常",
+		English: "英语",
+		Mandarin: "普通话",
+		Japanese: "日语",
+		French: "法语",
+		German: "德语",
+		Egyptian: "埃及语",
+	},
+	linguistics: {
+		ipa: "国际音标",
+		noun: "名词",
+		gender: "阴阳性",
+		masculine: "阳性",
+		feminine: "阴性",
+		neutral: "中性",
+		verb: "动词",
+		verb_group: "动词组",
+		pinyin: "拼音",
+		bopomofo: "注音符号",
+		transliteration: "转写",
+		consonant: "辅音",
+		vowel: "元音",
+		abbr: {
+			masculine: "阳",
+			feminine: "阴",
+			neutral: "中",
+		},
+	},
+	mandarin: {
+		region: {
+			prc: "中华人民共和国",
+			roc: "中华民国",
+		},
+	},
+	english: {
+		region: {
+			gb: "大不列颠",
+			us: "美利坚合众国",
+		}
+	},
+	japanese: {
+		furigana: "振假名",
+	},
+	egyptian: {
+		egyptology: "埃及学",
+		transliteration: {
+			gardiner: "高德纳",
+			chen: "陈",
+			chen_no_cap: "小陈",
+			mdc: "Manuel de Codage",
+		},
+		typewriter: {
+			title: "埃及语打字机",
+			height: "高度",
+			enable_custom_text_colour: "启用自定义文字颜色",
+			custom_text_colour: "自定义文字颜色",
+			number_shortcut: "数字快捷键",
+			number: "数字",
+			glyph: "字符",
+			other_shortcuts: "其他快捷键",
+			key: "按键",
+			action: "操作",
+			quick_reference: "快速参考",
+		},
+	},
+	stack: {
+		vertical: "上下",
+		horizontal: "左右",
+		split: "分开",
+	},
+	error: {
+		code: "错误代码",
+		auth: {
+			_: "授权错误",
+		},
+	},
+	language: {
+		[Language.ZhCn]: "汉语（内地）",
+		[Language.ZhTw]: "汉语（台湾）",
+		[Language.EnGb]: "英语（英国）",
+		[Language.EnUs]: "英语（美国）",
+		[Language.JaJp]: "日语",
+		[Language.FrFr]: "法语（法国）",
+		[Language.DeDe]: "德语（德国）",
+		[Language.Ar]: "阿拉伯语",
+		[Language.Egy]: "埃及语",
+	},
+}
+
+export default ZhCn

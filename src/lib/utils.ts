@@ -1,0 +1,59 @@
+import {clsx, type ClassValue} from "clsx"
+import {Nothing, Parser, pure} from "crazy-parser"
+import {many, optional} from "crazy-parser/prefix"
+import {twMerge} from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[])
+{
+	return twMerge(clsx(inputs))
+}
+
+export type WithoutChild<T> = T extends {child?: any} ? Omit<T, "child"> : T
+export type WithoutChildren<T> = T extends {children?: any} ? Omit<T, "children"> : T
+export type WithoutChildrenOrChild<T> = WithoutChildren<WithoutChild<T>>
+export type WithElementRef<T, U extends HTMLElement = HTMLElement> = T & {ref?: U | null}
+
+export function InverseRecord<A extends string, B extends string>(record: Record<A, B>): Record<B, A>
+{
+	return Object.fromEntries(
+		Object.entries(record).map(([k, v]) => [v, k as A])
+	)
+}
+
+export function ParserFromRecord<A>(record: Record<string, A>)
+{
+	return new Parser<A, Error>((input, state) =>
+	{
+		if (state.index >= input.length)
+			return new Error()
+
+		const char = String.fromCodePoint(input[state.index])
+
+		if (!(char in record))
+			return new Error()
+
+		state.index += 1
+
+		return record[char]
+	})
+}
+
+export function ParserFromInvertedRecord<A extends string, B extends string>(record: Record<A, B>)
+{
+	return ParserFromRecord(InverseRecord(record))
+}
+
+export function ParseSep<A>(parseItem: Parser<A>, parseSep: Parser<unknown>): Parser<A[]>
+{
+	return optional(parseItem)
+		.bind(first => first == Nothing
+			? pure([])
+			: many(parseSep.$_(parseItem)).map(rest => [first, ...rest])
+		)
+}
+
+export function trace<A>(a: A): A
+{
+	console.log(a)
+	return a
+}

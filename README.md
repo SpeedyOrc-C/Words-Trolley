@@ -1,38 +1,54 @@
-# sv
+# Words Trolley
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A flashcard app that just works.
 
-## Creating a project
+## Supported Word Language
 
-If you're seeing this, you've probably already done this step. Congrats!
+Unlike other apps, you can add language-specific information to each word:
 
-```bash
-# create a new project in the current directory
-npx sv create
+### Japanese
 
-# create a new project in my-app
-npx sv create my-app
-```
+* Add furigana（振り仮名）for each word.
+* Specify verb's group. (Although it can be deduced in most cases.)
 
-## Developing
+### French
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+* Specify noun's gender.
 
-```bash
-npm run dev
+### German
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+* Specify noun's gender.
 
-## Building
+### Mandarin
 
-To create a production version of your app:
+* Add Pinyin（拼音）or Bopomofo（注音）for each word.
 
-```bash
-npm run build
-```
+### Egyptian
 
-You can preview the production build with `npm run preview`.
+* Enter hieroglyphs like a breeze using our dedicated IME.
+* Add transliteration for each word, supports schemes from:
+  * Manuel de Codage
+  * Gardiner
+  * Wiktionary
+  * Me?
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Get Involved
+
+This project is built with [SvelteKit](https://svelte.dev)
+and [TypeScript](https://typescriptlang.org).
+
+UI components are from [Shadcn](https://shadcn-svelte.com).
+
+Backend is powered by [Supabase](https://supabase.com).
+
+## References
+
+### Egyptian
+
+- [Transliteration Schemes](https://en.wikipedia.org/wiki/Transliteration_of_Ancient_Egyptian)
+- [Manuel de Codage](https://www.catchpenny.org/codage)
+- [Glyph List](https://en.wikipedia.org/wiki/List_of_Egyptian_hieroglyphs)
+- [Colourful Hieroglyphs](https://github.com/semiessessi/recoloured-tuxscribe-hieroglyphs)
+
+Thanks [Ben Zhang](https://www.zhihu.com/people/zhangbenber)
+for proposing a much more convenient method for stacking hieroglyphs.

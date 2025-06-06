@@ -1,0 +1,11 @@
+allowBuilds:
+  "esbuild": true
+  "@tailwind/oxide": true
+minimumReleaseAgeExclude:
+  - '@supabase/auth-js@2.113.0'
+  - '@supabase/functions-js@2.113.0'
+  - '@supabase/postgrest-js@2.113.0'
+  - '@supabase/realtime-js@2.113.0'
+  - '@supabase/storage-js@2.113.0'
+  - '@supabase/supabase-js@2.113.0'
+  - crazy-parser@1.6.1

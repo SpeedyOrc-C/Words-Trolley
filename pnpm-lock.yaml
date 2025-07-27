@@ -15,8 +15,8 @@ importers:
         specifier: ^2.52.0
         version: 2.52.0
       crazy-i18n:
-        specifier: ^0.1.2
-        version: 0.1.2
+        specifier: ^0.2.1
+        version: 0.2.1
       crazy-parser:
         specifier: 1.1.0
         version: 1.1.0
@@ -988,8 +988,8 @@ packages:
     resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==, tarball: https://registry.npmmirror.com/cors/-/cors-2.8.5.tgz}
     engines: {node: '>= 0.10'}
 
-  crazy-i18n@0.1.2:
-    resolution: {integrity: sha512-kxsHS2uOIbuhd8YrSpH+WqBn+u2bKi5Zq6GPsuzAi5as7cWWjBvS0S+QfmaDFRILPQNuzGJcVCz8OSsGs2r7Uw==}
+  crazy-i18n@0.2.1:
+    resolution: {integrity: sha512-nmPT3PamU0weEAc19ThTTQmXg4zgEZaSOep25u6ifeCUw/4hmJerX3UkeaC9qzaLYv/tI5vbcIiEW9EPBj4UUQ==}
 
   crazy-parser@1.1.0:
     resolution: {integrity: sha512-SDmJzlZgYJ6jAHWZyvgTtfLHZD7n8eMw92IY0pOPVskKIwBryx1LCjT8DVdU/1qE694tTdaGibIeeDEfcdMYyQ==}
@@ -2041,6 +2041,9 @@ packages:
     engines: {node: '>=18.12'}
     peerDependencies:
       typescript: '>=4.8.4'
+
+  ts-toolbelt@9.6.0:
+    resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
 
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==, tarball: https://registry.npmmirror.com/type-check/-/type-check-0.4.0.tgz}
@@ -3105,7 +3108,9 @@ snapshots:
       object-assign: 4.1.1
       vary: 1.1.2
 
-  crazy-i18n@0.1.2: {}
+  crazy-i18n@0.2.1:
+    dependencies:
+      ts-toolbelt: 9.6.0
 
   crazy-parser@1.1.0: {}
 
@@ -4159,6 +4164,8 @@ snapshots:
   ts-api-utils@2.1.0(typescript@5.8.3):
     dependencies:
       typescript: 5.8.3
+
+  ts-toolbelt@9.6.0: {}
 
   type-check@0.4.0:
     dependencies:

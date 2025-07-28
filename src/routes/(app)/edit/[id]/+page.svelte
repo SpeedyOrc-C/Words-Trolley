@@ -1,10 +1,10 @@
 <script lang="ts">
-    import {blankWordFromType, blankWordSimple, CardType, type Word, type Words} from "$lib"
+    import {blankWordFromType, blankWordSimple, CardType, type Words} from "$lib"
     import type {Json} from "$lib/database.types"
     import * as French from "$lib/word/french"
     import * as German from "$lib/word/german"
-    import {goto} from "$app/navigation";
-    import {_} from "$lib/i18n/index.svelte";
+    import {goto} from "$app/navigation"
+    import {_} from "$lib/i18n/index.svelte"
 
     const {data} = $props()
     const {supabase} = $derived(data)
@@ -133,10 +133,7 @@
 
         }
 
-        input.oncancel = function ()
-        {
-            importing = false
-        }
+        input.onabort = () => importing = false
 
         input.click()
     }
@@ -315,32 +312,37 @@
 
 <main class="grow overflow-auto">
 
-
     <table class="table table-sm table-pin-rows w-fit mx-auto">
 
         <thead>
         <tr>
+
             {#if editMore}
                 <th class="text-center">
                     {$_.editor.operations}
                 </th>
             {/if}
+
             <th class="text-center">
                 {$_.editor.word}
             </th>
+
             <th class="text-center">
                 {$_.editor.meaning}
             </th>
+
             {#if editMore}
                 <th class="text-center">
                     {$_.editor.type}
                 </th>
             {/if}
+
             {#if !allSimple}
                 <th class="text-center">
                     {$_.editor.extra}
                 </th>
             {/if}
+
         </tr>
         </thead>
 
@@ -437,7 +439,9 @@
                 {#if !allSimple}
 
                     <td class="p-4">
+
                         {#if word.type === CardType.FrenchNoun}
+
                             <fieldset>
                                 <legend>{$_.linguistics.gender}</legend>
                                 <div class="flex gap-4">
@@ -457,7 +461,9 @@
                                     </div>
                                 </div>
                             </fieldset>
+
                         {:else if word.type === CardType.GermanNoun}
+
                             <fieldset>
                                 <legend>{$_.linguistics.gender}</legend>
                                 <div class="flex gap-4">
@@ -484,7 +490,9 @@
                                     </div>
                                 </div>
                             </fieldset>
+
                         {/if}
+
                     </td>
 
                 {/if}

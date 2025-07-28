@@ -1,6 +1,6 @@
 <script lang="ts">
     import JustHomeNavbar from "$lib/JustHomeNavbar.svelte"
-    import {_} from "$lib/i18n/index.svelte"
+    import {_} from "$lib/i18n"
 
     const {data} = $props()
 </script>

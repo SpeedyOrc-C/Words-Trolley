@@ -1,5 +1,5 @@
 <script>
-    import {_} from "$lib/i18n/index.svelte.ts";
+    import {_} from "$lib/i18n"
 
     let {data} = $props()
 

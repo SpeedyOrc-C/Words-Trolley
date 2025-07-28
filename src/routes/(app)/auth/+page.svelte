@@ -1,5 +1,5 @@
 <script>
-    import {_} from "$lib/i18n/index.svelte.js"
+    import {_} from "$lib/i18n/index.ts"
 </script>
 
 <main class="m-8">

@@ -2,7 +2,7 @@
     import "../app.css"
     import {invalidate} from '$app/navigation'
     import {onMount} from 'svelte'
-    import {Language, language} from "$lib/i18n/index.svelte.js"
+    import {Language, language} from "$lib/i18n"
 
     let {data, children} = $props()
     let {session, supabase} = $derived(data)

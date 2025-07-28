@@ -4,7 +4,7 @@
     import * as French from "$lib/word/french"
     import * as German from "$lib/word/german"
     import {goto} from "$app/navigation"
-    import {_} from "$lib/i18n/index.svelte"
+    import {_} from "$lib/i18n"
 
     const {data} = $props()
     const {supabase} = $derived(data)

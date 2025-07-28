@@ -24,6 +24,10 @@ export const EnGb: I18nTemplate = {
         create_a_new_set_of_words: "Create a new set of words...",
     },
     editor: {
+        title: {
+            edit: name => `Edit - ${name}`,
+            unsaved: name => `Unsaved - ${name}`
+        },
         save: "Save",
         saving: "Saving",
         saved: "Saved",
@@ -34,6 +38,10 @@ export const EnGb: I18nTemplate = {
         importing: "Importing",
         delete: "Delete...",
         deleting: "Deleting",
+        delete_confirm: {
+            this_will_be_deleted: "This set will be deleted:",
+            are_you_sure: "Are you sure?",
+        },
         rename: "Rename...",
         renaming: "Renaming",
         operations: "Operations",

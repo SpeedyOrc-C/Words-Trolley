@@ -22,6 +22,10 @@ export type I18nTemplate = {
         create_a_new_set_of_words: string
     }
     editor: {
+        title: {
+            edit: (name: string) => string
+            unsaved: (name: string) => string
+        }
         save: string
         saving: string
         saved: string
@@ -32,6 +36,10 @@ export type I18nTemplate = {
         importing: string
         delete: string
         deleting: string
+        delete_confirm: {
+            this_will_be_deleted: string
+            are_you_sure: string
+        }
         rename: string
         renaming: string
         operations: string

@@ -143,9 +143,9 @@
 
     async function Delete()
     {
-        const yes = confirm(`This set will be deleted:\n<${name}>\nAre you sure?`)
+        const ok = confirm(`${$_.editor.delete_confirm.this_will_be_deleted}\n${name}\n${$_.editor.delete_confirm.are_you_sure}`)
 
-        if (!yes)
+        if (!ok)
             return
 
         deleting = true
@@ -238,7 +238,7 @@
 
 <svelte:head>
     <title>
-        {saved ? "Edit" : "Unsaved"} - {name}
+        {(saved ? $_.editor.title.edit : $_.editor.title.unsaved)(name)}
     </title>
 </svelte:head>
 

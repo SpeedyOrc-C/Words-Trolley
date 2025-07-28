@@ -32,6 +32,8 @@ export type I18nTemplate = {
         importing: string
         delete: string
         deleting: string
+        rename: string
+        renaming: string
         operations: string
         word: string
         meaning: string

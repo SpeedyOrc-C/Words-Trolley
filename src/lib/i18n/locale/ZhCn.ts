@@ -34,6 +34,8 @@ export const ZhCn: I18nTemplate = {
         importing: "导入中",
         delete: "删除……",
         deleting: "删除中",
+        rename: "改名…",
+        renaming: "改名中",
         operations: "操作",
         word: "单词",
         meaning: "含义",

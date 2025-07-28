@@ -34,6 +34,8 @@ export const EnGb: I18nTemplate = {
         importing: "Importing",
         delete: "Delete...",
         deleting: "Deleting",
+        rename: "Rename...",
+        renaming: "Renaming",
         operations: "Operations",
         word: "Word",
         meaning: "Meaning",

@@ -8,7 +8,7 @@
 
     const {data} = $props()
     const {supabase} = $derived(data)
-    const {name, id} = $derived(data.set)
+    let {name, id} = $derived(data.set)
 
     let words = $state(data.set.words as Words)
     let saved = $state(true)
@@ -17,6 +17,7 @@
     let deleting = $state(false)
     let editMore = $state(true)
     let typing = $state(false)
+    let renaming = $state(false)
     let dragIndex = $state<number | null>(null)
     let dropIndex = $state<number | null>(null)
 
@@ -166,6 +167,32 @@
         await goto("/")
     }
 
+    async function Rename()
+    {
+        const newName = prompt("New name", name)
+
+        if (newName == null)
+            return
+
+        renaming = true
+
+        const {error} = await supabase
+            .from("sets")
+            .update({name: newName})
+            .eq("id", id)
+
+        renaming = false
+
+        if (error)
+        {
+            console.error(error)
+            alert(error.message)
+            return
+        }
+
+        name = newName
+    }
+
     function onbeforeunload(e: BeforeUnloadEvent)
     {
         if (!saved)
@@ -272,8 +299,16 @@
 
 </nav>
 
-<header>
-    <h1 class="text-xl font-bold text-center">
+<header class="m-auto flex items-center gap-4">
+    <button onclick={Rename} class="btn" disabled={renaming}>
+        {#if renaming}
+            <span class="loading loading-spinner"></span>
+            {$_.editor.renaming}
+        {:else}
+            {$_.editor.rename}
+        {/if}
+    </button>
+    <h1 class="text-xl font-bold text-center" class:opacity-50={renaming}>
         {name}
     </h1>
 </header>

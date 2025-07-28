@@ -1,6 +1,6 @@
 <script lang="ts">
     import JustHomeNavbar from "$lib/JustHomeNavbar.svelte"
-    import {_} from "$lib/i18n"
+    import {_} from "$lib/i18n/index.svelte"
 
     const {data} = $props()
 </script>
@@ -18,7 +18,7 @@
 
                         <a href="/edit/{set.id}">
                             <button class="btn btn-sm btn-soft">
-                                {$_("edit")}
+                                {$_.edit}
                             </button>
                         </a>
 

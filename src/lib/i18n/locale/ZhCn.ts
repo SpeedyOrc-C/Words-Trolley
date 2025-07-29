@@ -24,16 +24,26 @@ export const ZhCn: I18nTemplate = {
         create_a_new_set_of_words: "创建一套新单词集……",
     },
     editor: {
+        title: {
+            edit: name => `编辑《${name}》`,
+            unsaved: name => `未保存《${name}》`
+        },
         save: "保存",
         saving: "保存中",
         saved: "已保存",
         edit_less: "少编辑点",
         edit_more: "多编辑点",
         export: "导出",
-        import: "导入……",
+        import: "导入…",
         importing: "导入中",
-        delete: "删除……",
+        delete: "删除…",
         deleting: "删除中",
+        delete_confirm: {
+            this_will_be_deleted: "删除这个单词集：",
+            are_you_sure: "你确定吗？",
+        },
+        rename: "改名…",
+        renaming: "改名中",
         operations: "操作",
         word: "单词",
         meaning: "含义",

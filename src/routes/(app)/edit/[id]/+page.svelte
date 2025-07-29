@@ -1,14 +1,14 @@
 <script lang="ts">
-    import {blankWordFromType, blankWordSimple, CardType, type Word, type Words} from "$lib"
+    import {blankWordFromType, blankWordSimple, CardType, type Words} from "$lib"
     import type {Json} from "$lib/database.types"
     import * as French from "$lib/word/french"
     import * as German from "$lib/word/german"
-    import {goto} from "$app/navigation";
-    import {_} from "$lib/i18n";
+    import {goto} from "$app/navigation"
+    import {_} from "$lib/i18n"
 
     const {data} = $props()
     const {supabase} = $derived(data)
-    const {name, id} = $derived(data.set)
+    let {name, id} = $derived(data.set)
 
     let words = $state(data.set.words as Words)
     let saved = $state(true)
@@ -17,6 +17,7 @@
     let deleting = $state(false)
     let editMore = $state(true)
     let typing = $state(false)
+    let renaming = $state(false)
     let dragIndex = $state<number | null>(null)
     let dropIndex = $state<number | null>(null)
 
@@ -132,19 +133,16 @@
 
         }
 
-        input.oncancel = function ()
-        {
-            importing = false
-        }
+        input.onabort = () => importing = false
 
         input.click()
     }
 
     async function Delete()
     {
-        const yes = confirm(`This set will be deleted:\n<${name}>\nAre you sure?`)
+        const ok = confirm(`${$_.editor.delete_confirm.this_will_be_deleted}\n${name}\n${$_.editor.delete_confirm.are_you_sure}`)
 
-        if (!yes)
+        if (!ok)
             return
 
         deleting = true
@@ -164,6 +162,32 @@
         }
 
         await goto("/")
+    }
+
+    async function Rename()
+    {
+        const newName = prompt("New name", name)
+
+        if (newName == null)
+            return
+
+        renaming = true
+
+        const {error} = await supabase
+            .from("sets")
+            .update({name: newName})
+            .eq("id", id)
+
+        renaming = false
+
+        if (error)
+        {
+            console.error(error)
+            alert(error.message)
+            return
+        }
+
+        name = newName
     }
 
     function onbeforeunload(e: BeforeUnloadEvent)
@@ -211,7 +235,7 @@
 
 <svelte:head>
     <title>
-        {saved ? "Edit" : "Unsaved"} - {name}
+        {(saved ? $_.editor.title.edit : $_.editor.title.unsaved)(name)}
     </title>
 </svelte:head>
 
@@ -220,39 +244,39 @@
     <div class="flex">
         <a href="/">
             <button class="btn btn-ghost">
-                {$_("home._")}
+                {$_.home._}
             </button>
         </a>
 
         <button class="btn btn-ghost" onclick={Save} disabled={saving || saved}>
             {#if saving}
                 <span class="loading loading-spinner"></span>
-                {$_("editor.saving")}
+                {$_.editor.saving}
             {:else if saved}
-                {$_("editor.saved")}
+                {$_.editor.saved}
             {:else}
-                {$_("editor.save")}
+                {$_.editor.save}
             {/if}
         </button>
 
         <button class="btn btn-ghost" onclick={() => editMore = !editMore}>
             {#if editMore}
-                {$_("editor.edit_less")}
+                {$_.editor.edit_less}
             {:else}
-                {$_("editor.edit_more")}
+                {$_.editor.edit_more}
             {/if}
         </button>
 
         <button class="btn btn-ghost" onclick={Export}>
-            {$_("editor.export")}
+            {$_.editor.export}
         </button>
 
         <button class="btn btn-ghost" onclick={Import} disabled={saving || importing}>
             {#if importing}
                 <span class="loading loading-spinner"></span>
-                {$_("editor.importing")}
+                {$_.editor.importing}
             {:else}
-                {$_("editor.import")}
+                {$_.editor.import}
             {/if}
         </button>
     </div>
@@ -262,9 +286,9 @@
         <button class="btn btn-dash btn-error" onclick={Delete} disabled={deleting}>
             {#if deleting}
                 <span class="loading loading-spinner"></span>
-                {$_("editor.deleting")}
+                {$_.editor.deleting}
             {:else}
-                {$_("editor.delete")}
+                {$_.editor.delete}
             {/if}
         </button>
 
@@ -272,40 +296,53 @@
 
 </nav>
 
-<header>
-    <h1 class="text-xl font-bold text-center">
+<header class="m-auto flex items-center gap-4">
+    <button onclick={Rename} class="btn" disabled={renaming}>
+        {#if renaming}
+            <span class="loading loading-spinner"></span>
+            {$_.editor.renaming}
+        {:else}
+            {$_.editor.rename}
+        {/if}
+    </button>
+    <h1 class="text-xl font-bold text-center" class:opacity-50={renaming}>
         {name}
     </h1>
 </header>
 
 <main class="grow overflow-auto">
 
-
     <table class="table table-sm table-pin-rows w-fit mx-auto">
 
         <thead>
         <tr>
+
             {#if editMore}
                 <th class="text-center">
-                    {$_("editor.operations")}
+                    {$_.editor.operations}
                 </th>
             {/if}
+
             <th class="text-center">
-                {$_("editor.word")}
+                {$_.editor.word}
             </th>
+
             <th class="text-center">
-                {$_("editor.meaning")}
+                {$_.editor.meaning}
             </th>
+
             {#if editMore}
                 <th class="text-center">
-                    {$_("editor.type")}
+                    {$_.editor.type}
                 </th>
             {/if}
+
             {#if !allSimple}
                 <th class="text-center">
-                    {$_("editor.extra")}
+                    {$_.editor.extra}
                 </th>
             {/if}
+
         </tr>
         </thead>
 
@@ -330,20 +367,20 @@
                             <div class="w-12" ondragover={e => e.preventDefault()} role="none"></div>
 
                             <button class="btn btn-sm btn-dash btn-error" onclick={() => DeleteWord(i)}>
-                                {$_("delete")}
+                                {$_.delete}
                             </button>
 
                             <button class="btn btn-sm" onclick={() => InsertNewWord(i)}>
-                                {$_("insert")}
+                                {$_.insert}
                             </button>
 
                             <button onclick={() => MoveUp(i)} class="btn btn-sm" disabled={i === 0}>
-                                {$_("editor.move_up")}
+                                {$_.editor.move_up}
                             </button>
 
                             <button onclick={() => MoveDown(i)} class="btn btn-sm"
                                     disabled={i === words.length - 1}>
-                                {$_("editor.move_down")}
+                                {$_.editor.move_down}
                             </button>
 
                         </div>
@@ -375,23 +412,23 @@
                         <select class="select" bind:value={word.type}
                                 onchange={() =>{UpdateType(i, word.type); saved = false}}>
                             <option value={CardType.Simple}>
-                                {$_("CardType.Simple")}
+                                {$_.CardType.Simple}
                             </option>
                             <option value={CardType.Mandarin}>
-                                {$_("CardType.Mandarin")}
+                                {$_.CardType.Mandarin}
                             </option>
                             <option value={CardType.FrenchNoun}>
-                                {$_("CardType.FrenchNoun")}
+                                {$_.CardType.FrenchNoun}
                             </option>
                             <option value={CardType.GermanNoun}>
-                                {$_("CardType.GermanNoun")}
+                                {$_.CardType.GermanNoun}
                             </option>
-                            <optgroup label={$_("CardType.Japanese")}>
+                            <optgroup label={$_.CardType.Japanese}>
                                 <option value={CardType.Japanese}>
-                                    {$_("CardType.Japanese")}
+                                    {$_.CardType.Japanese}
                                 </option>
                                 <option value={CardType.JapaneseVerb}>
-                                    {$_("CardType.JapaneseVerb")}
+                                    {$_.CardType.JapaneseVerb}
                                 </option>
                             </optgroup>
                         </select>
@@ -402,54 +439,60 @@
                 {#if !allSimple}
 
                     <td class="p-4">
+
                         {#if word.type === CardType.FrenchNoun}
+
                             <fieldset>
-                                <legend>{$_("linguistics.gender")}</legend>
+                                <legend>{$_.linguistics.gender}</legend>
                                 <div class="flex gap-4">
                                     <div>
                                         <input type="radio" name="gender-{i}" id="m-{i}"
                                                value={French.Gender.M} bind:group={word.gender}
                                                onchange={() => saved = false}
                                                class="radio">
-                                        <label for="m-{i}">{$_("linguistics.abbr.masculine")}</label>
+                                        <label for="m-{i}">{$_.linguistics.abbr.masculine}</label>
                                     </div>
                                     <div>
                                         <input type="radio" name="gender-{i}" id="f-{i}"
                                                value={French.Gender.F} bind:group={word.gender}
                                                onchange={() => saved = false}
                                                class="radio">
-                                        <label for="f-{i}">{$_("linguistics.abbr.feminine")}</label>
+                                        <label for="f-{i}">{$_.linguistics.abbr.feminine}</label>
                                     </div>
                                 </div>
                             </fieldset>
+
                         {:else if word.type === CardType.GermanNoun}
+
                             <fieldset>
-                                <legend>{$_("linguistics.gender")}</legend>
+                                <legend>{$_.linguistics.gender}</legend>
                                 <div class="flex gap-4">
                                     <div>
                                         <input type="radio" name="gender-{i}" id="m-{i}"
                                                value={German.Gender.M} bind:group={word.gender}
                                                onchange={() => saved = false}
                                                class="radio">
-                                        <label for="m-{i}">{$_("linguistics.abbr.masculine")}</label>
+                                        <label for="m-{i}">{$_.linguistics.abbr.masculine}</label>
                                     </div>
                                     <div>
                                         <input type="radio" name="gender-{i}" id="n-{i}"
                                                value={German.Gender.N} bind:group={word.gender}
                                                onchange={() => saved = false}
                                                class="radio">
-                                        <label for="n-{i}">{$_("linguistics.abbr.neutral")}</label>
+                                        <label for="n-{i}">{$_.linguistics.abbr.neutral}</label>
                                     </div>
                                     <div>
                                         <input type="radio" name="gender-{i}" id="f-{i}"
                                                value={German.Gender.F} bind:group={word.gender}
                                                onchange={() => saved = false}
                                                class="radio">
-                                        <label for="f-{i}">{$_("linguistics.abbr.feminine")}</label>
+                                        <label for="f-{i}">{$_.linguistics.abbr.feminine}</label>
                                     </div>
                                 </div>
                             </fieldset>
+
                         {/if}
+
                     </td>
 
                 {/if}
@@ -467,7 +510,7 @@
     </table>
 
     <button class="btn block m-auto" onclick={() => InsertNewWord(words.length)}>
-        {$_("editor.add_a_word")}
+        {$_.editor.add_a_word}
     </button>
 
     <div class="h-16"></div>

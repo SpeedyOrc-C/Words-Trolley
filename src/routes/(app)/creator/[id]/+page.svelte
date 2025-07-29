@@ -18,7 +18,7 @@
 
                         <a href="/edit/{set.id}">
                             <button class="btn btn-sm btn-soft">
-                                {$_("edit")}
+                                {$_.edit}
                             </button>
                         </a>
 

@@ -6,7 +6,7 @@ export async function load({locals: {supabase}, params: {id}, depends})
 
     const {data, error} = await supabase.from("sets").select("*").eq("id", id)
 
-    if (error != null)
+    if (error != null || data == null || data.length != 1)
         kit.error(404)
 
     const set = data[0]

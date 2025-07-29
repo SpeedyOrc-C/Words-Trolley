@@ -1,5 +1,5 @@
 <script>
-    import {_} from "$lib/i18n/index.js";
+    import {_} from "$lib/i18n"
 
     let {data} = $props()
 
@@ -24,13 +24,13 @@
 
     {#if data.user}
 
-        {$_("home.welcome_back")}
+        {$_.home.welcome_back}
         <br>
         {data.user.email}
 
     {:else}
 
-        {$_("home.welcome_to_words_trolley")}
+        {$_.home.welcome_to_words_trolley}
 
     {/if}
 
@@ -42,13 +42,13 @@
 
         <a href="/new">
             <button class="btn btn-lg btn-soft btn-primary">
-                {$_("home.create_a_new_set")}
+                {$_.home.create_a_new_set}
             </button>
         </a>
 
         <a href="/creator/{data.user.id}">
             <button class="btn btn-lg btn-soft">
-                {$_("home.browse_my_sets")}
+                {$_.home.browse_my_sets}
             </button>
         </a>
 
@@ -56,14 +56,14 @@
             {#if loading}
                 <span class="loading loading-spinner"></span>
             {/if}
-            {$_("logout")}
+            {$_.logout}
         </button>
 
     {:else}
 
         <a href="/auth">
             <button class="btn btn-lg btn-soft btn-primary">
-                {$_("login_and_signup")}
+                {$_.login_and_signup}
             </button>
         </a>
 

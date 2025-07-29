@@ -1,10 +1,10 @@
 <script>
-import {_} from "$lib/i18n/index.js";
+import {_} from "$lib/i18n/index.ts";
 </script>
 
 <header>
     <h1 class="text-2xl text-center m-4">
-        {$_("new.create_a_new_set_of_words")}
+        {$_.new.create_a_new_set_of_words}
     </h1>
 </header>
 
@@ -13,13 +13,13 @@ import {_} from "$lib/i18n/index.js";
     <form method="post" action="?/do" class="w-full max-w-sm flex flex-col gap-4">
 
         <label class="floating-label">
-            <span>{$_("name")}</span>
+            <span>{$_.name}</span>
             <input name="name" type="text" required
-                   placeholder={$_("name")} class="input w-full"/>
+                   placeholder={$_.name} class="input w-full"/>
         </label>
 
         <button type="submit" class="btn btn-primary">
-            {$_("submit")}
+            {$_.submit}
         </button>
 
     </form>

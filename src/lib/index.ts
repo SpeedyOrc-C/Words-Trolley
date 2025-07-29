@@ -1,6 +1,7 @@
 import * as Mandarin from "$lib/word/mandarin"
 import * as French from "$lib/word/french"
 import * as German from "$lib/word/german"
+import type {Json} from "$lib/database.types"
 
 export type Words = Array<Word>
 
@@ -70,4 +71,48 @@ export const blankWordFromType: Record<CardType, Word> = {
     [CardType.Simple]: blankWordSimple,
     [CardType.FrenchNoun]: blankWordFrenchNoun,
     [CardType.GermanNoun]: blankWordGermanNoun,
+}
+
+export function TypeCheckWords(input: Json): boolean
+{
+    if (!(input instanceof Array))
+        return false
+
+    return input.map(TypeCheckWord).reduce((a, b) => a && b, true)
+}
+
+function TypeCheckWord(input: Json): boolean
+{
+    if (typeof input != "object" || input === null || input instanceof Array)
+        return false
+
+    if (typeof input.word != "string")
+        return false
+
+    if (typeof input.meaning != "string")
+        return false
+
+    const type = input.type
+
+    if (typeof type != "string")
+        return false
+
+    // TODO
+    switch (type)
+    {
+    case CardType.Simple:
+        return true
+    case CardType.Mandarin:
+        break
+    case CardType.Japanese:
+        break
+    case CardType.JapaneseVerb:
+        break
+    case CardType.FrenchNoun:
+        break
+    case CardType.GermanNoun:
+        break
+    default:
+        return false
+    }
 }

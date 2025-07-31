@@ -1,6 +1,7 @@
 import * as Mandarin from "$lib/word/mandarin"
 import * as French from "$lib/word/french"
 import * as German from "$lib/word/german"
+import * as Japanese from "$lib/word/japanese"
 import type {Json} from "$lib/database.types"
 
 export type Words = Array<Word>
@@ -15,6 +16,8 @@ export type Meta
     | MandarinWord
     | FrenchNoun
     | GermanNoun
+    | JapaneseWord
+    | JapaneseVerb
 
 export type SimpleWord = {
     type: CardType.Simple
@@ -35,7 +38,16 @@ export type GermanNoun = {
     gender: German.Gender
 }
 
-export type Japanese = {}
+export type JapaneseWord = {
+    type: CardType.JapaneseVerb
+    word_kana_only: string
+    morae: Japanese.Mora[]
+    tone: number
+}
+
+export type JapaneseVerb = JapaneseWord & {
+    verb_type: Japanese.VerbType
+}
 
 export enum CardType
 {
@@ -103,15 +115,15 @@ function TypeCheckWord(input: Json): boolean
     case CardType.Simple:
         return true
     case CardType.Mandarin:
-        break
+        return true
     case CardType.Japanese:
-        break
+        return true
     case CardType.JapaneseVerb:
-        break
+        return true
     case CardType.FrenchNoun:
-        break
+        return true
     case CardType.GermanNoun:
-        break
+        return true
     default:
         return false
     }

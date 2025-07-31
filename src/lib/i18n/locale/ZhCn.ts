@@ -44,6 +44,7 @@ export const ZhCn: I18nTemplate = {
         },
         rename: "改名…",
         renaming: "改名中",
+        new_name: "新名字",
         operations: "操作",
         word: "单词",
         meaning: "含义",

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import {_} from "$lib/i18n"
 
     let {data} = $props()
@@ -11,7 +11,8 @@
 
         const {error} = await data.supabase.auth.signOut()
 
-        if (error) {
+        if (error)
+        {
             console.error(error)
             alert("Cannot log out.")
         }
@@ -19,6 +20,12 @@
         loading = false
     }
 </script>
+
+<svelte:head>
+    <title>
+        Words Trolley
+    </title>
+</svelte:head>
 
 <h1 class="my-4 text-center text-2xl">
 

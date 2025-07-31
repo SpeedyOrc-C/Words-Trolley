@@ -1,7 +1,7 @@
-import {derived, writable} from "svelte/store";
-import {ZhCn as _ZhCn} from "$lib/i18n/locale/ZhCn";
-import {EnGb as _EnGb} from "$lib/i18n/locale/EnGb";
-import {PopulateLanguagePacks} from "crazy-i18n/unify";
+import {derived, writable} from "svelte/store"
+import {ZhCn as _ZhCn} from "$lib/i18n/locale/ZhCn"
+import {EnGb as _EnGb} from "$lib/i18n/locale/EnGb"
+import {PopulateLanguagePacks} from "crazy-i18n/unify"
 
 export enum Language
 {

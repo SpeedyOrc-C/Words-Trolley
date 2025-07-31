@@ -42,6 +42,7 @@ export type I18nTemplate = {
         }
         rename: string
         renaming: string
+        new_name: string
         operations: string
         word: string
         meaning: string

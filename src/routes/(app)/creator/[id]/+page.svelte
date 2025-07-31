@@ -26,9 +26,11 @@
 
                 {/if}
 
-                <div class="text-xl truncate">
-                    {set.name}
-                </div>
+                <a href="/learn/{set.id}">
+                    <div class="text-xl truncate">
+                        {set.name}
+                    </div>
+                </a>
 
             </li>
         {/each}

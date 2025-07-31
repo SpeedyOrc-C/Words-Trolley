@@ -1,5 +1,5 @@
-<script>
-import {_} from "$lib/i18n/index.ts";
+<script lang="ts">
+    import {_} from "$lib/i18n"
 </script>
 
 <header>

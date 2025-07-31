@@ -166,9 +166,9 @@
 
     async function Rename()
     {
-        const newName = prompt("New name", name)
+        const newName = prompt($_.editor.new_name, name)
 
-        if (newName == null)
+        if (newName == null || newName == name)
             return
 
         renaming = true
@@ -440,10 +440,12 @@
 
                     <td class="p-4">
 
-                        {#if word.type === CardType.FrenchNoun}
+                        <fieldset>
 
-                            <fieldset>
+                            {#if word.type === CardType.FrenchNoun}
+
                                 <legend>{$_.linguistics.gender}</legend>
+
                                 <div class="flex gap-4">
                                     <div>
                                         <input type="radio" name="gender-{i}" id="m-{i}"
@@ -460,12 +462,11 @@
                                         <label for="f-{i}">{$_.linguistics.abbr.feminine}</label>
                                     </div>
                                 </div>
-                            </fieldset>
 
-                        {:else if word.type === CardType.GermanNoun}
+                            {:else if word.type === CardType.GermanNoun}
 
-                            <fieldset>
                                 <legend>{$_.linguistics.gender}</legend>
+
                                 <div class="flex gap-4">
                                     <div>
                                         <input type="radio" name="gender-{i}" id="m-{i}"
@@ -489,9 +490,12 @@
                                         <label for="f-{i}">{$_.linguistics.abbr.feminine}</label>
                                     </div>
                                 </div>
-                            </fieldset>
 
-                        {/if}
+                            {:else if word.type == CardType.JapaneseVerb}
+
+                            {/if}
+
+                        </fieldset>
 
                     </td>
 
@@ -500,16 +504,11 @@
             </tr>
         {/each}
 
-        <tr>
-            <td>
-            </td>
-        </tr>
-
         </tbody>
 
     </table>
 
-    <button class="btn block m-auto" onclick={() => InsertNewWord(words.length)}>
+    <button onclick={() => InsertNewWord(words.length)} class="btn block m-auto w-full max-w-sm">
         {$_.editor.add_a_word}
     </button>
 

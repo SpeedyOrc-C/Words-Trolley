@@ -44,6 +44,7 @@ export const EnGb: I18nTemplate = {
         },
         rename: "Rename...",
         renaming: "Renaming",
+        new_name: "New name",
         operations: "Operations",
         word: "Word",
         meaning: "Meaning",

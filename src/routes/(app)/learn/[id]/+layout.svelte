@@ -3,3 +3,9 @@
 </script>
 
 {@render children()}
+
+<style>
+    :global(body) {
+        perspective: 800px;
+    }
+</style>

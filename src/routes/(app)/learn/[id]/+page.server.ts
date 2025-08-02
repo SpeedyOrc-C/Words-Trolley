@@ -1,11 +1,15 @@
 import * as kit from "@sveltejs/kit"
 
-export async function load({locals: {supabase}, params: {id}})
+export async function load({locals: {supabase}, params: {id}, depends})
 {
-    const {data: sets, error} = await supabase.from("sets").select("id,name").eq("creator", id)
+    depends("supabase:db:sets")
 
-    if (sets == null || error != null)
+    const {data, error} = await supabase.from("sets").select("*").eq("id", id)
+
+    if (error != null || data == null || data.length != 1)
         kit.error(404)
 
-    return {sets, creator: id}
+    const set = data[0]
+
+    return {set}
 }

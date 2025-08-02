@@ -100,8 +100,7 @@
 {/if}
 
 <style>
-    @import "../../node_modules/.pnpm/tailwindcss@4.1.6/node_modules/tailwindcss/dist/lib.d.mts";
-
+    @import "tailwindcss";
     @plugin "daisyui";
 
     .aux-btn {

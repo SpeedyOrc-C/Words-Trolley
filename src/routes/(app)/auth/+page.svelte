@@ -1,5 +1,5 @@
 <script>
-    import {_} from "$lib/i18n/index.ts"
+    import {_} from "$lib/i18n"
 </script>
 
 <main class="m-8">
@@ -10,13 +10,13 @@
         <label class="floating-label">
             <span>{$_.email}</span>
             <input name="email" type="email" placeholder={$_.email} required
-                   class="input w-full"/>
+                   class="input input-lg w-full"/>
         </label>
 
         <label class="floating-label">
             <span>{$_.password}</span>
             <input name="password" type="password" placeholder={$_.password} required
-                   class="input w-full"/>
+                   class="input input-lg w-full"/>
         </label>
 
         <div class="flex justify-between gap-4">

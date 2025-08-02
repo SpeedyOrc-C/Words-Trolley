@@ -409,7 +409,7 @@
                 {#if editMore}
 
                     <td>
-                        <select class="select" bind:value={word.type}
+                        <select class="select" bind:value={word.type} id="t-{i}" aria-label={$_.editor.card_type_select_label(i + 1)}
                                 onchange={() =>{UpdateType(i, word.type); saved = false}}>
                             <option value={CardType.Simple}>
                                 {$_.CardType.Simple}

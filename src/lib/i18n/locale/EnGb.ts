@@ -53,6 +53,7 @@ export const EnGb: I18nTemplate = {
         add_a_word: "Add a word",
         move_up: "Move up",
         move_down: "Move down",
+        card_type_select_label: i => `Type for card number ${i}`
     },
     CardType: {
         Simple: "Simple",

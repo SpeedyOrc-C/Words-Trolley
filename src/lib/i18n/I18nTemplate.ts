@@ -51,6 +51,7 @@ export type I18nTemplate = {
         add_a_word: string
         move_up: string
         move_down: string
+        card_type_select_label: (i: number) => string
     }
     CardType: {
         Simple: string

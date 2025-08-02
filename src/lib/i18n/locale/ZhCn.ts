@@ -53,6 +53,7 @@ export const ZhCn: I18nTemplate = {
         add_a_word: "添加一个单词",
         move_up: "上移",
         move_down: "下移",
+        card_type_select_label: i => `第 ${i} 个卡片的类型`
     },
     CardType: {
         Simple: "正常",

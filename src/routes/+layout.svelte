@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import "../app.css"
     import {invalidate} from '$app/navigation'
     import {onMount} from 'svelte'
@@ -7,20 +7,31 @@
     let {data, children} = $props()
     let {session, supabase} = $derived(data)
 
-    function SetLanguageFromNavigator() {
+    function SetLanguageFromNavigator()
+    {
         if (navigator.language.startsWith("zh"))
+        {
+            document.documentElement.lang = "zh-CN"
             language.set(Language.ZhCn)
-        else if (navigator.language.startsWith("en"))
+        } else if (navigator.language.startsWith("en"))
+        {
+            document.documentElement.lang = "en-GB"
             language.set(Language.EnGb)
-        else
+        } else
+        {
+            document.documentElement.lang = "en-GB"
             language.set(undefined)
+        }
     }
 
-    onMount(() => {
+    onMount(() =>
+    {
         SetLanguageFromNavigator()
 
-        const {data} = supabase.auth.onAuthStateChange((_, newSession) => {
-            if (newSession?.expires_at !== session?.expires_at) {
+        const {data} = supabase.auth.onAuthStateChange((_, newSession) =>
+        {
+            if (newSession?.expires_at !== session?.expires_at)
+            {
                 invalidate('supabase:auth')
             }
         })

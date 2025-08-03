@@ -74,4 +74,11 @@ const authGuard: Handle = async ({event, resolve}) =>
     return resolve(event)
 }
 
-export const handle: Handle = sequence(supabase, authGuard)
+const getHeaderAcceptLanguage: Handle = async ({event, resolve}) =>
+{
+    event.locals.acceptLanguage = event.request.headers.get("Accept-Language")
+
+    return resolve(event)
+}
+
+export const handle: Handle = sequence(supabase, authGuard, getHeaderAcceptLanguage)

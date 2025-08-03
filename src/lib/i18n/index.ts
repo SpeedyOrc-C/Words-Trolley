@@ -9,7 +9,7 @@ export enum Language
     EnGb = "en-GB",
 }
 
-export const language = writable<Language | undefined | null>(null)
+export const language = writable<Language>(Language.EnGb)
 
 const {ZhCn, EnGb} = PopulateLanguagePacks({ZhCn: _ZhCn, EnGb: _EnGb})
 
@@ -19,7 +19,22 @@ export const _ = derived(language, language =>
     {
     case Language.ZhCn:
         return ZhCn
-    default:
+    case Language.EnGb:
         return EnGb
     }
 })
+
+export function AutoDetectLanguage(lang: string)
+{
+    switch (lang)
+    {
+    case "zh":
+    case "zh-CN":
+    case "zh-HK":
+    case "zh-TW":
+        language.set(Language.ZhCn)
+        break
+    default:
+        language.set(Language.EnGb)
+    }
+}

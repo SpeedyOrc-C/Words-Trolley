@@ -1,75 +1,77 @@
+type s = string
+
 export type I18nTemplate = {
-    hello: string
-    login: string
-    signup: string
-    login_and_signup: string
-    logout: string
-    email: string
-    password: string
-    submit: string
-    name: string
-    edit: string
-    delete: string
-    insert: string
+    hello: s
+    login: s
+    signup: s
+    login_and_signup: s
+    logout: s
+    email: s
+    password: s
+    submit: s
+    name: s
+    edit: s
+    delete: s
+    insert: s
     home: {
-        _: string
-        welcome_to_words_trolley: string
-        welcome_back: string
-        create_a_new_set: string
-        browse_my_sets: string
+        _: s
+        welcome_to_words_trolley: s
+        welcome_back: s
+        create_a_new_set: s
+        browse_my_sets: s
     }
     new: {
-        create_a_new_set_of_words: string
+        create_a_new_set_of_words: s
     }
     editor: {
         title: {
-            edit: (name: string) => string
-            unsaved: (name: string) => string
+            edit: (name: s) => s
+            unsaved: (name: s) => s
         }
-        save: string
-        saving: string
-        saved: string
-        edit_less: string
-        edit_more: string
-        export: string
-        import: string
-        importing: string
-        delete: string
-        deleting: string
+        save: s
+        saving: s
+        saved: s
+        edit_less: s
+        edit_more: s
+        export: s
+        import: s
+        importing: s
+        delete: s
+        deleting: s
         delete_confirm: {
-            this_will_be_deleted: string
-            are_you_sure: string
+            this_will_be_deleted: s
+            are_you_sure: s
         }
-        rename: string
-        renaming: string
-        new_name: string
-        operations: string
-        word: string
-        meaning: string
-        type: string
-        extra: string
-        add_a_word: string
-        move_up: string
-        move_down: string
-        card_type_select_label: (i: number) => string
+        rename: s
+        renaming: s
+        new_name: s
+        operations: s
+        word: s
+        meaning: s
+        type: s
+        extra: s
+        add_a_word: s
+        move_up: s
+        move_down: s
+        card_type_select_label: (i: number) => s
     }
     CardType: {
-        Simple: string
-        Mandarin: string
-        Japanese: string
-        JapaneseVerb: string
-        FrenchNoun: string
-        GermanNoun: string
+        Simple: s
+        Mandarin: s
+        Japanese: s
+        JapaneseVerb: s
+        FrenchNoun: s
+        GermanNoun: s
     }
     linguistics: {
-        gender: string
-        masculine: string
-        feminine: string
-        neutral: string
+        gender: s
+        masculine: s
+        feminine: s
+        neutral: s
         abbr: {
-            masculine: string
-            feminine: string
-            neutral: string
+            masculine: s
+            feminine: s
+            neutral: s
         }
     }
 }

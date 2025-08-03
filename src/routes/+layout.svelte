@@ -2,31 +2,14 @@
     import "../app.css"
     import {invalidate} from '$app/navigation'
     import {onMount} from 'svelte'
-    import {Language, language} from "$lib/i18n"
+    import {AutoDetectLanguage, language} from "$lib/i18n"
 
-    let {data, children} = $props()
-    let {session, supabase} = $derived(data)
-
-    function SetLanguageFromNavigator()
-    {
-        if (navigator.language.startsWith("zh"))
-        {
-            document.documentElement.lang = "zh-CN"
-            language.set(Language.ZhCn)
-        } else if (navigator.language.startsWith("en"))
-        {
-            document.documentElement.lang = "en-GB"
-            language.set(Language.EnGb)
-        } else
-        {
-            document.documentElement.lang = "en-GB"
-            language.set(undefined)
-        }
-    }
+    const {data, children} = $props()
+    const {session, supabase} = $derived(data)
 
     onMount(() =>
     {
-        SetLanguageFromNavigator()
+        const unsubscribeLanguage = language.subscribe(lang => document.documentElement.lang = lang)
 
         const {data} = supabase.auth.onAuthStateChange((_, newSession) =>
         {
@@ -36,10 +19,14 @@
             }
         })
 
-        return () => data.subscription.unsubscribe()
+        return () =>
+        {
+            data.subscription.unsubscribe()
+            unsubscribeLanguage()
+        }
     })
 </script>
 
-<svelte:window onlanguagechange={SetLanguageFromNavigator}/>
+<svelte:window onlanguagechange={() => AutoDetectLanguage(navigator.language)}/>
 
 {@render children()}

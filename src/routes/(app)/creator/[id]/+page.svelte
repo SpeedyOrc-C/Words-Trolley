@@ -7,32 +7,34 @@
 
 <JustHomeNavbar/>
 
-<div>
-    <ul class="list w-fit m-auto">
-        {#each data.sets as set}
-            <li class="list-row flex items-center">
+<main class="mx-auto w-full max-w-6xl grid md:grid-cols-2 lg:grid-cols-3">
+    {#each data.sets as {name, id}}
 
-                {#if data.user}
+        <article class="m-2 rounded shadow flex flex-col">
 
-                    {#if data.user.id === data.creator}
+            <header class="m-4 grow flex items-center justify-around">
+                <div class="text-xl text-center">
+                    {name}
+                </div>
+            </header>
 
-                        <a href="/edit/{set.id}">
-                            <button class="btn btn-sm btn-soft">
-                                {$_.edit}
-                            </button>
-                        </a>
+            <div class="w-full flex items-center join">
 
-                    {/if}
-
-                {/if}
-
-                <a href="/learn/{set.id}">
-                    <div class="text-xl truncate">
-                        {set.name}
-                    </div>
+                <a href="/learn/{id}" tabindex="0" class="btn btn-lg flex-1 join-item">
+                    {$_.set.learn}
                 </a>
 
-            </li>
-        {/each}
-    </ul>
-</div>
+                <a href="/test/{id}" tabindex="0" class="btn btn-lg flex-1 join-item">
+                    {$_.set.test}
+                </a>
+
+                <a href="/edit/{id}" tabindex="0" class="btn btn-lg flex-1 join-item">
+                    {$_.edit}
+                </a>
+
+            </div>
+
+        </article>
+
+    {/each}
+</main>

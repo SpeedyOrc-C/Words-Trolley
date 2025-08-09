@@ -23,6 +23,10 @@ export type I18nTemplate = {
     new: {
         create_a_new_set_of_words: s
     }
+    set: {
+        learn: s
+        test: s
+    }
     editor: {
         title: {
             edit: (name: s) => s
@@ -35,7 +39,6 @@ export type I18nTemplate = {
         edit_more: s
         export: s
         import: s
-        importing: s
         delete: s
         deleting: s
         delete_confirm: {
@@ -68,6 +71,7 @@ export type I18nTemplate = {
         masculine: s
         feminine: s
         neutral: s
+        verb_group: s
         abbr: {
             masculine: s
             feminine: s

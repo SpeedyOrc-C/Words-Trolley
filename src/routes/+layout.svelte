@@ -9,9 +9,9 @@
 
     onMount(() =>
     {
-        const unsubscribeLanguage = language.subscribe(lang => document.documentElement.lang = lang)
+        const u1 = language.subscribe(lang => document.documentElement.lang = lang)
 
-        const {data} = supabase.auth.onAuthStateChange((_, newSession) =>
+        const {data: {subscription: {unsubscribe: u2}}} = supabase.auth.onAuthStateChange((_, newSession) =>
         {
             if (newSession?.expires_at !== session?.expires_at)
             {
@@ -19,11 +19,7 @@
             }
         })
 
-        return () =>
-        {
-            data.subscription.unsubscribe()
-            unsubscribeLanguage()
-        }
+        return [u1, u2].forEach(f => f())
     })
 </script>
 

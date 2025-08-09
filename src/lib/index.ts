@@ -1,8 +1,6 @@
-import * as Mandarin from "$lib/word/mandarin"
-import * as French from "$lib/word/french"
-import * as German from "$lib/word/german"
-import * as Japanese from "$lib/word/japanese"
 import type {Json} from "$lib/database.types"
+import {French, German, Japanese, Mandarin} from "$lib/word"
+import {VerbType} from "$lib/word/japanese";
 
 export type Words = Array<Word>
 
@@ -39,13 +37,17 @@ export type GermanNoun = {
 }
 
 export type JapaneseWord = {
-    type: CardType.JapaneseVerb
+    type: CardType.Japanese
     word_kana_only: string
     morae: Japanese.Mora[]
     tone: number
 }
 
-export type JapaneseVerb = JapaneseWord & {
+export type JapaneseVerb = {
+    type: CardType.JapaneseVerb
+    word_kana_only: string
+    morae: Japanese.Mora[]
+    tone: number
     verb_type: Japanese.VerbType
 }
 
@@ -59,30 +61,55 @@ export enum CardType
     GermanNoun = "german-noun",
 }
 
-export const blankWordSimple: Word = {
-    type: CardType.Simple,
+const baseWord = {
     word: "",
     meaning: "",
 }
 
-export const blankWordFrenchNoun: Word = {
+export const blankWordSimple: Word = {
+    ...baseWord,
+    type: CardType.Simple,
+}
+
+const blankWordMandarin: Word = {
+    ...baseWord,
+    type: CardType.Mandarin,
+    syllables: [],
+}
+
+const blankWordFrenchNoun: Word = {
+    ...baseWord,
     type: CardType.FrenchNoun,
-    word: "",
-    meaning: "",
     gender: French.Gender.M
 }
 
-export const blankWordGermanNoun: Word = {
+const blankWordGermanNoun: Word = {
+    ...baseWord,
     type: CardType.GermanNoun,
-    word: "",
-    meaning: "",
     gender: German.Gender.M
+}
+
+const blankWordJapanese: Word = {
+    ...baseWord,
+    type: CardType.Japanese,
+    word_kana_only: "",
+    morae: [],
+    tone: 0,
+}
+
+const blankWordJapaneseVerb: Word = {
+    ...blankWordJapanese,
+    type: CardType.JapaneseVerb,
+    verb_type: VerbType.Consonant,
 }
 
 export const blankWordFromType: Record<CardType, Word> = {
     [CardType.Simple]: blankWordSimple,
+    [CardType.Mandarin]: blankWordMandarin,
     [CardType.FrenchNoun]: blankWordFrenchNoun,
     [CardType.GermanNoun]: blankWordGermanNoun,
+    [CardType.Japanese]: blankWordJapanese,
+    [CardType.JapaneseVerb]: blankWordJapaneseVerb,
 }
 
 export function TypeCheckWords(input: Json): boolean

@@ -1,10 +1,10 @@
 <script lang="ts">
     import {blankWordFromType, blankWordSimple, CardType, type Words} from "$lib"
     import type {Json} from "$lib/database.types"
-    import * as French from "$lib/word/french"
-    import * as German from "$lib/word/german"
     import {goto} from "$app/navigation"
     import {_} from "$lib/i18n"
+    import {French, German, Japanese} from "$lib/word"
+    import {VerbTypeFromRecursiveForm} from "$lib/word/japanese";
 
     const {data} = $props()
     const {supabase} = $derived(data)
@@ -13,7 +13,6 @@
     let words = $state(data.set.words as Words)
     let saved = $state(true)
     let saving = $state(false)
-    let importing = $state(false)
     let deleting = $state(false)
     let editMore = $state(true)
     let typing = $state(false)
@@ -28,6 +27,9 @@
 
     async function Save()
     {
+        if (saving)
+            return
+
         saving = true
 
         const {error} = await supabase
@@ -109,16 +111,12 @@
 
     function Import()
     {
-        importing = true
-
         const input = document.createElement("input")
         input.type = "file"
         input.accept = ".json"
 
         input.onchange = async function ()
         {
-            importing = false
-
             const {files} = input
 
             if (files == null || files.length != 1)
@@ -132,8 +130,6 @@
             words = JSON.parse(rawWords)
 
         }
-
-        input.onabort = () => importing = false
 
         input.click()
     }
@@ -190,6 +186,36 @@
         name = newName
     }
 
+    function OnWordChange(e: Event, i: number)
+    {
+        saved = false
+
+        const word = words[i]
+
+        switch (word.type)
+        {
+        case CardType.Simple:
+            break
+        case CardType.Mandarin:
+            break
+        case CardType.FrenchNoun:
+            break
+        case CardType.GermanNoun:
+            break
+        case CardType.Japanese:
+            break
+        case CardType.JapaneseVerb:
+        {
+            const guessedType = VerbTypeFromRecursiveForm(word.word)
+
+            if (guessedType != null)
+                word.verb_type = guessedType
+
+            break
+        }
+        }
+    }
+
     function onbeforeunload(e: BeforeUnloadEvent)
     {
         if (!saved)
@@ -229,9 +255,18 @@
 
         saved = false
     }
+
+    async function onkeydown(e: KeyboardEvent)
+    {
+        if ((e.ctrlKey || e.metaKey) && e.key.toUpperCase() == "S")
+        {
+            e.preventDefault()
+            await Save()
+        }
+    }
 </script>
 
-<svelte:window {onbeforeunload}/>
+<svelte:window {onbeforeunload} {onkeydown}/>
 
 <svelte:head>
     <title>
@@ -242,7 +277,7 @@
 <nav class="shadow-base-300 shadow-md flex p-2 items-center justify-between">
 
     <div class="flex">
-        <a href="/">
+        <a href="/" title={$_.home._}>
             <button class="btn btn-ghost">
                 {$_.home._}
             </button>
@@ -260,24 +295,15 @@
         </button>
 
         <button class="btn btn-ghost" onclick={() => editMore = !editMore}>
-            {#if editMore}
-                {$_.editor.edit_less}
-            {:else}
-                {$_.editor.edit_more}
-            {/if}
+            {editMore ? $_.editor.edit_less : $_.editor.edit_more}
         </button>
 
         <button class="btn btn-ghost" onclick={Export}>
             {$_.editor.export}
         </button>
 
-        <button class="btn btn-ghost" onclick={Import} disabled={saving || importing}>
-            {#if importing}
-                <span class="loading loading-spinner"></span>
-                {$_.editor.importing}
-            {:else}
-                {$_.editor.import}
-            {/if}
+        <button class="btn btn-ghost" onclick={Import} disabled={saving}>
+            {$_.editor.import}
         </button>
     </div>
 
@@ -327,10 +353,6 @@
                 {$_.editor.word}
             </th>
 
-            <th class="text-center">
-                {$_.editor.meaning}
-            </th>
-
             {#if editMore}
                 <th class="text-center">
                     {$_.editor.type}
@@ -362,54 +384,59 @@
                 {#if editMore}
 
                     <td>
-                        <div class="flex gap-2 flex-col xl:flex-row items-center">
+                        <div class="flex flex-row items-center">
 
-                            <div class="w-12" ondragover={e => e.preventDefault()} role="none"></div>
+                            <div class="flex flex-col">
 
-                            <button class="btn btn-sm btn-dash btn-error" onclick={() => DeleteWord(i)}>
-                                {$_.delete}
-                            </button>
+                                <button class="btn btn-sm btn-dash btn-error" onclick={() => DeleteWord(i)}>
+                                    {$_.delete}
+                                </button>
 
-                            <button class="btn btn-sm" onclick={() => InsertNewWord(i)}>
-                                {$_.insert}
-                            </button>
+                                <button class="btn btn-sm" onclick={() => InsertNewWord(i)}>
+                                    {$_.insert}
+                                </button>
 
-                            <button onclick={() => MoveUp(i)} class="btn btn-sm" disabled={i === 0}>
-                                {$_.editor.move_up}
-                            </button>
+                            </div>
 
-                            <button onclick={() => MoveDown(i)} class="btn btn-sm"
-                                    disabled={i === words.length - 1}>
-                                {$_.editor.move_down}
-                            </button>
+                            <div class="flex flex-col">
+
+                                <button onclick={() => MoveUp(i)} class="btn btn-sm" disabled={i === 0}>
+                                    {$_.editor.move_up}
+                                </button>
+
+                                <button onclick={() => MoveDown(i)} class="btn btn-sm"
+                                        disabled={i === words.length - 1}>
+                                    {$_.editor.move_down}
+                                </button>
+
+                            </div>
 
                         </div>
                     </td>
 
                 {/if}
 
-                <td>
+                <td class="flex flex-col h-full">
+
                     <input type="text" bind:value={word.word} placeholder="word"
                            class="input input-xs input-ghost text-lg"
                            onfocusin={() => typing = true}
                            onfocusout={() => typing = false}
-                           onchange={() => saved = false}
-                    >
-                </td>
+                           onchange={e => OnWordChange(e, i)}>
 
-                <td>
                     <input type="text" bind:value={word.meaning} placeholder="meaning"
-                           class="input input-xs input-ghost text-lg"
+                           class="input input-xs input-ghost text-lg text-right"
                            onfocusin={() => typing = true}
                            onfocusout={() => typing = false}
-                           onchange={() => saved = false}
-                    >
+                           onchange={() => saved = false}>
+
                 </td>
 
                 {#if editMore}
 
                     <td>
-                        <select class="select" bind:value={word.type} id="t-{i}" aria-label={$_.editor.card_type_select_label(i + 1)}
+                        <select class="select" bind:value={word.type} id="t-{i}"
+                                aria-label={$_.editor.card_type_select_label(i + 1)}
                                 onchange={() =>{UpdateType(i, word.type); saved = false}}>
                             <option value={CardType.Simple}>
                                 {$_.CardType.Simple}
@@ -491,7 +518,36 @@
                                     </div>
                                 </div>
 
-                            {:else if word.type == CardType.JapaneseVerb}
+                            {:else if word.type === CardType.JapaneseVerb}
+
+                                <legend>{$_.linguistics.verb_group}</legend>
+
+                                <div class="flex gap-4">
+                                    <div>
+                                        <input type="radio" name="jvt-{i}" id="jvt-c-{i}"
+                                               value={Japanese.VerbType.Consonant} bind:group={word.verb_type}
+                                               class="radio">
+                                        <label for="jvt-c-{i}">1</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="jvt-{i}" id="jvt-v-{i}"
+                                               value={Japanese.VerbType.Vowel} bind:group={word.verb_type}
+                                               class="radio">
+                                        <label for="jvt-v-{i}">2</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="jvt-{i}" id="jvt-n-{i}"
+                                               value={Japanese.VerbType.Noun} bind:group={word.verb_type}
+                                               class="radio">
+                                        <label for="jvt-n-{i}">3</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="jvt-{i}" id="jvt-n-{i}"
+                                               value={Japanese.VerbType.Irregular} bind:group={word.verb_type}
+                                               class="radio">
+                                        <label for="jvt-n-{i}">?</label>
+                                    </div>
+                                </div>
 
                             {/if}
 

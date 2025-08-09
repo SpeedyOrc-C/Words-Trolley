@@ -6,7 +6,3 @@
 body {
     font-family: -apple-system, sans-serif;
 }
-
-button[disabled="disabled"] {
-    cursor: not-allowed !important;
-}

@@ -1,6 +1,6 @@
 import type {I18nTemplate} from "$lib/i18n/I18nTemplate"
 
-export const EnGb: I18nTemplate = {
+const EnGb: I18nTemplate = {
     hello: "Hello!",
     login: "Log in",
     signup: "Sign up",
@@ -23,6 +23,10 @@ export const EnGb: I18nTemplate = {
     new: {
         create_a_new_set_of_words: "Create a new set of words...",
     },
+    set: {
+        learn: "Learn",
+        test: "Test"
+    },
     editor: {
         title: {
             edit: name => `Edit - ${name}`,
@@ -35,7 +39,6 @@ export const EnGb: I18nTemplate = {
         edit_more: "Edit more",
         export: "Export",
         import: "Import...",
-        importing: "Importing",
         delete: "Delete...",
         deleting: "Deleting",
         delete_confirm: {
@@ -68,6 +71,7 @@ export const EnGb: I18nTemplate = {
         masculine: "Masculine",
         feminine: "Feminine",
         neutral: "Neutral",
+        verb_group: "Verb group",
         abbr: {
             masculine: "m.",
             feminine: "f.",
@@ -75,3 +79,5 @@ export const EnGb: I18nTemplate = {
         },
     }
 }
+
+export default EnGb

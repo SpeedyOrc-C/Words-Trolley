@@ -1,6 +1,6 @@
 import type {I18nTemplate} from "$lib/i18n/I18nTemplate"
 
-export const ZhCn: I18nTemplate = {
+const ZhCn: I18nTemplate = {
     hello: "你好！",
     login: "登录",
     signup: "注册",
@@ -23,6 +23,10 @@ export const ZhCn: I18nTemplate = {
     new: {
         create_a_new_set_of_words: "创建一套新单词集……",
     },
+    set: {
+        learn: "学习",
+        test: "测验"
+    },
     editor: {
         title: {
             edit: name => `编辑《${name}》`,
@@ -35,7 +39,6 @@ export const ZhCn: I18nTemplate = {
         edit_more: "多编辑点",
         export: "导出",
         import: "导入…",
-        importing: "导入中",
         delete: "删除…",
         deleting: "删除中",
         delete_confirm: {
@@ -68,6 +71,7 @@ export const ZhCn: I18nTemplate = {
         masculine: "阳性",
         feminine: "阴性",
         neutral: "中性",
+        verb_group: "动词组",
         abbr: {
             masculine: "阳",
             feminine: "阴",
@@ -75,3 +79,5 @@ export const ZhCn: I18nTemplate = {
         },
     }
 }
+
+export default ZhCn

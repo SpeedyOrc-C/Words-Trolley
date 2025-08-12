@@ -27,6 +27,11 @@ const ZhCn: I18nTemplate = {
         learn: "学习",
         test: "测验"
     },
+    test: {
+        show_answer: "显示答案",
+        next: "下一个",
+        finish: "结束"
+    },
     editor: {
         title: {
             edit: name => `编辑《${name}》`,

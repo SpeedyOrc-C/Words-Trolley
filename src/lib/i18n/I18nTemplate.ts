@@ -27,6 +27,11 @@ export type I18nTemplate = {
         learn: s
         test: s
     }
+    test: {
+        show_answer: s
+        next: s
+        finish: s
+    }
     editor: {
         title: {
             edit: (name: s) => s

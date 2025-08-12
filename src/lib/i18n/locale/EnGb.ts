@@ -27,6 +27,11 @@ const EnGb: I18nTemplate = {
         learn: "Learn",
         test: "Test"
     },
+    test: {
+        show_answer: "Show answer",
+        next: "Next",
+        finish: "Finish"
+    },
     editor: {
         title: {
             edit: name => `Edit - ${name}`,

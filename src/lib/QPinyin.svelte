@@ -3,6 +3,7 @@
     import {onMount} from "svelte";
     import InputPinyin from "$lib/InputPinyin.svelte";
     import {type Writable, writable} from "svelte/store";
+    import {clearInterval} from "node:timers";
 
     const data = {
         Source: "the quick brown fox",
@@ -24,7 +25,7 @@
 
     onMount(() =>
     {
-        setInterval(() =>
+        const setHeightInterval = setInterval(() =>
         {
             const vvp = window.visualViewport
 
@@ -33,6 +34,11 @@
 
             visualViewportHeight = vvp.height
         }, 250)
+
+        return () =>
+        {
+            clearInterval(setHeightInterval)
+        }
     })
 
     $effect(() =>
@@ -51,7 +57,8 @@
          lang="zh_CN">
         {#each data.Target as c, i (c)}
             <ruby>
-                {c}<rt>{data.TargetAuxiliary[i].Pinyin}</rt>
+                {c}
+                <rt>{data.TargetAuxiliary[i].Pinyin}</rt>
             </ruby>
         {/each}
     </div>
@@ -101,6 +108,7 @@
 
 <style>
     @import "tailwindcss";
+
     @plugin "daisyui";
 
     .aux-btn {

@@ -1,6 +1,7 @@
 <script lang="ts">
     import type {Words} from "$lib"
-    import {_} from "$lib/i18n";
+    import {_} from "$lib/i18n"
+    import ProgressAtBottom from "$lib/ProgressWithLabel.svelte"
 
     const {data} = $props()
     const words = data.set.words as Words
@@ -93,17 +94,7 @@
         </div>
     </main>
 
-    <div class="w-full max-w-xl inline-flex justify-around items-center gap-4 px-4 pb-8">
-
-        <span>
-            <code class="text-xl text-base-content/30">
-                <b>{i + 1}</b>/{words.length}
-            </code>
-        </span>
-
-        <progress value={i + 1} max={words.length} class="progress opacity-30"></progress>
-
-    </div>
+    <ProgressAtBottom index={i} length={words.length} />
 
     <div id="control" class="w-full flex flex-col p-2 gap-2">
 
@@ -128,10 +119,6 @@
 </div>
 
 <style>
-    main {
-
-    }
-
     #control {
         /*display: none;*/
         @media (pointer: fine) {

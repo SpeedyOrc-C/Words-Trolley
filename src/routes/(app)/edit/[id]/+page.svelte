@@ -5,6 +5,7 @@
     import {_} from "$lib/i18n"
     import {French, German, Japanese} from "$lib/word"
     import {VerbTypeFromRecursiveForm} from "$lib/word/japanese";
+    import InputPinyinLight from "$lib/InputPinyinLight.svelte";
 
     const {data} = $props()
     const {supabase} = $derived(data)
@@ -548,6 +549,12 @@
                                         <label for="jvt-n-{i}">?</label>
                                     </div>
                                 </div>
+
+                            {:else if word.type === CardType.Mandarin}
+
+                                <legend>Pinyin</legend>
+
+                                <InputPinyinLight bind:value={word.syllables} />
 
                             {/if}
 

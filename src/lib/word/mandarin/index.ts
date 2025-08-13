@@ -29,8 +29,6 @@ export enum Final
     Yuan = "yuan", Yue = "yue", Yun = "yun",
 }
 
-// export type Tone = 0 | 1 | 2 | 3 | 4
-
 export enum Tone
 {
     Neutral = 0, Flat = 1, Rise = 2, FallRise = 3, Fall = 4,
@@ -300,6 +298,192 @@ export class Syllable implements ISyllable
             return "u" + T(Vowel.E)
         case Final.Yun:
             return T(Vowel.U) + "n"
+        }
+    }
+
+    get PinyinWithToneNumber()
+    {
+        const tone = this.Tone == 0 ? "" : this.Tone.toString()
+
+        if (this.Initial == null)
+            return this.FinalOnlyPinyinToneless + tone
+
+        const initial = this.InitialPinyin
+        const final = this.FinalPinyinToneless
+
+        return initial + final + tone
+    }
+
+    get FinalOnlyPinyinToneless()
+    {
+        switch (this.Final)
+        {
+        case Final.A:
+            return Vowel.A
+        case Final.O:
+            return Vowel.O
+        case Final.E:
+            return Vowel.E
+        case Final.E2:
+            return Vowel.E2
+        case Final.I:
+            return "y" + Vowel.I
+        case Final.U:
+            return "w" + Vowel.U
+        case Final.Yu:
+            return "y" + Vowel.U
+        case Final.Ai:
+            return Vowel.A + "i"
+        case Final.Ao:
+            return Vowel.A + "o"
+        case Final.An:
+            return Vowel.A + "n"
+        case Final.Ang:
+            return Vowel.A + "ng"
+        case Final.Ou:
+            return Vowel.O + "u"
+        case Final.Ong:
+            return Vowel.O + "ng"
+        case Final.Ei:
+            return Vowel.E + "i"
+        case Final.En:
+            return Vowel.E + "n"
+        case Final.Eng:
+            return Vowel.E + "ng"
+        case Final.Er:
+            return Vowel.E + "r"
+        case Final.Ia:
+            return "y" + Vowel.A
+        case Final.Iai:
+            return "y" + Vowel.A + "i"
+        case Final.Iao:
+            return "y" + Vowel.A + "o"
+        case Final.Ian:
+            return "y" + Vowel.A + "n"
+        case Final.Iang:
+            return "y" + Vowel.A + "ng"
+        case Final.Io:
+            return "y" + Vowel.O
+        case Final.Iong:
+            return "y" + Vowel.O + "ng"
+        case Final.Ie:
+            return "y" + Vowel.E
+        case Final.Iou:
+            return "y" + Vowel.O + "u"
+        case Final.In:
+            return "y" + Vowel.I + "n"
+        case Final.Ing:
+            return "y" + Vowel.I + "ng"
+        case Final.Ua:
+            return "w" + Vowel.A
+        case Final.Uai:
+            return "w" + Vowel.A + "i"
+        case Final.Uan:
+            return "w" + Vowel.A + "n"
+        case Final.Uang:
+            return "w" + Vowel.A + "ng"
+        case Final.Ueng:
+            return "w" + Vowel.E + "ng"
+        case Final.Uei:
+            return "w" + Vowel.E + "i"
+        case Final.Uo:
+            return "w" + Vowel.O
+        case Final.Uen:
+            return "w" + Vowel.E + "n"
+        case Final.Yuan:
+            return "yu" + Vowel.A + "n"
+        case Final.Yue:
+            return "yu" + Vowel.E
+        case Final.Yun:
+            return "y" + Vowel.U + "n"
+        }
+    }
+
+    get FinalPinyinToneless()
+    {
+        if (this.Initial == null)
+            throw new Error("No initial.")
+
+        switch (this.Final)
+        {
+        case Final.A:
+            return Vowel.A
+        case Final.O:
+            return Vowel.O
+        case Final.E:
+            return Vowel.E
+        case Final.E2:
+            throw new Error("No initial can have `ê` as a final.")
+        case Final.I:
+            return Vowel.I
+        case Final.U:
+            return Vowel.U
+        case Final.Yu:
+            return IsAlveoloPalatal(this.Initial) ? Vowel.U : Vowel.Yu
+        case Final.Ai:
+            return Vowel.A + "i"
+        case Final.Ao:
+            return Vowel.A + "o"
+        case Final.An:
+            return Vowel.A + "n"
+        case Final.Ang:
+            return Vowel.A + "ng"
+        case Final.Ou:
+            return Vowel.O + "u"
+        case Final.Ong:
+            return Vowel.O + "ng"
+        case Final.Ei:
+            return Vowel.E + "i"
+        case Final.En:
+            return Vowel.E + "n"
+        case Final.Eng:
+            return Vowel.E + "ng"
+        case Final.Er:
+            throw new Error("No initial can have `er` as a final.")
+        case Final.Ia:
+            return "i" + Vowel.A
+        case Final.Iai:
+            throw new Error("No initial can have `iai` as a final.")
+        case Final.Iao:
+            return "i" + Vowel.A + "o"
+        case Final.Ian:
+            return "i" + Vowel.A + "n"
+        case Final.Iang:
+            return "i" + Vowel.A + "ng"
+        case Final.Io:
+            throw new Error("No initial can have `io` as a final.")
+        case Final.Iong:
+            return "i" + Vowel.O + "ng"
+        case Final.Ie:
+            return "i" + Vowel.E
+        case Final.Iou:
+            return "i" + Vowel.U
+        case Final.In:
+            return Vowel.I + "n"
+        case Final.Ing:
+            return Vowel.I + "ng"
+        case Final.Ua:
+            return "u" + Vowel.A
+        case Final.Uai:
+            return "u" + Vowel.A + "i"
+        case Final.Uan:
+            return "u" + Vowel.A + "n"
+        case Final.Uang:
+            return "u" + Vowel.A + "ng"
+        case Final.Ueng:
+            throw new Error("No initial can have `ueng` as a final.")
+        case Final.Uei:
+            return "u" + Vowel.I
+        case Final.Uo:
+            return IsLabial(this.Initial) ? Vowel.O : "u" + Vowel.O
+        case Final.Uen:
+            return Vowel.U + "n"
+        case Final.Yuan:
+            return "u" + Vowel.A + "n"
+        case Final.Yue:
+            return "u" + Vowel.E
+        case Final.Yun:
+            return Vowel.U + "n"
         }
     }
 

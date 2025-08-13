@@ -2,8 +2,8 @@
     import * as Mandarin from "$lib/word/mandarin"
     import {onMount} from "svelte"
     import {type MandarinInputOverrider, PinyinOverrider} from "$lib/MandarinInputOverrider"
-    import {writable, type Writable} from "svelte/store";
-    import {Tone} from "$lib/word/mandarin";
+    import {writable, type Writable} from "svelte/store"
+    import {Tone} from "$lib/word/mandarin"
 
     let {
         value = $bindable([]),

@@ -1,6 +1,6 @@
 import {Final, type Syllable} from "$lib/word/mandarin"
-import {pSyllablePinyinWithToneNumber} from "$lib/word/mandarin/parser/pinyin-with-tone-number"
-import {pBopomofo} from "$lib/word/mandarin/parser/bopomofo";
+import {pPinyinWithToneNumber} from "$lib/word/mandarin/parser/pinyin-with-tone-number"
+import {pBopomofo} from "$lib/word/mandarin/parser/bopomofo"
 
 
 export type ShouldConfirm = boolean
@@ -15,11 +15,11 @@ export interface MandarinInputOverrider
     OnKeyUp(e: KeyboardEvent & { currentTarget: HTMLInputElement }): ShouldConfirm
 }
 
-export class PinyinOverrider implements MandarinInputOverrider
+class PinyinSingleSyllableOverrider implements MandarinInputOverrider
 {
     Parse(raw: string): Syllable | null
     {
-        const s = pSyllablePinyinWithToneNumber.eval(raw)
+        const s = pPinyinWithToneNumber.eval(raw)
 
         if (s instanceof Error)
             return null
@@ -85,7 +85,74 @@ export class PinyinOverrider implements MandarinInputOverrider
     }
 }
 
-export class BopomofoOverrider implements MandarinInputOverrider
+class PinyinSyllablesOverrider implements MandarinInputOverrider
+{
+    Parse(raw: string): Syllable | null
+    {
+        const s = pPinyinWithToneNumber.eval(raw)
+
+        if (s instanceof Error)
+            return null
+
+        if (s.Final == Final.E2 && s.Tone != 2 && s.Tone != 4)
+            return null
+
+        return s
+    }
+
+    OnKeyDown(e: KeyboardEvent & { currentTarget: HTMLInputElement }): void
+    {
+        const {key, currentTarget} = e
+
+        if (key == "v" || key == "V")
+        {
+            e.preventDefault()
+            InsertChar(currentTarget, "ü")
+            return
+        }
+
+        if (key.length == 1 && "A" <= key && key <= "Z")
+        {
+            e.preventDefault()
+            InsertChar(currentTarget, key.toLowerCase())
+            return
+        }
+    }
+
+    OnKeyUp(e: KeyboardEvent & { currentTarget: HTMLInputElement }): ShouldConfirm
+    {
+        const {currentTarget: t} = e
+
+        const oldStart = t.selectionStart
+        const oldEnd = t.selectionEnd
+
+        if (t.value.includes("v"))
+        {
+            t.value = t.value.replaceAll("v", "ü")
+
+            if (oldStart != null)
+                t.selectionStart = oldStart
+
+            if (oldEnd != null)
+                t.selectionEnd = oldEnd
+        }
+
+        if (t.value.includes("E"))
+        {
+            t.value = t.value.replaceAll("E", "ê")
+
+            if (oldStart != null)
+                t.selectionStart = oldStart
+
+            if (oldEnd != null)
+                t.selectionEnd = oldEnd
+        }
+
+        return false;
+    }
+}
+
+class BopomofoOverrider implements MandarinInputOverrider
 {
     static KeyMapping: Array<[string, string]> = [
         ["Digit1", "ㄅ"],
@@ -191,3 +258,7 @@ function InsertChar(t: HTMLInputElement, c: string)
     t.selectionStart = oldStart + 1
     t.selectionEnd = oldStart + 1
 }
+
+export const pinyinSingleSyllableOverrider = new PinyinSingleSyllableOverrider()
+export const pinyinSyllablesOverrider = new PinyinSyllablesOverrider()
+export const bopomofoOverrider = new BopomofoOverrider()

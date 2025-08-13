@@ -1,8 +1,8 @@
-import {Final, Initial, IsLabial, Syllable, Tone} from "$lib/word/mandarin";
-import {asum, char, eof, Nothing, pure} from "crazy-parser";
-import {optional} from "crazy-parser/prefix";
+import {Final, Initial, IsLabial, Syllable, Tone} from "$lib/word/mandarin"
+import {asum, char, Nothing, pure} from "crazy-parser"
+import {optional} from "crazy-parser/prefix"
 
-const pInitial = optional(asum([
+const pInitial = optional(asum(
     char("ㄅ").cmap(Initial.B),
     char("ㄆ").cmap(Initial.P),
     char("ㄇ").cmap(Initial.M),
@@ -24,10 +24,10 @@ const pInitial = optional(asum([
     char("ㄗ").cmap(Initial.Z),
     char("ㄘ").cmap(Initial.C),
     char("ㄙ").cmap(Initial.S),
-]))
+))
 
 export const pBopomofo = pInitial
-    .bind(initial => asum([
+    .bind(initial => asum(
         char("ㄚ").cmap(Final.A),
         char("ㄛ").cmap(IsLabial(initial) ? Final.Uo : Final.O),
         char("ㄜ").cmap(Final.E),
@@ -41,7 +41,7 @@ export const pBopomofo = pInitial
         char("ㄤ").cmap(Final.Ang),
         char("ㄥ").cmap(Final.Eng),
         char("ㄦ").cmap(Final.Er),
-        char("ㄧ").right(asum([
+        char("ㄧ").right(asum(
             char("ㄚ").cmap(Final.Ia),
             char("ㄞ").cmap(Final.Iai),
             char("ㄠ").cmap(Final.Iao),
@@ -53,8 +53,8 @@ export const pBopomofo = pInitial
             char("ㄣ").cmap(Final.In),
             char("ㄥ").cmap(Final.Ing),
             pure(Final.I),
-        ])),
-        char("ㄨ").right(asum([
+        )),
+        char("ㄨ").right(asum(
             char("ㄚ").cmap(Final.Ua),
             char("ㄞ").cmap(Final.Uai),
             char("ㄢ").cmap(Final.Uan),
@@ -64,14 +64,14 @@ export const pBopomofo = pInitial
             char("ㄥ").cmap(initial == Nothing ? Final.Ueng : Final.Ong),
             char("ㄛ").cmap(Final.Uo),
             pure(Final.U),
-        ])),
-        char("ㄩ").right(asum([
+        )),
+        char("ㄩ").right(asum(
             char("ㄢ").cmap(Final.Yuan),
             char("ㄝ").cmap(Final.Yue),
             char("ㄣ").cmap(Final.Yun),
             char("ㄥ").cmap(Final.Iong),
             pure(Final.Yu),
-        ])),
+        )),
         pure(Final.I).if(
             initial == Initial.J ||
             initial == Initial.Q ||
@@ -84,12 +84,12 @@ export const pBopomofo = pInitial
             initial == Initial.C ||
             initial == Initial.S
         )
-    ]).bind(final => asum([
+    ).bind(final => asum(
         char("ˇ").cmap(Tone.FallRise),
         char("ˋ").cmap(Tone.Fall),
         char("ˊ").cmap(Tone.Rise),
         char("˙").cmap(Tone.Neutral),
         pure(Tone.Flat)
-    ]).map(tone =>
+    ).map(tone =>
         new Syllable(initial == Nothing ? null : initial, final, tone)
-    ))).left(eof)
+    )))

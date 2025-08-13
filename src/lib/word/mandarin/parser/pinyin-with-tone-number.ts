@@ -1,8 +1,8 @@
-import {Final, Initial, IsAlveoloPalatal, IsLabial, Syllable, Tone} from "$lib/word/mandarin";
-import {Nothing, pure, asum, str, char, anyChar, eof} from "crazy-parser"
+import {Final, Initial, IsAlveoloPalatal, IsLabial, Syllable, Tone} from "$lib/word/mandarin"
+import {Nothing, pure, asum, str, char, anyChar} from "crazy-parser"
 import {optional} from "crazy-parser/prefix"
 
-export const pInitial = optional(asum([
+export const pInitial = optional(asum(
     char("z").right(char("h").cmap(Initial.Zh).or(pure(Initial.Z))),
     char("c").right(char("h").cmap(Initial.Ch).or(pure(Initial.C))),
     char("s").right(char("h").cmap(Initial.Sh).or(pure(Initial.S))),
@@ -21,10 +21,10 @@ export const pInitial = optional(asum([
     char("q").cmap(Initial.Q),
     char("x").cmap(Initial.X),
     char("r").cmap(Initial.R),
-]))
+))
 
-export const pSyllablePinyinWithToneNumber = pInitial
-    .bind(initial => asum([
+export const pPinyinWithToneNumber = pInitial
+    .bind(initial => asum(
         char("a").right(asum([
             char("i").cmap(Final.Ai),
             char("o").cmap(Final.Ao),
@@ -135,20 +135,20 @@ export const pSyllablePinyinWithToneNumber = pInitial
         ])),
         char("ü").cmap(Final.Yu).if(initial == Initial.L || initial == Initial.N),
         char("ê").cmap(Final.E2).if(initial == Nothing)
-    ]).bind(final => asum([
+    ).bind(final => asum(
         char("1").cmap<Tone>(Tone.Flat),
         char("2").cmap<Tone>(Tone.Rise),
         char("3").cmap<Tone>(Tone.FallRise),
         char("4").cmap<Tone>(Tone.Fall),
         optional(char("0")).cmap<Tone>(Tone.Neutral),
-    ]).map(tone =>
+    ).map(tone =>
         new Syllable(initial == Nothing ? null : initial, final, tone))
-    )).left(eof)
+    ))
 
-export const pTone = asum([
+export const pTone = asum(
     anyChar(["a", "e", "ê", "i", "o", "u", "ü"]).cmap(Tone.Neutral),
     anyChar(["ā", "ē", "ī", "ō", "ū", "ṻ"]).cmap(Tone.Flat),
     anyChar(["á", "é", "ế", "í", "ó", "ú", "ǘ"]).cmap(Tone.Rise),
     anyChar(["ǎ", "ě", "ǐ", "ǒ", "ǔ", "ǚ"]).cmap(Tone.FallRise),
     anyChar(["à", "è", "ề", "ì", "ò", "ù", "ǜ"]).cmap(Tone.Fall),
-])
+)

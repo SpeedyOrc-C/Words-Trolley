@@ -13,7 +13,16 @@
     import {type ISyllable, Syllable} from "$lib/word/mandarin"
     import {pinyinSyllablesOverrider} from "$lib/MandarinInputOverrider"
 
-    let {value = $bindable([]), onchange: _onchange = () => {}}: { value: ISyllable[], onchange: () => void } = $props()
+    let {
+        value = $bindable(),
+        onchange: _onchange = () => {},
+        placeholder = "",
+    }: {
+        value: ISyllable[]
+        onchange: () => void
+        placeholder: string
+    } = $props()
+
     let rawValue = $state(value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Pinyin).join(" "))
     let error = $state(false)
 
@@ -47,10 +56,20 @@
     }
 </script>
 
-<input type="text" bind:value={rawValue}
-       onkeydown={pinyinSyllablesOverrider.OnKeyDown}
-       onkeyup={pinyinSyllablesOverrider.OnKeyUp}
-       {onchange} {onfocusin} {onfocusout}
-       class="input" class:input-error={error}
-       autocorrect="off" autocomplete="off" autocapitalize="off"
->
+<label class="floating-label">
+   <span>{placeholder}</span>
+   <input
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+      bind:value={rawValue}
+      class="input text-lg"
+      class:input-error={error}
+      {onchange}
+      {onfocusin}
+      {onfocusout} onkeydown={pinyinSyllablesOverrider.OnKeyDown}
+      onkeyup={pinyinSyllablesOverrider.OnKeyUp}
+      {placeholder}
+      type="text"
+   >
+</label>

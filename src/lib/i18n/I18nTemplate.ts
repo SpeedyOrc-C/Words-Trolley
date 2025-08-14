@@ -40,8 +40,6 @@ export type I18nTemplate = {
         save: s
         saving: s
         saved: s
-        edit_less: s
-        edit_more: s
         export: s
         import: s
         delete: s
@@ -53,7 +51,6 @@ export type I18nTemplate = {
         rename: s
         renaming: s
         new_name: s
-        operations: s
         word: s
         meaning: s
         type: s
@@ -77,6 +74,7 @@ export type I18nTemplate = {
         feminine: s
         neutral: s
         verb_group: s
+        pinyin: s
         abbr: {
             masculine: s
             feminine: s

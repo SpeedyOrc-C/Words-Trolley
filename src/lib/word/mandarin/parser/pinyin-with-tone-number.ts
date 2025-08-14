@@ -83,7 +83,7 @@ export const pPinyinWithToneNumber = pInitial
                 pure(Final.Yue)
             ])),
             char("i").cmap(Final.Uei),
-            char("o").try().if(!IsLabial(initial)).cmap(Final.Uo),
+            char("o").try().if(! IsLabial(initial)).cmap(Final.Uo),
             char("n").cmap(IsAlveoloPalatal(initial) ? Final.Yun : Final.Uen),
             pure(Final.U).if(initial != Nothing)
         ])),
@@ -136,13 +136,13 @@ export const pPinyinWithToneNumber = pInitial
         char("ü").cmap(Final.Yu).if(initial == Initial.L || initial == Initial.N),
         char("ê").cmap(Final.E2).if(initial == Nothing)
     ).bind(final => asum(
-        char("1").cmap<Tone>(Tone.Flat),
-        char("2").cmap<Tone>(Tone.Rise),
-        char("3").cmap<Tone>(Tone.FallRise),
-        char("4").cmap<Tone>(Tone.Fall),
-        optional(char("0")).cmap<Tone>(Tone.Neutral),
-    ).map(tone =>
-        new Syllable(initial == Nothing ? null : initial, final, tone))
+            char("1").cmap<Tone>(Tone.Flat),
+            char("2").cmap<Tone>(Tone.Rise),
+            char("3").cmap<Tone>(Tone.FallRise),
+            char("4").cmap<Tone>(Tone.Fall),
+            optional(char("0")).cmap<Tone>(Tone.Neutral),
+        ).map(tone =>
+            new Syllable(initial == Nothing ? null : initial, final, tone))
     ))
 
 export const pTone = asum(

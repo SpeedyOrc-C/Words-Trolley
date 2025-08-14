@@ -43,7 +43,8 @@
             if (element instanceof HTMLInputElement)
             {
                 ConfirmSyllable(focusedBufferIndex, element.value + tone.toString())
-            } else
+            }
+            else
             {
                 const focusedSyllable = syllables[focusedBufferIndex]
 
@@ -79,7 +80,8 @@
                 nextElement.focus()
             else
                 setTimeout(() => elements[i + 1]?.focus(), 0)
-        } else if (length == null)
+        }
+        else if (length == null)
         {
             syllables.push(null)
 
@@ -175,14 +177,16 @@
                             setTimeout(() => elements[i - 1]?.focus(), 0)
                         else
                             setTimeout(() => elements[0]?.focus(), 0)
-                    } else
+                    }
+                    else
                     {
                         syllables.pop()
                         syllables[i - 1] = null
                         setTimeout(() => elements[i - 1]?.focus(), 0)
                     }
                 }
-            } else if (i > 0)
+            }
+            else if (i > 0)
             {
                 const be = elements[i]
 
@@ -229,38 +233,38 @@
      onkeyup={OnInputKeyUp}
 >
 
-    {#each syllables as buffer, i (i)}
+   {#each syllables as buffer, i (i)}
 
-        {#if buffer != null}
+      {#if buffer != null}
 
-            <div class="syllable"
-                 tabindex="0"
-                 role="textbox"
-                 onkeydown={e => OnSyllableKeyDown(i, e)}
-                 onkeyup={e => OnSyllableKeyUp(i, e)}
-                 ondblclick={e => OnSyllableDoubleClick(i, e)}
-                 onfocusin={e => OnElementFocusIn(i, e)}
-                 use:AttachSyllable={i}
-            >
-                {buffer.Pinyin}
-            </div>
+         <div class="syllable"
+              tabindex="0"
+              role="textbox"
+              onkeydown={e => OnSyllableKeyDown(i, e)}
+              onkeyup={e => OnSyllableKeyUp(i, e)}
+              ondblclick={e => OnSyllableDoubleClick(i, e)}
+              onfocusin={e => OnElementFocusIn(i, e)}
+              use:AttachSyllable={i}
+         >
+            {buffer.Pinyin}
+         </div>
 
-        {:else}
+      {:else}
 
-            <input type="text" required maxlength="7"
-                   class="input input-lg w-12 valid:w-30 px-0 text-3xl text-center"
-                   autocorrect="off"
-                   autocomplete="off"
-                   autocapitalize="off"
-                   onkeydown={e => OnBufferKeyDown(i, e)}
-                   onkeyup={e => OnBufferKeyUp(i, e)}
-                   onfocusin={e => OnElementFocusIn(i, e)}
-                   use:AttachBuffer={i}
-            />
+         <input type="text" required maxlength="7"
+                class="input input-lg w-12 valid:w-30 px-0 text-3xl text-center"
+                autocorrect="off"
+                autocomplete="off"
+                autocapitalize="off"
+                onkeydown={e => OnBufferKeyDown(i, e)}
+                onkeyup={e => OnBufferKeyUp(i, e)}
+                onfocusin={e => OnElementFocusIn(i, e)}
+                use:AttachBuffer={i}
+         />
 
-        {/if}
+      {/if}
 
-    {/each}
+   {/each}
 
 </div>
 

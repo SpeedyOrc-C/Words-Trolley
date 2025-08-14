@@ -5,13 +5,13 @@
     import {AutoDetectLanguage, language} from "$lib/i18n"
 
     const {data, children} = $props()
-    const {session, supabase} = $derived(data)
+    const {session, db} = $derived(data)
 
     onMount(() =>
     {
         const u1 = language.subscribe(lang => document.documentElement.lang = lang)
 
-        const {data: {subscription: {unsubscribe: u2}}} = supabase.auth.onAuthStateChange((_, newSession) =>
+        const {data: {subscription: {unsubscribe: u2}}} = db.auth.onAuthStateChange((_, newSession) =>
         {
             if (newSession?.expires_at !== session?.expires_at)
             {

@@ -114,7 +114,7 @@ export const blankWordFromType: Record<CardType, Word> = {
 
 export function TypeCheckWords(input: Json): boolean
 {
-    if (!(input instanceof Array))
+    if (! (input instanceof Array))
         return false
 
     return input.map(TypeCheckWord).reduce((a, b) => a && b, true)

@@ -9,7 +9,7 @@
     {
         loading = true
 
-        const {error} = await data.supabase.auth.signOut()
+        const {error} = await data.db.auth.signOut()
 
         if (error)
         {
@@ -22,58 +22,58 @@
 </script>
 
 <svelte:head>
-    <title>
-        Words Trolley
-    </title>
+   <title>
+      Words Trolley
+   </title>
 </svelte:head>
 
 <h1 class="my-4 text-center text-2xl">
 
-    {#if data.user}
+   {#if data.user}
 
-        {$_.home.welcome_back}
-        <br>
-        {data.user.email}
+      {$_.home.welcome_back}
+      <br>
+      {data.user.email}
 
-    {:else}
+   {:else}
 
-        {$_.home.welcome_to_words_trolley}
+      {$_.home.welcome_to_words_trolley}
 
-    {/if}
+   {/if}
 
 </h1>
 
 <div class="w-full flex flex-col gap-4 items-center">
 
-    {#if data.user}
+   {#if data.user}
 
-        <a href="/new">
-            <button class="btn btn-lg btn-soft btn-primary">
-                {$_.home.create_a_new_set}
-            </button>
-        </a>
+      <a href="/new">
+         <button class="btn btn-lg btn-soft btn-primary">
+            {$_.home.create_a_new_set}
+         </button>
+      </a>
 
-        <a href="/creator/{data.user.id}">
-            <button class="btn btn-lg btn-soft">
-                {$_.home.browse_my_sets}
-            </button>
-        </a>
+      <a href="/creator/{data.user.id}">
+         <button class="btn btn-lg btn-soft">
+            {$_.home.browse_my_sets}
+         </button>
+      </a>
 
-        <button disabled={loading} onclick={SignOut} class="btn btn-lg btn-dash btn-error">
-            {#if loading}
-                <span class="loading loading-spinner"></span>
-            {/if}
-            {$_.logout}
-        </button>
+      <button disabled={loading} onclick={SignOut} class="btn btn-lg btn-dash btn-error">
+         {#if loading}
+            <span class="loading loading-spinner"></span>
+         {/if}
+         {$_.logout}
+      </button>
 
-    {:else}
+   {:else}
 
-        <a href="/auth">
-            <button class="btn btn-lg btn-soft btn-primary">
-                {$_.login_and_signup}
-            </button>
-        </a>
+      <a href="/auth">
+         <button class="btn btn-lg btn-soft btn-primary">
+            {$_.login_and_signup}
+         </button>
+      </a>
 
-    {/if}
+   {/if}
 
 </div>

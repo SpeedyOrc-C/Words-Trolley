@@ -8,7 +8,7 @@
     import InputPinyinLight from "$lib/InputPinyinLight.svelte";
 
     const {data} = $props()
-    const {supabase} = $derived(data)
+    const {db} = $derived(data)
     let {name, id} = $derived(data.set)
 
     let words = $state(data.set.words as Words)
@@ -33,7 +33,7 @@
 
         saving = true
 
-        const {error} = await supabase
+        const {error} = await db
             .from("sets")
             .update({words: words as Json})
             .eq("id", id)
@@ -139,12 +139,12 @@
     {
         const ok = confirm(`${$_.editor.delete_confirm.this_will_be_deleted}\n${name}\n${$_.editor.delete_confirm.are_you_sure}`)
 
-        if (!ok)
+        if (! ok)
             return
 
         deleting = true
 
-        const {error} = await supabase
+        const {error} = await db
             .from("sets")
             .delete()
             .eq("id", id)
@@ -170,7 +170,7 @@
 
         renaming = true
 
-        const {error} = await supabase
+        const {error} = await db
             .from("sets")
             .update({name: newName})
             .eq("id", id)
@@ -219,7 +219,7 @@
 
     function onbeforeunload(e: BeforeUnloadEvent)
     {
-        if (!saved)
+        if (! saved)
             e.preventDefault()
     }
 
@@ -270,312 +270,315 @@
 <svelte:window {onbeforeunload} {onkeydown}/>
 
 <svelte:head>
-    <title>
-        {(saved ? $_.editor.title.edit : $_.editor.title.unsaved)(name)}
-    </title>
+   <title>
+      {(saved ? $_.editor.title.edit : $_.editor.title.unsaved)(name)}
+   </title>
 </svelte:head>
 
 <nav class="shadow-base-300 shadow-md flex p-2 items-center justify-between">
 
-    <div class="flex">
-        <a href="/" title={$_.home._}>
-            <button class="btn btn-ghost">
-                {$_.home._}
-            </button>
-        </a>
+   <div class="flex">
+      <a href="/" title={$_.home._}>
+         <button class="btn btn-ghost">
+            {$_.home._}
+         </button>
+      </a>
 
-        <button class="btn btn-ghost" onclick={Save} disabled={saving || saved}>
-            {#if saving}
-                <span class="loading loading-spinner"></span>
-                {$_.editor.saving}
-            {:else if saved}
-                {$_.editor.saved}
-            {:else}
-                {$_.editor.save}
-            {/if}
-        </button>
+      <button class="btn btn-ghost" onclick={Save} disabled={saving || saved}>
+         {#if saving}
+            <span class="loading loading-spinner"></span>
+            {$_.editor.saving}
+         {:else if saved}
+            {$_.editor.saved}
+         {:else}
+            {$_.editor.save}
+         {/if}
+      </button>
 
-        <button class="btn btn-ghost" onclick={() => editMore = !editMore}>
-            {editMore ? $_.editor.edit_less : $_.editor.edit_more}
-        </button>
+      <button class="btn btn-ghost" onclick={() => editMore = !editMore}>
+         {editMore ? $_.editor.edit_less : $_.editor.edit_more}
+      </button>
 
-        <button class="btn btn-ghost" onclick={Export}>
-            {$_.editor.export}
-        </button>
+      <button class="btn btn-ghost" onclick={Export}>
+         {$_.editor.export}
+      </button>
 
-        <button class="btn btn-ghost" onclick={Import} disabled={saving}>
-            {$_.editor.import}
-        </button>
-    </div>
+      <button class="btn btn-ghost" onclick={Import} disabled={saving}>
+         {$_.editor.import}
+      </button>
+   </div>
 
-    <div class="flex">
+   <div class="flex">
 
-        <button class="btn btn-dash btn-error" onclick={Delete} disabled={deleting}>
-            {#if deleting}
-                <span class="loading loading-spinner"></span>
-                {$_.editor.deleting}
-            {:else}
-                {$_.editor.delete}
-            {/if}
-        </button>
+      <button class="btn btn-dash btn-error" onclick={Delete} disabled={deleting}>
+         {#if deleting}
+            <span class="loading loading-spinner"></span>
+            {$_.editor.deleting}
+         {:else}
+            {$_.editor.delete}
+         {/if}
+      </button>
 
-    </div>
+   </div>
 
 </nav>
 
 <header class="m-auto flex items-center gap-4">
-    <button onclick={Rename} class="btn" disabled={renaming}>
-        {#if renaming}
-            <span class="loading loading-spinner"></span>
-            {$_.editor.renaming}
-        {:else}
-            {$_.editor.rename}
-        {/if}
-    </button>
-    <h1 class="text-xl font-bold text-center" class:opacity-50={renaming}>
-        {name}
-    </h1>
+   <button onclick={Rename} class="btn" disabled={renaming}>
+      {#if renaming}
+         <span class="loading loading-spinner"></span>
+         {$_.editor.renaming}
+      {:else}
+         {$_.editor.rename}
+      {/if}
+   </button>
+   <h1 class="text-xl font-bold text-center" class:opacity-50={renaming}>
+      {name}
+   </h1>
 </header>
 
 <main class="grow overflow-auto">
 
-    <table class="table table-sm table-pin-rows w-fit mx-auto">
+   <table class="table table-sm table-pin-rows w-fit mx-auto">
 
-        <thead>
-        <tr>
+      <thead>
+      <tr>
+
+         {#if editMore}
+            <th class="text-center">
+               {$_.editor.operations}
+            </th>
+         {/if}
+
+         <th class="text-center">
+            {$_.editor.word}
+         </th>
+
+         {#if editMore}
+            <th class="text-center">
+               {$_.editor.type}
+            </th>
+         {/if}
+
+         {#if !allSimple}
+            <th class="text-center">
+               {$_.editor.extra}
+            </th>
+         {/if}
+
+      </tr>
+      </thead>
+
+      <tbody>
+      {#each words as word, i}
+         <tr draggable={editMore && !typing}
+             ondragstart={() => ondragstart(i)}
+             ondragend={ondragend}
+             ondragover={e => e.preventDefault()}
+             ondragenter={() => ondragenter(i)}
+             ondrop={() => ondrop(i)}
+
+             class:opacity-20={dragIndex === i}
+             class:bg-base-300={dropIndex === i}
+         >
 
             {#if editMore}
-                <th class="text-center">
-                    {$_.editor.operations}
-                </th>
+
+               <td>
+                  <div class="flex flex-row items-center">
+
+                     <div class="flex flex-col">
+
+                        <button class="btn btn-sm btn-dash btn-error" onclick={() => DeleteWord(i)}>
+                           {$_.delete}
+                        </button>
+
+                        <button class="btn btn-sm" onclick={() => InsertNewWord(i)}>
+                           {$_.insert}
+                        </button>
+
+                     </div>
+
+                     <div class="flex flex-col">
+
+                        <button onclick={() => MoveUp(i)} class="btn btn-sm" disabled={i === 0}>
+                           {$_.editor.move_up}
+                        </button>
+
+                        <button onclick={() => MoveDown(i)} class="btn btn-sm"
+                                disabled={i === words.length - 1}>
+                           {$_.editor.move_down}
+                        </button>
+
+                     </div>
+
+                  </div>
+               </td>
+
             {/if}
 
-            <th class="text-center">
-                {$_.editor.word}
-            </th>
+            <td class="flex flex-col h-full">
+
+               <input type="text" bind:value={word.word} placeholder="word"
+                      class="input input-xs input-ghost text-lg"
+                      onfocusin={() => typing = true}
+                      onfocusout={() => typing = false}
+                      onchange={e => OnWordChange(e, i)}>
+
+               <input type="text" bind:value={word.meaning} placeholder="meaning"
+                      class="input input-xs input-ghost text-lg text-right"
+                      onfocusin={() => typing = true}
+                      onfocusout={() => typing = false}
+                      onchange={() => saved = false}>
+
+            </td>
 
             {#if editMore}
-                <th class="text-center">
-                    {$_.editor.type}
-                </th>
+
+               <td>
+                  <select class="select" bind:value={word.type} id="t-{i}"
+                          aria-label={$_.editor.card_type_select_label(i + 1)}
+                          onchange={() =>{UpdateType(i, word.type); saved = false}}>
+                     <option value={CardType.Simple}>
+                        {$_.CardType.Simple}
+                     </option>
+                     <option value={CardType.Mandarin}>
+                        {$_.CardType.Mandarin}
+                     </option>
+                     <option value={CardType.FrenchNoun}>
+                        {$_.CardType.FrenchNoun}
+                     </option>
+                     <option value={CardType.GermanNoun}>
+                        {$_.CardType.GermanNoun}
+                     </option>
+                     <optgroup label={$_.CardType.Japanese}>
+                        <option value={CardType.Japanese}>
+                           {$_.CardType.Japanese}
+                        </option>
+                        <option value={CardType.JapaneseVerb}>
+                           {$_.CardType.JapaneseVerb}
+                        </option>
+                     </optgroup>
+                  </select>
+               </td>
+
             {/if}
 
             {#if !allSimple}
-                <th class="text-center">
-                    {$_.editor.extra}
-                </th>
+
+               <td class="p-4">
+
+                  <fieldset>
+
+                     {#if word.type === CardType.FrenchNoun}
+
+                        <legend>{$_.linguistics.gender}</legend>
+
+                        <div class="flex gap-4">
+                           <div>
+                              <input type="radio" name="gender-{i}" id="m-{i}"
+                                     value={French.Gender.M} bind:group={word.gender}
+                                     onchange={() => saved = false}
+                                     class="radio">
+                              <label for="m-{i}">{$_.linguistics.abbr.masculine}</label>
+                           </div>
+                           <div>
+                              <input type="radio" name="gender-{i}" id="f-{i}"
+                                     value={French.Gender.F} bind:group={word.gender}
+                                     onchange={() => saved = false}
+                                     class="radio">
+                              <label for="f-{i}">{$_.linguistics.abbr.feminine}</label>
+                           </div>
+                        </div>
+
+                     {:else if word.type === CardType.GermanNoun}
+
+                        <legend>{$_.linguistics.gender}</legend>
+
+                        <div class="flex gap-4">
+                           <div>
+                              <input type="radio" name="gender-{i}" id="m-{i}"
+                                     value={German.Gender.M} bind:group={word.gender}
+                                     onchange={() => saved = false}
+                                     class="radio">
+                              <label for="m-{i}">{$_.linguistics.abbr.masculine}</label>
+                           </div>
+                           <div>
+                              <input type="radio" name="gender-{i}" id="n-{i}"
+                                     value={German.Gender.N} bind:group={word.gender}
+                                     onchange={() => saved = false}
+                                     class="radio">
+                              <label for="n-{i}">{$_.linguistics.abbr.neutral}</label>
+                           </div>
+                           <div>
+                              <input type="radio" name="gender-{i}" id="f-{i}"
+                                     value={German.Gender.F} bind:group={word.gender}
+                                     onchange={() => saved = false}
+                                     class="radio">
+                              <label for="f-{i}">{$_.linguistics.abbr.feminine}</label>
+                           </div>
+                        </div>
+
+                     {:else if word.type === CardType.JapaneseVerb}
+
+                        <legend>{$_.linguistics.verb_group}</legend>
+
+                        <div class="flex gap-4">
+                           <div>
+                              <input type="radio" name="jvt-{i}" id="jvt-c-{i}"
+                                     value={Japanese.VerbType.Consonant} bind:group={word.verb_type}
+                                     class="radio">
+                              <label for="jvt-c-{i}">1</label>
+                           </div>
+                           <div>
+                              <input type="radio" name="jvt-{i}" id="jvt-v-{i}"
+                                     value={Japanese.VerbType.Vowel} bind:group={word.verb_type}
+                                     class="radio">
+                              <label for="jvt-v-{i}">2</label>
+                           </div>
+                           <div>
+                              <input type="radio" name="jvt-{i}" id="jvt-n-{i}"
+                                     value={Japanese.VerbType.Noun} bind:group={word.verb_type}
+                                     class="radio">
+                              <label for="jvt-n-{i}">3</label>
+                           </div>
+                           <div>
+                              <input type="radio" name="jvt-{i}" id="jvt-n-{i}"
+                                     value={Japanese.VerbType.Irregular} bind:group={word.verb_type}
+                                     class="radio">
+                              <label for="jvt-n-{i}">?</label>
+                           </div>
+                        </div>
+
+                     {:else if word.type === CardType.Mandarin}
+
+                        <legend>Pinyin</legend>
+
+                        <InputPinyinLight
+                           bind:value={word.syllables}
+                           onchange={() => saved = false}
+                        />
+
+                     {/if}
+
+                  </fieldset>
+
+               </td>
+
             {/if}
 
-        </tr>
-        </thead>
+         </tr>
+      {/each}
 
-        <tbody>
-        {#each words as word, i}
-            <tr draggable={editMore && !typing}
-                ondragstart={() => ondragstart(i)}
-                ondragend={ondragend}
-                ondragover={e => e.preventDefault()}
-                ondragenter={() => ondragenter(i)}
-                ondrop={() => ondrop(i)}
+      </tbody>
 
-                class:opacity-20={dragIndex === i}
-                class:bg-base-300={dropIndex === i}
-            >
+   </table>
 
-                {#if editMore}
+   <button onclick={() => InsertNewWord(words.length)} class="btn block m-auto w-full max-w-sm">
+      {$_.editor.add_a_word}
+   </button>
 
-                    <td>
-                        <div class="flex flex-row items-center">
-
-                            <div class="flex flex-col">
-
-                                <button class="btn btn-sm btn-dash btn-error" onclick={() => DeleteWord(i)}>
-                                    {$_.delete}
-                                </button>
-
-                                <button class="btn btn-sm" onclick={() => InsertNewWord(i)}>
-                                    {$_.insert}
-                                </button>
-
-                            </div>
-
-                            <div class="flex flex-col">
-
-                                <button onclick={() => MoveUp(i)} class="btn btn-sm" disabled={i === 0}>
-                                    {$_.editor.move_up}
-                                </button>
-
-                                <button onclick={() => MoveDown(i)} class="btn btn-sm"
-                                        disabled={i === words.length - 1}>
-                                    {$_.editor.move_down}
-                                </button>
-
-                            </div>
-
-                        </div>
-                    </td>
-
-                {/if}
-
-                <td class="flex flex-col h-full">
-
-                    <input type="text" bind:value={word.word} placeholder="word"
-                           class="input input-xs input-ghost text-lg"
-                           onfocusin={() => typing = true}
-                           onfocusout={() => typing = false}
-                           onchange={e => OnWordChange(e, i)}>
-
-                    <input type="text" bind:value={word.meaning} placeholder="meaning"
-                           class="input input-xs input-ghost text-lg text-right"
-                           onfocusin={() => typing = true}
-                           onfocusout={() => typing = false}
-                           onchange={() => saved = false}>
-
-                </td>
-
-                {#if editMore}
-
-                    <td>
-                        <select class="select" bind:value={word.type} id="t-{i}"
-                                aria-label={$_.editor.card_type_select_label(i + 1)}
-                                onchange={() =>{UpdateType(i, word.type); saved = false}}>
-                            <option value={CardType.Simple}>
-                                {$_.CardType.Simple}
-                            </option>
-                            <option value={CardType.Mandarin}>
-                                {$_.CardType.Mandarin}
-                            </option>
-                            <option value={CardType.FrenchNoun}>
-                                {$_.CardType.FrenchNoun}
-                            </option>
-                            <option value={CardType.GermanNoun}>
-                                {$_.CardType.GermanNoun}
-                            </option>
-                            <optgroup label={$_.CardType.Japanese}>
-                                <option value={CardType.Japanese}>
-                                    {$_.CardType.Japanese}
-                                </option>
-                                <option value={CardType.JapaneseVerb}>
-                                    {$_.CardType.JapaneseVerb}
-                                </option>
-                            </optgroup>
-                        </select>
-                    </td>
-
-                {/if}
-
-                {#if !allSimple}
-
-                    <td class="p-4">
-
-                        <fieldset>
-
-                            {#if word.type === CardType.FrenchNoun}
-
-                                <legend>{$_.linguistics.gender}</legend>
-
-                                <div class="flex gap-4">
-                                    <div>
-                                        <input type="radio" name="gender-{i}" id="m-{i}"
-                                               value={French.Gender.M} bind:group={word.gender}
-                                               onchange={() => saved = false}
-                                               class="radio">
-                                        <label for="m-{i}">{$_.linguistics.abbr.masculine}</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" name="gender-{i}" id="f-{i}"
-                                               value={French.Gender.F} bind:group={word.gender}
-                                               onchange={() => saved = false}
-                                               class="radio">
-                                        <label for="f-{i}">{$_.linguistics.abbr.feminine}</label>
-                                    </div>
-                                </div>
-
-                            {:else if word.type === CardType.GermanNoun}
-
-                                <legend>{$_.linguistics.gender}</legend>
-
-                                <div class="flex gap-4">
-                                    <div>
-                                        <input type="radio" name="gender-{i}" id="m-{i}"
-                                               value={German.Gender.M} bind:group={word.gender}
-                                               onchange={() => saved = false}
-                                               class="radio">
-                                        <label for="m-{i}">{$_.linguistics.abbr.masculine}</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" name="gender-{i}" id="n-{i}"
-                                               value={German.Gender.N} bind:group={word.gender}
-                                               onchange={() => saved = false}
-                                               class="radio">
-                                        <label for="n-{i}">{$_.linguistics.abbr.neutral}</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" name="gender-{i}" id="f-{i}"
-                                               value={German.Gender.F} bind:group={word.gender}
-                                               onchange={() => saved = false}
-                                               class="radio">
-                                        <label for="f-{i}">{$_.linguistics.abbr.feminine}</label>
-                                    </div>
-                                </div>
-
-                            {:else if word.type === CardType.JapaneseVerb}
-
-                                <legend>{$_.linguistics.verb_group}</legend>
-
-                                <div class="flex gap-4">
-                                    <div>
-                                        <input type="radio" name="jvt-{i}" id="jvt-c-{i}"
-                                               value={Japanese.VerbType.Consonant} bind:group={word.verb_type}
-                                               class="radio">
-                                        <label for="jvt-c-{i}">1</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" name="jvt-{i}" id="jvt-v-{i}"
-                                               value={Japanese.VerbType.Vowel} bind:group={word.verb_type}
-                                               class="radio">
-                                        <label for="jvt-v-{i}">2</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" name="jvt-{i}" id="jvt-n-{i}"
-                                               value={Japanese.VerbType.Noun} bind:group={word.verb_type}
-                                               class="radio">
-                                        <label for="jvt-n-{i}">3</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" name="jvt-{i}" id="jvt-n-{i}"
-                                               value={Japanese.VerbType.Irregular} bind:group={word.verb_type}
-                                               class="radio">
-                                        <label for="jvt-n-{i}">?</label>
-                                    </div>
-                                </div>
-
-                            {:else if word.type === CardType.Mandarin}
-
-                                <legend>Pinyin</legend>
-
-                                <InputPinyinLight bind:value={word.syllables} />
-
-                            {/if}
-
-                        </fieldset>
-
-                    </td>
-
-                {/if}
-
-            </tr>
-        {/each}
-
-        </tbody>
-
-    </table>
-
-    <button onclick={() => InsertNewWord(words.length)} class="btn block m-auto w-full max-w-sm">
-        {$_.editor.add_a_word}
-    </button>
-
-    <div class="h-16"></div>
+   <div class="h-16"></div>
 
 </main>
 

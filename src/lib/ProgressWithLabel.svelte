@@ -10,6 +10,6 @@
         </code>
     </span>
 
-    <progress value={index + 1} max={length} class="progress opacity-30"></progress>
+   <progress value={index + 1} max={length} class="progress opacity-30"></progress>
 
 </div>

@@ -12,7 +12,7 @@ export const load: LayoutLoad = async ({data, depends, fetch}) =>
      */
     depends('supabase:auth')
 
-    const supabase = isBrowser()
+    const db = isBrowser()
         ? createBrowserClient<Database>(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
             global: {
                 fetch,
@@ -35,8 +35,8 @@ export const load: LayoutLoad = async ({data, depends, fetch}) =>
      * safe, and on the server, it reads `session` from the `LayoutData`, which
      * safely checked the session using `safeGetSession`.
      */
-    const {data: {session}} = await supabase.auth.getSession()
-    const {data: {user}} = await supabase.auth.getUser()
+    const {data: {session}} = await db.auth.getSession()
+    const {data: {user}} = await db.auth.getUser()
 
     // Set the language based on the Accept-Language header.
     // This is done before components mount, so there's no flicker.
@@ -48,5 +48,5 @@ export const load: LayoutLoad = async ({data, depends, fetch}) =>
         AutoDetectLanguage(language)
     }
 
-    return {session, supabase, user}
+    return {session, db, user}
 }

@@ -13,8 +13,8 @@
     import {type ISyllable, Syllable} from "$lib/word/mandarin"
     import {pinyinSyllablesOverrider} from "$lib/MandarinInputOverrider"
 
-    let {value = $bindable([])}: { value: ISyllable[] } = $props()
-    let rawValue = $state("")
+    let {value = $bindable([]), onchange: _onchange = () => {}}: { value: ISyllable[], onchange: () => void } = $props()
+    let rawValue = $state(value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Pinyin).join(" "))
     let error = $state(false)
 
     function onchange()
@@ -30,23 +30,20 @@
             error = false
             value = syllables
             rawValue = syllables.map(s => s.PinyinWithToneNumber).join(" ")
+            _onchange()
         }
     }
 
     function onfocusin()
     {
-        if (error)
-            return
-
-        rawValue = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).PinyinWithToneNumber).join(" ")
+        if (! error)
+            rawValue = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).PinyinWithToneNumber).join(" ")
     }
 
     function onfocusout()
     {
-        if (error)
-            return
-
-        rawValue = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Pinyin).join(" ")
+        if (! error)
+            rawValue = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Pinyin).join(" ")
     }
 </script>
 
@@ -54,6 +51,6 @@
        onkeydown={pinyinSyllablesOverrider.OnKeyDown}
        onkeyup={pinyinSyllablesOverrider.OnKeyUp}
        {onchange} {onfocusin} {onfocusout}
-       class="input input-sm" class:input-error={error}
+       class="input" class:input-error={error}
        autocorrect="off" autocomplete="off" autocapitalize="off"
 >

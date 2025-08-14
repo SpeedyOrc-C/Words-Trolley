@@ -34,7 +34,8 @@ export enum Tone
     Neutral = 0, Flat = 1, Rise = 2, FallRise = 3, Fall = 4,
 }
 
-export interface ISyllable {
+export interface ISyllable
+{
     Initial: Initial | null
     Final: Final
     Tone: Tone
@@ -805,7 +806,7 @@ export function SyllablesEqual(ss1: Array<Syllable>, ss2: Array<Syllable>): bool
         return false
 
     for (const i in ss1)
-        if (!ss1[i].Equal(ss2[i]))
+        if (! ss1[i].Equal(ss2[i]))
             return false
 
     return true

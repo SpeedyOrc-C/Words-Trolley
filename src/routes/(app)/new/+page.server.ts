@@ -1,14 +1,14 @@
 import {type Actions, redirect} from "@sveltejs/kit"
 
 export const actions: Actions = {
-    do: async ({request, locals: {supabase}}) =>
+    do: async ({request, locals: {db}}) =>
     {
         const formData = await request.formData()
 
         const name = formData.get('name') as string
         const words: never[] = []
 
-        const {data, error} = await supabase.from("sets").insert({name, words}).select()
+        const {data, error} = await db.from("sets").insert({name, words}).select()
 
         if (error)
         {

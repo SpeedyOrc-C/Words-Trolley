@@ -11,7 +11,7 @@ const supabase: Handle = async ({event, resolve}) =>
      *
      * The Supabase client gets the Auth token from the request cookies.
      */
-    event.locals.supabase = createServerClient<Database>(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
+    event.locals.db = createServerClient<Database>(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
         cookies: {
             getAll: () => event.cookies.getAll(),
             /**
@@ -36,12 +36,12 @@ const supabase: Handle = async ({event, resolve}) =>
      */
     event.locals.safeGetSession = async () =>
     {
-        const {data: {session}} = await event.locals.supabase.auth.getSession()
+        const {data: {session}} = await event.locals.db.auth.getSession()
 
-        if (!session)
+        if (! session)
             return {session: null, user: null}
 
-        const {data: {user}, error} = await event.locals.supabase.auth.getUser()
+        const {data: {user}, error} = await event.locals.db.auth.getUser()
 
         if (error)
             // JWT validation has failed

@@ -4,12 +4,12 @@ import {VerbType} from "$lib/word/japanese"
 
 export type Words = Array<Word>
 
-export type Word = Meta & {
+export type Word = Metadata & {
     word: string
     meaning: string
 }
 
-type Meta
+type Metadata
     = SimpleWord
     | MandarinWord
     | FrenchWord
@@ -159,17 +159,6 @@ export const blankWordFromType = {
     [Card.Japanese]: blankWordJapanese
 } as const
 
-export const langFromType = {
-    [Card.Simple]: null,
-    [Card.Mandarin]: {
-        [Mandarin.Region.PRC]: "zh-CN",
-        [Mandarin.Region.ROC]: "zh-TW",
-    },
-    [Card.French]: "fr",
-    [Card.German]: "de",
-    [Card.Japanese]: "ja",
-} as const
-
 export function LangFromWord(word: Word)
 {
     switch (word.type)
@@ -190,7 +179,6 @@ export function LangFromWord(word: Word)
         return "de"
     case Card.Japanese:
         return "ja"
-
     }
 }
 

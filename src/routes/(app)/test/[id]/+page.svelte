@@ -1,8 +1,9 @@
 <script lang="ts">
-    import type {Words} from "$lib"
+    import {Card, LangFromWord, type Words} from "$lib"
     import {_} from "$lib/i18n"
     import ProgressWithLabel from "$lib/ProgressWithLabel.svelte"
     import QSimple from "$lib/QSimple.svelte"
+    import QPinyin from "$lib/QPinyin.svelte"
 
     const {data} = $props()
     const words = data.set.words as Words
@@ -72,62 +73,61 @@
 
 <svelte:window onkeydown={onkeydown}/>
 
+<nav class="w-full px-4 flex items-center justify-between">
 
-<div class="w-svw h-svh flex flex-col items-center justify-between select-none">
-
-   <nav class="w-full px-4 flex items-center justify-between">
-
-      <a href="/" class="flex-1">
-         <button class="btn btn-ghost btn-sm text-base-content/50">
-            {$_.home._}
-         </button>
-      </a>
-
-      <div class="grow">
-         <ProgressWithLabel index={i} length={words.length}/>
-      </div>
-
-      <div class="flex-1"></div>
-
-   </nav>
-
-
-   <div>
-
-      <div class="text-3xl mb-4 text-center">
-         {word.meaning}
-      </div>
-
-      {#if showAnswer}
-         <div class="text-3xl">
-            {word.word}
-         </div>
-      {:else}
-         <QSimple {word} {OnWin}/>
-      {/if}
-
-   </div>
+   <a class="flex-1" href="/">
+      <button class="btn btn-ghost btn-sm text-base-content/50">
+         {$_.home._}
+      </button>
+   </a>
 
    <div class="grow">
-
+      <ProgressWithLabel index={i} length={words.length}/>
    </div>
 
-   <div class="w-full p-2">
-      {#if showAnswer}
-         {#if hasNext}
-            <button onclick={Next} class="btn btn-xl w-full h-24">
-               {$_.test.next}
-            </button>
-         {:else}
-            <button onclick={Finish} class="btn btn-xl w-full h-24">
-               {$_.test.finish}
-            </button>
-         {/if}
-      {:else}
-         <button onclick={ShowAnswer} class="btn btn-xl w-full h-24">
-            {$_.test.show_answer}
-         </button>
-      {/if}
+   <div class="flex-1"></div>
+
+</nav>
+
+<main class="mx-2">
+
+   <div class="text-3xl text-center">
+      {word.meaning}
    </div>
+
+   <div class="h-4"></div>
+
+   {#if showAnswer}
+      <div lang={LangFromWord(word)} class="text-3xl text-center">
+         {word.word}
+      </div>
+   {:else if word.type === Card.Simple}
+      <QSimple {word} {OnWin}/>
+   {:else if word.type === Card.Mandarin}
+      <QPinyin {word} {OnWin}/>
+   {/if}
+
+</main>
+
+<div class="grow">
 
 </div>
+
+<div class="w-full p-2">
+   {#if showAnswer}
+      {#if hasNext}
+         <button onclick={Next} class="btn btn-xl w-full h-24">
+            {$_.test.next}
+         </button>
+      {:else}
+         <button onclick={Finish} class="btn btn-xl w-full h-24">
+            {$_.test.finish}
+         </button>
+      {/if}
+   {:else}
+      <button onclick={ShowAnswer} class="btn btn-xl w-full h-24">
+         {$_.test.show_answer}
+      </button>
+   {/if}
+</div>
+

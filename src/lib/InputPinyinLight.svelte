@@ -56,14 +56,14 @@
     }
 </script>
 
-<label class="floating-label">
+<label class="w-full floating-label">
    <span>{placeholder}</span>
    <input
       autocapitalize="off"
       autocomplete="off"
       autocorrect="off"
       bind:value={rawValue}
-      class="input text-lg"
+      class="input text-lg w-full"
       class:input-error={error}
       {onchange}
       {onfocusin}

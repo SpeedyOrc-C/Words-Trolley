@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Words} from "$lib"
+    import {LangFromWord, type Words} from "$lib"
     import {_} from "$lib/i18n"
     import ProgressAtBottom from "$lib/ProgressWithLabel.svelte"
 
@@ -89,28 +89,34 @@
 
    <main class="grow flex items-center justify-around px-4 text-3xl md:text-5xl lg:text-7xl">
       <!-- Select the whole text with a single click -->
-      <div class="select-all">
-         {flipped ? word.meaning : word.word}
-      </div>
+      {#if flipped}
+         <div class="select-all">
+            {word.meaning}
+         </div>
+      {:else}
+         <div class="select-all" lang={LangFromWord(word)}>
+            {word.word}
+         </div>
+      {/if}
    </main>
 
    <ProgressAtBottom index={i} length={words.length}/>
 
-   <div id="control" class="w-full flex flex-col p-2 gap-2">
+   <div class="w-full flex flex-col p-2 gap-2" id="control">
 
       <div class="flex justify-between gap-2">
 
-         <button onclick={Previous} class="btn btn-xl h-24 flex-1">
+         <button class="btn btn-xl h-24 flex-1" onclick={Previous}>
             上一个
          </button>
 
-         <button onclick={Next} class="btn btn-xl h-24 flex-1">
+         <button class="btn btn-xl h-24 flex-1" onclick={Next}>
             下一个
          </button>
 
       </div>
 
-      <button onclick={Flip} class="btn btn-xl h-24">
+      <button class="btn btn-xl h-24" onclick={Flip}>
          翻面
       </button>
 

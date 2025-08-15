@@ -1,3 +1,9 @@
+export enum Category
+{
+    Word = "word",
+    Verb = "verb",
+}
+
 export enum Mora
 {
     A = "あ", I = "い", U = "う", E = "え", O = "お",

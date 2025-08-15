@@ -60,19 +60,20 @@ const ZhCn: I18nTemplate = {
         move_down: "下移",
         card_type_select_label: i => `第 ${i} 个卡片的类型`
     },
-    CardType: {
+    Card: {
         Simple: "正常",
         Mandarin: "普通话",
         Japanese: "日语",
-        JapaneseVerb: "日语动词",
-        FrenchNoun: "法语名词",
-        GermanNoun: "德语名词",
+        French: "法语",
+        German: "德语",
     },
     linguistics: {
+        noun: "名词",
         gender: "阴阳性",
         masculine: "阳性",
         feminine: "阴性",
         neutral: "中性",
+        verb: "动词",
         verb_group: "动词组",
         pinyin: "拼音",
         abbr: {
@@ -80,7 +81,13 @@ const ZhCn: I18nTemplate = {
             feminine: "阴",
             neutral: "中",
         },
-    }
+    },
+    mandarin: {
+        region: {
+            prc: "中华人民共和国",
+            roc: "中华民国",
+        },
+    },
 }
 
 export default ZhCn

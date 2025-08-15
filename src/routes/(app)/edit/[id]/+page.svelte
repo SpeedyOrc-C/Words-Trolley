@@ -1,18 +1,18 @@
 <script lang="ts">
-    import {blankWordSimple, CardType, type Words} from "$lib"
+    import {blankWordSimple, Card, LangFromWord, type Words} from "$lib"
     import type {Json} from "$lib/database.types"
     import {goto} from "$app/navigation"
     import {_} from "$lib/i18n"
     import {French, German, Japanese} from "$lib/word"
-    import {VerbTypeFromRecursiveForm} from "$lib/word/japanese";
-    import InputPinyinLight from "$lib/InputPinyinLight.svelte";
-    import SelectWordType from "./SelectWordType.svelte"
+    import {VerbTypeFromRecursiveForm} from "$lib/word/japanese"
+    import InputPinyinLight from "$lib/InputPinyinLight.svelte"
+    import SelectCard from "./SelectCard.svelte"
 
     const {data} = $props()
     const {db} = $derived(data)
     let {name, id} = $derived(data.set)
 
-    let words = $state(data.set.words as Words)
+    let words = $state((ws => ws ? ws : [structuredClone(blankWordSimple)])(data.set.words as Words))
     let saved = $state(true)
     let saving = $state(false)
     let deleting = $state(false)
@@ -20,9 +20,6 @@
     let renaming = $state(false)
     let dragIndex = $state<number | null>(null)
     let dropIndex = $state<number | null>(null)
-
-    if (words.length == 0)
-        words.push(structuredClone(blankWordSimple))
 
     async function Save()
     {
@@ -184,24 +181,20 @@
 
         switch (word.type)
         {
-        case CardType.Simple:
-            break
-        case CardType.Mandarin:
-            break
-        case CardType.FrenchNoun:
-            break
-        case CardType.GermanNoun:
-            break
-        case CardType.Japanese:
-            break
-        case CardType.JapaneseVerb:
+        case Card.Japanese:
         {
-            const guessedType = VerbTypeFromRecursiveForm(word.word)
+            switch (word.category)
+            {
+            case Japanese.Category.Verb:
+            {
+                const guessedType = VerbTypeFromRecursiveForm(word.word)
 
-            if (guessedType != null)
-                word.verb_type = guessedType
+                if (guessedType != null)
+                    word.verb_type = guessedType
 
-            break
+                break
+            }
+            }
         }
         }
     }
@@ -310,23 +303,23 @@
 
 </nav>
 
-<header class="m-auto flex items-center gap-4">
-   <button class="btn" disabled={renaming} onclick={Rename}>
-      {#if renaming}
-         <span class="loading loading-spinner"></span>
-         {$_.editor.renaming}
-      {:else}
-         {$_.editor.rename}
-      {/if}
-   </button>
-   <h1 class="text-xl font-bold text-center" class:opacity-50={renaming}>
-      {name}
-   </h1>
-</header>
-
 <main class="grow overflow-auto">
 
-   <div class="w-full max-w-xl mx-auto p-2 flex flex-col gap-8">
+   <header class="mx-auto my-8 w-fit flex items-center gap-4">
+      <button class="btn" disabled={renaming} onclick={Rename}>
+         {#if renaming}
+            <span class="loading loading-spinner"></span>
+            {$_.editor.renaming}
+         {:else}
+            {$_.editor.rename}
+         {/if}
+      </button>
+      <h1 class="text-xl font-bold text-center" class:opacity-50={renaming}>
+         {name}
+      </h1>
+   </header>
+
+   <div class="w-full max-w-xl mx-auto p-2 flex flex-col gap-12">
 
       {#each words as word, i}
 
@@ -351,7 +344,8 @@
                   onfocusout={() => typing = false}
                   onchange={e => OnWordChange(e, i)}
                   placeholder={$_.editor.word}
-                  class="input w-full text-lg"
+                  lang={LangFromWord(word)}
+                  class="input input-primary w-full text-lg"
                >
             </label>
 
@@ -367,31 +361,13 @@
                >
             </label>
 
-            <div class="w-full flex gap-2">
-
-               <SelectWordType bind:saved {word} {i} onchange={w => words[i] = w} />
-
-               <button class="btn" onclick={() => InsertNewWord(i)}>
-                  {$_.insert}
-               </button>
-
-               <button onclick={() => MoveUp(i)} class="btn" disabled={i === 0}>
-                  {$_.editor.move_up}
-               </button>
-
-               <button onclick={() => MoveDown(i)} class="btn" disabled={i === words.length - 1}>
-                  {$_.editor.move_down}
-               </button>
-
-               <button class="btn btn-dash btn-error" onclick={() => DeleteWord(i)}>
-                  {$_.delete}
-               </button>
-
+            <div class="w-full">
+               <SelectCard bind:saved bind:word={words[i]} {i} onchange={w => words[i] = w}/>
             </div>
 
-            <fieldset class="w-full">
+            {#if word.type === Card.French && word.category === French.Category.Noun}
 
-               {#if word.type === CardType.FrenchNoun}
+               <fieldset class="w-full">
 
                   <legend>{$_.linguistics.gender}</legend>
 
@@ -412,7 +388,11 @@
                      </div>
                   </div>
 
-               {:else if word.type === CardType.GermanNoun}
+               </fieldset>
+
+            {:else if word.type === Card.German && word.category === German.Category.Noun}
+
+               <fieldset class="w-full">
 
                   <legend>{$_.linguistics.gender}</legend>
 
@@ -440,7 +420,11 @@
                      </div>
                   </div>
 
-               {:else if word.type === CardType.JapaneseVerb}
+               </fieldset>
+
+            {:else if word.type === Card.Japanese && word.category === Japanese.Category.Verb}
+
+               <fieldset class="w-full">
 
                   <legend>{$_.linguistics.verb_group}</legend>
 
@@ -471,17 +455,38 @@
                      </div>
                   </div>
 
-               {:else if word.type === CardType.Mandarin}
+               </fieldset>
 
-                  <InputPinyinLight
-                     bind:value={word.syllables}
-                     onchange={() => saved = false}
-                     placeholder={$_.linguistics.pinyin}
-                  />
+            {:else if word.type === Card.Mandarin}
 
-               {/if}
+               <InputPinyinLight
+                  bind:value={word.syllables}
+                  onchange={() => saved = false}
+                  placeholder={$_.linguistics.pinyin}
+               />
 
-            </fieldset>
+            {/if}
+
+
+            <div class="w-full flex gap-2">
+
+               <button onclick={() => InsertNewWord(i)} class="btn flex-1">
+                  {$_.insert}
+               </button>
+
+               <button onclick={() => MoveUp(i)} class="btn flex-1" disabled={i === 0}>
+                  {$_.editor.move_up}
+               </button>
+
+               <button onclick={() => MoveDown(i)} class="btn flex-1" disabled={i === words.length - 1}>
+                  {$_.editor.move_down}
+               </button>
+
+               <button onclick={() => DeleteWord(i)} class="btn btn-dash btn-error flex-1">
+                  {$_.delete}
+               </button>
+
+            </div>
 
          </article>
 

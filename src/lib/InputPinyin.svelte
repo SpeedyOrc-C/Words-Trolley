@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as Mandarin from "$lib/word/mandarin"
     import {onMount} from "svelte"
-    import {type MandarinInputOverrider, PinyinOverrider} from "$lib/MandarinInputOverrider"
+    import {pinyinSingleSyllableOverrider as overrider} from "$lib/MandarinInputOverrider"
     import {writable, type Writable} from "svelte/store"
     import {Tone} from "$lib/word/mandarin"
 
@@ -9,14 +9,17 @@
         value = $bindable([]),
         length = null,
         toneWriter = writable(undefined),
+        onfocusin = () => {},
+        onfocusout = () => {},
     }: {
-        value: Array<Mandarin.Syllable>,
-        length: number | null,
-        toneWriter: Writable<{ tone: Tone } | undefined>,
+        value: Array<Mandarin.Syllable>
+        length: number | null
+        toneWriter: Writable<{ tone: Tone } | undefined>
+        onfocusin: () => any
+        onfocusout: () => any
     } = $props()
 
     const elements: Array<HTMLElement | HTMLInputElement> = []
-    const inputOverrider: MandarinInputOverrider = new PinyinOverrider()
 
     let syllables: Array<Mandarin.Syllable | null> = $state(new Array(length ?? 0).fill(null))
     let focusedBufferIndex: number | null = null
@@ -63,7 +66,7 @@
 
     function ConfirmSyllable(i: number, raw: string)
     {
-        const syllable = inputOverrider.Parse(raw)
+        const syllable = overrider.Parse(raw)
 
         if (syllable == null)
             return
@@ -200,12 +203,12 @@
             return
         }
 
-        inputOverrider.OnKeyDown(e)
+        overrider.OnKeyDown(e)
     }
 
     function OnBufferKeyUp(i: number, e: KeyboardEvent & { currentTarget: HTMLInputElement })
     {
-        const shouldConfirm = inputOverrider.OnKeyUp(e)
+        const shouldConfirm = overrider.OnKeyUp(e)
 
         if (shouldConfirm)
             ConfirmSyllable(i, e.currentTarget.value)
@@ -228,38 +231,43 @@
 </script>
 
 <div class="flex flex-wrap text-3xl gap-3 items-center"
+     onkeyup={OnInputKeyUp}
      role="textbox"
      tabindex="0"
-     onkeyup={OnInputKeyUp}
+     {onfocusin}
+     {onfocusout}
 >
 
    {#each syllables as buffer, i (i)}
 
       {#if buffer != null}
 
-         <div class="syllable"
-              tabindex="0"
-              role="textbox"
-              onkeydown={e => OnSyllableKeyDown(i, e)}
-              onkeyup={e => OnSyllableKeyUp(i, e)}
-              ondblclick={e => OnSyllableDoubleClick(i, e)}
-              onfocusin={e => OnElementFocusIn(i, e)}
-              use:AttachSyllable={i}
+         <div
+            class="syllable"
+            tabindex="0"
+            role="textbox"
+            onkeydown={e => OnSyllableKeyDown(i, e)}
+            onkeyup={e => OnSyllableKeyUp(i, e)}
+            ondblclick={e => OnSyllableDoubleClick(i, e)}
+            onfocusin={e => OnElementFocusIn(i, e)}
+            use:AttachSyllable={i}
          >
             {buffer.Pinyin}
          </div>
 
       {:else}
 
-         <input type="text" required maxlength="7"
-                class="input input-lg w-12 valid:w-30 px-0 text-3xl text-center"
-                autocorrect="off"
-                autocomplete="off"
-                autocapitalize="off"
-                onkeydown={e => OnBufferKeyDown(i, e)}
-                onkeyup={e => OnBufferKeyUp(i, e)}
-                onfocusin={e => OnElementFocusIn(i, e)}
-                use:AttachBuffer={i}
+         <input
+            type="text" required maxlength="7"
+            class="input input-lg w-12 valid:w-30 px-0 text-3xl text-center"
+            autofocus={i === 0}
+            autocorrect="off"
+            autocomplete="off"
+            autocapitalize="off"
+            onkeydown={e => OnBufferKeyDown(i, e)}
+            onkeyup={e => OnBufferKeyUp(i, e)}
+            onfocusin={e => OnElementFocusIn(i, e)}
+            use:AttachBuffer={i}
          />
 
       {/if}

@@ -60,19 +60,20 @@ const EnGb: I18nTemplate = {
         move_down: "Move down",
         card_type_select_label: i => `Type for card number ${i}`
     },
-    CardType: {
+    Card: {
         Simple: "Simple",
         Mandarin: "Mandarin",
         Japanese: "Japanese",
-        JapaneseVerb: "Japanese Verb",
-        FrenchNoun: "French Noun",
-        GermanNoun: "German Noun",
+        French: "French",
+        German: "German",
     },
     linguistics: {
+        noun: "Noun",
         gender: "Gender",
         masculine: "Masculine",
         feminine: "Feminine",
         neutral: "Neutral",
+        verb: "Verb",
         verb_group: "Verb group",
         pinyin: "Pinyin",
         abbr: {
@@ -80,6 +81,12 @@ const EnGb: I18nTemplate = {
             feminine: "f.",
             neutral: "n.",
         },
+    },
+    mandarin: {
+        region: {
+            prc: "China, People's Republic of",
+            roc: "China, Republic of",
+        }
     }
 }
 

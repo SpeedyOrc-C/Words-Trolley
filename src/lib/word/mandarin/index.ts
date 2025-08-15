@@ -1,5 +1,11 @@
 import {Nothing} from "crazy-parser"
 
+export enum Region
+{
+    PRC = "prc",
+    ROC = "roc",
+}
+
 export enum Initial
 {
     B = "b", P = "p", M = "m", F = "f",
@@ -50,7 +56,7 @@ export class Syllable implements ISyllable
         return `${this.Initial}-${this.Final}-${this.Tone}`
     }
 
-    Equal<const S extends Syllable>(other: S): boolean
+    Equal(other: ISyllable): boolean
     {
         return (
             this.Initial == other.Initial &&
@@ -800,7 +806,7 @@ export function IsAlveoloPalatal(i: Initial | typeof Nothing)
     }
 }
 
-export function SyllablesEqual(ss1: Array<Syllable>, ss2: Array<Syllable>): boolean
+export function SyllablesEqual(ss1: Array<Syllable>, ss2: Array<ISyllable>): boolean
 {
     if (ss1.length != ss2.length)
         return false

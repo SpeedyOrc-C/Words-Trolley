@@ -60,25 +60,32 @@ export type I18nTemplate = {
         move_down: s
         card_type_select_label: (i: number) => s
     }
-    CardType: {
+    Card: {
         Simple: s
         Mandarin: s
         Japanese: s
-        JapaneseVerb: s
-        FrenchNoun: s
-        GermanNoun: s
+        French: s
+        German: s
     }
     linguistics: {
+        noun: s
         gender: s
         masculine: s
         feminine: s
         neutral: s
+        verb: s
         verb_group: s
         pinyin: s
         abbr: {
             masculine: s
             feminine: s
             neutral: s
+        }
+    }
+    mandarin: {
+        region: {
+            prc: s
+            roc: s
         }
     }
 }

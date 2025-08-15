@@ -1,32 +1,25 @@
 <script lang="ts">
-    import {Final, Initial, Syllable, SyllablesEqual, Tone} from "$lib/word/mandarin"
-    import {onMount} from "svelte";
-    import InputPinyin from "$lib/InputPinyin.svelte";
-    import {type Writable, writable} from "svelte/store";
-    import {clearInterval} from "node:timers";
+    import {Syllable, SyllablesEqual, Tone} from "$lib/word/mandarin"
+    import {onMount} from "svelte"
+    import InputPinyin from "$lib/InputPinyin.svelte"
+    import {type Writable, writable} from "svelte/store"
+    import type {MandarinWord, Word} from "$lib/index"
 
-    const data = {
-        Source: "the quick brown fox",
-        Target: "敏捷的棕狐",
-        TargetAuxiliary: [
-            new Syllable(Initial.M, Final.In, 3),
-            new Syllable(Initial.J, Final.Ie, 2),
-            new Syllable(Initial.D, Final.E, 0),
-            new Syllable(Initial.Z, Final.Ong, 1),
-            new Syllable(Initial.H, Final.U, 2),
-        ]
-    }
+    const {word, OnWin}: { word: Word & MandarinWord, OnWin: () => any } = $props()
 
     const toneWriter: Writable<{ tone: Tone } | undefined> = writable(undefined)
 
     let visualViewportHeight = $state(0)
-    let response: Array<Syllable> = $state([])
-    let showAnswer: boolean = $state(false)
+    let value: Array<Syllable> = $state([])
+    let showToneInput = $state(false)
 
     onMount(() =>
     {
         const setHeightInterval = setInterval(() =>
         {
+            if (! showToneInput)
+                return
+
             const vvp = window.visualViewport
 
             if (vvp == null)
@@ -43,73 +36,73 @@
 
     $effect(() =>
     {
-        if (! showAnswer && SyllablesEqual(response, data.TargetAuxiliary))
-            showAnswer = true
+        if (SyllablesEqual(value, word.syllables))
+            OnWin()
     })
 </script>
 
-<h1 class="my-4 text-2xl font-light text-center">
-   {data.Source}
-</h1>
+<div class="w-fit m-auto">
+   <InputPinyin
+      bind:value
+      length={word.syllables.length}
+      onfocusin={() => showToneInput = true}
+      onfocusout={() => showToneInput = false}
+      {toneWriter}
+   />
+</div>
 
-{#if showAnswer}
-   <div class="w-fit mx-auto my-4 border-2 border-green-500/70 p-2 text-6xl font-light text-center rounded-xl"
-        lang="zh_CN">
-      {#each data.Target as c, i (c)}
-         <ruby>
-            {c}
-            <rt>{data.TargetAuxiliary[i].Pinyin}</rt>
-         </ruby>
-      {/each}
-   </div>
-{:else}
-   <div class="w-fit m-auto">
-      <InputPinyin bind:value={response} length={data.TargetAuxiliary.length} {toneWriter}/>
-   </div>
+<!--<div class="tone-buttons fixed w-full join"-->
+<!--     class:hidden={!showToneInput}-->
+<!--     style:top="{visualViewportHeight}px"-->
+<!--     style:transform="translateY(-100%)"-->
+<!--&gt;-->
 
-   <div class="fixed w-full join"
-        style:top="{visualViewportHeight}px"
-        style:transform="translateY(-100%)"
-   >
-      <button title="Add 1st tone's mark"
-              onclick={() => toneWriter.set({tone: 1})}
-              class="aux-btn" tabindex="0"
-      >
-         <span>1</span>
-         <span>¯</span>
-      </button>
+<!--   <button class="aux-btn"-->
+<!--           onclick={() => toneWriter.set({tone: 1})}-->
+<!--           tabindex="0" title="Add 1st tone's mark"-->
+<!--   >-->
+<!--      <span>1</span>-->
+<!--      <span>¯</span>-->
+<!--   </button>-->
 
-      <button title="Add 2nd tone's mark"
-              onclick={() => toneWriter.set({tone: 2})}
-              class="aux-btn" tabindex="0"
-      >
-         <span>2</span>
-         <span>´</span>
-      </button>
+<!--   <button class="aux-btn"-->
+<!--           onclick={() => toneWriter.set({tone: 2})}-->
+<!--           tabindex="0" title="Add 2nd tone's mark"-->
+<!--   >-->
+<!--      <span>2</span>-->
+<!--      <span>´</span>-->
+<!--   </button>-->
 
-      <button title="Add 3rd tone's mark"
-              onclick={() => toneWriter.set({tone: 3})}
-              class="aux-btn" tabindex="0"
-      >
-         <span>3</span>
-         <span>ˇ</span>
-      </button>
+<!--   <button class="aux-btn"-->
+<!--           onclick={() => toneWriter.set({tone: 3})}-->
+<!--           tabindex="0" title="Add 3rd tone's mark"-->
+<!--   >-->
+<!--      <span>3</span>-->
+<!--      <span>ˇ</span>-->
+<!--   </button>-->
 
-      <button title="Add 4th tone's mark"
-              onclick={() => toneWriter.set({tone: 4})}
-              class="aux-btn" tabindex="0"
-      >
-         <span>4</span>
-         <span>`</span>
-      </button>
+<!--   <button class="aux-btn"-->
+<!--           onclick={() => toneWriter.set({tone: 4})}-->
+<!--           tabindex="0" title="Add 4th tone's mark"-->
+<!--   >-->
+<!--      <span>4</span>-->
+<!--      <span>`</span>-->
+<!--   </button>-->
 
-   </div>
-{/if}
+<!--</div>-->
 
 <style>
     @import "tailwindcss";
 
     @plugin "daisyui";
+
+    .tone-buttons {
+        @media (hover: hover) and (any-pointer: fine) {
+            & {
+                display: none;
+            }
+        }
+    }
 
     .aux-btn {
         @apply join-item btn btn-xl border-b-0 grow cursor-pointer px-0 inline-flex justify-evenly;
@@ -120,12 +113,6 @@
 
         &:last-child {
             @apply rounded-tr-3xl;
-        }
-
-        @media (hover: hover) and (any-pointer: fine) {
-            & {
-                display: none;
-            }
         }
     }
 

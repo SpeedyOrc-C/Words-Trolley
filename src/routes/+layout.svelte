@@ -1,25 +1,13 @@
 <script lang="ts">
     import "../app.css"
-    import {invalidate} from '$app/navigation'
-    import {onMount} from 'svelte'
+    import {onMount} from "svelte"
     import {AutoDetectLanguage, language} from "$lib/i18n"
 
-    const {data, children} = $props()
-    const {session, db} = $derived(data)
+    const {children} = $props()
 
     onMount(() =>
     {
-        const u1 = language.subscribe(lang => document.documentElement.lang = lang)
-
-        const {data: {subscription: {unsubscribe: u2}}} = db.auth.onAuthStateChange((_, newSession) =>
-        {
-            if (newSession?.expires_at !== session?.expires_at)
-            {
-                invalidate('supabase:auth')
-            }
-        })
-
-        return [u1, u2].forEach(f => f())
+        return language.subscribe(lang => document.documentElement.lang = lang)
     })
 </script>
 

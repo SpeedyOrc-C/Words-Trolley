@@ -6,6 +6,12 @@ import type {Database} from "$lib/database.types"
 
 const supabase: Handle = async ({event, resolve}) =>
 {
+    if (event.url.pathname.startsWith("/offline"))
+    {
+        event.locals.safeGetSession = async () => ({user: null, session: null})
+        return resolve(event)
+    }
+
     /**
      * Creates a Supabase client specific to this server request.
      *

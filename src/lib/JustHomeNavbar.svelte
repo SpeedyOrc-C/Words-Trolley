@@ -1,5 +1,5 @@
 <script>
-    import {_} from "./i18n/index.ts"
+    import {_} from "$lib/i18n"
 </script>
 
 <nav class="shadow-base-300 shadow-md flex p-2 items-center">

@@ -2,9 +2,7 @@ import {Final, type Syllable} from "$lib/word/mandarin"
 import {pPinyinWithToneNumber} from "$lib/word/mandarin/parser/pinyin-with-tone-number"
 import {pBopomofo} from "$lib/word/mandarin/parser/bopomofo"
 
-
 export type ShouldConfirm = boolean
-
 
 export interface MandarinInputOverrider
 {
@@ -15,8 +13,13 @@ export interface MandarinInputOverrider
     OnKeyUp(e: KeyboardEvent & { currentTarget: HTMLInputElement }): ShouldConfirm
 }
 
-class PinyinSingleSyllableOverrider implements MandarinInputOverrider
+class PinyinOverrider implements MandarinInputOverrider
 {
+    constructor(
+        public readonly IsSingle: boolean = false
+    )
+    {}
+
     Parse(raw: string): Syllable | null
     {
         const s = pPinyinWithToneNumber.eval(raw)
@@ -32,19 +35,26 @@ class PinyinSingleSyllableOverrider implements MandarinInputOverrider
 
     OnKeyDown(e: KeyboardEvent & { currentTarget: HTMLInputElement }): void
     {
-        const {key, currentTarget} = e
+        const {key, currentTarget: t} = e
 
         if (key == "v" || key == "V")
         {
             e.preventDefault()
-            InsertChar(currentTarget, "ü")
+            InsertChar(t, "ü")
+            return
+        }
+
+        if (key == "E")
+        {
+            e.preventDefault()
+            InsertChar(t, "ê")
             return
         }
 
         if (key.length == 1 && "A" <= key && key <= "Z")
         {
             e.preventDefault()
-            InsertChar(currentTarget, key.toLowerCase())
+            InsertChar(t, key.toLowerCase())
             return
         }
     }
@@ -53,102 +63,10 @@ class PinyinSingleSyllableOverrider implements MandarinInputOverrider
     {
         const {currentTarget: t} = e
 
-        const oldStart = t.selectionStart
-        const oldEnd = t.selectionEnd
-
-        if (t.value.includes("v"))
-        {
-            t.value = t.value.replaceAll("v", "ü")
-
-            if (oldStart != null)
-                t.selectionStart = oldStart
-
-            if (oldEnd != null)
-                t.selectionEnd = oldEnd
-        }
-
-        if (t.value.includes("E"))
-        {
-            t.value = t.value.replaceAll("E", "ê")
-
-            if (oldStart != null)
-                t.selectionStart = oldStart
-
-            if (oldEnd != null)
-                t.selectionEnd = oldEnd
-        }
-
-        if (t.value.endsWith(" "))
+        if (this.IsSingle && t.value.endsWith(" "))
             t.value = t.value.slice(0, t.value.length - 1) + "0"
 
-        return /[0-4]$/.test(t.value);
-    }
-}
-
-class PinyinSyllablesOverrider implements MandarinInputOverrider
-{
-    Parse(raw: string): Syllable | null
-    {
-        const s = pPinyinWithToneNumber.eval(raw)
-
-        if (s instanceof Error)
-            return null
-
-        if (s.Final == Final.E2 && s.Tone != 2 && s.Tone != 4)
-            return null
-
-        return s
-    }
-
-    OnKeyDown(e: KeyboardEvent & { currentTarget: HTMLInputElement }): void
-    {
-        const {key, currentTarget} = e
-
-        if (key == "v" || key == "V")
-        {
-            e.preventDefault()
-            InsertChar(currentTarget, "ü")
-            return
-        }
-
-        if (key.length == 1 && "A" <= key && key <= "Z")
-        {
-            e.preventDefault()
-            InsertChar(currentTarget, key.toLowerCase())
-            return
-        }
-    }
-
-    OnKeyUp(e: KeyboardEvent & { currentTarget: HTMLInputElement }): ShouldConfirm
-    {
-        const {currentTarget: t} = e
-
-        const oldStart = t.selectionStart
-        const oldEnd = t.selectionEnd
-
-        if (t.value.includes("v"))
-        {
-            t.value = t.value.replaceAll("v", "ü")
-
-            if (oldStart != null)
-                t.selectionStart = oldStart
-
-            if (oldEnd != null)
-                t.selectionEnd = oldEnd
-        }
-
-        if (t.value.includes("E"))
-        {
-            t.value = t.value.replaceAll("E", "ê")
-
-            if (oldStart != null)
-                t.selectionStart = oldStart
-
-            if (oldEnd != null)
-                t.selectionEnd = oldEnd
-        }
-
-        return false;
+        return /[0-4]$/.test(t.value)
     }
 }
 
@@ -198,6 +116,9 @@ class BopomofoOverrider implements MandarinInputOverrider
         ["Minus", "ㄦ"],
     ]
 
+    constructor(public readonly IsSingle: boolean = false)
+    {}
+
     Parse(raw: string): Syllable | null
     {
         const s = pBopomofo.eval(raw)
@@ -235,7 +156,7 @@ class BopomofoOverrider implements MandarinInputOverrider
         if (/[ˇˋˊ˙]$/.test(t.value))
             return true
 
-        if (t.value.endsWith(" "))
+        if (this.IsSingle && t.value.endsWith(" "))
         {
             t.value = t.value.slice(0, t.value.length - 1)
             return true
@@ -253,12 +174,13 @@ function InsertChar(t: HTMLInputElement, c: string)
     if (oldStart == null || oldEnd == null)
         return
 
-    t.value = t.value.slice(0, oldStart) + c + t.value.slice(oldEnd)
+    const newValue = t.value.slice(0, oldStart) + c + t.value.slice(oldEnd)
 
-    t.selectionStart = oldStart + 1
-    t.selectionEnd = oldStart + 1
+    t.value = newValue
+    t.setSelectionRange(oldStart + 1, oldStart + 1)
+    t.dispatchEvent(new InputEvent("change", {bubbles: true}))
 }
 
-export const pinyinSingleSyllableOverrider = new PinyinSingleSyllableOverrider()
-export const pinyinSyllablesOverrider = new PinyinSyllablesOverrider()
+export const pinyinSingleSyllableOverrider = new PinyinOverrider(true)
+export const pinyinSyllablesOverrider = new PinyinOverrider(false)
 export const bopomofoOverrider = new BopomofoOverrider()

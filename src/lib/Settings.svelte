@@ -31,7 +31,7 @@
 
 <dialog
    bind:this={dialog}
-   class="m-auto p-4 w-full max-w-xl rounded-xl shadow-xl backdrop:backdrop-blur-xs"
+   class="m-auto p-4 w-full max-w-xl rounded-xl shadow-xl backdrop:backdrop-blur-xs backdrop:backdrop-brightness-50 select-none"
    onclose={() => open = false}
 >
    <div class="flex items-center justify-between gap-4">

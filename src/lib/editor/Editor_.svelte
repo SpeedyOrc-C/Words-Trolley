@@ -10,6 +10,8 @@
     import type {EditorProps} from "$lib/editor/Editor.svelte"
     import Settings from "$lib/Settings.svelte"
     import EditorNav from "$lib/editor/EditorNav.svelte"
+    import {MandarinScript, mandarinScript} from "$lib/Settings"
+    import InputBopomofoLight from "$lib/InputBopomofoLight.svelte"
 
     const data: EditorProps = $props()
 
@@ -267,6 +269,14 @@
         {
             e.preventDefault()
             await Save()
+            return
+        }
+
+        if ((e.ctrlKey || e.metaKey) && e.code == "Comma")
+        {
+            e.preventDefault()
+            settingsOpened = ! settingsOpened
+            return
         }
     }
 </script>
@@ -451,11 +461,23 @@
 
             {:else if word.type === Card.Mandarin}
 
-               <InputPinyinLight
-                  bind:value={word.syllables}
-                  onchange={() => saved = false}
-                  placeholder={$_.linguistics.pinyin}
-               />
+               {#if $mandarinScript === MandarinScript.Pinyin}
+
+                  <InputPinyinLight
+                     bind:value={word.syllables}
+                     onchange={() => saved = false}
+                     placeholder={$_.linguistics.pinyin}
+                  />
+
+               {:else if $mandarinScript === MandarinScript.Bopomofo}
+
+                  <InputBopomofoLight
+                     bind:value={word.syllables}
+                     onchange={() => saved = false}
+                     placeholder={$_.linguistics.bopomofo}
+                  />
+
+               {/if}
 
             {/if}
 

@@ -9,7 +9,7 @@
     }: EditorNavProps = $props()
 </script>
 
-<aside class="shadow-base-300 shadow-md z-10 select-none">
+<nav class="shadow-base-300 shadow-md z-10 select-none">
 
    <ul class="menu menu-horizontal">
 
@@ -45,13 +45,13 @@
                   </button>
                </li>
 
-               <li>
-                  {#if online}
+               {#if online}
+                  <li>
                      <button class="btn btn-ghost" onclick={Export}>
                         {$_.editor.export}
                      </button>
-                  {/if}
-               </li>
+                  </li>
+               {/if}
 
                <li></li>
                <li>
@@ -63,7 +63,7 @@
                {#if online}
                   <li></li>
                   <li>
-                     <button class="btn btn-soft btn-error" disabled={deleting} onclick={Delete}>
+                     <button class="btn btn-dash btn-error" disabled={deleting} onclick={Delete}>
                         {#if deleting}
                            <span class="loading loading-spinner"></span>
                            {$_.editor.deleting}
@@ -80,7 +80,7 @@
 
    </ul>
 
-</aside>
+</nav>
 
 <style>
 </style>

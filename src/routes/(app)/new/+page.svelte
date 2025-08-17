@@ -15,7 +15,7 @@
       <label class="floating-label">
          <span>{$_.name}</span>
          <input name="name" type="text" required
-                placeholder={$_.name} class="input w-full"/>
+                placeholder={$_.name} class="input input-lg w-full"/>
       </label>
 
       <button type="submit" class="btn btn-primary">

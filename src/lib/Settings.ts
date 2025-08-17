@@ -19,3 +19,5 @@ export const settings = writable({
     Language: null,
     MandarinScript: MandarinScript.Pinyin
 } as ISettings)
+
+export const mandarinScript = writable(MandarinScript.Pinyin)

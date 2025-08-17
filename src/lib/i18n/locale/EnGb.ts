@@ -13,6 +13,14 @@ const EnGb: I18nTemplate = {
     edit: "Edit",
     delete: "Delete",
     insert: "Insert",
+    close: "Close",
+    more: "More",
+    settings: {
+        _: "Settings",
+        follows_your_system: "Follows your system",
+        ui_language: "UI Language",
+        mandarin_script: "Mandarin Script",
+    },
     home: {
         _: "Home",
         welcome_to_words_trolley: "Welcome to Words Trolley",
@@ -76,6 +84,7 @@ const EnGb: I18nTemplate = {
         verb: "Verb",
         verb_group: "Verb group",
         pinyin: "Pinyin",
+        bopomofo: "Bopomofo",
         abbr: {
             masculine: "m.",
             feminine: "f.",

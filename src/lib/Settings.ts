@@ -15,9 +15,7 @@ export interface ISettings
     MandarinScript: MandarinScript
 }
 
-const defaultSettings: ISettings = {
+export const settings = writable({
     Language: null,
-    MandarinScript: MandarinScript.Pinyin,
-}
-
-export const settings = writable(structuredClone(defaultSettings))
+    MandarinScript: MandarinScript.Pinyin
+} as ISettings)

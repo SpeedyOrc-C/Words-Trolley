@@ -13,6 +13,14 @@ const ZhCn: I18nTemplate = {
     edit: "编辑",
     delete: "删除",
     insert: "插入",
+    close: "关闭",
+    more: "更多",
+    settings: {
+        _: "设置",
+        follows_your_system: "跟随系统",
+        ui_language: "界面语言",
+        mandarin_script: "普通话拼读文字",
+    },
     home: {
         _: "主页",
         welcome_to_words_trolley: "欢迎来到 Words Trolley",
@@ -76,6 +84,7 @@ const ZhCn: I18nTemplate = {
         verb: "动词",
         verb_group: "动词组",
         pinyin: "拼音",
+        bopomofo: "注音符号",
         abbr: {
             masculine: "阳",
             feminine: "阴",

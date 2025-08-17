@@ -8,6 +8,8 @@
     import InputPinyinLight from "$lib/InputPinyinLight.svelte"
     import SelectCard from "$lib/editor/SelectCard.svelte"
     import type {EditorProps} from "$lib/editor/Editor.svelte"
+    import Settings from "$lib/Settings.svelte"
+    import EditorNav from "$lib/editor/EditorNav.svelte"
 
     const data: EditorProps = $props()
 
@@ -20,6 +22,7 @@
     let renaming = $state(false)
     let dragIndex = $state<number | null>(null)
     let dropIndex = $state<number | null>(null)
+    let settingsOpened = $state(false)
 
     async function Save()
     {
@@ -276,55 +279,21 @@
    </title>
 </svelte:head>
 
-<nav class="shadow-base-300 shadow-md flex p-2 items-center justify-between">
+<Settings bind:open={settingsOpened}/>
 
-   <div class="flex">
-      <a href="/" title={$_.home._}>
-         <button class="btn btn-ghost">
-            {$_.home._}
-         </button>
-      </a>
+<EditorNav
+   {Delete}
+   {Export}
+   {Import}
+   {Save}
+   bind:settingsOpened
+   {deleting}
+   online={data.online}
+   {saved}
+   {saving}
+/>
 
-      <button class="btn btn-ghost" disabled={saving || saved} onclick={Save}>
-         {#if saving}
-            <span class="loading loading-spinner"></span>
-            {$_.editor.saving}
-         {:else if saved}
-            {$_.editor.saved}
-         {:else}
-            {$_.editor.save}
-         {/if}
-      </button>
-
-      {#if data.online}
-         <button class="btn btn-ghost" onclick={Export}>
-            {$_.editor.export}
-         </button>
-      {/if}
-
-      <button class="btn btn-ghost" disabled={saving} onclick={Import}>
-         {$_.editor.import}
-      </button>
-   </div>
-
-   <div class="flex">
-
-      {#if data.online}
-         <button class="btn btn-dash btn-error" disabled={deleting} onclick={Delete}>
-            {#if deleting}
-               <span class="loading loading-spinner"></span>
-               {$_.editor.deleting}
-            {:else}
-               {$_.editor.delete}
-            {/if}
-         </button>
-      {/if}
-
-   </div>
-
-</nav>
-
-<main class="grow overflow-auto">
+<main class="grow overflow-x-clip overflow-y-auto">
 
    <header class="mx-auto my-8 w-fit flex items-center gap-4">
       {#if data.online}
@@ -490,22 +459,21 @@
 
             {/if}
 
-
             <div class="w-full flex gap-2">
 
-               <button onclick={() => InsertNewWord(i)} class="btn flex-1">
+               <button onclick={() => InsertNewWord(i)} class="btn btn-sm flex-3">
                   {$_.insert}
                </button>
 
-               <button onclick={() => MoveUp(i)} class="btn flex-1" disabled={i === 0}>
+               <button onclick={() => MoveUp(i)} class="btn btn-sm flex-3" disabled={i === 0}>
                   {$_.editor.move_up}
                </button>
 
-               <button onclick={() => MoveDown(i)} class="btn flex-1" disabled={i === words.length - 1}>
+               <button onclick={() => MoveDown(i)} class="btn btn-sm flex-3" disabled={i === words.length - 1}>
                   {$_.editor.move_down}
                </button>
 
-               <button onclick={() => DeleteWord(i)} class="btn btn-dash btn-error flex-1">
+               <button onclick={() => DeleteWord(i)} class="btn btn-sm btn-dash btn-error flex-1">
                   {$_.delete}
                </button>
 

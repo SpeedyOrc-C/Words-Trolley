@@ -13,6 +13,14 @@ export type I18nTemplate = {
     edit: s
     delete: s
     insert: s
+    close: s
+    more: s
+    settings: {
+        _: s
+        follows_your_system: s
+        mandarin_script: s
+        ui_language: s
+    }
     home: {
         _: s
         welcome_to_words_trolley: s
@@ -76,6 +84,7 @@ export type I18nTemplate = {
         verb: s
         verb_group: s
         pinyin: s
+        bopomofo: s
         abbr: {
             masculine: s
             feminine: s

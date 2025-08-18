@@ -3,28 +3,28 @@ import type {Database} from '$lib/database.types.ts' // import generated types
 
 declare global
 {
-    namespace App
-    {
-        // interface Error {}
+	namespace App
+	{
+		// interface Error {}
 
-        interface Locals
-        {
-            db: SupabaseClient<Database>
-            safeGetSession: () => Promise<{ session: Session | null; user: User | null }>
-            session: Session | null
-            user: User | null
-            acceptLanguage: string | null
-        }
+		interface Locals
+		{
+			db: SupabaseClient<Database>
+			safeGetSession: () => Promise<{ session: Session | null; user: User | null }>
+			session: Session | null
+			user: User | null
+			acceptLanguage: string | null
+		}
 
-        interface PageData
-        {
-            session: Session | null
-        }
+		interface PageData
+		{
+			session: Session | null
+		}
 
-        // interface PageState {}
+		// interface PageState {}
 
-        // interface Platform {}
-    }
+		// interface Platform {}
+	}
 }
 
 export {}

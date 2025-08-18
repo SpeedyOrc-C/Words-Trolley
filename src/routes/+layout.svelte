@@ -1,42 +1,42 @@
 <script lang="ts">
-    import "../app.css"
-    import {AutoDetectLanguage, language} from "$lib/i18n"
-    import {mandarinScript, settings, SettingsKey} from "$lib/Settings"
+	import "../app.css"
+	import {AutoDetectLanguage, language} from "$lib/i18n"
+	import {mandarinScript, settings, SettingsKey} from "$lib/Settings"
 
-    const {children} = $props()
+	const {children} = $props()
 
-    $effect.pre(() =>
-    {
-        const f1 = language
-            .subscribe(lang => document.documentElement.lang = lang)
+	$effect.pre(() =>
+	{
+		const f1 = language
+			.subscribe(lang => document.documentElement.lang = lang)
 
-        const rawStoredSettings = localStorage.getItem(SettingsKey)
+		const rawStoredSettings = localStorage.getItem(SettingsKey)
 
-        if (rawStoredSettings != null)
-            settings.set(JSON.parse(rawStoredSettings))
+		if (rawStoredSettings != null)
+			settings.set(JSON.parse(rawStoredSettings))
 
-        const f2 = settings.subscribe(set =>
-        {
-            localStorage.setItem(SettingsKey, JSON.stringify(set))
+		const f2 = settings.subscribe(set =>
+		{
+			localStorage.setItem(SettingsKey, JSON.stringify(set))
 
-            if (set.Language == null)
-                AutoDetectLanguage(navigator.language)
-            else
-                language.set(set.Language)
+			if (set.Language == null)
+				AutoDetectLanguage(navigator.language)
+			else
+				language.set(set.Language)
 
-            mandarinScript.set(set.MandarinScript)
-        })
+			mandarinScript.set(set.MandarinScript)
+		})
 
-        return () =>
-        {
-            f1()
-            f2()
-        }
-    })
+		return () =>
+		{
+			f1()
+			f2()
+		}
+	})
 </script>
 
 <svelte:window
-   onlanguagechange={() => AutoDetectLanguage(navigator.language)}
+	onlanguagechange={() => AutoDetectLanguage(navigator.language)}
 />
 
 {@render children()}

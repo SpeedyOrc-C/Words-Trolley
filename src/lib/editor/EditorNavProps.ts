@@ -1,12 +1,13 @@
 export default interface EditorNavProps
 {
-    settingsOpened: boolean
-    online: boolean
-    saving: boolean
-    saved: boolean
-    deleting: boolean
-    Save: () => any
-    Import: () => any
-    Export: () => any
-    Delete: () => any
+	online: boolean
+	saving: boolean
+	saved: boolean
+	deleting: boolean
+	OpenSettings: () => any
+	OpenInitialisation: () => any
+	Save: () => any
+	Import: () => any
+	Export: () => any
+	Delete: () => any
 }

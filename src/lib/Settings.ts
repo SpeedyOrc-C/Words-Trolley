@@ -5,19 +5,19 @@ export const SettingsKey = "words-trolley-settings"
 
 export enum MandarinScript
 {
-    Pinyin = "pinyin",
-    Bopomofo = "bopomofo",
+	Pinyin = "pinyin",
+	Bopomofo = "bopomofo",
 }
 
 export interface ISettings
 {
-    Language: Language | null
-    MandarinScript: MandarinScript
+	Language: Language | null
+	MandarinScript: MandarinScript
 }
 
 export const settings = writable({
-    Language: null,
-    MandarinScript: MandarinScript.Pinyin
+	Language: null,
+	MandarinScript: MandarinScript.Pinyin
 } as ISettings)
 
 export const mandarinScript = writable(MandarinScript.Pinyin)

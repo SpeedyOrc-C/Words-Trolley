@@ -1,5 +1,5 @@
 <script lang="ts">
-    const {index, length}: { index: number, length: number } = $props()
+	const {index, length}: { index: number, length: number } = $props()
 </script>
 
 <div class="w-full max-w-xl inline-flex justify-around items-center gap-4 px-4 py-4">
@@ -10,6 +10,6 @@
         </code>
     </span>
 
-   <progress value={index + 1} max={length} class="progress opacity-30"></progress>
+	<progress value={index + 1} max={length} class="progress opacity-30"></progress>
 
 </div>

@@ -1,13 +1,13 @@
 <script lang="ts">
 	import {_} from "$lib/i18n"
-	import {Region} from "$lib/word/mandarin"
+	import {Category} from "$lib/word/german"
 
 	const {
 		onchange: _onchange,
 		value: _value,
 	}: {
-		onchange: (c: Region) => any,
-		value: Region
+		onchange: (c: Category) => any,
+		value: Category
 	} = $props()
 
 	let value = $state(_value)
@@ -15,12 +15,12 @@
 
 <select bind:value class="input flex-1" onchange={() => _onchange(value)}>
 
-	<option value={Region.PRC}>
-		{$_.mandarin.region.prc}
+	<option value={Category.Word}>
+		{$_.editor.word}
 	</option>
 
-	<option value={Region.ROC}>
-		{$_.mandarin.region.roc}
+	<option value={Category.Noun}>
+		{$_.linguistics.noun}
 	</option>
 
 </select>

@@ -1,70 +1,70 @@
 <script lang="ts" module>
-    import {pBopomofo} from "$lib/word/mandarin/parser/bopomofo"
-    import {eof, space} from "crazy-parser"
-    import {many, some} from "crazy-parser/prefix"
+	import {pBopomofo} from "$lib/word/mandarin/parser/bopomofo"
+	import {eof, space} from "crazy-parser"
+	import {many, some} from "crazy-parser/prefix"
 
-    const parser =
-        pBopomofo
-            .and(many(some(space).$_(pBopomofo)))._$(eof)
-            .map(x => [x[0], ...x[1]])
+	const parser =
+		pBopomofo
+			.and(many(some(space).$_(pBopomofo)))._$(eof)
+			.map(x => [x[0], ...x[1]])
 </script>
 
 <script lang="ts">
-    import {type ISyllable, Syllable} from "$lib/word/mandarin"
-    import {bopomofoOverrider} from "$lib/MandarinInputOverrider"
+	import {type ISyllable, Syllable} from "$lib/word/mandarin"
+	import {bopomofoOverrider} from "$lib/MandarinInputOverrider"
 
-    let {
-        value = $bindable(),
-        onchange: _onchange = () => {},
-        placeholder = "",
-    }: {
-        value: ISyllable[]
-        onchange: () => void
-        placeholder: string
-    } = $props()
+	let {
+		value = $bindable(),
+		onchange: _onchange = () => {},
+		placeholder = "",
+	}: {
+		value: ISyllable[]
+		onchange: () => void
+		placeholder: string
+	} = $props()
 
-    const initValue = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Bopomofo).join(" ")
+	const initValue = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Bopomofo).join(" ")
 
-    let input: HTMLInputElement
-    let error = $state(false)
+	let input: HTMLInputElement
+	let error = $state(false)
 
-    function onchange()
-    {
-        const syllables = parser.eval(input.value.trim().toLowerCase())
+	function onchange()
+	{
+		const syllables = parser.eval(input.value.trim().toLowerCase())
 
-        if (syllables instanceof Error)
-        {
-            error = true
-        }
-        else
-        {
-            error = false
-            value = syllables
-            _onchange()
-        }
-    }
+		if (syllables instanceof Error)
+		{
+			error = true
+		}
+		else
+		{
+			error = false
+			value = syllables
+			_onchange()
+		}
+	}
 
-    function onfocusout()
-    {
-        if (! error)
-            input.value = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Bopomofo).join(" ")
-    }
+	function onfocusout()
+	{
+		if (! error)
+			input.value = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Bopomofo).join(" ")
+	}
 </script>
 
 <label class="w-full floating-label">
-   <span>{placeholder}</span>
-   <input
-      bind:this={input}
-      autocapitalize="off"
-      autocomplete="off"
-      autocorrect="off"
-      value={initValue}
-      class="input text-lg w-full"
-      class:input-error={error}
-      {onchange}
-      onkeydown={bopomofoOverrider.OnKeyDown}
-      {onfocusout}
-      {placeholder}
-      type="text"
-   >
+	<span>{placeholder}</span>
+	<input
+		bind:this={input}
+		autocapitalize="off"
+		autocomplete="off"
+		autocorrect="off"
+		value={initValue}
+		class="input text-lg w-full"
+		class:input-error={error}
+		{onchange}
+		onkeydown={bopomofoOverrider.OnKeyDown}
+		{onfocusout}
+		{placeholder}
+		type="text"
+	>
 </label>

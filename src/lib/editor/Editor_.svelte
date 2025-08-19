@@ -228,8 +228,11 @@
 	function ReplaceWithEmptyWords(card: Card, count: number)
 	{
 		words = new Array(count).fill(undefined).map(_ => structuredClone(blankWordFromType[card]))
+	}
 
-		initialisationOpened = false
+	function SetAllCardsTypes(card: Card)
+	{
+		words = words.map(({word, meaning}) => structuredClone({...blankWordFromType[card], word, meaning}))
 	}
 
 	function onbeforeunload(e: BeforeUnloadEvent)
@@ -309,6 +312,7 @@
 <EditorInitialisation
 	bind:open={initialisationOpened}
 	{ReplaceWithEmptyWords}
+	{SetAllCardsTypes}
 />
 
 <main class="grow overflow-x-clip overflow-y-auto">
@@ -331,7 +335,7 @@
 
 	<div class="w-full max-w-xl mx-auto flex flex-col gap-12">
 
-		{#each words as word, i}
+		{#each words as word, i (word)}
 
 			<article
 				draggable={!typing}

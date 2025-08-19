@@ -5,9 +5,11 @@
 	let {
 		open = $bindable(false),
 		ReplaceWithEmptyWords,
+		SetAllCardsTypes,
 	}: {
 		open: boolean
 		ReplaceWithEmptyWords: (card: Card, count: number) => void
+		SetAllCardsTypes: (card: Card) => void
 	} = $props()
 	let dialog: HTMLDialogElement
 
@@ -61,7 +63,10 @@
 
 			</label>
 
-			<button class="btn btn-primary" onclick={() => ReplaceWithEmptyWords(Card.Simple, wordCount)}>
+			<button class="btn btn-primary" onclick={() => {
+                ReplaceWithEmptyWords(Card.Simple, wordCount)
+                open = false
+            }}>
 				Replace existing with {wordCount} empty words
 			</button>
 
@@ -97,11 +102,18 @@
 
 			</label>
 
-			<button class="btn btn-primary">
+			<button class="btn btn-primary" onclick={() => {
+         		SetAllCardsTypes(cardType)
+         		open = false
+				}}>
 				Set all words’ languages
 			</button>
 
-			<button class="btn btn-soft btn-primary">
+			<button class="btn btn-soft btn-primary" onclick={() => {
+					ReplaceWithEmptyWords(Card.Simple, wordCount)
+					SetAllCardsTypes(cardType)
+					open = false
+				}}>
 				Replace and set languages
 			</button>
 

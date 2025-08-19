@@ -1,24 +1,26 @@
 <script lang="ts">
 	import {_} from "$lib/i18n"
+	import JustHomeNavbar from "$lib/JustHomeNavbar.svelte"
 </script>
 
-<header>
-	<h1 class="text-2xl text-center m-4">
-		{$_.new.create_a_new_set_of_words}
-	</h1>
-</header>
+<JustHomeNavbar/>
 
-<main class="w-full flex flex-col gap-4 items-center">
+<main>
+	<header>
+		<h1 class="text-2xl text-center m-4">
+			{$_.new.create_a_new_set_of_words}
+		</h1>
+	</header>
 
-	<form method="post" action="?/do" class="w-full max-w-sm flex flex-col gap-4">
+	<form action="?/do" class="m-auto px-2 w-full max-w-md flex flex-col gap-4" method="post">
 
 		<label class="floating-label">
 			<span>{$_.name}</span>
-			<input name="name" type="text" required
-					 placeholder={$_.name} class="input input-lg w-full"/>
+			<input class="input input-lg w-full" name="name" placeholder={$_.name}
+					 required type="text"/>
 		</label>
 
-		<button type="submit" class="btn btn-primary">
+		<button class="btn btn-lg btn-primary" type="submit">
 			{$_.submit}
 		</button>
 

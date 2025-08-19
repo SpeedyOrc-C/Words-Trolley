@@ -313,9 +313,9 @@
 
 <main class="grow overflow-x-clip overflow-y-auto">
 
-	<header class="mx-auto my-8 w-fit flex items-center gap-4">
+	<header class="mx-auto my-8 w-fit flex items-center rounded join shadow bg-base-100">
 		{#if data.online}
-			<button class="btn" disabled={renaming} onclick={Rename}>
+			<button class="btn join-item" disabled={renaming} onclick={Rename}>
 				{#if renaming}
 					<span class="loading loading-spinner"></span>
 					{$_.editor.renaming}
@@ -323,13 +323,13 @@
 					{$_.editor.rename}
 				{/if}
 			</button>
-			<h1 class="text-xl font-bold text-center" class:opacity-50={renaming}>
+			<h1 class="text-xl px-3 text-center join-item" class:opacity-50={renaming}>
 				{name}
 			</h1>
 		{/if}
 	</header>
 
-	<div class="w-full max-w-xl mx-auto p-2 flex flex-col gap-12">
+	<div class="w-full max-w-xl mx-auto flex flex-col gap-12">
 
 		{#each words as word, i}
 
@@ -343,167 +343,171 @@
 
 				class:opacity-20={dragIndex === i}
 				class:bg-base-300={dropIndex === i}
-				class="flex flex-col gap-4 items-center"
+				class="flex flex-col bg-base-100 rounded shadow"
 			>
 
-				<label class="floating-label w-full text-lg">
-					<span>{$_.editor.word}</span>
-					<input
-						type="text" bind:value={word.word}
-						onfocusin={() => typing = true}
-						onfocusout={() => typing = false}
-						onchange={e => OnWordChange(e, i)}
-						placeholder={$_.editor.word}
-						lang={LangFromWord(word)}
-						class="input input-primary w-full text-lg"
-					>
-				</label>
+				<div class="flex flex-col gap-3 p-3">
 
-				<label class="floating-label w-full text-lg">
-					<span>{$_.editor.meaning}</span>
-					<input
-						type="text" bind:value={word.meaning}
-						onfocusin={() => typing = true}
-						onfocusout={() => typing = false}
-						onchange={() => saved = false}
-						placeholder={$_.editor.meaning}
-						class="input w-full text-lg"
-					>
-				</label>
+					<label class="floating-label w-full text-lg">
+						<span>{$_.editor.word}</span>
+						<input
+							type="text" bind:value={word.word}
+							onfocusin={() => typing = true}
+							onfocusout={() => typing = false}
+							onchange={e => OnWordChange(e, i)}
+							placeholder={$_.editor.word}
+							lang={LangFromWord(word)}
+							class="input input-primary w-full text-lg"
+						>
+					</label>
 
-				<div class="w-full">
-					<SelectCard bind:saved bind:word={words[i]} {i} onchange={w => words[i] = w}/>
-				</div>
-
-				{#if word.type === Card.French && word.category === French.Category.Noun}
-
-					<fieldset class="w-full">
-
-						<legend>{$_.linguistics.gender}</legend>
-
-						<div class="flex gap-4">
-							<div>
-								<input type="radio" name="gender-{i}" id="m-{i}"
-										 value={French.Gender.M} bind:group={word.gender}
-										 onchange={() => saved = false}
-										 class="radio">
-								<label for="m-{i}">{$_.linguistics.abbr.masculine}</label>
-							</div>
-							<div>
-								<input type="radio" name="gender-{i}" id="f-{i}"
-										 value={French.Gender.F} bind:group={word.gender}
-										 onchange={() => saved = false}
-										 class="radio">
-								<label for="f-{i}">{$_.linguistics.abbr.feminine}</label>
-							</div>
-						</div>
-
-					</fieldset>
-
-				{:else if word.type === Card.German && word.category === German.Category.Noun}
-
-					<fieldset class="w-full">
-
-						<legend>{$_.linguistics.gender}</legend>
-
-						<div class="flex gap-4">
-							<div>
-								<input type="radio" name="gender-{i}" id="m-{i}"
-										 value={German.Gender.M} bind:group={word.gender}
-										 onchange={() => saved = false}
-										 class="radio">
-								<label for="m-{i}">{$_.linguistics.abbr.masculine}</label>
-							</div>
-							<div>
-								<input type="radio" name="gender-{i}" id="n-{i}"
-										 value={German.Gender.N} bind:group={word.gender}
-										 onchange={() => saved = false}
-										 class="radio">
-								<label for="n-{i}">{$_.linguistics.abbr.neutral}</label>
-							</div>
-							<div>
-								<input type="radio" name="gender-{i}" id="f-{i}"
-										 value={German.Gender.F} bind:group={word.gender}
-										 onchange={() => saved = false}
-										 class="radio">
-								<label for="f-{i}">{$_.linguistics.abbr.feminine}</label>
-							</div>
-						</div>
-
-					</fieldset>
-
-				{:else if word.type === Card.Japanese && word.category === Japanese.Category.Verb}
-
-					<fieldset class="w-full">
-
-						<legend>{$_.linguistics.verb_group}</legend>
-
-						<div class="flex gap-4">
-							<div>
-								<input type="radio" name="jvt-{i}" id="jvt-c-{i}"
-										 value={Japanese.VerbType.Consonant} bind:group={word.verb_type}
-										 class="radio">
-								<label for="jvt-c-{i}">1</label>
-							</div>
-							<div>
-								<input type="radio" name="jvt-{i}" id="jvt-v-{i}"
-										 value={Japanese.VerbType.Vowel} bind:group={word.verb_type}
-										 class="radio">
-								<label for="jvt-v-{i}">2</label>
-							</div>
-							<div>
-								<input type="radio" name="jvt-{i}" id="jvt-n-{i}"
-										 value={Japanese.VerbType.Noun} bind:group={word.verb_type}
-										 class="radio">
-								<label for="jvt-n-{i}">3</label>
-							</div>
-							<div>
-								<input type="radio" name="jvt-{i}" id="jvt-n-{i}"
-										 value={Japanese.VerbType.Irregular} bind:group={word.verb_type}
-										 class="radio">
-								<label for="jvt-n-{i}">?</label>
-							</div>
-						</div>
-
-					</fieldset>
-
-				{:else if word.type === Card.Mandarin}
-
-					{#if $mandarinScript === MandarinScript.Pinyin}
-
-						<InputPinyinLight
-							bind:value={word.syllables}
+					<label class="floating-label w-full text-lg">
+						<span>{$_.editor.meaning}</span>
+						<input
+							type="text" bind:value={word.meaning}
+							onfocusin={() => typing = true}
+							onfocusout={() => typing = false}
 							onchange={() => saved = false}
-							placeholder={$_.linguistics.pinyin}
-						/>
+							placeholder={$_.editor.meaning}
+							class="input w-full text-lg"
+						>
+					</label>
 
-					{:else if $mandarinScript === MandarinScript.Bopomofo}
+					<div class="w-full">
+						<SelectCard bind:saved bind:word={words[i]} {i} onchange={w => words[i] = w}/>
+					</div>
 
-						<InputBopomofoLight
-							bind:value={word.syllables}
-							onchange={() => saved = false}
-							placeholder={$_.linguistics.bopomofo}
-						/>
+					{#if word.type === Card.French && word.category === French.Category.Noun}
+
+						<fieldset class="w-full">
+
+							<legend>{$_.linguistics.gender}</legend>
+
+							<div class="flex gap-4">
+								<div>
+									<input type="radio" name="gender-{i}" id="m-{i}"
+											 value={French.Gender.M} bind:group={word.gender}
+											 onchange={() => saved = false}
+											 class="radio">
+									<label for="m-{i}">{$_.linguistics.abbr.masculine}</label>
+								</div>
+								<div>
+									<input type="radio" name="gender-{i}" id="f-{i}"
+											 value={French.Gender.F} bind:group={word.gender}
+											 onchange={() => saved = false}
+											 class="radio">
+									<label for="f-{i}">{$_.linguistics.abbr.feminine}</label>
+								</div>
+							</div>
+
+						</fieldset>
+
+					{:else if word.type === Card.German && word.category === German.Category.Noun}
+
+						<fieldset class="w-full">
+
+							<legend>{$_.linguistics.gender}</legend>
+
+							<div class="flex gap-4">
+								<div>
+									<input type="radio" name="gender-{i}" id="m-{i}"
+											 value={German.Gender.M} bind:group={word.gender}
+											 onchange={() => saved = false}
+											 class="radio">
+									<label for="m-{i}">{$_.linguistics.abbr.masculine}</label>
+								</div>
+								<div>
+									<input type="radio" name="gender-{i}" id="n-{i}"
+											 value={German.Gender.N} bind:group={word.gender}
+											 onchange={() => saved = false}
+											 class="radio">
+									<label for="n-{i}">{$_.linguistics.abbr.neutral}</label>
+								</div>
+								<div>
+									<input type="radio" name="gender-{i}" id="f-{i}"
+											 value={German.Gender.F} bind:group={word.gender}
+											 onchange={() => saved = false}
+											 class="radio">
+									<label for="f-{i}">{$_.linguistics.abbr.feminine}</label>
+								</div>
+							</div>
+
+						</fieldset>
+
+					{:else if word.type === Card.Japanese && word.category === Japanese.Category.Verb}
+
+						<fieldset class="w-full">
+
+							<legend>{$_.linguistics.verb_group}</legend>
+
+							<div class="flex gap-4">
+								<div>
+									<input type="radio" name="jvt-{i}" id="jvt-c-{i}"
+											 value={Japanese.VerbType.Consonant} bind:group={word.verb_type}
+											 class="radio">
+									<label for="jvt-c-{i}">1</label>
+								</div>
+								<div>
+									<input type="radio" name="jvt-{i}" id="jvt-v-{i}"
+											 value={Japanese.VerbType.Vowel} bind:group={word.verb_type}
+											 class="radio">
+									<label for="jvt-v-{i}">2</label>
+								</div>
+								<div>
+									<input type="radio" name="jvt-{i}" id="jvt-n-{i}"
+											 value={Japanese.VerbType.Noun} bind:group={word.verb_type}
+											 class="radio">
+									<label for="jvt-n-{i}">3</label>
+								</div>
+								<div>
+									<input type="radio" name="jvt-{i}" id="jvt-n-{i}"
+											 value={Japanese.VerbType.Irregular} bind:group={word.verb_type}
+											 class="radio">
+									<label for="jvt-n-{i}">?</label>
+								</div>
+							</div>
+
+						</fieldset>
+
+					{:else if word.type === Card.Mandarin}
+
+						{#if $mandarinScript === MandarinScript.Pinyin}
+
+							<InputPinyinLight
+								bind:value={word.syllables}
+								onchange={() => saved = false}
+								placeholder={$_.linguistics.pinyin}
+							/>
+
+						{:else if $mandarinScript === MandarinScript.Bopomofo}
+
+							<InputBopomofoLight
+								bind:value={word.syllables}
+								onchange={() => saved = false}
+								placeholder={$_.linguistics.bopomofo}
+							/>
+
+						{/if}
 
 					{/if}
 
-				{/if}
+				</div>
 
-				<div class="w-full flex gap-2">
+				<div class="w-full flex join">
 
-					<button onclick={() => InsertNewWord(i)} class="btn btn-sm flex-3">
+					<button onclick={() => InsertNewWord(i)} class="btn btn-sm flex-3 join-item">
 						{$_.insert}
 					</button>
 
-					<button onclick={() => MoveUp(i)} class="btn btn-sm flex-3" disabled={i === 0}>
+					<button onclick={() => MoveUp(i)} class="btn btn-sm flex-3 join-item" disabled={i === 0}>
 						{$_.editor.move_up}
 					</button>
 
-					<button onclick={() => MoveDown(i)} class="btn btn-sm flex-3" disabled={i === words.length - 1}>
+					<button onclick={() => MoveDown(i)} class="btn btn-sm flex-3 join-item" disabled={i === words.length - 1}>
 						{$_.editor.move_down}
 					</button>
 
-					<button onclick={() => DeleteWord(i)} class="btn btn-sm btn-dash btn-error flex-1">
+					<button onclick={() => DeleteWord(i)} class="btn btn-sm btn-dash btn-error flex-1 join-item">
 						{$_.delete}
 					</button>
 
@@ -513,7 +517,7 @@
 
 		{/each}
 
-		<button class="btn block m-auto w-full max-w-sm" onclick={() => InsertNewWord(words.length)}>
+		<button class="btn block m-auto w-full max-w-sm shadow" onclick={() => InsertNewWord(words.length)}>
 			{$_.editor.add_a_word}
 		</button>
 

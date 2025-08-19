@@ -25,7 +25,7 @@ export const pInitial = optional(asum(
 
 export const pPinyinWithToneNumber = pInitial
 	.bind(initial => asum(
-		char("a").right(asum([
+		char("a").right(asum(
 			char("i").cmap(Final.Ai),
 			char("o").cmap(Final.Ao),
 			char("n").right(asum([
@@ -33,13 +33,13 @@ export const pPinyinWithToneNumber = pInitial
 				pure(Final.An)
 			])),
 			pure(Final.A)
-		])),
-		char("o").right(asum([
+		)),
+		char("o").right(asum(
 			char("u").cmap(Final.Ou),
 			str("ng").cmap(Final.Ong),
 			pure(initial == Nothing ? Final.O : Final.Uo)
-		])),
-		char("e").right(asum([
+		)),
+		char("e").right(asum(
 			char("i").cmap(Final.Ei),
 			char("r").cmap(Final.Er).if(initial == Nothing),
 			char("n").right(asum([
@@ -47,8 +47,8 @@ export const pPinyinWithToneNumber = pInitial
 				pure(Final.En)
 			])),
 			pure(Final.E)
-		])),
-		char("i").right(asum([
+		)),
+		char("i").right(asum(
 			char("a").right(asum([
 				char("o").cmap(Final.Iao),
 				char("n").right(asum([
@@ -68,8 +68,8 @@ export const pPinyinWithToneNumber = pInitial
 				pure(Final.In)
 			])),
 			pure(Final.I)
-		])),
-		char("u").right(asum([
+		)),
+		char("u").right(asum(
 			char("a").right(asum([
 				char("i").cmap(Final.Uai),
 				char("n").right(asum([
@@ -86,8 +86,8 @@ export const pPinyinWithToneNumber = pInitial
 			char("o").try().if(! IsLabial(initial)).cmap(Final.Uo),
 			char("n").cmap(IsAlveoloPalatal(initial) ? Final.Yun : Final.Uen),
 			pure(Final.U).if(initial != Nothing)
-		])),
-		char("y").right(asum([
+		)),
+		char("y").right(asum(
 			char("a").right(asum([
 				char("o").cmap(Final.Iao),
 				char("n").right(asum([
@@ -113,8 +113,8 @@ export const pPinyinWithToneNumber = pInitial
 				char("n").cmap(Final.Yun),
 				pure(Final.Yu)
 			])),
-		])),
-		char("w").right(asum([
+		)),
+		char("w").right(asum(
 			char("a").right(asum([
 				char("i").cmap(Final.Uai),
 				char("n").right(asum([
@@ -132,15 +132,15 @@ export const pPinyinWithToneNumber = pInitial
 			])),
 			char("o").cmap(Final.Uo),
 			char("u").cmap(Final.U)
-		])),
+		)),
 		char("ü").cmap(Final.Yu).if(initial == Initial.L || initial == Initial.N),
 		char("ê").cmap(Final.E2).if(initial == Nothing)
 	).bind(final => asum(
-			char("1").cmap<Tone>(Tone.Flat),
-			char("2").cmap<Tone>(Tone.Rise),
-			char("3").cmap<Tone>(Tone.FallRise),
-			char("4").cmap<Tone>(Tone.Fall),
-			optional(char("0")).cmap<Tone>(Tone.Neutral),
+			char("1").cmap(Tone.Flat),
+			char("2").cmap(Tone.Rise),
+			char("3").cmap(Tone.FallRise),
+			char("4").cmap(Tone.Fall),
+			optional(char("0")).cmap(Tone.Neutral),
 		).map(tone =>
 			new Syllable(initial == Nothing ? null : initial, final, tone))
 	))

@@ -29,6 +29,7 @@ export type I18nTemplate = {
 		browse_my_sets: s
 	}
 	new: {
+		_: s
 		create_a_new_set_of_words: s
 	}
 	set: {

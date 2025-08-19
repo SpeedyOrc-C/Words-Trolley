@@ -9,7 +9,7 @@
 	}: EditorNavProps = $props()
 </script>
 
-<nav class="shadow-base-300 shadow-md z-10 select-none">
+<nav class="shadow-base-300 shadow-md z-10 select-none bg-base-100">
 
 	<ul class="menu menu-horizontal">
 

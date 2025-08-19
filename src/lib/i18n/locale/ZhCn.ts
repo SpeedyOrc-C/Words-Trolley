@@ -29,6 +29,7 @@ const ZhCn: I18nTemplate = {
 		browse_my_sets: "浏览我的单词集",
 	},
 	new: {
+		_: "新建",
 		create_a_new_set_of_words: "创建一套新单词集……",
 	},
 	set: {

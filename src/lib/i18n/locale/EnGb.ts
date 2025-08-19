@@ -29,6 +29,7 @@ const EnGb: I18nTemplate = {
 		browse_my_sets: "Browse my sets",
 	},
 	new: {
+		_: "Create",
 		create_a_new_set_of_words: "Create a new set of words...",
 	},
 	set: {

@@ -4,6 +4,6 @@
 	const {children} = $props()
 </script>
 
-<JustHomeNavbar/>
-
-{@render children()}
+<div class="relative w-svw h-svh flex flex-col">
+	{@render children()}
+</div>

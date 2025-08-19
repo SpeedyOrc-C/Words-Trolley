@@ -1,16 +1,29 @@
 <script lang="ts">
-	import JustHomeNavbar from "$lib/JustHomeNavbar.svelte"
 	import {_} from "$lib/i18n"
 
 	const {data} = $props()
 </script>
 
-<JustHomeNavbar/>
+<nav class="shadow-base-300 shadow-md flex p-2 items-center bg-base-100">
 
-<main class="mx-auto w-full max-w-6xl grid md:grid-cols-2 lg:grid-cols-3">
+	<a href="/">
+		<button class="btn btn-lg btn-ghost">
+			{$_.home._}
+		</button>
+	</a>
+
+	{#if data.user?.id === data.creator}
+		<a href="/new" class="btn btn-lg btn-primary">
+			{$_.new._}
+		</a>
+	{/if}
+
+</nav>
+
+<main class="mx-auto w-full max-w-7xl grid md:grid-cols-2 xl:grid-cols-3">
 	{#each data.sets as {name, id}}
 
-		<article class="m-2 rounded shadow flex flex-col">
+		<article class="m-2 rounded shadow-md flex flex-col bg-base-100">
 
 			<header class="m-4 grow flex items-center justify-around">
 				<div class="text-xl text-center">

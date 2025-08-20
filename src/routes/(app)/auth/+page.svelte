@@ -26,7 +26,7 @@
 					{$_.login}
 				</Button>
 
-				<Button formaction="?/signup" variant="outline">
+				<Button formaction="?/signup" type="submit" variant="outline">
 					{$_.signup}
 				</Button>
 			</div>

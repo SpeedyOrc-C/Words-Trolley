@@ -226,11 +226,15 @@
 	function ReplaceWithEmptyWords(card: WordType, count: number)
 	{
 		words = new Array(count).fill(undefined).map(_ => structuredClone(blankWordFromType[card]))
+
+		saved = false
 	}
 
 	function SetAllCardsTypes(card: WordType)
 	{
 		words = words.map(({word, meaning}) => structuredClone({...blankWordFromType[card], word, meaning}))
+
+		saved = false
 	}
 
 	function onbeforeunload(e: BeforeUnloadEvent)
@@ -339,7 +343,7 @@
 								{$_.editor.word}
 							</Label>
 
-							<div class="text-xs text-foreground/50">
+							<div class="text-xs text-foreground/50 font-mono">
 								{i + 1}<span class="text-foreground/30">/{words.length}</span>
 							</div>
 						</div>

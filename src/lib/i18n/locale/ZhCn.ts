@@ -38,6 +38,7 @@ const ZhCn: I18nTemplate = {
 		test: "测验"
 	},
 	learn: {
+		speak: "朗读",
 		previous: "上一个",
 		next: "下一个",
 		flip: "翻面",
@@ -92,6 +93,7 @@ const ZhCn: I18nTemplate = {
 	},
 	WordType: {
 		Simple: "正常",
+		English: "英语",
 		Mandarin: "普通话",
 		Japanese: "日语",
 		French: "法语",
@@ -119,6 +121,12 @@ const ZhCn: I18nTemplate = {
 			roc: "中华民国",
 		},
 	},
+	english: {
+		region: {
+			gb: "大不列颠",
+			us: "美利坚合众国",
+		}
+	}
 }
 
 export default ZhCn

@@ -1,5 +1,5 @@
 import type {Json} from "$lib/database.types"
-import {French, German, Japanese, Mandarin} from "$lib/word"
+import {English, French, German, Japanese, Mandarin} from "$lib/word"
 import {VerbType} from "$lib/word/japanese"
 
 export type Words = Array<Word>
@@ -11,6 +11,7 @@ export type Word = Metadata & {
 
 type Metadata
 	= SimpleWord
+	| EnglishWord
 	| MandarinWord
 	| FrenchWord
 	| FrenchNoun
@@ -21,6 +22,11 @@ type Metadata
 
 export type SimpleWord = {
 	type: WordType.Simple
+}
+
+export type EnglishWord = {
+	type: WordType.English
+	region: English.Region
 }
 
 export type MandarinWord = {
@@ -71,6 +77,7 @@ export type JapaneseVerb = {
 export enum WordType
 {
 	Simple = "simple",
+	English = "english",
 	Mandarin = "mandarin",
 	Japanese = "japanese",
 	French = "french",
@@ -85,6 +92,12 @@ const baseWord = {
 export const blankWordSimple: Word = {
 	...baseWord,
 	type: WordType.Simple,
+}
+
+export const blankWordEnglish: Word = {
+	...baseWord,
+	type: WordType.English,
+	region: English.Region.GB,
 }
 
 const blankWordMandarin: Word = {
@@ -136,6 +149,7 @@ const blankWordJapaneseVerb: Word = {
 
 export const blankWordFromTypeAndCategory = {
 	[WordType.Simple]: blankWordSimple,
+	[WordType.English]: blankWordEnglish,
 	[WordType.Mandarin]: blankWordMandarin,
 	[WordType.French]: {
 		[French.Category.Word]: blankWordFrench,
@@ -153,10 +167,11 @@ export const blankWordFromTypeAndCategory = {
 
 export const blankWordFromType = {
 	[WordType.Simple]: blankWordSimple,
+	[WordType.English]: blankWordEnglish,
 	[WordType.Mandarin]: blankWordMandarin,
 	[WordType.French]: blankWordFrench,
 	[WordType.German]: blankWordGerman,
-	[WordType.Japanese]: blankWordJapanese
+	[WordType.Japanese]: blankWordJapanese,
 } as const
 
 export function LangFromWord(word: Word)
@@ -165,6 +180,14 @@ export function LangFromWord(word: Word)
 	{
 	case WordType.Simple:
 		return ""
+	case WordType.English:
+		switch (word.region)
+		{
+		case English.Region.GB:
+			return "en-GB"
+		case English.Region.US:
+			return "en-US"
+		}
 	case WordType.Mandarin:
 		switch (word.region)
 		{

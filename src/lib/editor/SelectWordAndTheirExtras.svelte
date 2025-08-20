@@ -1,12 +1,19 @@
 <script lang="ts">
+	import {
+		blankWordFromType,
+		blankWordFromTypeAndCategory,
+		type EnglishWord,
+		type MandarinWord,
+		type Word,
+		WordType
+	} from "$lib"
+	import SelectEnglishRegion from "$lib/editor/SelectEnglishRegion.svelte"
+	import SelectGermanCategory from "$lib/editor/SelectGermanCategory.svelte"
 	import SelectWordType from "$lib/editor/SelectWordType.svelte"
 	import {_} from "$lib/i18n"
-	import {blankWordFromType, blankWordFromTypeAndCategory, WordType, type MandarinWord, type Word} from "$lib"
+	import {English, French, German, Mandarin} from "$lib/word"
 	import SelectFrenchCategory from "./SelectFrenchCategory.svelte"
-	import {French, German, Mandarin} from "$lib/word"
 	import SelectMandarinRegion from "./SelectMandarinRegion.svelte"
-	import SelectGermanCategory from "$lib/editor/SelectGermanCategory.svelte"
-	import * as Select from "$lib/components/ui/select"
 
 	let {
 		word = $bindable(),
@@ -21,23 +28,6 @@
 	} = $props()
 
 	let wordType = $state(word.type)
-
-	function _WordType(t: WordType): string
-	{
-		switch (t)
-		{
-		case WordType.Simple:
-			return $_.WordType.Simple
-		case WordType.Mandarin:
-			return $_.WordType.Mandarin
-		case WordType.Japanese:
-			return $_.WordType.Japanese
-		case WordType.French:
-			return $_.WordType.French
-		case WordType.German:
-			return $_.WordType.German
-		}
-	}
 
 	function OnCardChange()
 	{
@@ -76,11 +66,18 @@
 
 		saved = false
 	}
+
+	function OnEnglishRegionChange(word: Word & EnglishWord, region: English.Region)
+	{
+		word.region = region
+
+		saved = false
+	}
 </script>
 
 <fieldset class="w-full flex gap-2">
 
-	<SelectWordType bind:value={wordType} onchange={OnCardChange} />
+	<SelectWordType bind:value={wordType} onchange={OnCardChange}/>
 
 	{#if word.type === WordType.French}
 
@@ -101,6 +98,13 @@
 		<SelectMandarinRegion
 			value={word.region}
 			onchange={region => OnMandarinRegionChange(word, region)}
+		/>
+
+	{:else if word.type === WordType.English}
+
+		<SelectEnglishRegion
+			value={word.region}
+			onchange={region => OnEnglishRegionChange(word, region)}
 		/>
 
 	{/if}

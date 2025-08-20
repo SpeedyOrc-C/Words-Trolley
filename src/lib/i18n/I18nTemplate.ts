@@ -38,6 +38,7 @@ export type I18nTemplate = {
 		test: s
 	}
 	learn: {
+		speak: s
 		next: s
 		previous: s
 		flip: s
@@ -92,6 +93,7 @@ export type I18nTemplate = {
 	}
 	WordType: {
 		Simple: s
+		English: s
 		Mandarin: s
 		Japanese: s
 		French: s
@@ -117,6 +119,12 @@ export type I18nTemplate = {
 		region: {
 			prc: s
 			roc: s
+		}
+	}
+	english: {
+		region: {
+			gb: s
+			us: s
 		}
 	}
 }

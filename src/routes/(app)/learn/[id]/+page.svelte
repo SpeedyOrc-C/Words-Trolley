@@ -33,6 +33,13 @@
 		flipped = ! flipped
 	}
 
+	function Speak()
+	{
+		const utterance = new SpeechSynthesisUtterance(word.word)
+		utterance.lang = LangFromWord(word)
+		speechSynthesis.speak(utterance)
+	}
+
 	function onkeydown(e: KeyboardEvent)
 	{
 		// Shortcut keys only work when the user isn't focused on anything.
@@ -89,18 +96,26 @@
 	{/if}
 </main>
 
-<div class="w-full p-3 flex gap-3" id="control">
+<div class="w-full p-3 flex flex-col gap-3" id="control">
 
-	<Button class="h-24 text-xl flex-1" onclick={Flip} variant="secondary">
-		{$_.learn.flip}
-	</Button>
+	<div class="flex gap-3">
+		<Button class="h-24 text-xl flex-1" onclick={Speak} variant="secondary">
+			{$_.learn.speak}
+		</Button>
 
-	<Button class="h-24 text-xl flex-1" onclick={Previous} variant="secondary">
-		{$_.learn.previous}
-	</Button>
+		<Button class="h-24 text-xl flex-1" onclick={Previous} variant="secondary">
+			{$_.learn.previous}
+		</Button>
+	</div>
 
-	<Button class="h-24 text-xl flex-1" onclick={Next} variant="outline">
-		{$_.learn.next}
-	</Button>
+	<div class="flex gap-3">
+		<Button class="h-24 text-xl flex-1" onclick={Flip} variant="secondary">
+			{$_.learn.flip}
+		</Button>
+
+		<Button class="h-24 text-xl flex-1" onclick={Next} variant="outline">
+			{$_.learn.next}
+		</Button>
+	</div>
 
 </div>

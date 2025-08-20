@@ -16,6 +16,8 @@
 		{
 		case WordType.Simple:
 			return $_.WordType.Simple
+		case WordType.English:
+			return $_.WordType.English
 		case WordType.Mandarin:
 			return $_.WordType.Mandarin
 		case WordType.Japanese:
@@ -36,6 +38,10 @@
 
 		<Select.Item value={WordType.Simple}>
 			{$_.WordType.Simple}
+		</Select.Item>
+
+		<Select.Item value={WordType.English}>
+			{$_.WordType.English}
 		</Select.Item>
 
 		<Select.Item value={WordType.Japanese}>

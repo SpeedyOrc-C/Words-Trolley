@@ -38,6 +38,7 @@ const EnGb: I18nTemplate = {
 		test: "Test"
 	},
 	learn: {
+		speak: "Speak",
 		previous: "Previous",
 		next: "Next",
 		flip: "Flip",
@@ -92,6 +93,7 @@ const EnGb: I18nTemplate = {
 	},
 	WordType: {
 		Simple: "Simple",
+		English: "English",
 		Mandarin: "Mandarin",
 		Japanese: "Japanese",
 		French: "French",
@@ -117,6 +119,12 @@ const EnGb: I18nTemplate = {
 		region: {
 			prc: "China, People's Republic of",
 			roc: "China, Republic of",
+		}
+	},
+	english: {
+		region: {
+			gb: "Great Britain",
+			us: "United States",
 		}
 	}
 }

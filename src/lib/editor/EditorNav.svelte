@@ -1,92 +1,74 @@
 <script lang="ts">
 	import {_} from "$lib/i18n"
 	import type EditorNavProps from "$lib/editor/EditorNavProps"
+	import * as M from "$lib/components/ui/menubar"
+	import {Button} from "$lib/components/ui/button"
 
 	let {
 		OpenSettings, OpenInitialisation,
-		online, saving, saved, deleting,
-		Save, Import, Export, Delete,
+		online, saving, saved, deleting, renaming,
+		Save, Import, Export, Delete, Rename,
 	}: EditorNavProps = $props()
 </script>
 
-<nav class="shadow-base-300 shadow-md z-10 select-none bg-base-100">
+<div id="editor-nav" class="sticky top-0 p-2 z-10 flex gap-2 md:gap-4 backdrop-blur-md">
 
-	<ul class="menu menu-horizontal">
+	<M.Root class="grow">
 
-		<li>
-			<button class="btn btn-ghost" disabled={saving || saved} onclick={Save}>
-				{#if saving}
-					<span class="loading loading-spinner"></span>
-					{$_.editor.saving}
-				{:else if saved}
-					{$_.editor.saved}
-				{:else}
-					{$_.editor.save}
-				{/if}
-			</button>
-		</li>
+		<M.Menu>
 
-		<li>
-			<details>
-				<summary class="btn btn-ghost">
-					{$_.more}
-				</summary>
-				<ul>
+			<M.Trigger>
+				{$_.word_set}
+			</M.Trigger>
 
-					<li>
-						<button class="btn btn-ghost" onclick={OpenSettings}>
-							{$_.settings._}
-						</button>
-					</li>
+			<M.Content>
 
-					<li>
-						<button class="btn btn-ghost" onclick={OpenInitialisation}>
-							Initialise
-						</button>
-					</li>
-
-					<li>
-						<button class="btn btn-ghost" disabled={saving} onclick={Import}>
-							{$_.editor.import}
-						</button>
-					</li>
-
-					{#if online}
-						<li>
-							<button class="btn btn-ghost" onclick={Export}>
-								{$_.editor.export}
-							</button>
-						</li>
+				<M.Item disabled={saving || saved || ! online} onclick={Save}>
+					{#if saving}
+						{$_.editor.saving}
+					{:else if saved}
+						{$_.editor.saved}
+					{:else}
+						{$_.editor.save}
 					{/if}
+				</M.Item>
 
-					<li></li>
-					<li>
-						<a class="btn btn-ghost" href="/" title={$_.home._}>
-							{$_.home._}
-						</a>
-					</li>
+				<M.Item disabled={renaming || ! online} onclick={Rename}>
+					{$_.editor.rename}
+				</M.Item>
 
-					{#if online}
-						<li></li>
-						<li>
-							<button class="btn btn-dash btn-error" disabled={deleting} onclick={Delete}>
-								{#if deleting}
-									<span class="loading loading-spinner"></span>
-									{$_.editor.deleting}
-								{:else}
-									{$_.editor.delete}
-								{/if}
-							</button>
-						</li>
-					{/if}
+				<M.Item onclick={OpenInitialisation}>
+					{$_.editor.initialise}
+				</M.Item>
 
-				</ul>
-			</details>
-		</li>
+				<M.Separator/>
 
-	</ul>
+				<M.Item onclick={Import}>
+					{$_.editor.import}
+				</M.Item>
 
-</nav>
+				<M.Item onclick={Export}>
+					{$_.editor.export}
+				</M.Item>
 
-<style>
-</style>
+				<M.Separator/>
+
+				<M.Item disabled={deleting || ! online} onclick={Delete} variant="destructive">
+					{$_.editor.delete}
+				</M.Item>
+
+			</M.Content>
+
+		</M.Menu>
+
+	</M.Root>
+
+	<Button onclick={OpenSettings} variant="outline">
+		{$_.settings._}
+	</Button>
+
+	<Button href="/" variant="secondary">
+		{$_.home._}
+	</Button>
+
+</div>

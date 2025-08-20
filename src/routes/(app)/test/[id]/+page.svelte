@@ -1,9 +1,13 @@
 <script lang="ts">
-	import {Card, LangFromWord, type Words} from "$lib"
+	import {WordType, LangFromWord, type Words} from "$lib"
+	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_} from "$lib/i18n"
+	import ProgressAtBottom from "$lib/ProgressWithLabel.svelte"
 	import ProgressWithLabel from "$lib/ProgressWithLabel.svelte"
 	import QSimple from "$lib/QSimple.svelte"
 	import QPinyin from "$lib/QPinyin.svelte"
+	import {Button} from "$lib/components/ui/button"
+	import {Progress} from "$lib/components/ui/progress"
 
 	const {data} = $props()
 	const words = data.set.words as Words
@@ -73,25 +77,11 @@
 
 <svelte:window onkeydown={onkeydown}/>
 
-<nav class="w-full px-4 flex items-center justify-between">
-
-	<a class="flex-1" href="/">
-		<button class="btn btn-ghost btn-sm text-base-content/50">
-			{$_.home._}
-		</button>
-	</a>
-
-	<div class="grow">
-		<ProgressWithLabel index={i} length={words.length}/>
-	</div>
-
-	<div class="flex-1"></div>
-
-</nav>
+<WordProgressNav index={i} {words} />
 
 <main class="mx-2">
 
-	<div class="text-3xl text-center">
+	<div class="text-5xl text-center">
 		{word.meaning}
 	</div>
 
@@ -101,33 +91,39 @@
 		<div lang={LangFromWord(word)} class="text-3xl text-center">
 			{word.word}
 		</div>
-	{:else if word.type === Card.Simple}
+	{:else if word.type === WordType.Simple}
 		<QSimple {word} {OnWin}/>
-	{:else if word.type === Card.Mandarin}
+	{:else if word.type === WordType.Mandarin}
 		<QPinyin {word} {OnWin}/>
 	{/if}
 
 </main>
 
-<div class="grow">
+<div class="w-full p-3 flex flex-col gap-3">
 
-</div>
+	<!-- Language specific controls goes here...	-->
 
-<div class="w-full p-2">
 	{#if showAnswer}
-		{#if hasNext}
-			<button onclick={Next} class="btn btn-xl w-full h-24">
-				{$_.test.next}
-			</button>
-		{:else}
-			<button onclick={Finish} class="btn btn-xl w-full h-24">
-				{$_.test.finish}
-			</button>
-		{/if}
-	{:else}
-		<button onclick={ShowAnswer} class="btn btn-xl w-full h-24">
-			{$_.test.show_answer}
-		</button>
-	{/if}
-</div>
 
+		{#if hasNext}
+
+			<Button onclick={Next} variant="secondary" class="w-full text-xl h-24">
+				{$_.test.next}
+			</Button>
+
+		{:else}
+
+			<Button onclick={Finish} class="w-full text-xl h-24">
+				{$_.test.finish}
+			</Button>
+		{/if}
+
+	{:else}
+
+		<Button onclick={ShowAnswer} variant="secondary" class="w-full text-xl h-24">
+			{$_.test.show_answer}
+		</Button>
+
+	{/if}
+
+</div>

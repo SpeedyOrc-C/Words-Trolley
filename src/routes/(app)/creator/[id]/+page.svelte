@@ -1,53 +1,66 @@
 <script lang="ts">
 	import {_} from "$lib/i18n"
+	import * as NavigationMenu from "$lib/components/ui/navigation-menu"
+	import * as Card from "$lib/components/ui/card"
+	import {Button} from "$lib/components/ui/button"
 
 	const {data} = $props()
 </script>
 
-<nav class="shadow-base-300 shadow-md flex p-2 items-center bg-base-100">
+<div class="p-2 top-0 sticky shadow">
+	<NavigationMenu.Root>
+		<NavigationMenu.List>
 
-	<a href="/">
-		<button class="btn btn-lg btn-ghost">
-			{$_.home._}
-		</button>
-	</a>
+			<NavigationMenu.Item>
+				<NavigationMenu.Link>
+					<a href="/" class="px-3">{$_.home._}</a>
+				</NavigationMenu.Link>
+			</NavigationMenu.Item>
 
-	{#if data.user?.id === data.creator}
-		<a href="/new" class="btn btn-lg btn-primary">
-			{$_.new._}
-		</a>
-	{/if}
+			{#if data.user?.id === data.creator}
+				<NavigationMenu.Item>
+					<NavigationMenu.Link>
+						<a href="/new" class="px-3">
+							{$_.new._}
+						</a>
+					</NavigationMenu.Link>
+				</NavigationMenu.Item>
+			{/if}
 
-</nav>
+		</NavigationMenu.List>
+	</NavigationMenu.Root>
+</div>
 
-<main class="mx-auto w-full max-w-7xl grid md:grid-cols-2 xl:grid-cols-3">
+<main class="mx-auto p-4 w-full max-w-7xl flex gap-4 flex-wrap">
 	{#each data.sets as {name, id}}
+		<Card.Root class="w-full sm:max-w-md">
 
-		<article class="m-2 rounded shadow-md flex flex-col bg-base-100">
+			<Card.Content class="flex flex-col gap-6">
 
-			<header class="m-4 grow flex items-center justify-around">
-				<div class="text-xl text-center">
-					{name}
+				<header class="grow flex items-center justify-around">
+					<div class="text-xl text-center">
+						{name}
+					</div>
+				</header>
+
+				<div class="flex flex-col gap-2">
+
+					<Button href="/learn/{id}">
+						{$_.set.learn}
+					</Button>
+
+					<Button href="/test/{id}" variant="outline">
+						{$_.set.test}
+					</Button>
+
+					<Button href="/edit/{id}" variant="secondary">
+						{$_.edit}
+					</Button>
+
 				</div>
-			</header>
 
-			<div class="w-full flex items-center join">
+			</Card.Content>
 
-				<a href="/learn/{id}" tabindex="0" class="btn btn-lg flex-1 join-item font-normal">
-					{$_.set.learn}
-				</a>
-
-				<a href="/test/{id}" tabindex="0" class="btn btn-lg flex-1 join-item font-normal">
-					{$_.set.test}
-				</a>
-
-				<a href="/edit/{id}" tabindex="0" class="btn btn-lg btn-dash flex-1 join-item font-light">
-					{$_.edit}
-				</a>
-
-			</div>
-
-		</article>
-
+		</Card.Root>
 	{/each}
 </main>

@@ -15,6 +15,7 @@ const ZhCn: I18nTemplate = {
 	insert: "插入",
 	close: "关闭",
 	more: "更多",
+	word_set: "单词集",
 	settings: {
 		_: "设置",
 		follows_your_system: "跟随系统",
@@ -35,6 +36,11 @@ const ZhCn: I18nTemplate = {
 	set: {
 		learn: "学习",
 		test: "测验"
+	},
+	learn: {
+		previous: "上一个",
+		next: "下一个",
+		flip: "翻面",
 	},
 	test: {
 		show_answer: "显示答案",
@@ -67,9 +73,24 @@ const ZhCn: I18nTemplate = {
 		add_a_word: "添加一个单词",
 		move_up: "上移",
 		move_down: "下移",
-		card_type_select_label: i => `第 ${i} 个卡片的类型`
+		card_type_select_label: i => `第 ${i} 个卡片的类型`,
+		initialise: "初始化…",
+		initialisation: {
+			_: "初始化",
+			word_count: "单词数量",
+			create_blank: {
+				_: n => `新建${n}个空单词`,
+				tip: "此操作将删除原有的所有单词。",
+			},
+			word_language: "单词语言",
+			set_all_languages: {
+				_: "批量设置单词语言",
+				tip: "此操作将删除所有单词携带的有关其语言特性的信息，但单词本身以及意思将会留下。比如法语名词的阴阳性将会被删除。",
+			},
+			create_and_set_languages: "先新建再设置语言"
+		},
 	},
-	Card: {
+	WordType: {
 		Simple: "正常",
 		Mandarin: "普通话",
 		Japanese: "日语",

@@ -15,6 +15,7 @@ const EnGb: I18nTemplate = {
 	insert: "Insert",
 	close: "Close",
 	more: "More",
+	word_set: "Word set",
 	settings: {
 		_: "Settings",
 		follows_your_system: "Follows your system",
@@ -35,6 +36,11 @@ const EnGb: I18nTemplate = {
 	set: {
 		learn: "Learn",
 		test: "Test"
+	},
+	learn: {
+		previous: "Previous",
+		next: "Next",
+		flip: "Flip",
 	},
 	test: {
 		show_answer: "Show answer",
@@ -67,9 +73,24 @@ const EnGb: I18nTemplate = {
 		add_a_word: "Add a word",
 		move_up: "Move up",
 		move_down: "Move down",
-		card_type_select_label: i => `Type for card number ${i}`
+		card_type_select_label: i => `Type for card number ${i}`,
+		initialise: "Initialise...",
+		initialisation: {
+			_: "Initialisation",
+			word_count: "Word count",
+			create_blank: {
+				_: n => `Create ${n} blank word${n > 1 ? "s" : ""}`,
+				tip: "This will delete all existing words.",
+			},
+			word_language: "Word language",
+			set_all_languages: {
+				_: "Set all words' languages",
+				tip: "This will delete all the language-feature-related information in each word but retain the word itself and its meaning. For example, French noun's gender will be deleted.",
+			},
+			create_and_set_languages: "Create, and then set languages"
+		},
 	},
-	Card: {
+	WordType: {
 		Simple: "Simple",
 		Mandarin: "Mandarin",
 		Japanese: "Japanese",

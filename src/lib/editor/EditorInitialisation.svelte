@@ -1,6 +1,12 @@
 <script lang="ts">
+	import SelectWordType from "$lib/editor/SelectWordType.svelte"
 	import {_} from "$lib/i18n"
-	import {Card} from "$lib"
+	import {WordType} from "$lib"
+	import * as Dialog from "$lib/components/ui/dialog"
+	import * as Select from "$lib/components/ui/select"
+	import {Button} from "$lib/components/ui/button"
+	import {Label} from "$lib/components/ui/label"
+	import {Input} from "$lib/components/ui/input"
 
 	let {
 		open = $bindable(false),
@@ -8,118 +14,84 @@
 		SetAllCardsTypes,
 	}: {
 		open: boolean
-		ReplaceWithEmptyWords: (card: Card, count: number) => void
-		SetAllCardsTypes: (card: Card) => void
+		ReplaceWithEmptyWords: (card: WordType, count: number) => void
+		SetAllCardsTypes: (card: WordType) => void
 	} = $props()
-	let dialog: HTMLDialogElement
 
 	let wordCount = $state(5)
-	let cardType = $state(Card.Simple)
-
-	$effect(() =>
-	{
-		if (open && ! dialog.open)
-			dialog.showModal()
-		else if (! open && dialog.open)
-			dialog.close()
-	})
+	let cardType = $state(WordType.Simple)
 </script>
 
-<dialog
-	bind:this={dialog}
-	class="modal select-none"
-	onclose={() => open = false}
->
+<Dialog.Root bind:open>
 
-	<div class="modal-box">
+	<Dialog.Content>
 
-		<form class="flex items-center justify-between gap-4" method="dialog" onsubmit={console.log}>
-			<header class="text-2xl">
-				Initialisation
-			</header>
-			<button class="btn btn-soft btn-error">
-				{$_.close}
-			</button>
-		</form>
+		<Dialog.Header>
+			<Dialog.Title>
+				{$_.editor.initialisation._}
+			</Dialog.Title>
+		</Dialog.Header>
 
-		<div class="h-4"></div>
+		<div class="flex flex-col gap-6">
 
-		<div class="flex flex-col gap-8">
+			<div class="flex flex-col gap-2">
 
-			<label class="flex flex-col items-start gap-2">
+            <Label>{$_.editor.initialisation.word_count}</Label>
 
-            <span class="text-lg">
-               Word count
-            </span>
+				<div class="flex gap-2 w-full">
 
-				<span class="inline-flex gap-2 w-full">
-               <input bind:value={wordCount} class="input input-lg w-full" min={1} type="number">
+               <Input bind:value={wordCount} type="number" min={1}/>
+
 					{#each [5, 10, 20] as count}
-                  <button class="btn btn-lg flex-1" onclick={() => wordCount = count}>
+                  <Button variant="outline" class="btn btn-lg flex-1" onclick={() => wordCount = count}>
                      {count}
-                  </button>
+                  </Button>
                {/each}
-            </span>
 
-			</label>
+            </div>
 
-			<button class="btn btn-primary" onclick={() => {
-                ReplaceWithEmptyWords(Card.Simple, wordCount)
-                open = false
-            }}>
-				Replace existing with {wordCount} empty words
-			</button>
+				<p class="text-sm text-red-400">
+					{$_.editor.initialisation.create_blank.tip}
+				</p>
 
-			<label class="flex flex-col items-start gap-2">
+				<Button onclick={() => {
+						 ReplaceWithEmptyWords(WordType.Simple, wordCount)
+						 open = false
+					}}>
+					{$_.editor.initialisation.create_blank._(wordCount)}
+				</Button>
 
-            <span class="text-lg">
-               Language
-            </span>
+			</div>
 
-				<select bind:value={cardType} class="select select-lg w-full">
+			<div class="flex flex-col gap-2">
 
-					<option value={Card.Simple}>
-						{$_.Card.Simple}
-					</option>
+            <Label>{$_.editor.initialisation.word_language}</Label>
 
-					<option value={Card.Japanese}>
-						{$_.Card.Japanese}
-					</option>
+				<SelectWordType bind:value={cardType} onchange={undefined} />
 
-					<option value={Card.French}>
-						{$_.Card.French}
-					</option>
+				<p class="text-sm text-red-400">
+					{$_.editor.initialisation.set_all_languages.tip}
+				</p>
 
-					<option value={Card.Mandarin}>
-						{$_.Card.Mandarin}
-					</option>
+				<Button onclick={() => {
+						SetAllCardsTypes(cardType)
+						open = false
+					}}>
+					{$_.editor.initialisation.set_all_languages._}
+				</Button>
 
-					<option value={Card.German}>
-						{$_.Card.German}
-					</option>
+			</div>
 
-				</select>
-
-			</label>
-
-			<button class="btn btn-primary" onclick={() => {
-         		SetAllCardsTypes(cardType)
-         		open = false
-				}}>
-				Set all words’ languages
-			</button>
-
-			<button class="btn btn-soft btn-primary" onclick={() => {
-					ReplaceWithEmptyWords(Card.Simple, wordCount)
+			<Button variant="secondary" onclick={() => {
+					ReplaceWithEmptyWords(WordType.Simple, wordCount)
 					SetAllCardsTypes(cardType)
 					open = false
 				}}>
-				Replace and set languages
-			</button>
+				{$_.editor.initialisation.create_and_set_languages}
+			</Button>
 
 		</div>
 
+	</Dialog.Content>
 
-	</div>
-
-</dialog>
+</Dialog.Root>

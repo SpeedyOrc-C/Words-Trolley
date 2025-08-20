@@ -1,18 +1,23 @@
 <script lang="ts">
-	import {blankWordFromType, blankWordSimple, Card, LangFromWord} from "$lib"
+	import {blankWordFromType, blankWordSimple, WordType, LangFromWord} from "$lib"
 	import type {Json} from "$lib/database.types"
 	import {goto} from "$app/navigation"
 	import {_} from "$lib/i18n"
 	import {French, German, Japanese} from "$lib/word"
 	import {VerbTypeFromRecursiveForm} from "$lib/word/japanese"
 	import InputPinyinLight from "$lib/InputPinyinLight.svelte"
-	import SelectCard from "$lib/editor/SelectCard.svelte"
+	import SelectWordAndTheirExtras from "$lib/editor/SelectWordAndTheirExtras.svelte"
 	import type {EditorProps} from "$lib/editor/Editor.svelte"
 	import Settings from "$lib/Settings.svelte"
 	import EditorNav from "$lib/editor/EditorNav.svelte"
 	import {MandarinScript, mandarinScript} from "$lib/Settings"
 	import InputBopomofoLight from "$lib/InputBopomofoLight.svelte"
 	import EditorInitialisation from "$lib/editor/EditorInitialisation.svelte"
+	import {Button} from "$lib/components/ui/button"
+	import * as Card from "$lib/components/ui/card"
+	import {Label} from "$lib/components/ui/label"
+	import {Input} from "$lib/components/ui/input"
+	import {Trash2} from "@lucide/svelte"
 
 	const data: EditorProps = $props()
 
@@ -30,15 +35,8 @@
 
 	async function Save()
 	{
-		if (saving || saved)
+		if (saving || saved || ! data.online)
 			return
-
-		if (! data.online)
-		{
-			Export()
-			saved = true
-			return
-		}
 
 		const {db, id} = data
 
@@ -207,7 +205,7 @@
 
 		switch (word.type)
 		{
-		case Card.Japanese:
+		case WordType.Japanese:
 		{
 			switch (word.category)
 			{
@@ -225,12 +223,12 @@
 		}
 	}
 
-	function ReplaceWithEmptyWords(card: Card, count: number)
+	function ReplaceWithEmptyWords(card: WordType, count: number)
 	{
 		words = new Array(count).fill(undefined).map(_ => structuredClone(blankWordFromType[card]))
 	}
 
-	function SetAllCardsTypes(card: Card)
+	function SetAllCardsTypes(card: WordType)
 	{
 		words = words.map(({word, meaning}) => structuredClone({...blankWordFromType[card], word, meaning}))
 	}
@@ -301,33 +299,18 @@
 	</title>
 </svelte:head>
 
-<Settings bind:open={settingsOpened}/>
-
 <EditorNav
-	{Delete} {Export} {Import} OpenSettings={() => settingsOpened = true}
+	{Delete} {Export} {Import}
 	OpenInitialisation={() => initialisationOpened = true}
-	{Save} {deleting} online={data.online} {saved} {saving}
-/>
-
-<EditorInitialisation
-	bind:open={initialisationOpened}
-	{ReplaceWithEmptyWords}
-	{SetAllCardsTypes}
+	OpenSettings={() => settingsOpened = true}
+	{Rename} {Save} {deleting} online={data.online} {renaming} {saved} {saving}
 />
 
 <main class="grow overflow-x-clip overflow-y-auto">
 
-	<header class="mx-auto my-8 w-fit flex items-center rounded join shadow bg-base-100">
+	<header class="mx-auto my-4 w-fit">
 		{#if data.online}
-			<button class="btn join-item" disabled={renaming} onclick={Rename}>
-				{#if renaming}
-					<span class="loading loading-spinner"></span>
-					{$_.editor.renaming}
-				{:else}
-					{$_.editor.rename}
-				{/if}
-			</button>
-			<h1 class="text-xl px-3 text-center join-item" class:opacity-50={renaming}>
+			<h1 class="text-xl px-4 text-center">
 				{name}
 			</h1>
 		{/if}
@@ -337,57 +320,71 @@
 
 		{#each words as word, i (word)}
 
-			<article
+			<Card.Root
 				draggable={!typing}
 				ondragstart={() => ondragstart(i)}
 				ondragend={ondragend}
 				ondragover={e => e.preventDefault()}
 				ondragenter={() => ondragenter(i)}
 				ondrop={() => ondrop(i)}
-
-				class:opacity-20={dragIndex === i}
-				class:bg-base-300={dropIndex === i}
-				class="flex flex-col bg-base-100 rounded shadow"
+				class="relative flex flex-col"
 			>
 
-				<div class="flex flex-col gap-3 p-3">
+				<Card.Content class="flex flex-col gap-4">
 
-					<label class="floating-label w-full text-lg">
-						<span>{$_.editor.word}</span>
-						<input
-							type="text" bind:value={word.word}
-							onfocusin={() => typing = true}
-							onfocusout={() => typing = false}
-							onchange={e => OnWordChange(e, i)}
-							placeholder={$_.editor.word}
-							lang={LangFromWord(word)}
-							class="input input-primary w-full text-lg"
-						>
-					</label>
+					<div class="flex flex-col gap-2">
 
-					<label class="floating-label w-full text-lg">
-						<span>{$_.editor.meaning}</span>
-						<input
+						<div class="flex items-center justify-between">
+							<Label>
+								{$_.editor.word}
+							</Label>
+
+							<div class="text-xs text-foreground/50">
+								{i + 1}<span class="text-foreground/30">/{words.length}</span>
+							</div>
+						</div>
+
+						<div class="flex gap-4">
+
+							<Input
+								type="text" bind:value={word.word}
+								onfocusin={() => typing = true}
+								onfocusout={() => typing = false}
+								onchange={e => OnWordChange(e, i)}
+								lang={LangFromWord(word)}
+							/>
+
+							<Button size="icon" variant="destructive" onclick={() => DeleteWord(i)}>
+								<Trash2/>
+							</Button>
+
+						</div>
+					</div>
+
+					<div class="flex flex-col gap-2">
+						<Label>
+							{$_.editor.meaning}
+						</Label>
+
+						<Input
 							type="text" bind:value={word.meaning}
 							onfocusin={() => typing = true}
 							onfocusout={() => typing = false}
 							onchange={() => saved = false}
-							placeholder={$_.editor.meaning}
-							class="input w-full text-lg"
-						>
-					</label>
-
-					<div class="w-full">
-						<SelectCard bind:saved bind:word={words[i]} {i} onchange={w => words[i] = w}/>
+						/>
 					</div>
 
-					{#if word.type === Card.French && word.category === French.Category.Noun}
+					<div class="w-full">
+						<SelectWordAndTheirExtras bind:saved bind:word={words[i]} {i} onchange={w => words[i] = w}/>
+					</div>
 
-						<fieldset class="w-full">
+					{#if word.type === WordType.French && word.category === French.Category.Noun}
 
-							<legend>{$_.linguistics.gender}</legend>
+						<fieldset class="w-full flex items-center gap-4">
 
-							<div class="flex gap-4">
+							<div>{$_.linguistics.gender}</div>
+
+							<div class="flex items-center gap-4">
 								<div>
 									<input type="radio" name="gender-{i}" id="m-{i}"
 											 value={French.Gender.M} bind:group={word.gender}
@@ -406,13 +403,13 @@
 
 						</fieldset>
 
-					{:else if word.type === Card.German && word.category === German.Category.Noun}
+					{:else if word.type === WordType.German && word.category === German.Category.Noun}
 
-						<fieldset class="w-full">
+						<fieldset class="w-full flex items-center gap-4">
 
-							<legend>{$_.linguistics.gender}</legend>
+							<div>{$_.linguistics.gender}</div>
 
-							<div class="flex gap-4">
+							<div class="flex items-center gap-4">
 								<div>
 									<input type="radio" name="gender-{i}" id="m-{i}"
 											 value={German.Gender.M} bind:group={word.gender}
@@ -438,7 +435,7 @@
 
 						</fieldset>
 
-					{:else if word.type === Card.Japanese && word.category === Japanese.Category.Verb}
+					{:else if word.type === WordType.Japanese && word.category === Japanese.Category.Verb}
 
 						<fieldset class="w-full">
 
@@ -473,7 +470,7 @@
 
 						</fieldset>
 
-					{:else if word.type === Card.Mandarin}
+					{:else if word.type === WordType.Mandarin}
 
 						{#if $mandarinScript === MandarinScript.Pinyin}
 
@@ -495,38 +492,42 @@
 
 					{/if}
 
-				</div>
+					<div class="w-full flex gap-2">
 
-				<div class="w-full flex join">
+						<Button onclick={() => MoveUp(i)} disabled={i === 0} class="flex-1" variant="secondary">
+							{$_.editor.move_up}
+						</Button>
 
-					<button onclick={() => InsertNewWord(i)} class="btn btn-sm flex-3 join-item">
-						{$_.insert}
-					</button>
+						<Button onclick={() => InsertNewWord(i)} class="flex-1" variant="outline">
+							{$_.insert}
+						</Button>
 
-					<button onclick={() => MoveUp(i)} class="btn btn-sm flex-3 join-item" disabled={i === 0}>
-						{$_.editor.move_up}
-					</button>
+						<Button onclick={() => MoveDown(i)} disabled={i === words.length - 1} class="flex-1"
+								  variant="secondary">
+							{$_.editor.move_down}
+						</Button>
 
-					<button onclick={() => MoveDown(i)} class="btn btn-sm flex-3 join-item" disabled={i === words.length - 1}>
-						{$_.editor.move_down}
-					</button>
+					</div>
 
-					<button onclick={() => DeleteWord(i)} class="btn btn-sm btn-dash btn-error flex-1 join-item">
-						{$_.delete}
-					</button>
-
-				</div>
-
-			</article>
+				</Card.Content>
+			</Card.Root>
 
 		{/each}
 
-		<button class="btn block m-auto w-full max-w-sm shadow" onclick={() => InsertNewWord(words.length)}>
+		<Button class="mx-2" onclick={() => InsertNewWord(words.length)}>
 			{$_.editor.add_a_word}
-		</button>
+		</Button>
 
 	</div>
 
 	<div style="height: 50vh"></div>
 
 </main>
+
+<EditorInitialisation
+	{ReplaceWithEmptyWords}
+	{SetAllCardsTypes}
+	bind:open={initialisationOpened}
+/>
+
+<Settings bind:open={settingsOpened}/>

@@ -11,12 +11,12 @@ export enum MandarinScript
 
 export interface ISettings
 {
-	Language: Language | null
+	Language: Language | "auto"
 	MandarinScript: MandarinScript
 }
 
 export const settings = writable({
-	Language: null,
+	Language: "auto",
 	MandarinScript: MandarinScript.Pinyin
 } as ISettings)
 

@@ -20,39 +20,39 @@ type Metadata
 	| JapaneseVerb
 
 export type SimpleWord = {
-	type: Card.Simple
+	type: WordType.Simple
 }
 
 export type MandarinWord = {
-	type: Card.Mandarin
+	type: WordType.Mandarin
 	region: Mandarin.Region
 	syllables: Mandarin.ISyllable[]
 }
 
 export type FrenchWord = {
-	type: Card.French
+	type: WordType.French
 	category: French.Category.Word
 }
 
 export type FrenchNoun = {
-	type: Card.French
+	type: WordType.French
 	category: French.Category.Noun
 	gender: French.Gender
 }
 
 export type GermanWord = {
-	type: Card.German
+	type: WordType.German
 	category: German.Category.Word
 }
 
 export type GermanNoun = {
-	type: Card.German
+	type: WordType.German
 	category: German.Category.Noun
 	gender: German.Gender
 }
 
 export type JapaneseWord = {
-	type: Card.Japanese
+	type: WordType.Japanese
 	category: Japanese.Category.Word
 	word_kana_only: string
 	morae: Japanese.Mora[]
@@ -60,7 +60,7 @@ export type JapaneseWord = {
 }
 
 export type JapaneseVerb = {
-	type: Card.Japanese
+	type: WordType.Japanese
 	category: Japanese.Category.Verb
 	word_kana_only: string
 	morae: Japanese.Mora[]
@@ -68,7 +68,7 @@ export type JapaneseVerb = {
 	verb_type: Japanese.VerbType
 }
 
-export enum Card
+export enum WordType
 {
 	Simple = "simple",
 	Mandarin = "mandarin",
@@ -84,19 +84,19 @@ const baseWord = {
 
 export const blankWordSimple: Word = {
 	...baseWord,
-	type: Card.Simple,
+	type: WordType.Simple,
 }
 
 const blankWordMandarin: Word = {
 	...baseWord,
-	type: Card.Mandarin,
+	type: WordType.Mandarin,
 	region: Mandarin.Region.PRC,
 	syllables: [],
 }
 
 const blankWordFrench: Word = {
 	...baseWord,
-	type: Card.French,
+	type: WordType.French,
 	category: French.Category.Word,
 }
 
@@ -108,7 +108,7 @@ const blankWordFrenchNoun: Word = {
 
 const blankWordGerman: Word = {
 	...baseWord,
-	type: Card.German,
+	type: WordType.German,
 	category: German.Category.Word,
 }
 
@@ -120,7 +120,7 @@ const blankWordGermanNoun: Word = {
 
 const blankWordJapanese: Word = {
 	...baseWord,
-	type: Card.Japanese,
+	type: WordType.Japanese,
 	category: Japanese.Category.Word,
 	word_kana_only: "",
 	morae: [],
@@ -129,43 +129,43 @@ const blankWordJapanese: Word = {
 
 const blankWordJapaneseVerb: Word = {
 	...blankWordJapanese,
-	type: Card.Japanese,
+	type: WordType.Japanese,
 	category: Japanese.Category.Verb,
 	verb_type: VerbType.Consonant,
 }
 
 export const blankWordFromTypeAndCategory = {
-	[Card.Simple]: blankWordSimple,
-	[Card.Mandarin]: blankWordMandarin,
-	[Card.French]: {
+	[WordType.Simple]: blankWordSimple,
+	[WordType.Mandarin]: blankWordMandarin,
+	[WordType.French]: {
 		[French.Category.Word]: blankWordFrench,
 		[French.Category.Noun]: blankWordFrenchNoun,
 	},
-	[Card.German]: {
+	[WordType.German]: {
 		[German.Category.Word]: blankWordGerman,
 		[German.Category.Noun]: blankWordGermanNoun,
 	},
-	[Card.Japanese]: {
+	[WordType.Japanese]: {
 		[Japanese.Category.Word]: blankWordJapanese,
 		[Japanese.Category.Verb]: blankWordJapaneseVerb,
 	}
 } as const
 
 export const blankWordFromType = {
-	[Card.Simple]: blankWordSimple,
-	[Card.Mandarin]: blankWordMandarin,
-	[Card.French]: blankWordFrench,
-	[Card.German]: blankWordGerman,
-	[Card.Japanese]: blankWordJapanese
+	[WordType.Simple]: blankWordSimple,
+	[WordType.Mandarin]: blankWordMandarin,
+	[WordType.French]: blankWordFrench,
+	[WordType.German]: blankWordGerman,
+	[WordType.Japanese]: blankWordJapanese
 } as const
 
 export function LangFromWord(word: Word)
 {
 	switch (word.type)
 	{
-	case Card.Simple:
+	case WordType.Simple:
 		return ""
-	case Card.Mandarin:
+	case WordType.Mandarin:
 		switch (word.region)
 		{
 		case Mandarin.Region.PRC:
@@ -173,11 +173,11 @@ export function LangFromWord(word: Word)
 		case Mandarin.Region.ROC:
 			return "zh-TW"
 		}
-	case Card.French:
+	case WordType.French:
 		return "fr"
-	case Card.German:
+	case WordType.German:
 		return "de"
-	case Card.Japanese:
+	case WordType.Japanese:
 		return "ja"
 	}
 }
@@ -209,15 +209,15 @@ function TypeCheckWord(input: Json): boolean
 	// TODO
 	switch (type)
 	{
-	case Card.Simple:
+	case WordType.Simple:
 		return true
-	case Card.Mandarin:
+	case WordType.Mandarin:
 		return true
-	case Card.Japanese:
+	case WordType.Japanese:
 		return true
-	case Card.French:
+	case WordType.French:
 		return true
-	case Card.German:
+	case WordType.German:
 		return true
 	default:
 		return false

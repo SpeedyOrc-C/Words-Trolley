@@ -1,10 +1,14 @@
 <script lang="ts">
-	import {MandarinScript, settings} from "$lib/Settings"
+	import {type ISettings, MandarinScript, settings} from "$lib/Settings"
 	import {_, Language} from "$lib/i18n"
+	import * as Dialog from "$lib/components/ui/dialog"
+	import * as Select from "$lib/components/ui/select"
+	import * as RadioGroup from "$lib/components/ui/radio-group"
+	import {Label} from "$lib/components/ui/label"
+	import {Languages} from "@lucide/svelte"
 
 	let {open = $bindable(false)}: { open: boolean } = $props()
 	let newSettings = $state($settings)
-	let dialog: HTMLDialogElement
 
 	function UpdateSettings()
 	{
@@ -13,118 +17,131 @@
 
 	$effect(() =>
 	{
-		if (open && ! dialog.open)
-			dialog.showModal()
-		else if (! open && dialog.open)
-			dialog.close()
-	})
-
-	$effect(() =>
-	{
 		newSettings
 		UpdateSettings()
 	})
+
+	function _Language(l: ISettings["Language"])
+	{
+		switch (l)
+		{
+		case Language.ZhCn:
+			return "简体中文（中华人民共和国）"
+		case Language.EnGb:
+			return "English (United Kingdom)"
+		case "auto":
+			return $_.settings.follows_your_system
+		}
+	}
 </script>
 
-<dialog
-	bind:this={dialog}
-	class="modal select-none"
-	onclose={() => open = false}
->
+<Dialog.Root bind:open>
 
-	<div class="modal-box">
+	<Dialog.Content>
 
-		<form class="flex items-center justify-between gap-4" method="dialog">
-			<header class="text-2xl">
+		<Dialog.Header>
+			<Dialog.Title>
 				{$_.settings._}
-			</header>
-			<button class="btn btn-soft btn-error">
-				{$_.close}
-			</button>
-		</form>
+			</Dialog.Title>
+		</Dialog.Header>
 
-		<div class="h-4"></div>
+		<div class="flex flex-col gap-6">
 
-		<div class="flex flex-col gap-8">
+			<div class="flex flex-col gap-2">
 
-			<label class="flex flex-col items-start gap-2">
+				<Label>{$_.settings.ui_language}</Label>
 
-            <span class="text-lg">
-               {$_.settings.ui_language}
-            </span>
+				<Select.Root bind:value={newSettings.Language} type="single">
 
-				<select bind:value={newSettings.Language} class="select w-full">
-					<option selected value={null}>
-						{$_.settings.follows_your_system}
-					</option>
-					<option value={Language.ZhCn}>
-						简体中文（中华人民共和国）
-					</option>
-					<option value={Language.EnGb}>
-						English (United Kingdom)
-					</option>
-				</select>
+					<Select.Trigger>
+						<Languages />
+						{_Language(newSettings.Language)}
+					</Select.Trigger>
 
-			</label>
+					<Select.Content>
 
-			<fieldset class="flex flex-col items-start gap-2">
+						<Select.Item value="auto">
+							{$_.settings.follows_your_system}
+						</Select.Item>
 
-				<div class="text-lg">
-					{$_.settings.mandarin_script}
-				</div>
+						<Select.Item value={Language.ZhCn}>
+							简体中文（中华人民共和国）
+						</Select.Item>
 
-				<div class="flex gap-8">
+						<Select.Item value={Language.EnGb}>
+							English (United Kingdom)
+						</Select.Item>
 
-					<label class="inline-flex items-center gap-2">
+					</Select.Content>
 
-						<input
-							bind:group={newSettings.MandarinScript}
-							class="radio"
-							name="set-mandarin-script"
-							type="radio"
+				</Select.Root>
+
+			</div>
+
+			<div class="flex flex-col gap-2">
+
+				<Label>{$_.settings.mandarin_script}</Label>
+
+				<RadioGroup.Root
+					bind:value={newSettings.MandarinScript}
+					class="flex gap-4"
+				>
+
+					<div class="radio-group-with-box flex items-center gap-2">
+
+						<RadioGroup.Item
+							id="set-mandarin-script-pinyin"
 							value={MandarinScript.Pinyin}
-						>
+						/>
 
-						<span class="inline-flex flex-col items-center">
-                     <span>{$_.linguistics.pinyin}</span>
-                     <span class="text-xl text-base-content/50">
-                        pīn yīn
-                     </span>
-                  </span>
+						<Label class="flex flex-col items-center" for="set-mandarin-script-pinyin">
+							<div>
+								{$_.linguistics.pinyin}
+							</div>
+							<div style="font-size: 1.25em">
+								pīn yīn
+							</div>
+						</Label>
 
-					</label>
+					</div>
 
-					<label class="inline-flex items-center gap-2">
+					<div class="radio-group-with-box flex items-center gap-2">
 
-						<input
-							bind:group={newSettings.MandarinScript}
-							class="radio"
-							name="set-mandarin-script"
-							type="radio"
+						<RadioGroup.Item
+							id="set-mandarin-script-bopomofo"
 							value={MandarinScript.Bopomofo}
-						>
+						/>
 
-						<span class="inline-flex flex-col items-center">
-                     <span>{$_.linguistics.bopomofo}</span>
-                     <span class="text-xl text-base-content/50">
-                        ㄓㄨˋ ㄧㄣ
-                     </span>
-                  </span>
+						<Label class="flex flex-col items-center" for="set-mandarin-script-bopomofo">
+							<div>
+								{$_.linguistics.bopomofo}
+							</div>
+							<div style="font-size: 1.25em">
+								ㄓㄨˋ ㄧㄣ
+							</div>
+						</Label>
 
-					</label>
+					</div>
 
-				</div>
+				</RadioGroup.Root>
 
-			</fieldset>
+
+			</div>
 
 		</div>
 
-	</div>
+	</Dialog.Content>
 
-</dialog>
+</Dialog.Root>
 
 <style>
-    dialog:focus {
-        outline: none;
+    @reference "tailwindcss";
+
+    .radio-group-with-box {
+        @apply p-2 rounded-md border-2 border-transparent;
+
+        &:has(:global(button[data-state="checked"])) {
+            @apply border-gray-400;
+        }
     }
 </style>

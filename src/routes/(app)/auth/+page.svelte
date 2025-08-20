@@ -1,34 +1,37 @@
-<script>
+<script lang="ts">
     import {_} from "$lib/i18n"
+    import * as Card from "$lib/components/ui/card"
+    import {Input} from "$lib/components/ui/input"
+    import {Button} from "$lib/components/ui/button"
+    import {Label} from "$lib/components/ui/label"
 </script>
 
-<main class="m-8">
+<Card.Root class="m-auto mt-6 w-full max-w-sm">
+	<Card.Content>
 
-	<form method="POST" action="?/login"
-			class="m-auto w-full max-w-sm flex flex-col gap-4 relative">
+		<form action="?/login" method="POST" class="flex flex-col gap-6">
 
-		<label class="floating-label">
-			<span>{$_.email}</span>
-			<input name="email" type="email" placeholder={$_.email} required
-					 class="input input-lg w-full"/>
-		</label>
+			<div class="flex flex-col gap-2">
+				<Label for="email">{$_.email}</Label>
+				<Input id="email" name="email" type="email" required/>
+			</div>
 
-		<label class="floating-label">
-			<span>{$_.password}</span>
-			<input name="password" type="password" placeholder={$_.password} required
-					 class="input input-lg w-full"/>
-		</label>
+			<div class="flex flex-col gap-2">
+				<Label for="password">{$_.password}</Label>
+				<Input id="password" name="password" type="password" required/>
+			</div>
 
-		<div class="flex justify-between gap-4">
-			<button type="submit" class="btn flex-1/2">
-				{$_.login}
-			</button>
+			<div class="flex flex-col gap-2">
+				<Button type="submit">
+					{$_.login}
+				</Button>
 
-			<button formaction="?/signup" class="btn flex-1/2">
-				{$_.signup}
-			</button>
-		</div>
+				<Button formaction="?/signup" variant="outline">
+					{$_.signup}
+				</Button>
+			</div>
 
-	</form>
+		</form>
 
-</main>
+	</Card.Content>
+</Card.Root>

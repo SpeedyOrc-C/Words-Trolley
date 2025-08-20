@@ -1,4 +1,4 @@
-<script module lang="ts">
+<script lang="ts" module>
 	import type {SupabaseClient} from "@supabase/supabase-js"
 	import type {Database} from "$lib/database.types"
 	import type {Words} from "$lib"
@@ -20,6 +20,4 @@
 	const props: EditorProps = $props()
 </script>
 
-<div class="relative w-svw h-svh flex flex-col">
-	<Editor_ {...props}/>
-</div>
+<Editor_ {...props}/>

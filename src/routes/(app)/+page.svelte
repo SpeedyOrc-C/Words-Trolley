@@ -1,9 +1,13 @@
 <script lang="ts">
 	import {_} from "$lib/i18n"
+	import {Button} from "$lib/components/ui/button"
+	import Settings from "$lib/Settings.svelte"
+	import {Settings as Gear} from "@lucide/svelte"
 
 	let {data} = $props()
 
 	let loading = $state(false)
+	let settingsOpened = $state(false)
 
 	async function SignOut()
 	{
@@ -27,7 +31,7 @@
 	</title>
 </svelte:head>
 
-<main class="bg-base-100">
+<main>
 
 	<header class="my-4 text-center text-2xl">
 
@@ -49,35 +53,39 @@
 
 		{#if data.user}
 
-			<a href="/new">
-				<button class="btn btn-lg btn-soft btn-primary">
-					{$_.home.create_a_new_set}
-				</button>
-			</a>
+			<Button href="/new">
+				{$_.home.create_a_new_set}
+			</Button>
 
-			<a href="/creator/{data.user.id}">
-				<button class="btn btn-lg btn-soft">
-					{$_.home.browse_my_sets}
-				</button>
-			</a>
-
-			<button disabled={loading} onclick={SignOut} class="btn btn-lg btn-dash btn-error">
-				{#if loading}
-					<span class="loading loading-spinner"></span>
-				{/if}
-				{$_.logout}
-			</button>
-
-		{:else}
-
-			<a href="/auth">
-				<button class="btn btn-lg btn-soft btn-primary">
-					{$_.login_and_signup}
-				</button>
-			</a>
+			<Button href="/creator/{data.user.id}" variant="outline">
+				{$_.home.browse_my_sets}
+			</Button>
 
 		{/if}
+
+		<div class="flex gap-4">
+			<Button onclick={() => settingsOpened = true} variant="outline">
+				<Gear />
+				{$_.settings._}
+			</Button>
+
+			{#if data.user}
+
+				<Button disabled={loading} onclick={SignOut} variant="destructive">
+					{$_.logout}
+				</Button>
+
+			{:else}
+
+				<Button href="/auth">
+					{$_.login_and_signup}
+				</Button>
+
+			{/if}
+		</div>
 
 	</div>
 
 </main>
+
+<Settings bind:open={settingsOpened}/>

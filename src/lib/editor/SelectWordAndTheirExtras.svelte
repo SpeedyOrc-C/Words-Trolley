@@ -1,10 +1,12 @@
 <script lang="ts">
-	import {blankWordFromType, blankWordFromTypeAndCategory, Card, type MandarinWord, type Word} from "$lib"
+	import SelectWordType from "$lib/editor/SelectWordType.svelte"
 	import {_} from "$lib/i18n"
+	import {blankWordFromType, blankWordFromTypeAndCategory, WordType, type MandarinWord, type Word} from "$lib"
 	import SelectFrenchCategory from "./SelectFrenchCategory.svelte"
 	import {French, German, Mandarin} from "$lib/word"
 	import SelectMandarinRegion from "./SelectMandarinRegion.svelte"
 	import SelectGermanCategory from "$lib/editor/SelectGermanCategory.svelte"
+	import * as Select from "$lib/components/ui/select"
 
 	let {
 		word = $bindable(),
@@ -18,12 +20,29 @@
 		onchange: (word: Word) => any
 	} = $props()
 
-	let card = $state(word.type)
+	let wordType = $state(word.type)
+
+	function _WordType(t: WordType): string
+	{
+		switch (t)
+		{
+		case WordType.Simple:
+			return $_.WordType.Simple
+		case WordType.Mandarin:
+			return $_.WordType.Mandarin
+		case WordType.Japanese:
+			return $_.WordType.Japanese
+		case WordType.French:
+			return $_.WordType.French
+		case WordType.German:
+			return $_.WordType.German
+		}
+	}
 
 	function OnCardChange()
 	{
 		_onchange({
-			...structuredClone(blankWordFromType[card]),
+			...structuredClone(blankWordFromType[wordType]),
 			word: word.word,
 			meaning: word.meaning,
 		})
@@ -59,53 +78,25 @@
 	}
 </script>
 
-<fieldset class="w-full flex justify-between gap-2">
+<fieldset class="w-full flex gap-2">
 
-	<select
-		aria-label={$_.editor.card_type_select_label(i + 1)}
-		bind:value={card}
-		class="select flex-1 grow"
-		id="t-{i}"
-		onchange={OnCardChange}
-	>
+	<SelectWordType bind:value={wordType} onchange={OnCardChange} />
 
-		<option value={Card.Simple}>
-			{$_.Card.Simple}
-		</option>
-
-		<option value={Card.Japanese}>
-			{$_.Card.Japanese}
-		</option>
-
-		<option value={Card.French}>
-			{$_.Card.French}
-		</option>
-
-		<option value={Card.Mandarin}>
-			{$_.Card.Mandarin}
-		</option>
-
-		<option value={Card.German}>
-			{$_.Card.German}
-		</option>
-
-	</select>
-
-	{#if word.type === Card.French}
+	{#if word.type === WordType.French}
 
 		<SelectFrenchCategory
 			value={word.category}
 			onchange={OnFrenchCategoryChange}
 		/>
 
-	{:else if word.type === Card.German}
+	{:else if word.type === WordType.German}
 
 		<SelectGermanCategory
 			value={word.category}
 			onchange={OnGermanCategoryChange}
 		/>
 
-	{:else if word.type === Card.Mandarin}
+	{:else if word.type === WordType.Mandarin}
 
 		<SelectMandarinRegion
 			value={word.region}

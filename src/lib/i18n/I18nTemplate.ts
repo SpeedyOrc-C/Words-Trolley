@@ -15,6 +15,7 @@ export type I18nTemplate = {
 	insert: s
 	close: s
 	more: s
+	word_set: s
 	settings: {
 		_: s
 		follows_your_system: s
@@ -35,6 +36,11 @@ export type I18nTemplate = {
 	set: {
 		learn: s
 		test: s
+	}
+	learn: {
+		next: s
+		previous: s
+		flip: s
 	}
 	test: {
 		show_answer: s
@@ -68,8 +74,23 @@ export type I18nTemplate = {
 		move_up: s
 		move_down: s
 		card_type_select_label: (i: number) => s
+		initialise: s
+		initialisation: {
+			_: s
+			word_count: s
+			create_blank: {
+				_: (n: number) => s
+				tip: s
+			}
+			word_language: s
+			set_all_languages: {
+				_: s
+				tip: s
+			}
+			create_and_set_languages: s
+		}
 	}
-	Card: {
+	WordType: {
 		Simple: s
 		Mandarin: s
 		Japanese: s

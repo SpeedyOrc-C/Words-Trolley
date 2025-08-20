@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {_} from "$lib/i18n"
 	import {Region} from "$lib/word/mandarin"
+	import * as Select from "$lib/components/ui/select"
 
 	const {
 		onchange: _onchange,
@@ -10,17 +11,34 @@
 		value: Region
 	} = $props()
 
+	function _Region(r: Region)
+	{
+		switch (r)
+		{
+		case Region.PRC:
+			return $_.mandarin.region.prc
+		case Region.ROC:
+			return $_.mandarin.region.roc
+		}
+	}
+
 	let value = $state(_value)
 </script>
 
-<select bind:value class="input flex-1" onchange={() => _onchange(value)}>
+<Select.Root type="single" bind:value onValueChange={() => _onchange(value)}>
 
-	<option value={Region.PRC}>
-		{$_.mandarin.region.prc}
-	</option>
+	<Select.Trigger>{_Region(value)}</Select.Trigger>
 
-	<option value={Region.ROC}>
-		{$_.mandarin.region.roc}
-	</option>
+	<Select.Content>
 
-</select>
+		<Select.Item value={Region.PRC}>
+			{$_.mandarin.region.prc}
+		</Select.Item>
+
+		<Select.Item value={Region.ROC}>
+			{$_.mandarin.region.roc}
+		</Select.Item>
+
+	</Select.Content>
+
+</Select.Root>

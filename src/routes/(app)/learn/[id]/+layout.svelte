@@ -2,4 +2,6 @@
 	const {children} = $props()
 </script>
 
-{@render children()}
+<div class="w-svw h-svh flex flex-col items-center justify-between select-none">
+	{@render children()}
+</div>

@@ -2,6 +2,8 @@
 	import {pBopomofo} from "$lib/word/mandarin/parser/bopomofo"
 	import {eof, space} from "crazy-parser"
 	import {many, some} from "crazy-parser/prefix"
+	import {Label} from "$lib/components/ui/label"
+	import {Input} from "$lib/components/ui/input"
 
 	const parser =
 		pBopomofo
@@ -25,11 +27,14 @@
 
 	const initValue = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Bopomofo).join(" ")
 
-	let input: HTMLInputElement
+	let input: HTMLInputElement | null = null
 	let error = $state(false)
 
 	function onchange()
 	{
+		if (input == null)
+			return
+
 		const syllables = parser.eval(input.value.trim().toLowerCase())
 
 		if (syllables instanceof Error)
@@ -46,25 +51,31 @@
 
 	function onfocusout()
 	{
+		if (input == null)
+			return
+
 		if (! error)
 			input.value = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Bopomofo).join(" ")
 	}
 </script>
 
-<label class="w-full floating-label">
-	<span>{placeholder}</span>
-	<input
-		bind:this={input}
+<div class="flex flex-col gap-2">
+
+	<Label>{placeholder}</Label>
+
+	<Input
+		bind:ref={input}
 		autocapitalize="off"
 		autocomplete="off"
 		autocorrect="off"
 		value={initValue}
 		class="input text-lg w-full"
-		class:input-error={error}
+		aria-invalid={error}
 		{onchange}
 		onkeydown={bopomofoOverrider.OnKeyDown}
 		{onfocusout}
 		{placeholder}
 		type="text"
-	>
-</label>
+	/>
+
+</div>

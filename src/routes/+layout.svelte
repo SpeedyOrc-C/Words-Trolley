@@ -1,6 +1,7 @@
 <script lang="ts">
 	import "../app.css"
 	import {AutoDetectLanguage, language} from "$lib/i18n"
+	import {ModeWatcher} from "mode-watcher"
 	import {mandarinScript, settings, SettingsKey} from "$lib/Settings"
 
 	const {children} = $props()
@@ -19,7 +20,7 @@
 		{
 			localStorage.setItem(SettingsKey, JSON.stringify(set))
 
-			if (set.Language == null)
+			if (set.Language == "auto")
 				AutoDetectLanguage(navigator.language)
 			else
 				language.set(set.Language)
@@ -39,4 +40,5 @@
 	onlanguagechange={() => AutoDetectLanguage(navigator.language)}
 />
 
+<ModeWatcher/>
 {@render children()}

@@ -4,10 +4,12 @@ export default interface EditorNavProps
 	saving: boolean
 	saved: boolean
 	deleting: boolean
+	renaming: boolean
 	OpenSettings: () => any
 	OpenInitialisation: () => any
 	Save: () => any
 	Import: () => any
 	Export: () => any
 	Delete: () => any
+	Rename: () => any
 }

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {_} from "$lib/i18n"
 	import {Category} from "$lib/word/french"
+	import * as Select from "$lib/components/ui/select"
 
 	const {
 		onchange: _onchange,
@@ -10,17 +11,34 @@
 		value: Category
 	} = $props()
 
+	function _Category(c: Category)
+	{
+		switch (c)
+		{
+		case Category.Word:
+			return $_.editor.word
+		case Category.Noun:
+			return $_.linguistics.noun
+		}
+	}
+
 	let value = $state(_value)
 </script>
 
-<select bind:value class="input flex-1" onchange={() => _onchange(value)}>
+<Select.Root type="single" bind:value onValueChange={() => _onchange(value)}>
 
-	<option value={Category.Word}>
-		{$_.editor.word}
-	</option>
+	<Select.Trigger>{_Category(value)}</Select.Trigger>
 
-	<option value={Category.Noun}>
-		{$_.linguistics.noun}
-	</option>
+	<Select.Content>
 
-</select>
+		<Select.Item value={Category.Word}>
+			{$_.editor.word}
+		</Select.Item>
+
+		<Select.Item value={Category.Noun}>
+			{$_.linguistics.noun}
+		</Select.Item>
+
+	</Select.Content>
+
+</Select.Root>

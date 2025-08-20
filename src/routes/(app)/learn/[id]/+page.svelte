@@ -1,7 +1,8 @@
 <script lang="ts">
 	import {LangFromWord, type Words} from "$lib"
+	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_} from "$lib/i18n"
-	import ProgressAtBottom from "$lib/ProgressWithLabel.svelte"
+	import {Button} from "$lib/components/ui/button"
 
 	const {data} = $props()
 	const words = data.set.words as Words
@@ -73,62 +74,33 @@
 
 <svelte:window onkeydown={onkeydown}/>
 
-<a href="/">
-	<button class="btn btn-ghost btn-sm m-2 absolute text-base-content/50">
-		{$_.home._}
-	</button>
-</a>
+<WordProgressNav index={i} {words}/>
 
-<a href="https://en.wiktionary.org/w/index.php?search={encodeURIComponent(word.word)}" target="_blank">
-	<button class="btn btn-ghost btn-sm m-2 absolute right-0 text-base-content/50">
-		Wiktionary
-	</button>
-</a>
-
-<div class="w-svw h-svh flex flex-col items-center select-none">
-
-	<main class="grow flex items-center justify-around px-4 text-3xl md:text-5xl lg:text-7xl">
-		<!-- Select the whole text with a single click -->
-		{#if flipped}
-			<div class="select-all">
-				{word.meaning}
-			</div>
-		{:else}
-			<div class="select-all" lang={LangFromWord(word)}>
-				{word.word}
-			</div>
-		{/if}
-	</main>
-
-	<ProgressAtBottom index={i} length={words.length}/>
-
-	<div class="w-full flex flex-col p-2 gap-2" id="control">
-
-		<div class="flex justify-between gap-2">
-
-			<button class="btn btn-xl h-24 flex-1" onclick={Previous}>
-				上一个
-			</button>
-
-			<button class="btn btn-xl h-24 flex-1" onclick={Next}>
-				下一个
-			</button>
-
+<main class="grow flex items-center justify-around px-4 text-5xl">
+	<!-- Select the whole text with a single click -->
+	{#if flipped}
+		<div class="select-all">
+			{word.meaning}
 		</div>
+	{:else}
+		<div class="select-all" lang={LangFromWord(word)}>
+			{word.word}
+		</div>
+	{/if}
+</main>
 
-		<button class="btn btn-xl h-24" onclick={Flip}>
-			翻面
-		</button>
+<div class="w-full p-3 flex gap-3" id="control">
 
-	</div>
+	<Button class="h-24 text-xl flex-1" onclick={Flip} variant="secondary">
+		{$_.learn.flip}
+	</Button>
+
+	<Button class="h-24 text-xl flex-1" onclick={Previous} variant="secondary">
+		{$_.learn.previous}
+	</Button>
+
+	<Button class="h-24 text-xl flex-1" onclick={Next} variant="outline">
+		{$_.learn.next}
+	</Button>
 
 </div>
-
-<style>
-    #control {
-        /*display: none;*/
-        @media (pointer: fine) {
-            /*display: none;*/
-        }
-    }
-</style>

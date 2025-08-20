@@ -1,4 +1,7 @@
 <script lang="ts">
+	import {Button} from "$lib/components/ui/button"
+	import {Input} from "$lib/components/ui/input"
+	import {Label} from "$lib/components/ui/label"
 	import {_} from "$lib/i18n"
 	import JustHomeNavbar from "$lib/JustHomeNavbar.svelte"
 </script>
@@ -12,17 +15,14 @@
 		</h1>
 	</header>
 
-	<form action="?/do" class="m-auto px-2 w-full max-w-md flex flex-col gap-4" method="post">
+	<form action="?/do" class="m-auto px-2 w-full max-w-md flex flex-col gap-6" method="post">
 
-		<label class="floating-label">
-			<span>{$_.name}</span>
-			<input class="input input-lg w-full" name="name" placeholder={$_.name}
-					 required type="text"/>
-		</label>
+		<div class="flex flex-col gap-2">
+			<Label>{$_.name}</Label>
+			<Input id="name" name="name" required type="text"/>
+		</div>
 
-		<button class="btn btn-lg btn-primary" type="submit">
-			{$_.submit}
-		</button>
+		<Button type="submit">{$_.submit}</Button>
 
 	</form>
 

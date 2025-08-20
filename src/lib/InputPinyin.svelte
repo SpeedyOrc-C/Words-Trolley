@@ -1,4 +1,5 @@
 <script lang="ts">
+	import {Input} from "$lib/components/ui/input"
 	import * as Mandarin from "$lib/word/mandarin"
 	import {onMount} from "svelte"
 	import {pinyinSingleSyllableOverrider as overrider} from "$lib/MandarinInputOverrider"
@@ -19,7 +20,7 @@
 		onfocusout: () => any
 	} = $props()
 
-	const elements: Array<HTMLElement | HTMLInputElement> = []
+	const elements: Array<HTMLElement | HTMLInputElement> = $derived(new Array(length ?? 0).fill(null))
 
 	let syllables: Array<Mandarin.Syllable | null> = $state(new Array(length ?? 0).fill(null))
 	let focusedBufferIndex: number | null = null
@@ -257,8 +258,8 @@
 
 		{:else}
 
-			<input
-				type="text" required maxlength="7"
+			<Input
+				type="text" required maxlength={7}
 				class="input input-lg w-12 valid:w-30 px-0 text-3xl text-center"
 				autofocus={i === 0}
 				autocorrect="off"
@@ -267,7 +268,8 @@
 				onkeydown={e => OnBufferKeyDown(i, e)}
 				onkeyup={e => OnBufferKeyUp(i, e)}
 				onfocusin={e => OnElementFocusIn(i)}
-				use:AttachBuffer={i}
+				style="font-size: 2rem"
+				bind:ref={elements[i]}
 			/>
 
 		{/if}

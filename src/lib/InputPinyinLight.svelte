@@ -2,6 +2,8 @@
 	import {pPinyinWithToneNumber} from "$lib/word/mandarin/parser/pinyin-with-tone-number"
 	import {eof, space} from "crazy-parser"
 	import {many, some} from "crazy-parser/prefix"
+	import {Label} from "$lib/components/ui/label"
+	import {Input} from "$lib/components/ui/input"
 
 	const parser =
 		pPinyinWithToneNumber
@@ -25,11 +27,14 @@
 
 	const initValue = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Pinyin).join(" ")
 
-	let input: HTMLInputElement
+	let input: HTMLInputElement | null = null
 	let error = $state(false)
 
 	function onchange()
 	{
+		if (input == null)
+			return
+
 		console.log("changed", input.value)
 
 		const syllables = parser.eval(input.value.trim().toLowerCase())
@@ -48,27 +53,35 @@
 
 	function onfocusin()
 	{
+		if (input == null)
+			return
+
 		if (! error)
 			input.value = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).PinyinWithToneNumber).join(" ")
 	}
 
 	function onfocusout()
 	{
+		if (input == null)
+			return
+
 		if (! error)
 			input.value = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Pinyin).join(" ")
 	}
 </script>
 
-<label class="w-full floating-label">
-	<span>{placeholder}</span>
-	<input
-		bind:this={input}
+<div class="flex flex-col gap-2">
+
+	<Label>{placeholder}</Label>
+
+	<Input
+		bind:ref={input}
 		autocapitalize="off"
 		autocomplete="off"
 		autocorrect="off"
 		value={initValue}
 		class="input text-lg w-full"
-		class:input-error={error}
+		aria-invalid={error}
 		{onchange}
 		{onfocusin}
 		{onfocusout}
@@ -76,5 +89,6 @@
 		onkeyup={pinyinSyllablesOverrider.OnKeyUp}
 		{placeholder}
 		type="text"
-	>
-</label>
+	/>
+
+</div>

@@ -36,7 +36,7 @@ export enum Mora
 
 export enum VerbType
 {
-	Irregular = 0, Consonant = 1, Vowel = 2, Noun = 3
+	Irregular = "乱", Consonant = "五", Vowel = "一", Noun = "名"
 }
 
 const Magic1 = ["う", "く", "ぐ", "す", "つ", "ぬ", "ぶ", "む"] as const

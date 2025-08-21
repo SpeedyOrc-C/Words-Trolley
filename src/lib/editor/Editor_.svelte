@@ -17,6 +17,7 @@
 	import * as Card from "$lib/components/ui/card"
 	import {Label} from "$lib/components/ui/label"
 	import {Input} from "$lib/components/ui/input"
+	import * as RadioGroup from "$lib/components/ui/radio-group"
 	import {Trash2, Plus, MoveUpIcon, MoveDownIcon, BetweenHorizontalStart} from "@lucide/svelte"
 
 	const data: EditorProps = $props()
@@ -325,7 +326,7 @@
 		{#each words as word, i (word)}
 
 			<Button variant="ghost" onclick={() => InsertNewWord(i)} class="text-foreground/30">
-				<BetweenHorizontalStart />
+				<BetweenHorizontalStart/>
 				{$_.editor.insert_here}
 			</Button>
 
@@ -389,95 +390,87 @@
 
 					{#if word.type === WordType.French && word.category === French.Category.Noun}
 
-						<fieldset class="w-full flex items-center gap-4">
+						<RadioGroup.Root
+							bind:value={word.gender}
+							name="gender-{i}"
+							onValueChange={() => saved = false}
+							class="w-full flex items-center gap-4"
+						>
 
 							<div>{$_.linguistics.gender}</div>
 
-							<div class="flex items-center gap-4">
-								<div>
-									<input type="radio" name="gender-{i}" id="m-{i}"
-											 value={French.Gender.M} bind:group={word.gender}
-											 onchange={() => saved = false}
-											 class="radio">
-									<label for="m-{i}">{$_.linguistics.abbr.masculine}</label>
-								</div>
-								<div>
-									<input type="radio" name="gender-{i}" id="f-{i}"
-											 value={French.Gender.F} bind:group={word.gender}
-											 onchange={() => saved = false}
-											 class="radio">
-									<label for="f-{i}">{$_.linguistics.abbr.feminine}</label>
-								</div>
+							<div class="flex items-center gap-2">
+								<RadioGroup.Item id="m" value={French.Gender.M}/>
+								<Label for="m">{$_.linguistics.abbr.masculine}</Label>
 							</div>
 
-						</fieldset>
+							<div class="flex items-center gap-2">
+								<RadioGroup.Item id="f" value={French.Gender.F}/>
+								<Label for="f">{$_.linguistics.abbr.feminine}</Label>
+							</div>
+
+						</RadioGroup.Root>
 
 					{:else if word.type === WordType.German && word.category === German.Category.Noun}
 
-						<fieldset class="w-full flex items-center gap-4">
+						<RadioGroup.Root
+							bind:value={word.gender}
+							name="gender-{i}"
+							onValueChange={() => saved = false}
+							class="w-full flex items-center gap-4"
+						>
 
 							<div>{$_.linguistics.gender}</div>
 
-							<div class="flex items-center gap-4">
-								<div>
-									<input type="radio" name="gender-{i}" id="m-{i}"
-											 value={German.Gender.M} bind:group={word.gender}
-											 onchange={() => saved = false}
-											 class="radio">
-									<label for="m-{i}">{$_.linguistics.abbr.masculine}</label>
-								</div>
-								<div>
-									<input type="radio" name="gender-{i}" id="n-{i}"
-											 value={German.Gender.N} bind:group={word.gender}
-											 onchange={() => saved = false}
-											 class="radio">
-									<label for="n-{i}">{$_.linguistics.abbr.neutral}</label>
-								</div>
-								<div>
-									<input type="radio" name="gender-{i}" id="f-{i}"
-											 value={German.Gender.F} bind:group={word.gender}
-											 onchange={() => saved = false}
-											 class="radio">
-									<label for="f-{i}">{$_.linguistics.abbr.feminine}</label>
-								</div>
+							<div class="flex items-center gap-2">
+								<RadioGroup.Item id="m" value={German.Gender.M}/>
+								<label for="m">{$_.linguistics.abbr.masculine}</label>
 							</div>
 
-						</fieldset>
+							<div class="flex items-center gap-2">
+								<RadioGroup.Item id="n" value={German.Gender.N}/>
+								<label for="n">{$_.linguistics.abbr.neutral}</label>
+							</div>
+
+							<div class="flex items-center gap-2">
+								<RadioGroup.Item id="f" value={German.Gender.F}/>
+								<label for="f">{$_.linguistics.abbr.feminine}</label>
+							</div>
+
+						</RadioGroup.Root>
 
 					{:else if word.type === WordType.Japanese && word.category === Japanese.Category.Verb}
 
-						<fieldset class="w-full">
+						<RadioGroup.Root
+							bind:value={word.verb_type}
+							name="jvt-{i}"
+							onValueChange={() => saved = false}
+							class="w-full flex items-center gap-4"
+						>
 
-							<legend>{$_.linguistics.verb_group}</legend>
+							<div>{$_.linguistics.verb_group}</div>
 
-							<div class="flex gap-4">
-								<div>
-									<input type="radio" name="jvt-{i}" id="jvt-c-{i}"
-											 value={Japanese.VerbType.Consonant} bind:group={word.verb_type}
-											 class="radio">
-									<label for="jvt-c-{i}">1</label>
-								</div>
-								<div>
-									<input type="radio" name="jvt-{i}" id="jvt-v-{i}"
-											 value={Japanese.VerbType.Vowel} bind:group={word.verb_type}
-											 class="radio">
-									<label for="jvt-v-{i}">2</label>
-								</div>
-								<div>
-									<input type="radio" name="jvt-{i}" id="jvt-n-{i}"
-											 value={Japanese.VerbType.Noun} bind:group={word.verb_type}
-											 class="radio">
-									<label for="jvt-n-{i}">3</label>
-								</div>
-								<div>
-									<input type="radio" name="jvt-{i}" id="jvt-n-{i}"
-											 value={Japanese.VerbType.Irregular} bind:group={word.verb_type}
-											 class="radio">
-									<label for="jvt-n-{i}">?</label>
-								</div>
+							<div class="flex items-center gap-2">
+								<RadioGroup.Item id="jvt-c-{i}" value={Japanese.VerbType.Consonant}/>
+								<Label for="jvt-c-{i}">1</Label>
 							</div>
 
-						</fieldset>
+							<div class="flex items-center gap-2">
+								<RadioGroup.Item id="jvt-v-{i}" value={Japanese.VerbType.Vowel}/>
+								<Label for="jvt-v-{i}">2</Label>
+							</div>
+
+							<div class="flex items-center gap-2">
+								<RadioGroup.Item id="jvt-n-{i}" value={Japanese.VerbType.Noun}/>
+								<Label for="jvt-n-{i}">3</Label>
+							</div>
+
+							<div class="flex items-center gap-2">
+								<RadioGroup.Item id="jvt-ir-{i}" value={Japanese.VerbType.Irregular}/>
+								<Label for="jvt-ir-{i}">?</Label>
+							</div>
+
+						</RadioGroup.Root>
 
 					{:else if word.type === WordType.Mandarin}
 

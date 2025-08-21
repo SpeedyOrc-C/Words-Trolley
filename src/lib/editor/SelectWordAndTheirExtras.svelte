@@ -11,8 +11,9 @@
 	import SelectGermanCategory from "$lib/editor/SelectGermanCategory.svelte"
 	import SelectWordType from "$lib/editor/SelectWordType.svelte"
 	import {_} from "$lib/i18n"
-	import {English, French, German, Mandarin} from "$lib/word"
+	import {English, French, German, Japanese, Mandarin} from "$lib/word"
 	import SelectFrenchCategory from "./SelectFrenchCategory.svelte"
+	import SelectJapaneseCategory from "./SelectJapaneseCategory.svelte"
 	import SelectMandarinRegion from "./SelectMandarinRegion.svelte"
 
 	let {
@@ -55,6 +56,15 @@
 	{
 		_onchange({
 			...structuredClone(blankWordFromTypeAndCategory.german[category]),
+			word: word.word,
+			meaning: word.meaning,
+		})
+	}
+
+	function OnJapaneseCategoryChange(category: Japanese.Category)
+	{
+		_onchange({
+			...structuredClone(blankWordFromTypeAndCategory.japanese[category]),
 			word: word.word,
 			meaning: word.meaning,
 		})
@@ -105,6 +115,13 @@
 		<SelectEnglishRegion
 			value={word.region}
 			onchange={region => OnEnglishRegionChange(word, region)}
+		/>
+
+	{:else if word.type === WordType.Japanese}
+
+	   <SelectJapaneseCategory
+			value={word.category}
+			onchange={OnJapaneseCategoryChange}
 		/>
 
 	{/if}

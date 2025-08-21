@@ -75,7 +75,7 @@
 	}
 </script>
 
-<fieldset class="w-full flex gap-2">
+<fieldset class="w-full flex gap-2 flex-wrap">
 
 	<SelectWordType bind:value={wordType} onchange={OnCardChange}/>
 

@@ -3,15 +3,16 @@
 	import type EditorNavProps from "$lib/editor/EditorNavProps"
 	import * as M from "$lib/components/ui/menubar"
 	import {Button} from "$lib/components/ui/button"
+	import {SaveIcon, SquarePen, ListPlus, FolderInput, FolderOutput, Trash2} from "@lucide/svelte"
 
-	let {
+	const {
 		OpenSettings, OpenInitialisation,
 		online, saving, saved, deleting, renaming,
 		Save, Import, Export, Delete, Rename,
 	}: EditorNavProps = $props()
 </script>
 
-<div id="editor-nav" class="sticky top-0 p-2 z-10 flex gap-2 md:gap-4 backdrop-blur-md">
+<div class="sticky top-0 p-2 z-10 flex gap-2 md:gap-4 backdrop-blur-md" id="editor-nav">
 
 	<M.Root class="grow">
 
@@ -24,6 +25,7 @@
 			<M.Content>
 
 				<M.Item disabled={saving || saved || ! online} onclick={Save}>
+					<SaveIcon/>
 					{#if saving}
 						{$_.editor.saving}
 					{:else if saved}
@@ -34,26 +36,31 @@
 				</M.Item>
 
 				<M.Item disabled={renaming || ! online} onclick={Rename}>
+					<SquarePen/>
 					{$_.editor.rename}
 				</M.Item>
 
 				<M.Item onclick={OpenInitialisation}>
+					<ListPlus/>
 					{$_.editor.initialise}
 				</M.Item>
 
 				<M.Separator/>
 
 				<M.Item onclick={Import}>
+					<FolderInput/>
 					{$_.editor.import}
 				</M.Item>
 
 				<M.Item onclick={Export}>
+					<FolderOutput/>
 					{$_.editor.export}
 				</M.Item>
 
 				<M.Separator/>
 
 				<M.Item disabled={deleting || ! online} onclick={Delete} variant="destructive">
+					<Trash2 />
 					{$_.editor.delete}
 				</M.Item>
 

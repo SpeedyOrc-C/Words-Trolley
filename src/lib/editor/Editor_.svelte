@@ -17,7 +17,7 @@
 	import * as Card from "$lib/components/ui/card"
 	import {Label} from "$lib/components/ui/label"
 	import {Input} from "$lib/components/ui/input"
-	import {Trash2} from "@lucide/svelte"
+	import {Trash2, Plus, MoveUpIcon, MoveDownIcon, BetweenHorizontalStart} from "@lucide/svelte"
 
 	const data: EditorProps = $props()
 
@@ -320,9 +320,14 @@
 		{/if}
 	</header>
 
-	<div class="w-full max-w-xl mx-auto flex flex-col gap-12">
+	<div class="w-full max-w-xl mx-auto flex flex-col gap-2">
 
 		{#each words as word, i (word)}
+
+			<Button variant="ghost" onclick={() => InsertNewWord(i)} class="text-foreground/30">
+				<BetweenHorizontalStart />
+				{$_.editor.insert_here}
+			</Button>
 
 			<Card.Root
 				draggable={!typing}
@@ -499,15 +504,13 @@
 					<div class="w-full flex gap-2">
 
 						<Button onclick={() => MoveUp(i)} disabled={i === 0} class="flex-1" variant="secondary">
+							<MoveUpIcon/>
 							{$_.editor.move_up}
-						</Button>
-
-						<Button onclick={() => InsertNewWord(i)} class="flex-1" variant="outline">
-							{$_.insert}
 						</Button>
 
 						<Button onclick={() => MoveDown(i)} disabled={i === words.length - 1} class="flex-1"
 								  variant="secondary">
+							<MoveDownIcon/>
 							{$_.editor.move_down}
 						</Button>
 
@@ -519,6 +522,7 @@
 		{/each}
 
 		<Button class="mx-2" onclick={() => InsertNewWord(words.length)}>
+			<Plus/>
 			{$_.editor.add_a_word}
 		</Button>
 

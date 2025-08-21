@@ -74,6 +74,7 @@ export type I18nTemplate = {
 		add_a_word: s
 		move_up: s
 		move_down: s
+		insert_here: s
 		card_type_select_label: (i: number) => s
 		initialise: s
 		initialisation: {

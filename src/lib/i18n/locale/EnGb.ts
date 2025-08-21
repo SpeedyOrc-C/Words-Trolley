@@ -74,6 +74,7 @@ const EnGb: I18nTemplate = {
 		add_a_word: "Add a word",
 		move_up: "Move up",
 		move_down: "Move down",
+		insert_here: "Insert here",
 		card_type_select_label: i => `Type for card number ${i}`,
 		initialise: "Initialise...",
 		initialisation: {

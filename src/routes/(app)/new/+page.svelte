@@ -1,4 +1,5 @@
 <script lang="ts">
+	import {goto} from "$app/navigation"
 	import {Button} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
 	import {Label} from "$lib/components/ui/label"
@@ -6,6 +7,33 @@
 	import {HouseIcon} from "@lucide/svelte"
 	import * as M from "$lib/components/ui/navigation-menu"
 	import * as Card from "$lib/components/ui/card"
+
+	const {data} = $props()
+	const db = $derived(data.db)
+
+	let disabled = $state(false)
+	let name = $state("")
+
+	async function onsubmit(e: SubmitEvent)
+	{
+		e.preventDefault()
+
+		disabled = true
+
+		const {data, error} = await db
+			.from("sets")
+			.insert({name, words: []})
+			.select()
+
+		if (error)
+		{
+			disabled = false
+			console.error(error)
+			return
+		}
+
+		await goto(`/edit/${data[0].id}`)
+	}
 </script>
 
 <svelte:head>
@@ -36,15 +64,15 @@
 	</Card.Header>
 
 	<Card.Content>
-		<form action="?/do" class="flex flex-col gap-6" method="POST">
+		<form class="flex flex-col gap-6" method="POST" action="?/do" {onsubmit}>
 
 			<div class="flex flex-col gap-2">
 				<Label>{$_.name}</Label>
-				<Input id="name" name="name" required type="text"/>
+				<Input bind:value={name} id="name" name="name" required type="text"/>
 			</div>
 
-			<Button type="submit">
-				{$_.submit}
+			<Button {disabled} type="submit">
+				{$_.new._}
 			</Button>
 
 		</form>

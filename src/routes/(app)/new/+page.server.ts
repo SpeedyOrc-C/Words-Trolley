@@ -8,7 +8,10 @@ export const actions: Actions = {
 		const name = formData.get('name') as string
 		const words: never[] = []
 
-		const {data, error} = await db.from("sets").insert({name, words}).select()
+		const {data, error} = await db
+			.from("sets")
+			.insert({name, words})
+			.select()
 
 		if (error)
 		{

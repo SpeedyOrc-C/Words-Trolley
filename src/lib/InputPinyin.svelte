@@ -279,7 +279,7 @@
 </div>
 
 <style>
-    @import "tailwindcss";
+    @reference "tailwindcss";
 
     @keyframes ani-blinking-underline {
         0% {

@@ -1,13 +1,19 @@
+<script lang="ts" module>
+	import {WordType} from "$lib"
+
+	function UseSimple(t: WordType): boolean
+	{
+		return t == WordType.Simple || t == WordType.English
+	}
+</script>
+
 <script lang="ts">
-	import {WordType, LangFromWord, type Words} from "$lib"
+	import {LangFromWord, type Words} from "$lib"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_} from "$lib/i18n"
-	import ProgressAtBottom from "$lib/ProgressWithLabel.svelte"
-	import ProgressWithLabel from "$lib/ProgressWithLabel.svelte"
 	import QSimple from "$lib/QSimple.svelte"
 	import QPinyin from "$lib/QPinyin.svelte"
 	import {Button} from "$lib/components/ui/button"
-	import {Progress} from "$lib/components/ui/progress"
 
 	const {data} = $props()
 	const words = data.set.words as Words
@@ -77,7 +83,7 @@
 
 <svelte:window onkeydown={onkeydown}/>
 
-<WordProgressNav index={i} {words} />
+<WordProgressNav index={i} {words}/>
 
 <main class="mx-2">
 
@@ -91,7 +97,7 @@
 		<div lang={LangFromWord(word)} class="text-3xl text-center">
 			{word.word}
 		</div>
-	{:else if word.type === WordType.Simple}
+	{:else if UseSimple(word.type)}
 		<QSimple {word} {OnWin}/>
 	{:else if word.type === WordType.Mandarin}
 		<QPinyin {word} {OnWin}/>

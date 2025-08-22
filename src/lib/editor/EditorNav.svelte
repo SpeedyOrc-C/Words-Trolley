@@ -68,27 +68,44 @@
 
 			</M.Content>
 
+
+		</M.Menu>
+
+		<M.Menu>
+
+			<M.Trigger>
+				{$_.editor.view._}
+			</M.Trigger>
+
+			<M.Content>
+
+				<M.CheckboxItem bind:checked={showWordOperations}>
+					{$_.editor.view.word_operations}
+				</M.CheckboxItem>
+
+				<M.CheckboxItem bind:checked={showExtraOptions}>
+					{$_.editor.view.extra_options}
+				</M.CheckboxItem>
+
+			</M.Content>
+
+		</M.Menu>
+
+		{#if !saved}
+
 			<M.Menu>
 
-				<M.Trigger>
-					{$_.editor.view._}
+				<M.Trigger disabled={saving || saved || !online} onclick={Save}>
+					{#if saving}
+						{$_.editor.saving}
+					{:else}
+						{$_.editor.save}
+					{/if}
 				</M.Trigger>
-
-				<M.Content>
-
-					<M.CheckboxItem bind:checked={showWordOperations}>
-						{$_.editor.view.word_operations}
-					</M.CheckboxItem>
-
-					<M.CheckboxItem bind:checked={showExtraOptions}>
-						{$_.editor.view.extra_options}
-					</M.CheckboxItem>
-
-				</M.Content>
 
 			</M.Menu>
 
-		</M.Menu>
+		{/if}
 
 	</M.Root>
 

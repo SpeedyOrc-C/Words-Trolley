@@ -1,5 +1,10 @@
 <script lang="ts">
-	import {blankWordFromType, blankWordSimple, WordType, LangFromWord} from "$lib"
+	import {
+		blankWordFromType,
+		blankWordSimple,
+		WordType,
+		LangFromWord,
+	} from "$lib"
 	import type {Json} from "$lib/database.types"
 	import {goto} from "$app/navigation"
 	import {_} from "$lib/i18n"
@@ -34,6 +39,9 @@
 	let settingsOpened = $state(false)
 	let initialisationOpened = $state(false)
 
+	let showWordOperations = $state(true)
+	let showExtraOptions = $state(true)
+
 	async function Save()
 	{
 		if (saving || saved || ! data.online)
@@ -62,7 +70,9 @@
 
 	function InsertNewWord(i: number)
 	{
-		words = [...words.slice(0, i), structuredClone(blankWordSimple), ...words.slice(i)]
+		const word = structuredClone(blankWordSimple)
+
+		words = [...words.slice(0, i), word, ...words.slice(i)]
 
 		saved = false
 	}
@@ -130,7 +140,6 @@
 			const rawWords = await files[0].text()
 
 			words = JSON.parse(rawWords)
-
 		}
 
 		input.click()
@@ -308,7 +317,11 @@
 	{Delete} {Export} {Import}
 	OpenInitialisation={() => initialisationOpened = true}
 	OpenSettings={() => settingsOpened = true}
-	{Rename} {Save} {deleting} online={data.online} {renaming} {saved} {saving}
+	{Rename}
+	{Save}
+	bind:showExtraOptions
+	bind:showWordOperations
+	{deleting} online={data.online} {renaming} {saved} {saving}
 />
 
 <main class="grow overflow-x-clip overflow-y-auto">
@@ -325,10 +338,14 @@
 
 		{#each words as word, i (word)}
 
-			<Button variant="ghost" onclick={() => InsertNewWord(i)} class="text-foreground/30">
-				<BetweenHorizontalStart/>
-				{$_.editor.insert_here}
-			</Button>
+			{#if showWordOperations}
+				<Button variant="ghost" onclick={() => InsertNewWord(i)} class="text-foreground/30">
+					<BetweenHorizontalStart/>
+					{$_.editor.insert_here}
+				</Button>
+			{:else}
+				<div class="h-2"></div>
+			{/if}
 
 			<Card.Root
 				draggable={!typing}
@@ -364,9 +381,11 @@
 								lang={LangFromWord(word)}
 							/>
 
-							<Button size="icon" variant="destructive" onclick={() => DeleteWord(i)}>
-								<Trash2/>
-							</Button>
+							{#if showWordOperations}
+								<Button size="icon" variant="destructive" onclick={() => DeleteWord(i)}>
+									<Trash2/>
+								</Button>
+							{/if}
 
 						</div>
 					</div>
@@ -384,140 +403,151 @@
 						/>
 					</div>
 
-					<div class="w-full">
+					{#if showExtraOptions}
+
 						<SelectWordAndTheirExtras bind:saved bind:word={words[i]} {i} onchange={w => words[i] = w}/>
-					</div>
 
-					{#if word.type === WordType.French && word.category === French.Category.Noun}
+						{#if word.type === WordType.French && word.category === French.Category.Noun}
 
-						<RadioGroup.Root
-							bind:value={word.gender}
-							name="gender-{i}"
-							onValueChange={() => saved = false}
-							class="w-full flex items-center gap-4"
-						>
+							<RadioGroup.Root
+								bind:value={word.gender}
+								name="gender-{i}"
+								onValueChange={() => saved = false}
+								class="w-full flex items-center gap-4"
+							>
 
-							<div>{$_.linguistics.gender}</div>
+								<div>{$_.linguistics.gender}</div>
 
-							<div class="flex items-center gap-2">
-								<RadioGroup.Item id="m" value={French.Gender.M}/>
-								<Label for="m">{$_.linguistics.abbr.masculine}</Label>
-							</div>
+								<div class="flex items-center gap-2">
+									<RadioGroup.Item id="m" value={French.Gender.M}/>
+									<Label for="m">{$_.linguistics.abbr.masculine}</Label>
+								</div>
 
-							<div class="flex items-center gap-2">
-								<RadioGroup.Item id="f" value={French.Gender.F}/>
-								<Label for="f">{$_.linguistics.abbr.feminine}</Label>
-							</div>
+								<div class="flex items-center gap-2">
+									<RadioGroup.Item id="f" value={French.Gender.F}/>
+									<Label for="f">{$_.linguistics.abbr.feminine}</Label>
+								</div>
 
-						</RadioGroup.Root>
+							</RadioGroup.Root>
 
-					{:else if word.type === WordType.German && word.category === German.Category.Noun}
+						{:else if word.type === WordType.German && word.category === German.Category.Noun}
 
-						<RadioGroup.Root
-							bind:value={word.gender}
-							name="gender-{i}"
-							onValueChange={() => saved = false}
-							class="w-full flex items-center gap-4"
-						>
+							<RadioGroup.Root
+								bind:value={word.gender}
+								name="gender-{i}"
+								onValueChange={() => saved = false}
+								class="w-full flex items-center gap-4"
+							>
 
-							<div>{$_.linguistics.gender}</div>
+								<div>{$_.linguistics.gender}</div>
 
-							<div class="flex items-center gap-2">
-								<RadioGroup.Item id="m" value={German.Gender.M}/>
-								<label for="m">{$_.linguistics.abbr.masculine}</label>
-							</div>
+								<div class="flex items-center gap-2">
+									<RadioGroup.Item id="m" value={German.Gender.M}/>
+									<label for="m">{$_.linguistics.abbr.masculine}</label>
+								</div>
 
-							<div class="flex items-center gap-2">
-								<RadioGroup.Item id="n" value={German.Gender.N}/>
-								<label for="n">{$_.linguistics.abbr.neutral}</label>
-							</div>
+								<div class="flex items-center gap-2">
+									<RadioGroup.Item id="n" value={German.Gender.N}/>
+									<label for="n">{$_.linguistics.abbr.neutral}</label>
+								</div>
 
-							<div class="flex items-center gap-2">
-								<RadioGroup.Item id="f" value={German.Gender.F}/>
-								<label for="f">{$_.linguistics.abbr.feminine}</label>
-							</div>
+								<div class="flex items-center gap-2">
+									<RadioGroup.Item id="f" value={German.Gender.F}/>
+									<label for="f">{$_.linguistics.abbr.feminine}</label>
+								</div>
 
-						</RadioGroup.Root>
+							</RadioGroup.Root>
 
-					{:else if word.type === WordType.Japanese && word.category === Japanese.Category.Verb}
+						{:else if word.type === WordType.Japanese && word.category === Japanese.Category.Verb}
 
-						<RadioGroup.Root
-							bind:value={word.verb_type}
-							name="jvt-{i}"
-							onValueChange={() => saved = false}
-							class="w-full flex items-center gap-4"
-						>
+							<RadioGroup.Root
+								bind:value={word.verb_type}
+								name="jvt-{i}"
+								onValueChange={() => saved = false}
+								class="w-full flex items-center gap-4"
+							>
 
-							<div>{$_.linguistics.verb_group}</div>
+								<div>{$_.linguistics.verb_group}</div>
 
-							<div class="flex items-center gap-2">
-								<RadioGroup.Item id="jvt-c-{i}" value={Japanese.VerbType.Consonant}/>
-								<Label for="jvt-c-{i}">1</Label>
-							</div>
+								<div class="flex items-center gap-2">
+									<RadioGroup.Item id="jvt-c-{i}" value={Japanese.VerbType.Consonant}/>
+									<Label for="jvt-c-{i}">1</Label>
+								</div>
 
-							<div class="flex items-center gap-2">
-								<RadioGroup.Item id="jvt-v-{i}" value={Japanese.VerbType.Vowel}/>
-								<Label for="jvt-v-{i}">2</Label>
-							</div>
+								<div class="flex items-center gap-2">
+									<RadioGroup.Item id="jvt-v-{i}" value={Japanese.VerbType.Vowel}/>
+									<Label for="jvt-v-{i}">2</Label>
+								</div>
 
-							<div class="flex items-center gap-2">
-								<RadioGroup.Item id="jvt-n-{i}" value={Japanese.VerbType.Noun}/>
-								<Label for="jvt-n-{i}">3</Label>
-							</div>
+								<div class="flex items-center gap-2">
+									<RadioGroup.Item id="jvt-n-{i}" value={Japanese.VerbType.Noun}/>
+									<Label for="jvt-n-{i}">3</Label>
+								</div>
 
-							<div class="flex items-center gap-2">
-								<RadioGroup.Item id="jvt-ir-{i}" value={Japanese.VerbType.Irregular}/>
-								<Label for="jvt-ir-{i}">?</Label>
-							</div>
+								<div class="flex items-center gap-2">
+									<RadioGroup.Item id="jvt-ir-{i}" value={Japanese.VerbType.Irregular}/>
+									<Label for="jvt-ir-{i}">?</Label>
+								</div>
 
-						</RadioGroup.Root>
+							</RadioGroup.Root>
 
-					{:else if word.type === WordType.Mandarin}
+						{:else if word.type === WordType.Mandarin}
 
-						{#if $mandarinScript === MandarinScript.Pinyin}
+							{#if $mandarinScript === MandarinScript.Pinyin}
 
-							<InputPinyinLight
-								bind:value={word.syllables}
-								onchange={() => saved = false}
-								placeholder={$_.linguistics.pinyin}
-							/>
+								<InputPinyinLight
+									bind:value={word.syllables}
+									onchange={() => saved = false}
+									placeholder={$_.linguistics.pinyin}
+								/>
 
-						{:else if $mandarinScript === MandarinScript.Bopomofo}
+							{:else if $mandarinScript === MandarinScript.Bopomofo}
 
-							<InputBopomofoLight
-								bind:value={word.syllables}
-								onchange={() => saved = false}
-								placeholder={$_.linguistics.bopomofo}
-							/>
+								<InputBopomofoLight
+									bind:value={word.syllables}
+									onchange={() => saved = false}
+									placeholder={$_.linguistics.bopomofo}
+								/>
+
+							{/if}
 
 						{/if}
 
 					{/if}
 
-					<div class="w-full flex gap-2">
+					{#if showWordOperations}
+						<div class="w-full flex gap-2">
 
-						<Button onclick={() => MoveUp(i)} disabled={i === 0} class="flex-1" variant="secondary">
-							<MoveUpIcon/>
-							{$_.editor.move_up}
-						</Button>
+							<Button onclick={() => MoveUp(i)} disabled={i === 0}
+									  class="flex-1" variant="secondary">
+								<MoveUpIcon/>
+								{$_.editor.move_up}
+							</Button>
 
-						<Button onclick={() => MoveDown(i)} disabled={i === words.length - 1} class="flex-1"
-								  variant="secondary">
-							<MoveDownIcon/>
-							{$_.editor.move_down}
-						</Button>
+							<Button onclick={() => MoveDown(i)} disabled={i === words.length - 1}
+									  class="flex-1" variant="secondary">
+								<MoveDownIcon/>
+								{$_.editor.move_down}
+							</Button>
 
-					</div>
+						</div>
+					{/if}
 
 				</Card.Content>
 			</Card.Root>
 
 		{/each}
 
-		<Button class="mx-2" onclick={() => InsertNewWord(words.length)}>
-			<Plus/>
-			{$_.editor.add_a_word}
-		</Button>
+		{#if words.length === 0}
+			<Button class="mx-2" onclick={() => initialisationOpened = true}>
+				{$_.editor.initialise}
+			</Button>
+		{:else if showWordOperations}
+			<Button class="mx-2" onclick={() => InsertNewWord(words.length)}>
+				<Plus/>
+				{$_.editor.add_a_word}
+			</Button>
+		{/if}
 
 	</div>
 
@@ -529,6 +559,7 @@
 	{ReplaceWithEmptyWords}
 	{SetAllCardsTypes}
 	bind:open={initialisationOpened}
+	{words}
 />
 
 <Settings bind:open={settingsOpened}/>

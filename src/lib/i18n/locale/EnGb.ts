@@ -91,6 +91,11 @@ const EnGb: I18nTemplate = {
 			},
 			create_and_set_languages: "Create, and then set languages"
 		},
+		view: {
+			_: "View",
+			word_operations: "Word operations",
+			extra_options: "Extra options",
+		},
 	},
 	WordType: {
 		Simple: "Simple",

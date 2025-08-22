@@ -5,6 +5,8 @@ export default interface EditorNavProps
 	saved: boolean
 	deleting: boolean
 	renaming: boolean
+	showWordOperations: boolean
+	showExtraOptions: boolean
 	OpenSettings: () => any
 	OpenInitialisation: () => any
 	Save: () => any

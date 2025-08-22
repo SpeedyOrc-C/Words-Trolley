@@ -91,6 +91,11 @@ const ZhCn: I18nTemplate = {
 			},
 			create_and_set_languages: "先新建再设置语言"
 		},
+		view: {
+			_: "视图",
+			word_operations: "单词操作",
+			extra_options: "额外选项",
+		},
 	},
 	WordType: {
 		Simple: "正常",

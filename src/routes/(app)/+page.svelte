@@ -53,31 +53,31 @@
 
 		{#if data.user}
 
-			<Button href="/new">
+			<Button href="/new" size="lg">
 				{$_.home.create_a_new_set}
 			</Button>
 
-			<Button href="/creator/{data.user.id}" variant="outline">
+			<Button href="/creator/{data.user.id}" size="lg" variant="outline">
 				{$_.home.browse_my_sets}
 			</Button>
 
 		{/if}
 
 		<div class="flex gap-4">
-			<Button onclick={() => settingsOpened = true} variant="outline">
-				<Gear />
+			<Button onclick={() => settingsOpened = true} size="lg" variant="outline">
+				<Gear/>
 				{$_.settings._}
 			</Button>
 
 			{#if data.user}
 
-				<Button disabled={loading} onclick={SignOut} variant="destructive">
+				<Button disabled={loading} onclick={SignOut} size="lg" variant="destructive">
 					{$_.logout}
 				</Button>
 
 			{:else}
 
-				<Button href="/auth">
+				<Button href="/auth" size="lg">
 					{$_.login_and_signup}
 				</Button>
 

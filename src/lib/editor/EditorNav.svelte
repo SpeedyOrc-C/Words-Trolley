@@ -5,8 +5,10 @@
 	import {Button} from "$lib/components/ui/button"
 	import {SaveIcon, SquarePen, ListPlus, FolderInput, FolderOutput, Trash2} from "@lucide/svelte"
 
-	const {
+	let {
 		OpenSettings, OpenInitialisation,
+		showWordOperations = $bindable(),
+		showExtraOptions = $bindable(),
 		online, saving, saved, deleting, renaming,
 		Save, Import, Export, Delete, Rename,
 	}: EditorNavProps = $props()
@@ -60,11 +62,31 @@
 				<M.Separator/>
 
 				<M.Item disabled={deleting || ! online} onclick={Delete} variant="destructive">
-					<Trash2 />
+					<Trash2/>
 					{$_.editor.delete}
 				</M.Item>
 
 			</M.Content>
+
+			<M.Menu>
+
+				<M.Trigger>
+					{$_.editor.view._}
+				</M.Trigger>
+
+				<M.Content>
+
+					<M.CheckboxItem bind:checked={showWordOperations}>
+						{$_.editor.view.word_operations}
+					</M.CheckboxItem>
+
+					<M.CheckboxItem bind:checked={showExtraOptions}>
+						{$_.editor.view.extra_options}
+					</M.CheckboxItem>
+
+				</M.Content>
+
+			</M.Menu>
 
 		</M.Menu>
 

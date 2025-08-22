@@ -91,6 +91,11 @@ export type I18nTemplate = {
 			}
 			create_and_set_languages: s
 		}
+		view: {
+			_: s
+			word_operations: s
+			extra_options: s
+		}
 	}
 	WordType: {
 		Simple: s

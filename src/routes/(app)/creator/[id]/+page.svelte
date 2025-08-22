@@ -38,7 +38,7 @@
 
 <main class="mx-auto p-4 w-full max-w-7xl flex gap-4 flex-wrap">
 	{#each data.sets as {name, id}}
-		<Card.Root class="w-full sm:max-w-md">
+		<Card.Root class="w-full sm:max-w-sm">
 
 			<Card.Content class="flex flex-col gap-6">
 
@@ -48,19 +48,19 @@
 					</div>
 				</header>
 
-				<div class="flex flex-col gap-2">
+				<div class="flex justify-between gap-2">
 
-					<Button href="/learn/{id}">
+					<Button href="/learn/{id}" class="flex-1">
 						<BookOpen />
 						{$_.set.learn}
 					</Button>
 
-					<Button href="/test/{id}" variant="outline">
+					<Button href="/test/{id}" variant="outline" class="flex-1">
 						<BookCheck/>
 						{$_.set.test}
 					</Button>
 
-					<Button href="/edit/{id}" variant="secondary">
+					<Button href="/edit/{id}" variant="secondary" class="flex-1">
 						<SquarePen />
 						{$_.edit}
 					</Button>

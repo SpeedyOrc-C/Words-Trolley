@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {LangFromWord, type Words} from "$lib"
+	import {LangFromWord, Speak, type Words} from "$lib"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
@@ -31,13 +31,6 @@
 	function Flip()
 	{
 		flipped = ! flipped
-	}
-
-	function Speak()
-	{
-		const utterance = new SpeechSynthesisUtterance(word.word)
-		utterance.lang = LangFromWord(word)
-		speechSynthesis.speak(utterance)
 	}
 
 	function onkeydown(e: KeyboardEvent)
@@ -99,7 +92,7 @@
 <div class="w-full p-3 flex flex-col gap-3" id="control">
 
 	<div class="flex gap-3">
-		<Button class="h-24 text-xl flex-1" onclick={Speak} variant="secondary">
+		<Button class="h-24 text-xl flex-1" onclick={() => Speak(word)} variant="secondary">
 			{$_.learn.speak}
 		</Button>
 

@@ -205,6 +205,13 @@ export function LangFromWord(word: Word)
 	}
 }
 
+export function Speak(word: Word)
+{
+	const utterance = new SpeechSynthesisUtterance(word.word)
+	utterance.lang = LangFromWord(word)
+	speechSynthesis.speak(utterance)
+}
+
 export function TypeCheckWords(input: Json): boolean
 {
 	if (! (input instanceof Array))

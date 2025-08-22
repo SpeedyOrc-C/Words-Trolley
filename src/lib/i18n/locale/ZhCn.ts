@@ -16,6 +16,7 @@ const ZhCn: I18nTemplate = {
 	close: "关闭",
 	more: "更多",
 	word_set: "单词集",
+	goto: "前往",
 	settings: {
 		_: "设置",
 		follows_your_system: "跟随系统",
@@ -56,6 +57,7 @@ const ZhCn: I18nTemplate = {
 		save: "保存",
 		saving: "保存中",
 		saved: "已保存",
+		you_have_unsaved_changes: "您有未保存的更改，确定要离开吗？",
 		export: "导出",
 		import: "导入…",
 		delete: "删除…",

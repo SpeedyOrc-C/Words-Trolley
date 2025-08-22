@@ -321,6 +321,7 @@
 	{Save}
 	bind:showExtraOptions
 	bind:showWordOperations
+	id={data.online ? data.id : null}
 	{deleting} online={data.online} {renaming} {saved} {saving}
 />
 

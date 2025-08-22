@@ -16,6 +16,7 @@ const EnGb: I18nTemplate = {
 	close: "Close",
 	more: "More",
 	word_set: "Word set",
+	goto: "Go to",
 	settings: {
 		_: "Settings",
 		follows_your_system: "Follows your system",
@@ -56,6 +57,7 @@ const EnGb: I18nTemplate = {
 		save: "Save",
 		saving: "Saving",
 		saved: "Saved",
+		you_have_unsaved_changes: "You have unsaved changes, are you sure you want to leave?",
 		export: "Export",
 		import: "Import...",
 		delete: "Delete...",

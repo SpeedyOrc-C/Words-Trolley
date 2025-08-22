@@ -3,15 +3,29 @@
 	import type EditorNavProps from "$lib/editor/EditorNavProps"
 	import * as M from "$lib/components/ui/menubar"
 	import {Button} from "$lib/components/ui/button"
-	import {SaveIcon, SquarePen, ListPlus, FolderInput, FolderOutput, Trash2} from "@lucide/svelte"
+	import {Home, BookOpen, BookCheck, Settings, SaveIcon, SquarePen, ListPlus, FolderInput, FolderOutput, Trash2} from "@lucide/svelte"
+	import {goto} from "$app/navigation"
 
 	let {
 		OpenSettings, OpenInitialisation,
 		showWordOperations = $bindable(),
 		showExtraOptions = $bindable(),
-		online, saving, saved, deleting, renaming,
+		online, id, saving, saved, deleting, renaming,
 		Save, Import, Export, Delete, Rename,
 	}: EditorNavProps = $props()
+
+	async function GuardedGoto(url: string)
+	{
+		if (! saved)
+		{
+			const ok = confirm($_.editor.you_have_unsaved_changes)
+
+			if (! ok)
+				return
+		}
+
+		await goto(url)
+	}
 </script>
 
 <div class="sticky top-0 p-2 z-10 flex gap-2 md:gap-4 backdrop-blur-md" id="editor-nav">
@@ -68,7 +82,6 @@
 
 			</M.Content>
 
-
 		</M.Menu>
 
 		<M.Menu>
@@ -91,6 +104,32 @@
 
 		</M.Menu>
 
+		{#if online}
+
+			<M.Menu>
+
+				<M.Trigger>
+					{$_.goto}
+				</M.Trigger>
+
+				<M.Content>
+
+					<M.Item onclick={() => GuardedGoto(`/learn/${id}`)}>
+						<BookOpen/>
+						{$_.set.learn}
+					</M.Item>
+
+					<M.Item onclick={() => GuardedGoto(`/test/${id}`)}>
+						<BookCheck/>
+						{$_.set.test}
+					</M.Item>
+
+				</M.Content>
+
+			</M.Menu>
+
+		{/if}
+
 		{#if !saved}
 
 			<M.Menu>
@@ -109,12 +148,30 @@
 
 	</M.Root>
 
-	<Button onclick={OpenSettings} variant="outline">
-		{$_.settings._}
-	</Button>
+	<div class="hidden sm:block">
+		<Button onclick={OpenSettings} variant="outline">
+			<Settings/>
+			{$_.settings._}
+		</Button>
+	</div>
 
-	<Button href="/" variant="secondary">
-		{$_.home._}
-	</Button>
+	<div class="hidden sm:block">
+		<Button onclick={() => GuardedGoto("/")} variant="secondary">
+			<Home/>
+			{$_.home._}
+		</Button>
+	</div>
+
+	<div class="sm:hidden">
+		<Button onclick={OpenSettings} variant="outline" size="icon">
+			<Settings/>
+		</Button>
+	</div>
+
+	<div class="sm:hidden">
+		<Button onclick={() => GuardedGoto("/")} variant="secondary" size="icon">
+			<Home/>
+		</Button>
+	</div>
 
 </div>

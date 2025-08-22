@@ -16,6 +16,7 @@ export type I18nTemplate = {
 	close: s
 	more: s
 	word_set: s
+	goto: s
 	settings: {
 		_: s
 		follows_your_system: s
@@ -56,6 +57,7 @@ export type I18nTemplate = {
 		save: s
 		saving: s
 		saved: s
+		you_have_unsaved_changes: s
 		export: s
 		import: s
 		delete: s

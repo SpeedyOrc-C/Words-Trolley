@@ -1,6 +1,7 @@
 export default interface EditorNavProps
 {
 	online: boolean
+	id: string | null
 	saving: boolean
 	saved: boolean
 	deleting: boolean

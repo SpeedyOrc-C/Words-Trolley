@@ -67,7 +67,7 @@
 		<form class="flex flex-col gap-6" method="POST" action="?/do" {onsubmit}>
 
 			<div class="flex flex-col gap-2">
-				<Label>{$_.name}</Label>
+				<Label for="name">{$_.name}</Label>
 				<Input bind:value={name} id="name" name="name" required type="text"/>
 			</div>
 

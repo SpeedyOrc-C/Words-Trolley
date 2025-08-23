@@ -3,8 +3,8 @@
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
-	import {French} from "$lib/word"
-	import {Mars, Venus} from "@lucide/svelte"
+	import {French, German} from "$lib/word"
+	import {Mars, Venus, Circle} from "@lucide/svelte"
 
 	const {data} = $props()
 	const words = data.set.words as Words
@@ -95,10 +95,13 @@
 	{:else}
 
 		{#if word.type === WordType.French && word.category === French.Category.Noun}
+
 			<div class="flex flex-col items-center gap-4">
+
 				<div class="text-5xl select-all" lang="fr-FR">
 					{word.word}
 				</div>
+
 				<div class="flex items-center gap-2 text-xl opacity-60">
 					{#if word.gender === French.Gender.M}
 						<Mars/>
@@ -108,7 +111,32 @@
 						<div>{$_.linguistics.abbr.feminine}</div>
 					{/if}
 				</div>
+
 			</div>
+
+		{:else if word.type === WordType.German && word.category === German.Category.Noun}
+
+			<div class="flex flex-col items-center gap-4">
+
+				<div class="text-5xl select-all" lang="de-DE">
+					{word.word}
+				</div>
+
+				<div class="flex items-center gap-2 text-xl opacity-60">
+					{#if word.gender === German.Gender.M}
+						<Mars/>
+						<div>{$_.linguistics.abbr.masculine}</div>
+					{:else if word.gender === German.Gender.F}
+						<Venus/>
+						<div>{$_.linguistics.abbr.feminine}</div>
+					{:else}
+						<Circle/>
+						<div>{$_.linguistics.abbr.neutral}</div>
+					{/if}
+				</div>
+
+			</div>
+
 		{:else}
 			<div class="text-5xl select-all" lang={LangFromWord(word)}>
 				{word.word}

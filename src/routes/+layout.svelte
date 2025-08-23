@@ -1,5 +1,6 @@
 <script lang="ts">
 	import "../app.css"
+	import {dev} from "$app/environment"
 	import {AutoDetectLanguage, language} from "$lib/i18n"
 	import {ModeWatcher} from "mode-watcher"
 	import {mandarinScript, settings, SettingsKey} from "$lib/Settings"
@@ -27,6 +28,12 @@
 
 			mandarinScript.set(set.MandarinScript)
 		})
+
+		if (! dev)
+			console.info(
+				"Fancy a peep? Come to our repo!",
+				"https://github.com/SpeedyOrc-C/Words-Trolley",
+			)
 
 		return () =>
 		{

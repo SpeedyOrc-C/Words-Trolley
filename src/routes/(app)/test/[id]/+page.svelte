@@ -1,19 +1,12 @@
-<script lang="ts" module>
-	import {WordType} from "$lib"
-
-	function UseSimple(t: WordType): boolean
-	{
-		return t == WordType.Simple || t == WordType.English
-	}
-</script>
-
 <script lang="ts">
-	import {LangFromWord, type Words} from "$lib"
+	import {WordType, LangFromWord, type Words} from "$lib"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_} from "$lib/i18n"
-	import QSimple from "$lib/QSimple.svelte"
-	import QPinyin from "$lib/QPinyin.svelte"
+	import QSimple from "$lib/components/QSimple.svelte"
+	import QPinyin from "$lib/components/QPinyin.svelte"
 	import {Button} from "$lib/components/ui/button"
+	import QFrenchNoun from "$lib/components/QFrenchNoun.svelte"
+	import {French} from "$lib/word"
 
 	const {data} = $props()
 	const words = data.set.words as Words
@@ -101,10 +94,12 @@
 		<div lang={LangFromWord(word)} class="text-3xl text-center">
 			{word.word}
 		</div>
-	{:else if UseSimple(word.type)}
-		<QSimple {word} {OnWin}/>
+	{:else if word.type === WordType.French && word.category === French.Category.Noun}
+		<QFrenchNoun {word} {OnWin}/>
 	{:else if word.type === WordType.Mandarin}
 		<QPinyin {word} {OnWin}/>
+	{:else}
+		<QSimple {word} {OnWin}/>
 	{/if}
 
 </main>
@@ -126,6 +121,7 @@
 			<Button onclick={Finish} class="w-full text-xl h-24">
 				{$_.test.finish}
 			</Button>
+
 		{/if}
 
 	{:else}

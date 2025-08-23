@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {_} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
-	import Settings from "$lib/Settings.svelte"
+	import Settings from "$lib/components/Settings.svelte"
 	import {Settings as Gear} from "@lucide/svelte"
 
 	let {data} = $props()

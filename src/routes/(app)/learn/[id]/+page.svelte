@@ -1,8 +1,10 @@
 <script lang="ts">
-	import {LangFromWord, Speak, type Words} from "$lib"
+	import {LangFromWord, Speak, type Words, WordType} from "$lib"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
+	import {French} from "$lib/word"
+	import {Mars, Venus} from "@lucide/svelte"
 
 	const {data} = $props()
 	const words = data.set.words as Words
@@ -82,17 +84,39 @@
 
 <WordProgressNav index={i} {words} progressTitle={$_.learn.progress}/>
 
-<main class="grow flex items-center justify-around px-4 text-5xl">
-	<!-- Select the whole text with a single click -->
+<main class="grow flex items-center justify-around px-4">
+
 	{#if flipped}
-		<div class="select-all">
+
+		<div class="text-5xl select-all">
 			{word.meaning}
 		</div>
+
 	{:else}
-		<div class="select-all" lang={LangFromWord(word)}>
-			{word.word}
-		</div>
+
+		{#if word.type === WordType.French && word.category === French.Category.Noun}
+			<div class="flex flex-col items-center gap-4">
+				<div class="text-5xl select-all" lang="fr-FR">
+					{word.word}
+				</div>
+				<div class="flex items-center gap-2 text-xl opacity-60">
+					{#if word.gender === French.Gender.M}
+						<Mars/>
+						<div>{$_.linguistics.abbr.masculine}</div>
+					{:else}
+						<Venus/>
+						<div>{$_.linguistics.abbr.feminine}</div>
+					{/if}
+				</div>
+			</div>
+		{:else}
+			<div class="text-5xl select-all" lang={LangFromWord(word)}>
+				{word.word}
+			</div>
+		{/if}
+
 	{/if}
+
 </main>
 
 <div class="w-full p-3 flex flex-col gap-3" id="control">

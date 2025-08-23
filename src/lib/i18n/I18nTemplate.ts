@@ -38,16 +38,24 @@ export type I18nTemplate = {
 		learn: s
 		test: s
 	}
+	creator: {
+		title: (name: s) => s
+		title_me: s
+	}
 	learn: {
+		title: (name: s) => s
 		speak: s
 		next: s
 		previous: s
 		flip: s
+		progress: s
 	}
 	test: {
+		title: (name: s) => s
 		show_answer: s
 		next: s
 		finish: s
+		progress: s
 	}
 	editor: {
 		title: {

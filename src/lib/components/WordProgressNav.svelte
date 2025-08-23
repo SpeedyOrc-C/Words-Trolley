@@ -4,13 +4,16 @@
 	import {Progress} from "$lib/components/ui/progress"
 	import {_} from "$lib/i18n"
 
-	const {index, words}: { index: number, words: Words } = $props()
+	const {index, words, progressTitle}: { index: number, words: Words, progressTitle: string } = $props()
 	const wordArg = $derived(encodeURIComponent(words[index].word))
 </script>
 
 <nav class="p-4 w-full flex flex-col gap-2">
 
-	<Progress class="opacity-20" max={words.length} value={index + 1}/>
+	<Progress
+		max={words.length} value={index + 1}
+		title={progressTitle} class="opacity-20"
+	/>
 
 	<div class="flex items-center">
 
@@ -26,7 +29,7 @@
 		</Button>
 
 		<div class="text-right grow text-xl font-mono">
-			{index + 1}<span class="opacity-30">/{words.length}</span>
+			{index + 1}<span class="opacity-60">/{words.length}</span>
 		</div>
 
 	</div>

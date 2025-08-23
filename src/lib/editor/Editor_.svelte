@@ -340,7 +340,7 @@
 		{#each words as word, i (word)}
 
 			{#if showWordOperations}
-				<Button variant="ghost" onclick={() => InsertNewWord(i)} class="text-foreground/30">
+				<Button variant="ghost" onclick={() => InsertNewWord(i)} class="text-foreground/60">
 					<BetweenHorizontalStart/>
 					{$_.editor.insert_here}
 				</Button>
@@ -363,19 +363,19 @@
 					<div class="flex flex-col gap-2">
 
 						<div class="flex items-center justify-between">
-							<Label>
+							<Label for="word-{i}">
 								{$_.editor.word}
 							</Label>
 
 							<div class="text-xs text-foreground/50 font-mono">
-								{i + 1}<span class="text-foreground/30">/{words.length}</span>
+								{i + 1}<span class="text-foreground/60">/{words.length}</span>
 							</div>
 						</div>
 
 						<div class="flex gap-2 md:gap-4">
 
 							{#if showWordOperations}
-								<Button size="icon" variant="secondary" onclick={() => Speak(word)}>
+								<Button size="icon" variant="secondary" onclick={() => Speak(word)} aria-label={$_.learn.speak}>
 									<Speech/>
 								</Button>
 							{/if}
@@ -385,20 +385,22 @@
 								onfocusin={() => typing = true}
 								onfocusout={() => typing = false}
 								onchange={e => OnWordChange(e, i)}
+								id="word-{i}"
 								lang={LangFromWord(word)}
 							/>
 
 							{#if showWordOperations}
-								<Button size="icon" variant="destructive" onclick={() => DeleteWord(i)}>
+								<Button size="icon" variant="destructive" onclick={() => DeleteWord(i)} aria-label={$_.delete}>
 									<Trash2/>
 								</Button>
 							{/if}
 
 						</div>
+
 					</div>
 
 					<div class="flex flex-col gap-2">
-						<Label>
+						<Label for="meaning-{i}">
 							{$_.editor.meaning}
 						</Label>
 
@@ -407,6 +409,7 @@
 							onfocusin={() => typing = true}
 							onfocusout={() => typing = false}
 							onchange={() => saved = false}
+							id="meaning-{i}"
 						/>
 					</div>
 

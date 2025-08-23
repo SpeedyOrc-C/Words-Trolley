@@ -163,13 +163,13 @@
 	</div>
 
 	<div class="sm:hidden">
-		<Button onclick={OpenSettings} variant="outline" size="icon">
+		<Button onclick={OpenSettings} variant="outline" size="icon" aria-label={$_.settings._}>
 			<Settings/>
 		</Button>
 	</div>
 
 	<div class="sm:hidden">
-		<Button onclick={() => GuardedGoto("/")} variant="secondary" size="icon">
+		<Button onclick={() => GuardedGoto("/")} variant="secondary" size="icon" aria-label={$_.home._}>
 			<Home/>
 		</Button>
 	</div>

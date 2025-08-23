@@ -74,7 +74,13 @@
 
 <svelte:window onkeydown={onkeydown}/>
 
-<WordProgressNav index={i} {words}/>
+<svelte:head>
+	<title>
+		{$_.learn.title(data.set.name)}
+	</title>
+</svelte:head>
+
+<WordProgressNav index={i} {words} progressTitle={$_.learn.progress}/>
 
 <main class="grow flex items-center justify-around px-4 text-5xl">
 	<!-- Select the whole text with a single click -->

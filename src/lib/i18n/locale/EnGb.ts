@@ -38,16 +38,24 @@ const EnGb: I18nTemplate = {
 		learn: "Learn",
 		test: "Test"
 	},
+	creator: {
+		title: name => `Word sets by ${name}`,
+		title_me: "My word sets",
+	},
 	learn: {
+		title: name => `Learn - ${name}`,
 		speak: "Speak",
 		previous: "Previous",
 		next: "Next",
 		flip: "Flip",
+		progress: "Learning progress",
 	},
 	test: {
+		title: name => `Test - ${name}`,
 		show_answer: "Show answer",
 		next: "Next",
-		finish: "Finish"
+		finish: "Finish",
+		progress: "Test progress",
 	},
 	editor: {
 		title: {

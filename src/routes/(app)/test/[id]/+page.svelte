@@ -83,7 +83,11 @@
 
 <svelte:window onkeydown={onkeydown}/>
 
-<WordProgressNav index={i} {words}/>
+<svelte:head>
+	<title>{$_.test.title(data.set.name)}</title>
+</svelte:head>
+
+<WordProgressNav index={i} {words} progressTitle={$_.test.progress}/>
 
 <main class="mx-2">
 

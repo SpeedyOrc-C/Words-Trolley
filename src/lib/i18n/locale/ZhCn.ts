@@ -38,16 +38,24 @@ const ZhCn: I18nTemplate = {
 		learn: "学习",
 		test: "测验"
 	},
+	creator: {
+		title: name => `${name}的单词集`,
+		title_me: "我的单词集",
+	},
 	learn: {
+		title: name => `学习《${name}》`,
 		speak: "朗读",
 		previous: "上一个",
 		next: "下一个",
 		flip: "翻面",
+		progress: "学习进度",
 	},
 	test: {
+		title: name => `测验《${name}》`,
 		show_answer: "显示答案",
 		next: "下一个",
-		finish: "结束"
+		finish: "结束",
+		progress: "测验进度",
 	},
 	editor: {
 		title: {

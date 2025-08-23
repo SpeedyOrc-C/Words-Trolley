@@ -197,7 +197,7 @@ export function LangFromWord(word: Word)
 			return "zh-TW"
 		}
 	case WordType.French:
-		return "fr"
+		return "fr-FR"
 	case WordType.German:
 		return "de"
 	case WordType.Japanese:

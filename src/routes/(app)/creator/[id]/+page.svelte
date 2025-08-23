@@ -6,7 +6,15 @@
 	import {House, Plus, BookOpen, BookCheck, SquarePen} from "@lucide/svelte"
 
 	const {data} = $props()
+
+	const title = data.user?.id == data.creator.id
+		? $_.creator.title_me
+		: $_.creator.title(data.creator.id)
 </script>
+
+<svelte:head>
+	<title>{title}</title>
+</svelte:head>
 
 <div class="p-2 sticky top-0 bg-background shadow">
 	<M.Root>
@@ -21,7 +29,7 @@
 				</M.Link>
 			</M.Item>
 
-			{#if data.user?.id === data.creator}
+			{#if data.user?.id === data.creator.id}
 				<M.Item>
 					<M.Link href="/new">
 						<div class="flex items-center gap-2">

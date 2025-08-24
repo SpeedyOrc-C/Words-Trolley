@@ -3,7 +3,7 @@
 		blankWordFromType,
 		blankWordSimple,
 		WordType,
-		LangFromWord, Speak,
+		LangFromWord, Speak, type Words,
 	} from "$lib"
 	import type {Json} from "$lib/database.types"
 	import {goto} from "$app/navigation"
@@ -24,16 +24,19 @@
 	import {Input} from "$lib/components/ui/input"
 	import * as RadioGroup from "$lib/components/ui/radio-group"
 	import {Trash2, Plus, MoveUpIcon, MoveDownIcon, BetweenHorizontalStart, Speech} from "@lucide/svelte"
+	import {toast} from "svelte-sonner"
 
 	const data: EditorProps = $props()
+	const isMine = $derived(data.online ? data.isMine : false)
 
-	let name = $state(data.online ? data.name : "")
+	let name = $derived(data.online ? data.name : "")
 	let words = $state(data.online ? data.words : [])
 	let saved = $state(true)
 	let saving = $state(false)
 	let deleting = $state(false)
 	let typing = $state(false)
 	let renaming = $state(false)
+	let forking = $state(false)
 	let dragIndex = $state<number | null>(null)
 	let dropIndex = $state<number | null>(null)
 	let settingsOpened = $state(false)
@@ -42,9 +45,15 @@
 	let showWordOperations = $state(true)
 	let showExtraOptions = $state(true)
 
+	$effect.pre(() =>
+	{
+		if (data.online)
+			words = data.words
+	})
+
 	async function Save()
 	{
-		if (saving || saved || ! data.online)
+		if (saving || saved || ! data.online || ! data.isMine)
 			return
 
 		const {db, id} = data
@@ -66,6 +75,45 @@
 		}
 
 		saved = true
+	}
+
+	async function Fork()
+	{
+		if (! data.online)
+			return
+
+		const {db, id} = data
+
+		forking = true
+
+		const {data: newData, error} = await db
+			.from("sets")
+			.insert({name: `_${name}`, words: words as Json, origin: id})
+			.select()
+
+
+		if (error)
+		{
+			console.error(error)
+			alert(error.message)
+			forking = false
+			return
+		}
+
+		if (newData.length != 1)
+		{
+			console.error("Failed to fork")
+			forking = false
+			return
+		}
+
+		toast.success($_.editor.fork.success)
+
+		const newId = newData[0].id
+
+		await goto(`/edit/${newId}`)
+
+		forking = false
 	}
 
 	function InsertNewWord(i: number)
@@ -314,15 +362,15 @@
 </svelte:head>
 
 <EditorNav
-	{Delete} {Export} {Import}
+	{Fork} {Delete} {Export} {Import} {Save} {Rename}
 	OpenInitialisation={() => initialisationOpened = true}
 	OpenSettings={() => settingsOpened = true}
-	{Rename}
-	{Save}
+	isMine={isMine}
 	bind:showExtraOptions
 	bind:showWordOperations
 	id={data.online ? data.id : null}
-	{deleting} online={data.online} {renaming} {saved} {saving}
+	origin={data.online ? data.origin : null}
+	{deleting} online={data.online} {renaming} {saved} {saving} {forking}
 />
 
 <main class="grow overflow-x-clip overflow-y-auto">

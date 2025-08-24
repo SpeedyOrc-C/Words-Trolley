@@ -3,8 +3,11 @@
 	import type {Words} from "$lib"
 
 	const {data} = $props()
-	const {db, set: {name, id, words: _words}} = $derived(data)
+	const {user, db, set: {name, id, origin, words: _words, creator}} = $derived(data)
 	const words = $derived(_words as Words)
 </script>
 
-<Editor online {db} {id} {name} {words}/>
+<Editor
+	online {db} {id} {origin} {name} {words}
+	isMine={user?.id === creator}
+/>

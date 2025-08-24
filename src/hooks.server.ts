@@ -1,11 +1,12 @@
 import {createServerClient} from '@supabase/ssr'
-import {type Handle, redirect} from '@sveltejs/kit'
-import {sequence} from '@sveltejs/kit/hooks'
+import {type Handle} from '@sveltejs/kit'
 import {PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY} from '$env/static/public'
 import type {Database} from "$lib/database.types"
 
-const supabase: Handle = async ({event, resolve}) =>
+export const handle: Handle = async ({event, resolve}) =>
 {
+	event.locals.acceptLanguage = event.request.headers.get("Accept-Language")
+
 	if (event.url.pathname.startsWith("/offline"))
 	{
 		event.locals.safeGetSession = async () => ({user: null, session: null})
@@ -67,24 +68,3 @@ const supabase: Handle = async ({event, resolve}) =>
 		},
 	})
 }
-
-const authGuard: Handle = async ({event, resolve}) =>
-{
-	const {session, user} = await event.locals.safeGetSession()
-	event.locals.session = session
-	event.locals.user = user
-
-	if (event.locals.session && event.url.pathname === '/auth')
-		redirect(303, '/')
-
-	return resolve(event)
-}
-
-const getHeaderAcceptLanguage: Handle = async ({event, resolve}) =>
-{
-	event.locals.acceptLanguage = event.request.headers.get("Accept-Language")
-
-	return resolve(event)
-}
-
-export const handle: Handle = sequence(supabase, authGuard, getHeaderAcceptLanguage)

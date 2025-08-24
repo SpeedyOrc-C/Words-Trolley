@@ -4,6 +4,7 @@
 	import {AutoDetectLanguage, language} from "$lib/i18n"
 	import {ModeWatcher} from "mode-watcher"
 	import {mandarinScript, settings, SettingsKey} from "$lib/Settings"
+	import {Toaster} from "$lib/components/ui/sonner"
 
 	const {children} = $props()
 
@@ -47,5 +48,7 @@
 	onlanguagechange={() => AutoDetectLanguage(navigator.language)}
 />
 
+<Toaster richColors position="top-center"/>
 <ModeWatcher/>
+
 {@render children()}

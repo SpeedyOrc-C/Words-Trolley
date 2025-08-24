@@ -36,7 +36,8 @@ const ZhCn: I18nTemplate = {
 	},
 	set: {
 		learn: "学习",
-		test: "测验"
+		test: "测验",
+		origin: "源头",
 	},
 	creator: {
 		title: name => `${name}的单词集`,
@@ -66,6 +67,10 @@ const ZhCn: I18nTemplate = {
 		saving: "保存中",
 		saved: "已保存",
 		you_have_unsaved_changes: "您有未保存的更改，确定要离开吗？",
+		fork: {
+			_: "创建副本",
+			success: "成功创建副本",
+		},
 		export: "导出",
 		import: "导入…",
 		delete: "删除…",

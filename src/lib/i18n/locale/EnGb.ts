@@ -36,7 +36,8 @@ const EnGb: I18nTemplate = {
 	},
 	set: {
 		learn: "Learn",
-		test: "Test"
+		test: "Test",
+		origin: "Origin",
 	},
 	creator: {
 		title: name => `Word sets by ${name}`,
@@ -66,6 +67,10 @@ const EnGb: I18nTemplate = {
 		saving: "Saving",
 		saved: "Saved",
 		you_have_unsaved_changes: "You have unsaved changes, are you sure you want to leave?",
+		fork: {
+			_: "Fork",
+			success: "Forked successfully",
+		},
 		export: "Export",
 		import: "Import...",
 		delete: "Delete...",

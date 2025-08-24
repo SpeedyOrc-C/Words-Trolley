@@ -1,17 +1,45 @@
+<script lang="ts" module>
+	export interface EditorNavProps
+	{
+		online: boolean
+		id: string | null
+		origin: string | null
+		isMine: boolean
+		saving: boolean
+		saved: boolean
+		deleting: boolean
+		renaming: boolean
+		forking: boolean
+		showWordOperations: boolean
+		showExtraOptions: boolean
+		OpenSettings: () => any
+		OpenInitialisation: () => any
+		Save: () => any
+		Fork: () => any
+		Import: () => any
+		Export: () => any
+		Delete: () => any
+		Rename: () => any
+	}
+</script>
+
 <script lang="ts">
 	import {_} from "$lib/i18n"
-	import type EditorNavProps from "$lib/editor/EditorNavProps"
 	import * as M from "$lib/components/ui/menubar"
 	import {Button} from "$lib/components/ui/button"
-	import {Home, BookOpen, BookCheck, Settings, SaveIcon, SquarePen, ListPlus, FolderInput, FolderOutput, Trash2} from "@lucide/svelte"
+	import {
+		Home, BookOpen, BookCheck, Settings, SaveIcon,
+		SquarePen, ListPlus, FolderInput, FolderOutput, Trash2,
+		Copy, ArrowBigLeft,
+	} from "@lucide/svelte"
 	import {goto} from "$app/navigation"
 
 	let {
 		OpenSettings, OpenInitialisation,
 		showWordOperations = $bindable(),
 		showExtraOptions = $bindable(),
-		online, id, saving, saved, deleting, renaming,
-		Save, Import, Export, Delete, Rename,
+		online, isMine, id, origin, saving, saved, deleting, renaming, forking,
+		Save, Import, Export, Delete, Rename, Fork,
 	}: EditorNavProps = $props()
 
 	async function GuardedGoto(url: string)
@@ -26,9 +54,22 @@
 
 		await goto(url)
 	}
+
+	async function GuardedAction(action: () => any)
+	{
+		if (! saved)
+		{
+			const ok = confirm($_.editor.you_have_unsaved_changes)
+
+			if (! ok)
+				return
+		}
+
+		action()
+	}
 </script>
 
-<div class="sticky top-0 p-2 z-10 flex gap-2 md:gap-4 backdrop-blur-md" id="editor-nav">
+<div class="sticky top-0 p-2 z-10 flex gap-2 md:gap-4 backdrop-blur-sm" id="editor-nav">
 
 	<M.Root class="grow">
 
@@ -40,7 +81,7 @@
 
 			<M.Content>
 
-				<M.Item disabled={saving || saved || ! online} onclick={Save}>
+				<M.Item disabled={saving || saved || ! online || ! isMine} onclick={Save}>
 					<SaveIcon/>
 					{#if saving}
 						{$_.editor.saving}
@@ -62,6 +103,11 @@
 				</M.Item>
 
 				<M.Separator/>
+
+				<M.Item disabled={! online || forking} onclick={() => GuardedAction(Fork)}>
+					<Copy/>
+					{$_.editor.fork._}
+				</M.Item>
 
 				<M.Item onclick={Import}>
 					<FolderInput/>
@@ -124,13 +170,18 @@
 						{$_.set.test}
 					</M.Item>
 
+					<M.Item disabled={origin == null} onclick={() => GuardedGoto(`/edit/${origin}`)}>
+						<ArrowBigLeft/>
+						{$_.set.origin}
+					</M.Item>
+
 				</M.Content>
 
 			</M.Menu>
 
 		{/if}
 
-		{#if !saved}
+		{#if !saved && isMine}
 
 			<M.Menu>
 

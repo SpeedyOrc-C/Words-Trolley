@@ -4,10 +4,12 @@
 	import type {Words} from "$lib"
 
 	export type EditorProps = {
-		online: boolean,
+		online: true,
 		db: SupabaseClient<Database>,
 		name: string,
 		id: string,
+		origin: string | null,
+		isMine: boolean,
 		words: Words,
 	} | {
 		online: false

@@ -37,6 +37,7 @@ export type I18nTemplate = {
 	set: {
 		learn: s
 		test: s
+		origin: s
 	}
 	creator: {
 		title: (name: s) => s
@@ -66,6 +67,10 @@ export type I18nTemplate = {
 		saving: s
 		saved: s
 		you_have_unsaved_changes: s
+		fork: {
+			_: s
+			success: s
+		}
 		export: s
 		import: s
 		delete: s

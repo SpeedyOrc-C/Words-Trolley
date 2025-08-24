@@ -3,8 +3,10 @@
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
-	import {French, German} from "$lib/word"
-	import {Mars, Venus, Circle} from "@lucide/svelte"
+	import {French, German, Mandarin} from "$lib/word"
+	import {Circle, Mars, Venus} from "@lucide/svelte"
+	import type {ISyllable} from "$lib/word/mandarin"
+	import {MandarinScript, settings} from "$lib/Settings"
 
 	const {data} = $props()
 	const words = data.set.words as Words
@@ -33,6 +35,15 @@
 	function Flip()
 	{
 		flipped = ! flipped
+	}
+
+	function RenderMandarinSyllable(s: ISyllable)
+	{
+		const out = Mandarin.Syllable.From(s)
+
+		return $settings.MandarinScript == MandarinScript.Pinyin
+			? out.Pinyin
+			: out.BopomofoStrict
 	}
 
 	function onkeydown(e: KeyboardEvent)
@@ -137,10 +148,22 @@
 
 			</div>
 
+		{:else if word.type === WordType.Mandarin}
+
+			<div class="select-all" lang={LangFromWord(word)} style="font-size: 1rem">
+				{#each word.word as char, i}
+					<ruby class="text-5xl">
+						{char}<rt>{RenderMandarinSyllable(word.syllables[i])}</rt>
+					</ruby>
+				{/each}
+			</div>
+
 		{:else}
+
 			<div class="text-5xl select-all" lang={LangFromWord(word)}>
 				{word.word}
 			</div>
+
 		{/if}
 
 	{/if}
@@ -170,3 +193,10 @@
 	</div>
 
 </div>
+
+<style>
+	@reference "tailwindcss";
+	rt {
+		@apply pb-3 pl-1 pr-1 text-xl;
+	}
+</style>

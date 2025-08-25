@@ -12,7 +12,7 @@
 </script>
 
 <script lang="ts">
-	import {type ISyllable, Syllable} from "$lib/word/mandarin"
+	import {Bopomofo, type ISyllable} from "$lib/word/mandarin"
 	import {bopomofoOverrider} from "$lib/MandarinInputOverrider"
 
 	let {
@@ -25,7 +25,7 @@
 		placeholder: string
 	} = $props()
 
-	const initValue = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Bopomofo).join(" ")
+	const initValue = value.map(Bopomofo).join(" ")
 
 	let input: HTMLInputElement | null = null
 	let error = $state(false)
@@ -55,7 +55,7 @@
 			return
 
 		if (! error)
-			input.value = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Bopomofo).join(" ")
+			input.value = value.map(Bopomofo).join(" ")
 	}
 </script>
 

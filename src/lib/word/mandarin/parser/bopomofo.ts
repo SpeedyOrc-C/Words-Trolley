@@ -1,4 +1,4 @@
-import {Final, Initial, IsLabial, Syllable, Tone} from "$lib/word/mandarin"
+import {Final, Initial, IsLabial, Tone} from "$lib/word/mandarin"
 import {asum, char, Nothing, pure} from "crazy-parser"
 import {optional} from "crazy-parser/prefix"
 
@@ -91,5 +91,5 @@ export const pBopomofo = pInitial
 		char("˙").cmap(Tone.Neutral),
 		pure(Tone.Flat)
 	).map(tone =>
-		new Syllable(initial == Nothing ? null : initial, final, tone)
+		({Initial: initial == Nothing ? null : initial, Final: final, Tone: tone})
 	)))

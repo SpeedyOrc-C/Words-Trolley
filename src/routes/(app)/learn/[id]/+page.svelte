@@ -5,7 +5,7 @@
 	import {Button} from "$lib/components/ui/button"
 	import {French, German, Mandarin} from "$lib/word"
 	import {Circle, Mars, Venus} from "@lucide/svelte"
-	import type {ISyllable} from "$lib/word/mandarin"
+	import {BopomofoStrict, type ISyllable, Pinyin} from "$lib/word/mandarin"
 	import {MandarinScript, settings} from "$lib/Settings"
 
 	const {data} = $props()
@@ -39,11 +39,9 @@
 
 	function RenderMandarinSyllable(s: ISyllable)
 	{
-		const out = Mandarin.Syllable.From(s)
-
 		return $settings.MandarinScript == MandarinScript.Pinyin
-			? out.Pinyin
-			: out.BopomofoStrict
+			? Pinyin(s)
+			: BopomofoStrict(s)
 	}
 
 	function onkeydown(e: KeyboardEvent)

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {Syllable, SyllablesEqual, Tone} from "$lib/word/mandarin"
+	import {type ISyllable, SyllablesEqual, Tone} from "$lib/word/mandarin"
 	import {onMount} from "svelte"
 	import InputPinyin from "$lib/components/InputPinyin.svelte"
 	import {type Writable, writable} from "svelte/store"
@@ -10,7 +10,7 @@
 	const toneWriter: Writable<{ tone: Tone } | undefined> = writable(undefined)
 
 	let visualViewportHeight = $state(0)
-	let value: Array<Syllable> = $state([])
+	let value: Array<ISyllable> = $state([])
 	let showToneInput = $state(false)
 
 	onMount(() =>

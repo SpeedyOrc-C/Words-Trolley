@@ -1,4 +1,4 @@
-import {Final, type Syllable} from "$lib/word/mandarin"
+import {Final, type ISyllable} from "$lib/word/mandarin"
 import {pPinyinWithToneNumber} from "$lib/word/mandarin/parser/pinyin-with-tone-number"
 import {pBopomofo} from "$lib/word/mandarin/parser/bopomofo"
 
@@ -6,7 +6,7 @@ export type ShouldConfirm = boolean
 
 export interface MandarinInputOverrider
 {
-	Parse(raw: string): Syllable | null
+	Parse(raw: string): ISyllable | null
 
 	OnKeyDown(e: KeyboardEvent & { currentTarget: HTMLInputElement }): void
 
@@ -20,7 +20,7 @@ class PinyinOverrider implements MandarinInputOverrider
 	)
 	{}
 
-	Parse(raw: string): Syllable | null
+	Parse(raw: string): ISyllable | null
 	{
 		const s = pPinyinWithToneNumber.eval(raw)
 
@@ -119,7 +119,7 @@ class BopomofoOverrider implements MandarinInputOverrider
 	constructor(public readonly IsSingle: boolean = false)
 	{}
 
-	Parse(raw: string): Syllable | null
+	Parse(raw: string): ISyllable | null
 	{
 		const s = pBopomofo.eval(raw)
 

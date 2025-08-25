@@ -12,7 +12,7 @@
 </script>
 
 <script lang="ts">
-	import {type ISyllable, Syllable} from "$lib/word/mandarin"
+	import {type ISyllable, Pinyin, PinyinWithToneNumber} from "$lib/word/mandarin"
 	import {pinyinSyllablesOverrider} from "$lib/MandarinInputOverrider"
 
 	let {
@@ -25,7 +25,7 @@
 		placeholder: string
 	} = $props()
 
-	const initValue = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Pinyin).join(" ")
+	const initValue = value.map(Pinyin).join(" ")
 
 	let input: HTMLInputElement | null = null
 	let error = $state(false)
@@ -57,7 +57,7 @@
 			return
 
 		if (! error)
-			input.value = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).PinyinWithToneNumber).join(" ")
+			input.value = value.map(PinyinWithToneNumber).join(" ")
 	}
 
 	function onfocusout()
@@ -66,7 +66,7 @@
 			return
 
 		if (! error)
-			input.value = value.map(s => new Syllable(s.Initial, s.Final, s.Tone).Pinyin).join(" ")
+			input.value = value.map(Pinyin).join(" ")
 	}
 </script>
 

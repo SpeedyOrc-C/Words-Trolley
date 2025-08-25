@@ -1,4 +1,4 @@
-import {Final, Initial, IsAlveoloPalatal, IsLabial, Syllable, Tone} from "$lib/word/mandarin"
+import {Final, Initial, IsAlveoloPalatal, IsLabial, Tone} from "$lib/word/mandarin"
 import {Nothing, pure, asum, str, char, anyChar} from "crazy-parser"
 import {optional} from "crazy-parser/prefix"
 
@@ -136,14 +136,14 @@ export const pPinyinWithToneNumber = pInitial
 		char("ü").cmap(Final.Yu).if(initial == Initial.L || initial == Initial.N),
 		char("ê").cmap(Final.E2).if(initial == Nothing)
 	).bind(final => asum(
-			char("1").cmap(Tone.Flat),
-			char("2").cmap(Tone.Rise),
-			char("3").cmap(Tone.FallRise),
-			char("4").cmap(Tone.Fall),
-			optional(char("0")).cmap(Tone.Neutral),
-		).map(tone =>
-			new Syllable(initial == Nothing ? null : initial, final, tone))
-	))
+		char("1").cmap(Tone.Flat),
+		char("2").cmap(Tone.Rise),
+		char("3").cmap(Tone.FallRise),
+		char("4").cmap(Tone.Fall),
+		optional(char("0")).cmap(Tone.Neutral),
+	).map(tone =>
+		({Initial: initial == Nothing ? null : initial, Final: final, Tone: tone})
+	)))
 
 export const pTone = asum(
 	anyChar(["a", "e", "ê", "i", "o", "u", "ü"]).cmap(Tone.Neutral),

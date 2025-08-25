@@ -4,7 +4,7 @@
 	import {onMount} from "svelte"
 	import {pinyinSingleSyllableOverrider as overrider} from "$lib/MandarinInputOverrider"
 	import {writable, type Writable} from "svelte/store"
-	import {Tone} from "$lib/word/mandarin"
+	import {Pinyin, Tone} from "$lib/word/mandarin"
 
 	let {
 		value = $bindable([]),
@@ -13,7 +13,7 @@
 		onfocusin = () => {},
 		onfocusout = () => {},
 	}: {
-		value: Array<Mandarin.Syllable>
+		value: Array<Mandarin.ISyllable>
 		length: number | null
 		toneWriter: Writable<{ tone: Tone } | undefined>
 		onfocusin: () => any
@@ -22,7 +22,7 @@
 
 	const elements: Array<HTMLElement | HTMLInputElement> = $derived(new Array(length ?? 0).fill(null))
 
-	let syllables: Array<Mandarin.Syllable | null> = $state(new Array(length ?? 0).fill(null))
+	let syllables: Array<Mandarin.ISyllable | null> = $state(new Array(length ?? 0).fill(null))
 	let focusedBufferIndex: number | null = null
 
 	onMount(() =>
@@ -98,7 +98,7 @@
 
 	function Save()
 	{
-		const newValue: Array<Mandarin.Syllable> = []
+		const newValue: Array<Mandarin.ISyllable> = []
 
 		for (const buffer of syllables)
 			if (buffer != null)
@@ -253,7 +253,7 @@
 				onfocusin={e => OnElementFocusIn(i)}
 				use:AttachSyllable={i}
 			>
-				{buffer.Pinyin}
+				{Pinyin(buffer)}
 			</div>
 
 		{:else}

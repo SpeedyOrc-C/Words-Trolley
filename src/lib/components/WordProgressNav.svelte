@@ -2,13 +2,11 @@
 	import type {Words} from "$lib"
 	import {Button} from "$lib/components/ui/button"
 	import {Progress} from "$lib/components/ui/progress"
+	import {settingsOpened} from "$lib/Settings"
 	import {_} from "$lib/i18n"
-	import Settings from "$lib/components/Settings.svelte"
 
 	const {index, words, progressTitle}: { index: number, words: Words, progressTitle: string } = $props()
 	const wordArg = $derived(encodeURIComponent(words[index].word))
-
-	let settingsOpened = $state(false)
 </script>
 
 <nav class="p-4 w-full flex flex-col gap-2">
@@ -31,7 +29,7 @@
 			Wiktionary
 		</Button>
 
-		<Button onclick={() => settingsOpened = true} variant="ghost">
+		<Button onclick={() => settingsOpened.set(true)} variant="ghost">
 			{$_.settings._}
 		</Button>
 
@@ -41,5 +39,3 @@
 
 	</div>
 </nav>
-
-<Settings bind:open={settingsOpened} />

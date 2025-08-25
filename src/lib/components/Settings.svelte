@@ -54,7 +54,7 @@
 				<Select.Root bind:value={newSettings.Language} type="single">
 
 					<Select.Trigger>
-						<Languages />
+						<Languages/>
 						{_Language(newSettings.Language)}
 					</Select.Trigger>
 
@@ -125,7 +125,6 @@
 
 				</RadioGroup.Root>
 
-
 			</div>
 
 		</div>
@@ -135,13 +134,13 @@
 </Dialog.Root>
 
 <style>
-    @reference "tailwindcss";
+	@reference "tailwindcss";
 
-    .radio-group-with-box {
-        @apply p-2 rounded-md border-2 border-transparent;
+	.radio-group-with-box {
+		@apply p-2 rounded-md border-2 border-transparent;
 
-        &:has(:global(button[data-state="checked"])) {
-            @apply border-gray-400;
-        }
-    }
+		&:has(:global(button[data-state="checked"])) {
+			@apply border-gray-400;
+		}
+	}
 </style>

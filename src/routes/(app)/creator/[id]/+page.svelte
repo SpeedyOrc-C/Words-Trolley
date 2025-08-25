@@ -4,22 +4,18 @@
 	import * as Card from "$lib/components/ui/card"
 	import {Button} from "$lib/components/ui/button"
 	import {House, Settings as Gear, Plus, BookOpen, BookCheck, SquarePen} from "@lucide/svelte"
-	import Settings from "$lib/components/Settings.svelte"
+	import {settingsOpened} from "$lib/Settings"
 
 	const {data} = $props()
 
 	const title = data.user?.id == data.creator.id
 		? $_.creator.title_me
 		: $_.creator.title(data.creator.id)
-
-	let settingsOpened = $state(false)
 </script>
 
 <svelte:head>
 	<title>{title}</title>
 </svelte:head>
-
-<Settings bind:open={settingsOpened} />
 
 <div class="p-2 sticky top-0 bg-background shadow">
 	<M.Root>
@@ -35,7 +31,7 @@
 			</M.Item>
 
 			<M.Item>
-				<Button onclick={() => settingsOpened = true} variant="ghost">
+				<Button onclick={() => settingsOpened.set(true)} variant="ghost">
 					<div class="flex items-center gap-2">
 						<Gear/>
 						<div>{$_.settings._}</div>

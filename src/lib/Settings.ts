@@ -21,3 +21,5 @@ export const settings = writable({
 } as ISettings)
 
 export const mandarinScript = writable(MandarinScript.Pinyin)
+
+export const settingsOpened = writable(false)

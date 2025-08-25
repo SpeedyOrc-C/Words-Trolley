@@ -13,9 +13,8 @@
 	import InputPinyinLight from "$lib/components/InputPinyinLight.svelte"
 	import SelectWordAndTheirExtras from "$lib/editor/SelectWordAndTheirExtras.svelte"
 	import type {EditorProps} from "$lib/editor/Editor.svelte"
-	import Settings from "$lib/components/Settings.svelte"
 	import EditorNav from "$lib/editor/EditorNav.svelte"
-	import {MandarinScript, mandarinScript} from "$lib/Settings"
+	import {MandarinScript, mandarinScript, settingsOpened} from "$lib/Settings"
 	import InputBopomofoLight from "$lib/components/InputBopomofoLight.svelte"
 	import EditorInitialisation from "$lib/editor/EditorInitialisation.svelte"
 	import {Button} from "$lib/components/ui/button"
@@ -39,7 +38,6 @@
 	let forking = $state(false)
 	let dragIndex = $state<number | null>(null)
 	let dropIndex = $state<number | null>(null)
-	let settingsOpened = $state(false)
 	let initialisationOpened = $state(false)
 
 	let showWordOperations = $state(true)
@@ -347,7 +345,7 @@
 		if ((e.ctrlKey || e.metaKey) && e.code == "Comma")
 		{
 			e.preventDefault()
-			settingsOpened = ! settingsOpened
+			settingsOpened.update(x => ! x)
 			return
 		}
 	}
@@ -364,7 +362,7 @@
 <EditorNav
 	{Fork} {Delete} {Export} {Import} {Save} {Rename}
 	OpenInitialisation={() => initialisationOpened = true}
-	OpenSettings={() => settingsOpened = true}
+	OpenSettings={() => settingsOpened.set(true)}
 	isMine={isMine}
 	bind:showExtraOptions
 	bind:showWordOperations
@@ -601,7 +599,7 @@
 				{$_.editor.initialise}
 			</Button>
 		{:else if showWordOperations}
-			<Button class="mx-2" onclick={() => InsertNewWord(words.length)}>
+			<Button class="mx-2" onclick={() => InsertNewWord(words.length)} variant="secondary">
 				<Plus/>
 				{$_.editor.add_a_word}
 			</Button>
@@ -619,5 +617,3 @@
 	bind:open={initialisationOpened}
 	{words}
 />
-
-<Settings bind:open={settingsOpened}/>

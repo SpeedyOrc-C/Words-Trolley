@@ -1,13 +1,12 @@
 <script lang="ts">
 	import {_} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
-	import Settings from "$lib/components/Settings.svelte"
 	import {Settings as Gear} from "@lucide/svelte"
+	import {settingsOpened} from "$lib/Settings"
 
 	let {data} = $props()
 
 	let loading = $state(false)
-	let settingsOpened = $state(false)
 
 	async function SignOut()
 	{
@@ -64,7 +63,7 @@
 		{/if}
 
 		<div class="flex gap-4">
-			<Button onclick={() => settingsOpened = true} size="lg" variant="outline">
+			<Button onclick={() => settingsOpened.set(true)} size="lg" variant="outline">
 				<Gear/>
 				{$_.settings._}
 			</Button>
@@ -87,5 +86,3 @@
 	</div>
 
 </main>
-
-<Settings bind:open={settingsOpened}/>

@@ -51,6 +51,11 @@ export class Syllable implements ISyllable
 {
 	constructor(public Initial: Initial | null, public Final: Final, public Tone: Tone) {}
 
+	static From(s: ISyllable)
+	{
+		return new Syllable(s.Initial, s.Final, s.Tone)
+	}
+
 	Show(): string
 	{
 		return `${this.Initial}-${this.Final}-${this.Tone}`
@@ -499,6 +504,18 @@ export class Syllable implements ISyllable
 		const initial = this.InitialBopomofo
 		const final = this.FinalBopomofo
 		const tone = this.ToneBopomofo
+
+		return initial + final + tone
+	}
+
+	get BopomofoStrict(): string
+	{
+		const initial = this.InitialBopomofo
+		const final = this.FinalBopomofo
+		const tone = this.ToneBopomofo
+
+		if (this.Tone == Tone.Neutral)
+			return tone + initial + final
 
 		return initial + final + tone
 	}

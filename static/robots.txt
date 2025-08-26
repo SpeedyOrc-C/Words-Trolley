@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /learn/
+Disallow: /edit/
+Disallow: /test/
+Disallow: /debug/

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {LangFromWord, Speak, type Words, WordType} from "$lib"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
-	import {_} from "$lib/i18n"
+	import {_, Language, language} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
 	import {French, German, Mandarin} from "$lib/word"
 	import {Circle, Mars, Venus} from "@lucide/svelte"
@@ -15,6 +15,17 @@
 	let flipped = $state(false)
 
 	const word = $derived(words[i])
+
+	const description = $derived.by(() =>
+	{
+		switch ($language)
+		{
+		case Language.ZhCn:
+			return `学习《${data.set.name}》中的单词。`
+		case Language.EnGb:
+			return `Learn the words in ${data.set.name}.`
+		}
+	})
 
 	function Next()
 	{
@@ -86,9 +97,8 @@
 <svelte:window onkeydown={onkeydown}/>
 
 <svelte:head>
-	<title>
-		{$_.learn.title(data.set.name)}
-	</title>
+	<title>{$_.learn.title(data.set.name)}</title>
+	<meta name="description" content={description}>
 </svelte:head>
 
 <WordProgressNav index={i} {words} progressTitle={$_.learn.progress}/>

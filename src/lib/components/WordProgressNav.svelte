@@ -34,7 +34,7 @@
 		</Button>
 
 		<div class="text-right grow text-xl font-mono">
-			{index + 1}<span class="opacity-60">/{words.length}</span>
+			{index + 1}<span class="text-foreground/50">/{words.length}</span>
 		</div>
 
 	</div>

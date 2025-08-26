@@ -413,8 +413,8 @@
 								{$_.editor.word}
 							</Label>
 
-							<div class="text-xs text-foreground/50 font-mono">
-								{i + 1}<span class="text-foreground/60">/{words.length}</span>
+							<div class="text-xs font-mono">
+								{i + 1}<span class="text-foreground/50">/{words.length}</span>
 							</div>
 						</div>
 

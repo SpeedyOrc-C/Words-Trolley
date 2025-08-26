@@ -16,6 +16,13 @@
 
 		console.debug(newVoices)
 		voices = newVoices
+
+		speechSynthesis.onvoiceschanged = () =>
+		{
+			const newVoices = speechSynthesis.getVoices()
+			console.debug(newVoices)
+			voices = newVoices
+		}
 	})
 </script>
 

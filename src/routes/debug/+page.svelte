@@ -12,12 +12,10 @@
 
 		console.debug(navigator.languages)
 
-		speechSynthesis.onvoiceschanged = () =>
-		{
-			const newVoices = speechSynthesis.getVoices()
-			voices = newVoices
-			console.debug(newVoices)
-		}
+		const newVoices = speechSynthesis.getVoices()
+
+		console.debug(newVoices)
+		voices = newVoices
 	})
 </script>
 
@@ -71,6 +69,7 @@
 
 			<T.Header>
 				<T.Row>
+					<T.Head>Is default</T.Head>
 					<T.Head>Is local</T.Head>
 					<T.Head>Language</T.Head>
 					<T.Head>Name</T.Head>
@@ -80,6 +79,9 @@
 			<T.Body>
 				{#each voices as voice}
 					<T.Row>
+						<T.Cell>
+							<Checkbox checked={voice.default}/>
+						</T.Cell>
 						<T.Cell>
 							<Checkbox checked={voice.localService}/>
 						</T.Cell>
@@ -91,7 +93,7 @@
 
 			<T.Footer>
 				<T.Row>
-					<T.Cell colspan={3}>
+					<T.Cell colspan={4}>
 						Count: {voices.length}
 					</T.Cell>
 				</T.Row>

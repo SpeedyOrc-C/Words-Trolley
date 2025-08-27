@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {LangFromWord, type Words, WordType} from "$lib"
+	import {LangFromWord, type Word, WordType} from "$lib"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_, Language, language} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
@@ -10,7 +10,7 @@
 	import {Speak} from "$lib/speak"
 
 	const {data} = $props()
-	const words = data.set.words as Words
+	const words = data.set.words as Word[]
 
 	let i = $state(0)
 	let flipped = $state(false)

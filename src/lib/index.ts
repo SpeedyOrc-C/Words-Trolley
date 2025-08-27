@@ -3,8 +3,6 @@ import {English, French, German, Japanese, Mandarin} from "$lib/word"
 import {VerbType} from "$lib/word/japanese"
 import { Language } from "./i18n"
 
-export type Words = Array<Word>
-
 export type Word = Metadata & {
 	word: string
 	meaning: string

@@ -3,27 +3,15 @@
 	import {onMount} from "svelte"
 	import {Checkbox} from "$lib/components/ui/checkbox"
 	import {settings} from "$lib/Settings"
-
-	let voices: SpeechSynthesisVoice[] = $state([])
+	import {voices} from "$lib/speak"
 
 	onMount(() =>
 	{
 		console.debug($settings)
-
 		console.debug(navigator.languages)
-
-		const newVoices = speechSynthesis.getVoices()
-
-		console.debug(newVoices)
-		voices = newVoices
-
-		speechSynthesis.onvoiceschanged = () =>
-		{
-			const newVoices = speechSynthesis.getVoices()
-			console.debug(newVoices)
-			voices = newVoices
-		}
 	})
+
+	$effect(() => console.debug($voices))
 </script>
 
 <svelte:head>
@@ -84,7 +72,7 @@
 			</T.Header>
 
 			<T.Body>
-				{#each voices as voice}
+				{#each $voices as voice}
 					<T.Row>
 						<T.Cell>
 							<Checkbox checked={voice.default}/>
@@ -101,7 +89,7 @@
 			<T.Footer>
 				<T.Row>
 					<T.Cell colspan={4}>
-						Count: {voices.length}
+						Count: {$voices.length}
 					</T.Cell>
 				</T.Row>
 			</T.Footer>

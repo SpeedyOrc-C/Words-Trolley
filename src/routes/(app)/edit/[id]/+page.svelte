@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Editor from "$lib/editor/Editor.svelte"
-	import type {Words} from "$lib"
+	import type {Word} from "$lib"
 
 	const {data} = $props()
 	const {user, db, set: {name, id, origin, words: _words, creator}} = $derived(data)
-	const words = $derived(_words as Words)
+	const words = $derived(_words as Word[])
 </script>
 
 <Editor

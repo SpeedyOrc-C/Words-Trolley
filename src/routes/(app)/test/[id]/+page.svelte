@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {WordType, LangFromWord, type Words} from "$lib"
+	import {WordType, LangFromWord, type Word} from "$lib"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_} from "$lib/i18n"
 	import QSimple from "$lib/components/QSimple.svelte"
@@ -9,7 +9,7 @@
 	import {French} from "$lib/word"
 
 	const {data} = $props()
-	const words = data.set.words as Words
+	const words = data.set.words as Word[]
 
 	const score: Array<null | false | true> = $state(new Array(words.length).fill(null))
 

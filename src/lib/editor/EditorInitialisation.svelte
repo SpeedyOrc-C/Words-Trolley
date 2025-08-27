@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SelectWordType from "$lib/editor/SelectWordType.svelte"
 	import {_} from "$lib/i18n"
-	import {type Words, WordType} from "$lib"
+	import {type Word, WordType} from "$lib"
 	import * as Dialog from "$lib/components/ui/dialog"
 	import * as Select from "$lib/components/ui/select"
 	import {Button} from "$lib/components/ui/button"
@@ -15,7 +15,7 @@
 		SetAllCardsTypes,
 	}: {
 		open: boolean
-		words: Words,
+		words: Word[],
 		ReplaceWithEmptyWords: (card: WordType, count: number) => void
 		SetAllCardsTypes: (card: WordType) => void
 	} = $props()

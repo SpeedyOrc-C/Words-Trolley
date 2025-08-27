@@ -1,7 +1,7 @@
 <script lang="ts" module>
 	import type {SupabaseClient} from "@supabase/supabase-js"
 	import type {Database} from "$lib/database.types"
-	import type {Words} from "$lib"
+	import type {Word} from "$lib"
 
 	export type EditorProps = {
 		online: true,
@@ -10,7 +10,7 @@
 		id: string,
 		origin: string | null,
 		isMine: boolean,
-		words: Words,
+		words: Word[],
 	} | {
 		online: false
 	}

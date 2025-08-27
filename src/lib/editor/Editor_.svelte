@@ -1,10 +1,5 @@
 <script lang="ts">
-	import {
-		blankWordFromType,
-		blankWordSimple,
-		WordType,
-		LangFromWord, type Words,
-	} from "$lib"
+	import {blankWordFromType, blankWordSimple, WordType, LangFromWord} from "$lib"
 	import type {Json} from "$lib/database.types"
 	import {goto} from "$app/navigation"
 	import {_} from "$lib/i18n"
@@ -422,7 +417,8 @@
 						<div class="flex gap-2 md:gap-4">
 
 							{#if showWordOperations}
-								<Button size="icon" variant="secondary" onclick={() => $Speak(word)} aria-label={$_.learn.speak}>
+								<Button size="icon" variant="secondary" onclick={() => $Speak(word)}
+										  aria-label={$_.learn.speak}>
 									<Speech/>
 								</Button>
 							{/if}

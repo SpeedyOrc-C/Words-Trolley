@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type {Words} from "$lib"
+	import type {Word} from "$lib"
 	import {Button} from "$lib/components/ui/button"
 	import {Progress} from "$lib/components/ui/progress"
 	import {settingsOpened} from "$lib/Settings"
 	import {_} from "$lib/i18n"
 
-	const {index, words, progressTitle}: { index: number, words: Words, progressTitle: string } = $props()
+	const {index, words, progressTitle}: { index: number, words: Word[], progressTitle: string } = $props()
 	const wordArg = $derived(encodeURIComponent(words[index].word))
 </script>
 

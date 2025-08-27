@@ -6,6 +6,7 @@
 	import {mandarinScript, settings, settingsOpened, SettingsKey} from "$lib/Settings"
 	import {Toaster} from "$lib/components/ui/sonner"
 	import Settings from "$lib/components/Settings.svelte"
+	import {voices} from "$lib/speak"
 
 	const {children} = $props()
 
@@ -30,6 +31,14 @@
 
 			mandarinScript.set(set.MandarinScript)
 		})
+
+		const newVoices = speechSynthesis.getVoices()
+
+		if (newVoices.length > 0)
+			voices.set(newVoices)
+
+		speechSynthesis.onvoiceschanged = () =>
+			voices.set(speechSynthesis.getVoices())
 
 		if (! dev)
 			console.info(

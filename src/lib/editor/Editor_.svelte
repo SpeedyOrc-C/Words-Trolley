@@ -3,7 +3,7 @@
 		blankWordFromType,
 		blankWordSimple,
 		WordType,
-		LangFromWord, Speak, type Words,
+		LangFromWord, type Words,
 	} from "$lib"
 	import type {Json} from "$lib/database.types"
 	import {goto} from "$app/navigation"
@@ -24,6 +24,7 @@
 	import * as RadioGroup from "$lib/components/ui/radio-group"
 	import {Trash2, Plus, MoveUpIcon, MoveDownIcon, BetweenHorizontalStart, Speech} from "@lucide/svelte"
 	import {toast} from "svelte-sonner"
+	import {Speak} from "$lib/speak"
 
 	const data: EditorProps = $props()
 	const isMine = $derived(data.online ? data.isMine : false)
@@ -421,7 +422,7 @@
 						<div class="flex gap-2 md:gap-4">
 
 							{#if showWordOperations}
-								<Button size="icon" variant="secondary" onclick={() => Speak(word)} aria-label={$_.learn.speak}>
+								<Button size="icon" variant="secondary" onclick={() => $Speak(word)} aria-label={$_.learn.speak}>
 									<Speech/>
 								</Button>
 							{/if}

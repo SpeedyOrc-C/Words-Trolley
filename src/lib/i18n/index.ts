@@ -6,7 +6,12 @@ import {PopulateLanguagePacks} from "crazy-i18n/unify"
 export enum Language
 {
 	ZhCn = "zh-CN",
+	ZhTw = "zh-TW",
 	EnGb = "en-GB",
+	EnUs = "en-US",
+	JaJp = "ja-JP",
+	FrFr = "fr-FR",
+	DeDe = "de-DE",
 }
 
 export const language = writable<Language>(Language.EnGb)
@@ -19,7 +24,7 @@ export const _ = derived(language, language =>
 	{
 	case Language.ZhCn:
 		return ZhCn
-	case Language.EnGb:
+	default:
 		return EnGb
 	}
 })

@@ -22,6 +22,10 @@ const EnGb: I18nTemplate = {
 		follows_your_system: "Follows your system",
 		ui_language: "UI Language",
 		mandarin_script: "Mandarin Script",
+		customise_voices: {
+			_: "Customise voices",
+			tip: "Tick the languages you want to change the voice for.",
+		},
 	},
 	home: {
 		_: "Home",

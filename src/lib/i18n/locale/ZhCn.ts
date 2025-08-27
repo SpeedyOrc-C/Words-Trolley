@@ -22,6 +22,10 @@ const ZhCn: I18nTemplate = {
 		follows_your_system: "跟随系统",
 		ui_language: "界面语言",
 		mandarin_script: "普通话拼读文字",
+		customise_voices: {
+			_: "自定义语音",
+			tip: "给想要更改声音的语言打钩。",
+		},
 	},
 	home: {
 		_: "主页",

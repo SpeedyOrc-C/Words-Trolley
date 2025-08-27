@@ -1,12 +1,13 @@
 <script lang="ts">
-	import {LangFromWord, Speak, type Words, WordType} from "$lib"
+	import {LangFromWord, type Words, WordType} from "$lib"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_, Language, language} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
-	import {French, German, Mandarin} from "$lib/word"
+	import {French, German} from "$lib/word"
 	import {Circle, Mars, Venus} from "@lucide/svelte"
 	import {BopomofoStrict, type ISyllable, Pinyin} from "$lib/word/mandarin"
 	import {MandarinScript, settings} from "$lib/Settings"
+	import {Speak} from "$lib/speak"
 
 	const {data} = $props()
 	const words = data.set.words as Words
@@ -181,7 +182,7 @@
 <div class="w-full p-3 flex flex-col gap-3" id="control">
 
 	<div class="flex gap-3">
-		<Button class="h-24 text-xl flex-1" onclick={() => Speak(word)} variant="secondary">
+		<Button class="h-24 text-xl flex-1" onclick={() => $Speak(word)} variant="secondary">
 			{$_.learn.speak}
 		</Button>
 

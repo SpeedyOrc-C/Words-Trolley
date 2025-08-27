@@ -1,6 +1,7 @@
 import type {Json} from "$lib/database.types"
 import {English, French, German, Japanese, Mandarin} from "$lib/word"
 import {VerbType} from "$lib/word/japanese"
+import { Language } from "./i18n"
 
 export type Words = Array<Word>
 
@@ -76,6 +77,7 @@ export type JapaneseVerb = {
 
 export enum WordType
 {
+	// TODO: Remove this "simple" type
 	Simple = "simple",
 	English = "english",
 	Mandarin = "mandarin",
@@ -184,32 +186,25 @@ export function LangFromWord(word: Word)
 		switch (word.region)
 		{
 		case English.Region.GB:
-			return "en-GB"
+			return Language.EnGb
 		case English.Region.US:
-			return "en-US"
+			return Language.EnUs
 		}
 	case WordType.Mandarin:
 		switch (word.region)
 		{
 		case Mandarin.Region.PRC:
-			return "zh-CN"
+			return Language.ZhCn
 		case Mandarin.Region.ROC:
-			return "zh-TW"
+			return Language.ZhTw
 		}
 	case WordType.French:
-		return "fr-FR"
+		return Language.FrFr
 	case WordType.German:
-		return "de-DE"
+		return Language.DeDe
 	case WordType.Japanese:
-		return "ja-JP"
+		return Language.JaJp
 	}
-}
-
-export function Speak(word: Word)
-{
-	const utterance = new SpeechSynthesisUtterance(word.word)
-	utterance.lang = LangFromWord(word)
-	speechSynthesis.speak(utterance)
 }
 
 export function TypeCheckWords(input: Json): boolean

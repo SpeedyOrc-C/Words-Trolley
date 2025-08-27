@@ -22,6 +22,10 @@ export type I18nTemplate = {
 		follows_your_system: s
 		mandarin_script: s
 		ui_language: s
+		customise_voices: {
+			_: s
+			tip: s
+		}
 	}
 	home: {
 		_: s

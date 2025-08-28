@@ -120,3 +120,9 @@
         @apply bg-background text-foreground;
     }
 }
+
+@font-face {
+	font-family: Font_Egyptian;
+	/*src: url("/NotoSansEgyptianHieroglyphs-Regular.ttf") format("truetype");*/
+	src: url("/NewGardiner.ttf") format("truetype");
+}

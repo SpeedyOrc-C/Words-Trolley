@@ -59,16 +59,14 @@ export type GermanNoun = {
 export type JapaneseWord = {
 	type: WordType.Japanese
 	category: Japanese.Category.Word
-	word_kana_only: string
-	morae: Japanese.Mora[]
+	morae: Japanese.Mora[][]
 	tone: number
 }
 
 export type JapaneseVerb = {
 	type: WordType.Japanese
 	category: Japanese.Category.Verb
-	word_kana_only: string
-	morae: Japanese.Mora[]
+	morae: Japanese.Mora[][]
 	tone: number
 	verb_type: Japanese.VerbType
 }
@@ -135,16 +133,14 @@ const blankWordJapanese: Word = {
 	...baseWord,
 	type: WordType.Japanese,
 	category: Japanese.Category.Word,
-	word_kana_only: "",
 	morae: [],
 	tone: 0,
 }
 
 const blankWordJapaneseVerb: Word = {
 	...blankWordJapanese,
-	type: WordType.Japanese,
 	category: Japanese.Category.Verb,
-	verb_type: VerbType.Consonant,
+	verb_type: Japanese.VerbType.Vowel,
 }
 
 export const blankWordFromTypeAndCategory = {

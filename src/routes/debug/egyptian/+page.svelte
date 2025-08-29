@@ -1,29 +1,38 @@
 <script lang="ts">
-	import LetterN from "./LetterN.svelte"
+	import {SetLineHeight} from "$lib/word/egyptian/glyph/height"
+	import G from "$lib/word/egyptian/glyph"
+	import {g, h, v} from "$lib/word/egyptian/hieroglyphics"
+	import Render from "./Render.svelte"
 
-	const h = 128
-	const g = h * 0.15
+	const lineHeight = 96
+	const height = `${lineHeight}px`
+	const gap = `${lineHeight * 0.2}px`
+
+	SetLineHeight(lineHeight)
 </script>
 
-<div class="h-30"></div>
-
 <div
-	class="flex gap-2 outline-1 h-20"
-	style="height: {h}px; gap: {g}px"
+	class="mx-auto p-4 w-fit flex items-center flex-wrap select-none"
+	style:gap style:height
 >
-	<div style="font-size: {h}px; line-height: 100%">𓅱</div>
-	<div style="font-size: {h}px; line-height: 100%">𓋴</div>
-	<LetterN/>
-	<div style="font-size: {h}px; line-height: 0%" class="flex flex-col align-bottom">
-		<div>𓈖</div>
-		<div>𓈖</div>
+	<div class="text-red-700">
+		<Render hie={h(g(G.A), v(g(G.P), g(G.D)))}/>
 	</div>
-	<div style="font-size: {h}px; line-height: 100%">𓂧</div>
-	<div style="font-size: {h}px; line-height: 100%">𓎡</div>
+	<div class="text-yellow-700">
+		<Render hie={h(g(G.S), v(g(G.N), h(g(G.B), g(G.I))))}/>
+	</div>
+	<div class="text-green-700">
+		<Render hie={v(h(g(G.P), g(G.X)), g(G.R))}/>
+	</div>
+	<div class="text-blue-700">
+		<Render hie={v(g(G.Z), g(G.K), g(G.R))}/>
+	</div>
+	<Render hie={h(v(g(G.R), g((G.N)), g(G.K)), v(g(G.M), g(G.T)))}/>
 </div>
 
+
 <style>
-	* {
+	:global(body) {
 		font-family: Font_Egyptian, sans-serif;
 	}
 </style>

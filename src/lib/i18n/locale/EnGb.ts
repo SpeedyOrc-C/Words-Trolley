@@ -134,6 +134,7 @@ const EnGb: I18nTemplate = {
 		verb_group: "Verb group",
 		pinyin: "Pinyin",
 		bopomofo: "Bopomofo",
+		transliteration: "Transliteration",
 		abbr: {
 			masculine: "m.",
 			feminine: "f.",
@@ -151,6 +152,14 @@ const EnGb: I18nTemplate = {
 			gb: "Great Britain",
 			us: "United States",
 		}
+	},
+	egyptian: {
+		identity: "Identity",
+	},
+	stack: {
+		vertical: "Vertical",
+		horizontal: "Horizontal",
+		split: "Split",
 	}
 }
 

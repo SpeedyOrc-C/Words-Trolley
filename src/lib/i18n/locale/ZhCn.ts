@@ -134,6 +134,7 @@ const ZhCn: I18nTemplate = {
 		verb_group: "动词组",
 		pinyin: "拼音",
 		bopomofo: "注音符号",
+		transliteration: "转写",
 		abbr: {
 			masculine: "阳",
 			feminine: "阴",
@@ -151,6 +152,14 @@ const ZhCn: I18nTemplate = {
 			gb: "大不列颠",
 			us: "美利坚合众国",
 		}
+	},
+	egyptian: {
+		identity: "音形如一",
+	},
+	stack: {
+		vertical: "上下",
+		horizontal: "左右",
+		split: "分开",
 	}
 }
 

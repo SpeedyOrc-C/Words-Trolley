@@ -134,6 +134,7 @@ export type I18nTemplate = {
 		verb_group: s
 		pinyin: s
 		bopomofo: s
+		transliteration: s
 		abbr: {
 			masculine: s
 			feminine: s
@@ -151,5 +152,13 @@ export type I18nTemplate = {
 			gb: s
 			us: s
 		}
+	}
+	egyptian: {
+		identity: s
+	}
+	stack: {
+		vertical: s
+		horizontal: s
+		split: s
 	}
 }

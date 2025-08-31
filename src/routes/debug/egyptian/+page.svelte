@@ -13,9 +13,11 @@
 	import type {Phoneme} from "$lib/word/egyptian"
 	import {SetLineHeight} from "$lib/word/egyptian/glyph/height"
 	import G from "$lib/word/egyptian/glyph"
-	import {g, h, type Hieroglyphics, v} from "$lib/word/egyptian/hieroglyphics"
+	import {Decompose, g, h, type Hieroglyphics, Structure, v} from "$lib/word/egyptian/hieroglyphics"
 	import Render from "./Render.svelte"
 	import dictionary from "$lib/word/egyptian/dictionary"
+	import {Columns2, Rows2, Split} from "@lucide/svelte"
+	import {_} from "$lib/i18n"
 
 	const lineHeight = 96
 	const height = `${lineHeight}px`
@@ -98,7 +100,15 @@
 		switch (rangeSelection.s)
 		{
 		case "idle":
-			rangeSelection = {s: "drag-start", start: i}
+			if (operation == "flatten" && hies[i][0] != Structure.G)
+			{
+				const before = hies.slice(0, i)
+				const selected = hies[i]
+				const after = hies.slice(i + 1)
+				hies = [...before, ...Decompose(selected), ...after]
+			}
+			else
+				rangeSelection = {s: "drag-start", start: i}
 			break
 		}
 	}
@@ -129,7 +139,7 @@
 
 			rangeSelection = {s: "idle"}
 
-			if (start < 0 || end >= hies.length)
+			if (start < 0 || end >= hies.length || start == end)
 				return
 
 			const before = hies.slice(0, start)
@@ -140,6 +150,7 @@
 				hies = [...before, h(...selected), ...after]
 			else if (operation == "vertical")
 				hies = [...before, v(...selected), ...after]
+			break
 		}
 		default:
 			rangeSelection = {s: "idle"}
@@ -160,12 +171,9 @@
 				&& i <= Math.max(rangeSelection.start, rangeSelection.end))
 		}
 	}
-
-	$inspect(rangeSelection)
-	$inspect(hies)
 </script>
 
-<svelte:body onmouseup={console.log}/>
+<svelte:body onmouseup={MouseUp}/>
 
 <main class="p-4 flex flex-col gap-4">
 
@@ -176,11 +184,8 @@
 					class="outline-yellow-500"
 					class:outline-4={ShouldHighlight(i)}
 					onmousedown={() => MouseDown(i)}
-					ontouchstart={() => MouseDown(i)}
 					onmouseover={() => MouseOver(i)}
-					ontouchmove={() => MouseOver(i)}
 					onmouseup={MouseUp}
-					ontouchend={MouseUp}
 				>
 					<Render {hie}/>
 				</div>
@@ -188,27 +193,42 @@
 		</div>
 	</div>
 
-	<code class="p-2 rounded-md outline-1">
+	<code class="p-2 rounded-md outline-1 text-xs">
 		{JSON.stringify(hies)}
 	</code>
 
-	<div class="flex gap-4">
-		<Button onclick={() => operation = "horizontal"} variant={operation === "horizontal" ? "default" : "outline"}>
-			Horizontal
-		</Button>
-		<Button onclick={() => operation = "vertical"} variant={operation === "vertical" ? "default" : "outline"}>
-			Vertical
-		</Button>
+	<div class="flex justify-between">
+		<div class="flex gap-4">
+			<Button onclick={() => operation = "horizontal"}
+					  variant={operation === "horizontal" ? "default" : "outline"}>
+				<Columns2/>
+				{$_.stack.horizontal}
+			</Button>
+			<Button onclick={() => operation = "vertical"}
+					  variant={operation === "vertical" ? "default" : "outline"}>
+				<Rows2/>
+				{$_.stack.vertical}
+			</Button>
+			<Button onclick={() => operation = "flatten"}
+					  variant={operation === "flatten" ? "destructive" : "outline"}>
+				<Split/>
+				{$_.stack.split}
+			</Button>
+		</div>
+		<div>
+			<Button variant="secondary" onclick={() => hies = [...hies, g(G.D_identity)]}>
+				{$_.egyptian.identity}
+			</Button>
+		</div>
 	</div>
 
 	<Input
 		autocapitalize="off" autocomplete="off" autocorrect="off" bind:value={input} class="font-mono"
 		{onkeydown}
-		placeholder="Transliteration"
-		style="font-size: 1rem"
+		placeholder={$_.linguistics.transliteration}
+		style="font-size: 3rem"
 		type="text"
 	/>
-
 
 	<div class="flex gap-4">
 		{#each results as hie, i (hie)}

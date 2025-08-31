@@ -50,7 +50,9 @@
 
 {#if struct === Structure.G}
 
-	<Glyph g={arg} {fp}/>
+	<div class="g" style:height>
+		<Glyph g={arg} {fp}/>
+	</div>
 
 {:else if struct === Structure.V}
 
@@ -75,6 +77,10 @@
 
 <style>
 	@reference "tailwindcss";
+
+	.g {
+		@apply flex items-center;
+	}
 
 	.v {
 		@apply flex flex-col items-center justify-between;

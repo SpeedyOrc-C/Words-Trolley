@@ -30,17 +30,24 @@ export enum Glyph
 	C_j = "𓆓",
 
 	// Biliteral (2 consonants)
+	C_ba = "𓅞",
+	C_ib = "𓏋",
 	C_jd = "𓊽",
 	C_ka = "𓂓",
 	C_ma = "𓌳",
+	C_ms = "𓄠",
 	C_nb = "𓎟",
 	C_pr = "𓉐",
 	C_re = "𓇳",
+	C_st = "𓊨",
 	C_sw = "𓇓",
+	C_xa = "𓆼",
 
 	// Triliteral (3 consonants)
 	C_enx = "𓋹",
+	C_mae = "𓐙",
 	C_ncr = "𓊹",
+	C_xrw = "𓊤",
 
 	// Determinant
 	D_bee = "𓆤",

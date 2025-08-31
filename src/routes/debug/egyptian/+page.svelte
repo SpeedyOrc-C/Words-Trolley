@@ -176,8 +176,11 @@
 					class="outline-yellow-500"
 					class:outline-4={ShouldHighlight(i)}
 					onmousedown={() => MouseDown(i)}
+					ontouchstart={() => MouseDown(i)}
 					onmouseover={() => MouseOver(i)}
+					ontouchmove={() => MouseOver(i)}
 					onmouseup={MouseUp}
+					ontouchend={MouseUp}
 				>
 					<Render {hie}/>
 				</div>

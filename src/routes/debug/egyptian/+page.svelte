@@ -100,6 +100,7 @@
 
 	<Input
 		bind:value={input} style="font-size: 1rem" type="text" class="font-mono" {onkeydown}
+		autocapitalize="off"
 		placeholder="Transliteration"
 	/>
 

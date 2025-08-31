@@ -5,7 +5,7 @@ export enum Glyph
 	C_i = "𓇋",
 	C_y = "𓇌",
 	C_y_s = "𓏭",
-	C_A = "𓂝",
+	C_e = "𓂝",
 	C_w = "𓅱",
 	C_w_s = "𓏲",
 	C_b = "𓃀",
@@ -30,15 +30,16 @@ export enum Glyph
 	C_j = "𓆓",
 
 	// Biliteral (2 consonants)
+	C_jd = "𓊽",
 	C_ka = "𓂓",
 	C_ma = "𓌳",
 	C_nb = "𓎟",
 	C_pr = "𓉐",
-	C_rA = "𓇳",
+	C_re = "𓇳",
 	C_sw = "𓇓",
 
 	// Triliteral (3 consonants)
-	C_Anx = "𓋹",
+	C_enx = "𓋹",
 	C_ncr = "𓊹",
 
 	// Determinant

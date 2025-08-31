@@ -3,7 +3,7 @@ export enum Phoneme
 	a = "a", // 𓄿
 	i = "i", // 𓇋
 	y = "y", // 𓇌
-	A = "A", // 𓂝
+	e = "e", // 𓂝
 	w = "w", // 𓅱
 	b = "b", // 𓃀
 	p = "p", // 𓊪
@@ -25,4 +25,32 @@ export enum Phoneme
 	c = "c", // 𓍿
 	d = "d", // 𓂧
 	j = "j", // 𓆓
+}
+
+export const EgyptologyTransliteration: Record<Phoneme, string> = {
+	[Phoneme.e]: "ꜥ",
+	[Phoneme.C]: "ẖ",
+	[Phoneme.H]: "ḥ",
+	[Phoneme.S]: "š",
+	[Phoneme.a]: "ꜣ",
+	[Phoneme.b]: "b",
+	[Phoneme.c]: "ṯ",
+	[Phoneme.d]: "d",
+	[Phoneme.f]: "f",
+	[Phoneme.g]: "g",
+	[Phoneme.h]: "h",
+	[Phoneme.i]: "ỉ",
+	[Phoneme.j]: "ḏ",
+	[Phoneme.k]: "k",
+	[Phoneme.m]: "m",
+	[Phoneme.n]: "n",
+	[Phoneme.p]: "p",
+	[Phoneme.q]: "ḳ",
+	[Phoneme.r]: "r",
+	[Phoneme.s]: "s",
+	[Phoneme.t]: "t",
+	[Phoneme.w]: "w",
+	[Phoneme.x]: "ḫ",
+	[Phoneme.y]: "y",
+	[Phoneme.z]: "z",
 }

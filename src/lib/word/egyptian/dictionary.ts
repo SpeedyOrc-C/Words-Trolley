@@ -22,12 +22,12 @@ const dictionary: HieroglyphicsPrefixTree = {
 		g(G.C_y),
 	], {
 	}],
-	[P.A]: [[
-		g(G.C_A),
+	[P.e]: [[
+		g(G.C_e),
 	], {
 		[P.n]: [[], {
 			[P.x]: [[
-				g(G.C_Anx)
+				g(G.C_enx)
 			], {}],
 		}],
 	}],
@@ -114,8 +114,8 @@ const dictionary: HieroglyphicsPrefixTree = {
 	[P.r]: [[
 		g(G.C_r),
 	], {
-		[P.A]: [[
-			g(G.C_rA),
+		[P.e]: [[
+			g(G.C_re),
 		], {}],
 	}],
 	[P.h]: [[
@@ -180,6 +180,9 @@ const dictionary: HieroglyphicsPrefixTree = {
 	[P.j]: [[
 		g(G.C_j),
 	], {
+		[P.d]: [[
+			g(G.C_jd),
+		], {}],
 	}],
 }
 

@@ -1,4 +1,6 @@
 <script lang="ts" module>
+	import {pAsciiChen} from "$lib/word/egyptian/transliteration/ascii-chen"
+
 	type RangeSelectionState
 		= { s: "idle" }
 		| { s: "drag-start", start: number }
@@ -10,50 +12,64 @@
 <script lang="ts">
 	import {Button} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input/index.js"
-	import type {Phoneme} from "$lib/word/egyptian"
-	import {SetLineHeight} from "$lib/word/egyptian/glyph/height"
+	import Important from "$lib/word/egyptian/dictionary/important"
 	import G from "$lib/word/egyptian/glyph"
-	import {Decompose, g, h, type Hieroglyphics, Structure, v} from "$lib/word/egyptian/hieroglyphics"
+	import {Decompose, g, h, type Hieroglyphs, Structure, v} from "$lib/word/egyptian/hieroglyphs"
 	import Render from "./Render.svelte"
-	import dictionary from "$lib/word/egyptian/dictionary"
 	import {Columns2, Rows2, Split} from "@lucide/svelte"
 	import {_} from "$lib/i18n"
+	import Letter2 from "$lib/word/egyptian/dictionary/letter-2"
+	import Letter3 from "$lib/word/egyptian/dictionary/letter-3"
+	import LetterMore from "$lib/word/egyptian/dictionary/letter-more"
 
 	const lineHeight = 96
 	const height = `${lineHeight}px`
 	const gap = `${lineHeight * 0.3}px`
 
 	let input: string = $state("")
-	let results: Hieroglyphics[] = $state([])
-	let hies = $state<Hieroglyphics[]>([])
+	let results: Hieroglyphs[] = $state([])
+	let hies = $state<Hieroglyphs[]>([])
 	let rangeSelection = $state<RangeSelectionState>({s: "idle"})
 	let operation = $state<Operation>("vertical")
 
-	SetLineHeight(lineHeight)
-
 	$effect(() =>
 	{
-		const chars = Array.from(input) as Phoneme[]
+		const cs = pAsciiChen.many().eval(input)
 
-		if (chars.length == 0)
-		{
-			results = []
+		if (cs instanceof Error)
 			return
+
+		const s = cs.join("")
+		const newResults: Hieroglyphs[] = []
+
+		if (cs.length == 1)
+		{
+			newResults.push(g(cs[0] as any))
+		}
+		else if (cs.length == 2)
+		{
+			for (const [k, v] of Letter2)
+				if (v == s)
+					newResults.push(g(k as any))
+		}
+		else if (cs.length == 3)
+		{
+			for (const [k, v] of Letter3)
+				if (v == s)
+					newResults.push(g(k as any))
+		}
+		else
+		{
+			for (const [k, v] of LetterMore)
+				if (v == s)
+					newResults.push(g(k as any))
 		}
 
-		let newResults: Hieroglyphics[] = []
-		let tree = dictionary
-
-		for (let char of chars)
+		if (cs.length >= 1)
 		{
-			if (! (char in tree))
-			{
-				results = []
-				return
-			}
-
-			newResults = tree[char][0]
-			tree = tree[char][1]
+			for (const [k, v] of Important)
+				if (v == s)
+					newResults.push(k)
 		}
 
 		results = newResults
@@ -187,7 +203,7 @@
 					onmouseover={() => MouseOver(i)}
 					onmouseup={MouseUp}
 				>
-					<Render {hie}/>
+					<Render {hie} {lineHeight}/>
 				</div>
 			{/each}
 		</div>
@@ -216,7 +232,7 @@
 			</Button>
 		</div>
 		<div>
-			<Button variant="secondary" onclick={() => hies = [...hies, g(G.D_identity)]}>
+			<Button onclick={() => hies = [...hies, g(G.D_identity)]} variant="secondary">
 				{$_.egyptian.identity}
 			</Button>
 		</div>
@@ -238,7 +254,7 @@
 				</Button>
 				<div class="egyptian" style:gap style:height>
 					<div class="egyptian-font">
-						<Render {hie}/>
+						<Render {hie} {lineHeight}/>
 					</div>
 				</div>
 			</div>

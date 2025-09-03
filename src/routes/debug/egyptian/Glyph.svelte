@@ -1,16 +1,17 @@
 <script lang="ts">
 	import type Glyph from "$lib/word/egyptian/glyph"
-	import {GetLineHeight, HeightOfGlyph} from "$lib/word/egyptian/glyph/height"
+	import {HeightOfGlyph} from "$lib/word/egyptian/glyph/height"
 
-	const {fp, g}: { fp: number, g: Glyph } = $props()
-	const lineHeight = GetLineHeight()
-	const freeHeight = lineHeight * fp
-	const glyphProportion = HeightOfGlyph(g)
-	const glyphHeight = lineHeight * glyphProportion
+	const {fp, g, lineHeight}: { fp: number, g: Glyph, lineHeight: number } = $props()
+	const freeHeight = $derived(lineHeight * fp)
+	const glyphProportion = $derived(HeightOfGlyph(g))
+	const glyphHeight = $derived(lineHeight * glyphProportion)
 
-	const scale = glyphHeight > freeHeight
-		? freeHeight / glyphHeight
-		: 1
+	const scale = $derived(
+		glyphHeight > freeHeight
+			? freeHeight / glyphHeight
+			: 1
+	)
 </script>
 
 <div style="height: {glyphHeight * scale}px">

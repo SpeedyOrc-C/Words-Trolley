@@ -1,5 +1,4 @@
 import Glyph from "$lib/word/egyptian/glyph"
-import {getContext, setContext} from "svelte"
 
 const UnicodeHeight: Record<number, number> = {
 	0x27E6: 1000,
@@ -5217,16 +5216,4 @@ export function HeightOfGlyph(glyph: Glyph)
 	}
 
 	return UnicodeHeight[code] / 1000
-}
-
-const LineHeightKey = "egyptian-line-height"
-
-export function SetLineHeight(h: number)
-{
-	setContext(LineHeightKey, h)
-}
-
-export function GetLineHeight()
-{
-	return getContext<number>(LineHeightKey)
 }

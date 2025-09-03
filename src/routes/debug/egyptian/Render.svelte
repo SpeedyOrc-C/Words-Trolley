@@ -1,11 +1,12 @@
 <script lang="ts" module>
 	import {HeightOfGlyph} from "$lib/word/egyptian/glyph/height"
+	import {type Hieroglyphs, Structure} from "$lib/word/egyptian/hieroglyphs"
 
 	const verticalGap = 0.05
 	const horizontalGap = 0.1
 	const squashThreshold = 0.25
 
-	function PessimisticHeight([structure, arg]: Hieroglyphics): number
+	function PessimisticHeight([structure, arg]: Hieroglyphs): number
 	{
 		switch (structure)
 		{
@@ -36,22 +37,21 @@
 </script>
 
 <script lang="ts">
-	import {type Hieroglyphics, Structure} from "$lib/word/egyptian/hieroglyphics"
 	import Glyph from "./Glyph.svelte"
-	import {GetLineHeight} from "$lib/word/egyptian/glyph/height"
 	import Render from "./Render.svelte"
 
-	const {fp = 1, hie}: { fp?: number, hie: Hieroglyphics } = $props()
-	const lineHeight = GetLineHeight()
-	const freeHeight = lineHeight * fp
+	const {fp = 1, hie, lineHeight}: { fp?: number, hie: Hieroglyphs, lineHeight: number } = $props()
+
+	const freeHeight = $derived(lineHeight * fp)
+	const height = $derived(`${freeHeight}px`)
+
 	const [struct, arg] = hie
-	const height = `${freeHeight}px`
 </script>
 
 {#if struct === Structure.G}
 
 	<div class="g" style:height>
-		<Glyph g={arg} {fp}/>
+		<Glyph g={arg} {fp} {lineHeight}/>
 	</div>
 
 {:else if struct === Structure.V}
@@ -61,7 +61,7 @@
 
 	<div class="v" style:height>
 		{#each arg as hie, i}
-			<Render hie={hie} fp={adjustedHeights[i]}/>
+			<Render hie={hie} fp={adjustedHeights[i]} {lineHeight}/>
 		{/each}
 	</div>
 
@@ -69,7 +69,7 @@
 
 	<div class="h" style:height style:gap="{lineHeight * horizontalGap}px">
 		{#each arg as hie}
-			<Render hie={hie} fp={fp}/>
+			<Render hie={hie} fp={fp} {lineHeight}/>
 		{/each}
 	</div>
 

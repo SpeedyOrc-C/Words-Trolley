@@ -2,8 +2,8 @@
 	import type {Word} from "$lib"
 	import {Button} from "$lib/components/ui/button"
 	import {Progress} from "$lib/components/ui/progress"
-	import {settingsOpened} from "$lib/Settings"
 	import {_} from "$lib/i18n"
+	import {settingsOpened} from "$lib/settings/store"
 
 	const {index, words, progressTitle}: { index: number, words: Word[], progressTitle: string } = $props()
 	const wordArg = $derived(encodeURIComponent(words[index].word))

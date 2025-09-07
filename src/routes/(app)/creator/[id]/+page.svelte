@@ -3,8 +3,8 @@
 	import * as M from "$lib/components/ui/navigation-menu"
 	import * as Card from "$lib/components/ui/card"
 	import {Button} from "$lib/components/ui/button"
+	import {settingsOpened} from "$lib/settings/store"
 	import {House, Settings as Gear, Plus, BookOpen, BookCheck, SquarePen} from "@lucide/svelte"
-	import {settingsOpened} from "$lib/Settings"
 
 	const {data} = $props()
 

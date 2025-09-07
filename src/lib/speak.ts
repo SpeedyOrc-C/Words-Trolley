@@ -1,14 +1,19 @@
 import {LangFromWord, type Word} from "$lib/index"
-import {settings} from "$lib/Settings"
+
+import {settings} from "$lib/settings/store"
 import {derived, writable} from "svelte/store"
 
 export const voices = writable<SpeechSynthesisVoice[]>([])
 
 export const Speak = derived([voices, settings], ([voices, settings]) => (word: Word) =>
 {
+	if (typeof word.word != "string")
+		return
+
+	const utterance = new SpeechSynthesisUtterance(word.word)
+
 	function Utterance()
 	{
-		const utterance = new SpeechSynthesisUtterance(word.word)
 		const lang = LangFromWord(word)
 
 		if (lang == "")

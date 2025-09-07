@@ -1,11 +1,12 @@
 <script lang="ts">
-	import {EgyptianTransliteration, type ISettings, MandarinScript, settings} from "$lib/Settings"
+	import {EgyptianTransliteration, type ISettings, MandarinScript} from "$lib/settings"
 	import {_, Language} from "$lib/i18n"
 	import * as Dialog from "$lib/components/ui/dialog"
 	import * as Select from "$lib/components/ui/select"
 	import * as RadioGroup from "$lib/components/ui/radio-group"
 	import * as Table from "$lib/components/ui/table"
 	import {Label} from "$lib/components/ui/label"
+	import {settings} from "$lib/settings/store"
 	import {Languages} from "@lucide/svelte"
 	import {voices} from "$lib/speak"
 	import {Checkbox} from "$lib/components/ui/checkbox"

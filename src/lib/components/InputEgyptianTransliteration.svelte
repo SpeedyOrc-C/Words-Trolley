@@ -1,32 +1,11 @@
-<script lang="ts" module>
-	import {EgyptianTransliteration} from "$lib/Settings"
-	import {pAsciiChen, Phoneme2AsciiChen} from "$lib/word/egyptian/transliteration/ascii-chen"
-	import {pAsciiMdc, Phoneme2AsciiMdc} from "$lib/word/egyptian/transliteration/ascii-mdc"
-	import {pEgyptology, Phoneme2Egyptology} from "$lib/word/egyptian/transliteration/egyptology"
-	import {eof} from "crazy-parser"
-	import {Input} from "$lib/components/ui/input"
-
-	const TransliterationParserOf = {
-		[EgyptianTransliteration.Chen]: pAsciiChen,
-		[EgyptianTransliteration.ManuelDeCodage]: pAsciiMdc,
-		[EgyptianTransliteration.Egyptology]: pEgyptology,
-	}
-
-	const TransliterationDumperOf = {
-		[EgyptianTransliteration.Chen]: Phoneme2AsciiChen,
-		[EgyptianTransliteration.ManuelDeCodage]: Phoneme2AsciiMdc,
-		[EgyptianTransliteration.Egyptology]: Phoneme2Egyptology,
-	}
-</script>
-
 <script lang="ts">
+	import {
+		preferredEgyptianTransliterationDumper,
+		preferredEgyptianTransliterationParser
+	} from "$lib/settings/store/egyptian"
 	import type {Phoneme} from "$lib/word/egyptian"
+	import {Input} from "$lib/components/ui/input"
 	import type {HieroglyphsEditCommand} from "$lib/word/egyptian/hieroglyphs"
-	import {settings} from "$lib/Settings"
-
-	const charParser = $derived(TransliterationParserOf[$settings.EgyptianTransliteration])
-	const parser = $derived(charParser.many()._$(eof))
-	const dumper = $derived(TransliterationDumperOf[$settings.EgyptianTransliteration])
 
 	let {
 		value = $bindable([]),
@@ -44,7 +23,7 @@
 		OnSelect?: (index: number) => void
 	} = $props()
 
-	const initValue = $derived(value.map(x => dumper[x]).join(""))
+	const initValue = $derived(value.map(x => $preferredEgyptianTransliterationDumper[x]).join(""))
 
 	let input: HTMLInputElement = null as any
 	let error = $state(false)
@@ -102,7 +81,7 @@
 			return
 		}
 
-		const syllables = parser.eval(input.value.trim())
+		const syllables = $preferredEgyptianTransliterationParser.eval(input.value.trim())
 
 		if (syllables instanceof Error)
 			error = true
@@ -148,13 +127,13 @@
 	autocapitalize="off"
 	autocomplete="off"
 	autocorrect="off"
-	spellcheck="false"
 	bind:ref={input}
 	class="font-mono"
 	{disabled}
 	{oninput}
 	{onkeydown}
 	{placeholder}
+	spellcheck="false"
 	type="text"
 	value={initValue}
 />

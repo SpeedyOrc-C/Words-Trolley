@@ -2,8 +2,9 @@
 	import "../app.css"
 	import {dev} from "$app/environment"
 	import {AutoDetectLanguage, language} from "$lib/i18n"
+	import {settings, settingsOpened} from "$lib/settings/store"
 	import {ModeWatcher} from "mode-watcher"
-	import {mandarinScript, settings, settingsOpened, SettingsKey} from "$lib/Settings"
+	import {SettingsKey} from "$lib/settings"
 	import {Toaster} from "$lib/components/ui/sonner"
 	import Settings from "$lib/components/Settings.svelte"
 	import {voices} from "$lib/speak"
@@ -28,8 +29,6 @@
 				AutoDetectLanguage(navigator.language)
 			else
 				language.set(set.Language)
-
-			mandarinScript.set(set.MandarinScript)
 		})
 
 		const newVoices = speechSynthesis.getVoices()

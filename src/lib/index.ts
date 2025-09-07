@@ -203,8 +203,6 @@ export function LangFromWord(word: Word)
 {
 	switch (word.type)
 	{
-	case WordType.Simple:
-		return ""
 	case WordType.English:
 		switch (word.region)
 		{
@@ -227,6 +225,8 @@ export function LangFromWord(word: Word)
 		return Language.DeDe
 	case WordType.Japanese:
 		return Language.JaJp
+	default:
+		return ""
 	}
 }
 

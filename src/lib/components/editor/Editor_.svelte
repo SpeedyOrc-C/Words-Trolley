@@ -5,13 +5,14 @@
 	import {goto} from "$app/navigation"
 	import InputEgyptianHieroglyphs from "$lib/components/editor/InputEgyptianHieroglyphs.svelte"
 	import {_} from "$lib/i18n"
+	import {settings, settingsOpened} from "$lib/settings/store"
 	import {French, German, Japanese} from "$lib/word"
 	import {VerbTypeFromRecursiveForm} from "$lib/word/japanese"
 	import InputPinyinLight from "$lib/components/InputPinyinLight.svelte"
 	import SelectWordAndTheirExtras from "$lib/components/editor/SelectWordAndTheirExtras.svelte"
 	import type {EditorProps} from "$lib/components/editor/Editor.svelte"
 	import EditorNav from "$lib/components/editor/EditorNav.svelte"
-	import {MandarinScript, mandarinScript, settingsOpened} from "$lib/Settings"
+	import {MandarinScript} from "$lib/settings"
 	import InputBopomofoLight from "$lib/components/InputBopomofoLight.svelte"
 	import EditorInitialisation from "$lib/components/editor/EditorInitialisation.svelte"
 	import {Button} from "$lib/components/ui/button"
@@ -551,7 +552,7 @@
 
 						{:else if word.type === WordType.Mandarin}
 
-							{#if $mandarinScript === MandarinScript.Pinyin}
+							{#if $settings.MandarinScript === MandarinScript.Pinyin}
 
 								<InputPinyinLight
 									bind:value={word.syllables}
@@ -559,7 +560,7 @@
 									placeholder={$_.linguistics.pinyin}
 								/>
 
-							{:else if $mandarinScript === MandarinScript.Bopomofo}
+							{:else if $settings.MandarinScript === MandarinScript.Bopomofo}
 
 								<InputBopomofoLight
 									bind:value={word.syllables}

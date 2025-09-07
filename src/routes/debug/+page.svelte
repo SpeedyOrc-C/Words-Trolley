@@ -1,8 +1,8 @@
 <script lang="ts">
 	import * as T from "$lib/components/ui/table"
+	import {settings} from "$lib/settings/store"
 	import {onMount} from "svelte"
 	import {Checkbox} from "$lib/components/ui/checkbox"
-	import {settings} from "$lib/Settings"
 	import {voices} from "$lib/speak"
 
 	onMount(() =>

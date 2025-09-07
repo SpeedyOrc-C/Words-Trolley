@@ -3,10 +3,11 @@
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_, Language, language} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
+	import {settings} from "$lib/settings/store"
 	import {French, German} from "$lib/word"
 	import {Circle, Mars, Venus} from "@lucide/svelte"
 	import {BopomofoStrict, type ISyllable, Pinyin} from "$lib/word/mandarin"
-	import {MandarinScript, settings} from "$lib/Settings"
+	import {MandarinScript} from "$lib/settings"
 	import {Speak} from "$lib/speak"
 
 	const {data} = $props()
@@ -170,7 +171,17 @@
 
 		{:else if word.type === WordType.Egyptian}
 
-			<!-- TODO -->
+			<div>
+
+				<div>
+
+				</div>
+
+				<div>
+
+				</div>
+
+			</div>
 
 		{:else}
 

@@ -74,7 +74,7 @@
 
 				<Label>{$_.editor.initialisation.word_language}</Label>
 
-				<SelectWordType bind:value={wordType} onchange={undefined}/>
+				<SelectWordType bind:value={wordType}/>
 
 				{#if nonEmpty}
 					<p class="text-sm text-red-400">

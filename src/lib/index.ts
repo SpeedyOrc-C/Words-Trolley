@@ -1,12 +1,10 @@
 import type {Json} from "$lib/database.types"
-import {English, French, German, Japanese, Mandarin} from "$lib/word"
+import {English, French, German, Japanese, Mandarin, Egyptian} from "$lib/word"
+import type {Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
 import {VerbType} from "$lib/word/japanese"
 import { Language } from "./i18n"
 
-export type Word = Metadata & {
-	word: string
-	meaning: string
-}
+export type Word = Metadata & { meaning: string }
 
 type Metadata
 	= SimpleWord
@@ -18,46 +16,55 @@ type Metadata
 	| GermanNoun
 	| JapaneseWord
 	| JapaneseVerb
+	| EgyptianWord
 
 export type SimpleWord = {
 	type: WordType.Simple
+	word: string
 }
 
 export type EnglishWord = {
 	type: WordType.English
+	word: string
 	region: English.Region
 }
 
 export type MandarinWord = {
 	type: WordType.Mandarin
+	word: string
 	region: Mandarin.Region
 	syllables: Mandarin.ISyllable[]
 }
 
 export type FrenchWord = {
 	type: WordType.French
+	word: string
 	category: French.Category.Word
 }
 
 export type FrenchNoun = {
 	type: WordType.French
+	word: string
 	category: French.Category.Noun
 	gender: French.Gender
 }
 
 export type GermanWord = {
 	type: WordType.German
+	word: string
 	category: German.Category.Word
 }
 
 export type GermanNoun = {
 	type: WordType.German
+	word: string
 	category: German.Category.Noun
 	gender: German.Gender
 }
 
 export type JapaneseWord = {
 	type: WordType.Japanese
+	word: string
 	category: Japanese.Category.Word
 	morae: Japanese.Mora[][]
 	tone: number
@@ -65,10 +72,17 @@ export type JapaneseWord = {
 
 export type JapaneseVerb = {
 	type: WordType.Japanese
+	word: string
 	category: Japanese.Category.Verb
 	morae: Japanese.Mora[][]
 	tone: number
 	verb_type: Japanese.VerbType
+}
+
+export type EgyptianWord = {
+	type: WordType.Egyptian
+	word: Hieroglyphs[]
+	trans: Egyptian.Phoneme[]
 }
 
 export enum WordType
@@ -80,26 +94,29 @@ export enum WordType
 	Japanese = "japanese",
 	French = "french",
 	German = "german",
+	Egyptian = "egyptian",
 }
 
 const baseWord = {
-	word: "",
 	meaning: "",
 }
 
 export const blankWordSimple: Word = {
 	...baseWord,
+	word: "",
 	type: WordType.Simple,
 }
 
 export const blankWordEnglish: Word = {
 	...baseWord,
+	word: "",
 	type: WordType.English,
 	region: English.Region.GB,
 }
 
 const blankWordMandarin: Word = {
 	...baseWord,
+	word: "",
 	type: WordType.Mandarin,
 	region: Mandarin.Region.PRC,
 	syllables: [],
@@ -107,6 +124,7 @@ const blankWordMandarin: Word = {
 
 const blankWordFrench: Word = {
 	...baseWord,
+	word: "",
 	type: WordType.French,
 	category: French.Category.Word,
 }
@@ -119,6 +137,7 @@ const blankWordFrenchNoun: Word = {
 
 const blankWordGerman: Word = {
 	...baseWord,
+	word: "",
 	type: WordType.German,
 	category: German.Category.Word,
 }
@@ -131,6 +150,7 @@ const blankWordGermanNoun: Word = {
 
 const blankWordJapanese: Word = {
 	...baseWord,
+	word: "",
 	type: WordType.Japanese,
 	category: Japanese.Category.Word,
 	morae: [],
@@ -139,8 +159,16 @@ const blankWordJapanese: Word = {
 
 const blankWordJapaneseVerb: Word = {
 	...blankWordJapanese,
+	word: "",
 	category: Japanese.Category.Verb,
 	verb_type: Japanese.VerbType.Vowel,
+}
+
+const blankWordEgyptian: Word = {
+	...baseWord,
+	word: [],
+	type: WordType.Egyptian,
+	trans: [],
 }
 
 export const blankWordFromTypeAndCategory = {
@@ -168,6 +196,7 @@ export const blankWordFromType = {
 	[WordType.French]: blankWordFrench,
 	[WordType.German]: blankWordGerman,
 	[WordType.Japanese]: blankWordJapanese,
+	[WordType.Egyptian]: blankWordEgyptian,
 } as const
 
 export function LangFromWord(word: Word)
@@ -199,6 +228,16 @@ export function LangFromWord(word: Word)
 	case WordType.Japanese:
 		return Language.JaJp
 	}
+}
+
+export function CanSpeak(type: WordType): boolean
+{
+	return type != WordType.Simple && type != WordType.Egyptian
+}
+
+export function UsesStringInput(type: WordType): boolean
+{
+	return type != WordType.Egyptian
 }
 
 export function TypeCheckWords(input: Json): boolean

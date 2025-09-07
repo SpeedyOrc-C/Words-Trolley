@@ -123,6 +123,7 @@ const EnGb: I18nTemplate = {
 		Japanese: "Japanese",
 		French: "French",
 		German: "German",
+		Egyptian: "Egyptian",
 	},
 	linguistics: {
 		noun: "Noun",
@@ -155,6 +156,8 @@ const EnGb: I18nTemplate = {
 	},
 	egyptian: {
 		identity: "Identity",
+		egyptology: "Egyptology",
+		transliteration: "Egyptian transliteration",
 	},
 	stack: {
 		vertical: "Vertical",

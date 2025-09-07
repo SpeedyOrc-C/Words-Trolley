@@ -123,6 +123,7 @@ const ZhCn: I18nTemplate = {
 		Japanese: "日语",
 		French: "法语",
 		German: "德语",
+		Egyptian: "埃及语",
 	},
 	linguistics: {
 		noun: "名词",
@@ -155,6 +156,8 @@ const ZhCn: I18nTemplate = {
 	},
 	egyptian: {
 		identity: "音形如一",
+		egyptology: "埃及学",
+		transliteration: "埃及语转写",
 	},
 	stack: {
 		vertical: "上下",

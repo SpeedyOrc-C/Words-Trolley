@@ -62,13 +62,12 @@
 	<Label>{placeholder}</Label>
 
 	<Input
-		bind:ref={input}
+		aria-invalid={error}
 		autocapitalize="off"
 		autocomplete="off"
 		autocorrect="off"
-		value={initValue}
+		bind:ref={input}
 		class="input text-lg w-full"
-		aria-invalid={error}
 		{onchange}
 		{onfocusin}
 		{onfocusout}
@@ -76,6 +75,7 @@
 		onkeyup={pinyinSyllablesOverrider.OnKeyUp}
 		{placeholder}
 		type="text"
+		value={initValue}
 	/>
 
 </div>

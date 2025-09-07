@@ -5,7 +5,7 @@
 
 	let {value = $bindable(), onchange = undefined}: {
 		value: WordType
-		onchange: ((t: WordType) => any) | undefined
+		onchange?: ((t: WordType) => any)
 	} = $props()
 
 	const onValueChange = onchange as ((t: string) => any) | undefined
@@ -26,6 +26,8 @@
 			return $_.WordType.French
 		case WordType.German:
 			return $_.WordType.German
+		case WordType.Egyptian:
+			return $_.WordType.Egyptian
 		}
 	}
 </script>
@@ -35,10 +37,6 @@
 	<Select.Trigger>{_WordType(value)}</Select.Trigger>
 
 	<Select.Content>
-
-		<Select.Item value={WordType.Simple}>
-			{$_.WordType.Simple}
-		</Select.Item>
 
 		<Select.Item value={WordType.English}>
 			{$_.WordType.English}
@@ -58,6 +56,18 @@
 
 		<Select.Item value={WordType.German}>
 			{$_.WordType.German}
+		</Select.Item>
+
+		<Select.Separator/>
+
+		<Select.Item value={WordType.Egyptian}>
+			{$_.WordType.Egyptian}
+		</Select.Item>
+
+		<Select.Separator/>
+
+		<Select.Item value={WordType.Simple}>
+			{$_.WordType.Simple}
 		</Select.Item>
 
 	</Select.Content>

@@ -52,10 +52,21 @@
 			f2()
 		}
 	})
+
+	function onkeydown(e: KeyboardEvent)
+	{
+		if ((e.ctrlKey || e.metaKey) && e.code == "Comma")
+		{
+			e.preventDefault()
+			settingsOpened.update(x => ! x)
+			return
+		}
+	}
 </script>
 
 <svelte:window
 	onlanguagechange={() => AutoDetectLanguage(navigator.language)}
+	onkeydown={onkeydown}
 />
 
 <Settings bind:open={$settingsOpened}/>

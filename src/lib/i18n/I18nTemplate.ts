@@ -123,6 +123,7 @@ export type I18nTemplate = {
 		Japanese: s
 		French: s
 		German: s
+		Egyptian: s
 	}
 	linguistics: {
 		noun: s
@@ -155,6 +156,8 @@ export type I18nTemplate = {
 	}
 	egyptian: {
 		identity: s
+		egyptology: s
+		transliteration: s
 	}
 	stack: {
 		vertical: s

@@ -1,7 +1,8 @@
 <script lang="ts">
-	import {blankWordFromType, blankWordSimple, WordType, LangFromWord} from "$lib"
+	import {blankWordFromType, blankWordSimple, WordType, LangFromWord, type Word, UsesStringInput, CanSpeak} from "$lib"
 	import type {Json} from "$lib/database.types"
 	import {goto} from "$app/navigation"
+	import InputEgyptianHieroglyphs from "$lib/editor/InputEgyptianHieroglyphs.svelte"
 	import {_} from "$lib/i18n"
 	import {French, German, Japanese} from "$lib/word"
 	import {VerbTypeFromRecursiveForm} from "$lib/word/japanese"
@@ -284,7 +285,8 @@
 
 	function SetAllCardsTypes(card: WordType)
 	{
-		words = words.map(({word, meaning}) => structuredClone({...blankWordFromType[card], word, meaning}))
+		words = words.map(({word, meaning}) =>
+			structuredClone({...blankWordFromType[card], word, meaning}) as Word)
 
 		saved = false
 	}
@@ -337,13 +339,6 @@
 			await Save()
 			return
 		}
-
-		if ((e.ctrlKey || e.metaKey) && e.code == "Comma")
-		{
-			e.preventDefault()
-			settingsOpened.update(x => ! x)
-			return
-		}
 	}
 </script>
 
@@ -356,15 +351,16 @@
 </svelte:head>
 
 <EditorNav
-	{Fork} {Delete} {Export} {Import} {Save} {Rename}
-	OpenInitialisation={() => initialisationOpened = true}
+	{Delete} {Export} {Fork} {Import} OpenInitialisation={() => initialisationOpened = true}
 	OpenSettings={() => settingsOpened.set(true)}
-	isMine={isMine}
+	{Rename}
+	{Save}
 	bind:showExtraOptions
 	bind:showWordOperations
+	{deleting}
+	{forking}
 	id={data.online ? data.id : null}
-	origin={data.online ? data.origin : null}
-	{deleting} online={data.online} {renaming} {saved} {saving} {forking}
+	isMine={isMine} online={data.online} origin={data.online ? data.origin : null} {renaming} {saved} {saving}
 />
 
 <main class="grow overflow-x-clip overflow-y-auto">
@@ -416,21 +412,23 @@
 
 						<div class="flex gap-2 md:gap-4">
 
-							{#if showWordOperations}
+							{#if showWordOperations && CanSpeak(word.type)}
 								<Button size="icon" variant="secondary" onclick={() => $Speak(word)}
 										  aria-label={$_.learn.speak}>
 									<Speech/>
 								</Button>
 							{/if}
 
-							<Input
-								type="text" bind:value={word.word}
-								onfocusin={() => typing = true}
-								onfocusout={() => typing = false}
-								onchange={e => OnWordChange(e, i)}
-								id="word-{i}"
-								lang={LangFromWord(word)}
-							/>
+							{#if UsesStringInput(word.type)}
+								<Input
+									type="text" bind:value={word.word}
+									onfocusin={() => typing = true}
+									onfocusout={() => typing = false}
+									onchange={e => OnWordChange(e, i)}
+									id="word-{i}"
+									lang={LangFromWord(word)}
+								/>
+							{/if}
 
 							{#if showWordOperations}
 								<Button size="icon" variant="destructive" onclick={() => DeleteWord(i)} aria-label={$_.delete}>
@@ -439,6 +437,11 @@
 							{/if}
 
 						</div>
+
+						{#if word.type === WordType.Egyptian}
+							<InputEgyptianHieroglyphs
+							/>
+						{/if}
 
 					</div>
 

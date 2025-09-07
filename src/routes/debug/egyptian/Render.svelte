@@ -4,7 +4,7 @@
 
 	const verticalGap = 0.05
 	const horizontalGap = 0.1
-	const squashThreshold = 0.25
+	const squashThreshold = 0.2
 
 	function PessimisticHeight([structure, arg]: Hieroglyphs): number
 	{

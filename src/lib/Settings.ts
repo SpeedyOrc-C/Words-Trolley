@@ -9,18 +9,27 @@ export enum MandarinScript
 	Bopomofo = "bopomofo",
 }
 
+export enum EgyptianTransliteration
+{
+	Egyptology = "egyptology",
+	ManuelDeCodage = "mdc",
+	Chen = "chen",
+}
+
 export interface ISettings
 {
 	Language: Language | "auto"
 	MandarinScript: MandarinScript
+	EgyptianTransliteration: EgyptianTransliteration
 	PreferredVoice: {
 		[key in Language]: string | null
 	}
 }
 
-export const settings = writable({
+export const settings = writable<ISettings>({
 	Language: "auto",
 	MandarinScript: MandarinScript.Pinyin,
+	EgyptianTransliteration: EgyptianTransliteration.ManuelDeCodage,
 	PreferredVoice: {
 		[Language.ZhCn]: null,
 		[Language.ZhTw]: null,
@@ -30,7 +39,7 @@ export const settings = writable({
 		[Language.FrFr]: null,
 		[Language.DeDe]: null,
 	}
-} as ISettings)
+})
 
 export const mandarinScript = writable(MandarinScript.Pinyin)
 

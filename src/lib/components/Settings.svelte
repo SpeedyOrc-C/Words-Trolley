@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {type ISettings, MandarinScript, settings} from "$lib/Settings"
+	import {EgyptianTransliteration, type ISettings, MandarinScript, settings} from "$lib/Settings"
 	import {_, Language} from "$lib/i18n"
 	import * as Dialog from "$lib/components/ui/dialog"
 	import * as Select from "$lib/components/ui/select"
@@ -104,7 +104,7 @@
 					class="flex gap-4"
 				>
 
-					<div class="radio-group-with-box flex items-center gap-2">
+					<div class="p-2 flex items-center gap-2">
 
 						<RadioGroup.Item
 							id="set-mandarin-script-pinyin"
@@ -122,7 +122,7 @@
 
 					</div>
 
-					<div class="radio-group-with-box flex items-center gap-2">
+					<div class="p-2 flex items-center gap-2">
 
 						<RadioGroup.Item
 							id="set-mandarin-script-bopomofo"
@@ -198,6 +198,77 @@
 
 			</div>
 
+			<div class="flex flex-col gap-2">
+
+				<div class="set-item">
+					{$_.egyptian.transliteration}
+				</div>
+
+				<RadioGroup.Root
+					bind:value={newSettings.EgyptianTransliteration}
+					class="flex gap-4 flex-wrap"
+				>
+
+					<div class="p-2 flex items-center gap-2">
+
+						<RadioGroup.Item
+							id="set-egyptian-transliteration-mdc"
+							value={EgyptianTransliteration.ManuelDeCodage}
+						/>
+
+						<Label class="flex flex-col items-center" for="set-egyptian-transliteration-mdc">
+							<div>
+								<abbr title="Manuel de Codage">
+									MdC
+								</abbr>
+							</div>
+							<code class="text-lg">
+								AabtdTD
+							</code>
+						</Label>
+
+					</div>
+
+					<div class="p-2 flex items-center gap-2">
+
+						<RadioGroup.Item
+							id="set-egyptian-transliteration-chen"
+							value={EgyptianTransliteration.Chen}
+						/>
+
+						<Label class="flex flex-col items-center" for="set-egyptian-transliteration-chen">
+							<div>
+								陈
+							</div>
+							<code class="text-lg">
+								aebtdcj
+							</code>
+						</Label>
+
+					</div>
+
+					<div class="p-2 flex items-center gap-2">
+
+						<RadioGroup.Item
+							id="set-egyptian-transliteration-egyptology"
+							value={EgyptianTransliteration.Egyptology}
+						/>
+
+						<Label class="flex flex-col items-center" for="set-egyptian-transliteration-egyptology">
+							<div>
+								{$_.egyptian.egyptology}
+							</div>
+							<code class="text-lg">
+								ꜣꜥbtdṯḏ
+							</code>
+						</Label>
+
+					</div>
+
+				</RadioGroup.Root>
+
+			</div>
+
 		</div>
 
 	</Dialog.Content>
@@ -206,14 +277,6 @@
 
 <style>
 	@reference "tailwindcss";
-
-	.radio-group-with-box {
-		@apply p-2 rounded-md border-2 border-transparent;
-
-		&:has(:global(button[data-state="checked"])) {
-			@apply border-gray-400;
-		}
-	}
 
 	.set-item {
 		@apply font-bold;

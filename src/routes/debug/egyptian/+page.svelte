@@ -14,7 +14,7 @@
 	import {Input} from "$lib/components/ui/input/index.js"
 	import Important from "$lib/word/egyptian/dictionary/important"
 	import G from "$lib/word/egyptian/glyph"
-	import {Decompose, g, h, type Hieroglyphs, Structure, v} from "$lib/word/egyptian/hieroglyphs"
+	import {Split, g, h, type Hieroglyphs, Structure, v} from "$lib/word/egyptian/hieroglyphs"
 	import Render from "./Render.svelte"
 	import {Columns2, Rows2, Split} from "@lucide/svelte"
 	import {_} from "$lib/i18n"
@@ -121,7 +121,7 @@
 				const before = hies.slice(0, i)
 				const selected = hies[i]
 				const after = hies.slice(i + 1)
-				hies = [...before, ...Decompose(selected), ...after]
+				hies = [...before, ...Split(selected), ...after]
 			}
 			else
 				rangeSelection = {s: "drag-start", start: i}

@@ -13,8 +13,8 @@
 	import Letter2 from "$lib/word/egyptian/dictionary/letter-2"
 	import Letter3 from "$lib/word/egyptian/dictionary/letter-3"
 	import LetterMore from "$lib/word/egyptian/dictionary/letter-more"
-	import EgyptianText from "../../../routes/debug/egyptian/EgyptianText.svelte"
-	import RenderEgyptianText from "../../../routes/debug/egyptian/RenderEgyptianText.svelte"
+	import EgyptianText from "$lib/components/EgyptianText.svelte"
+	import RenderEgyptianText from "$lib/components/RenderEgyptianText.svelte"
 	import {Columns2, Rows2, Split, Blend, ArrowLeft, ArrowRight, Delete} from "@lucide/svelte"
 
 	type OperationState = "idle" | "column" | "row"

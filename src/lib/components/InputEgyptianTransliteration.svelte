@@ -1,22 +1,38 @@
 <script lang="ts" module>
-	import {pAsciiChen} from "$lib/word/egyptian/transliteration/ascii-chen"
+	import {EgyptianTransliteration} from "$lib/Settings"
+	import {pAsciiChen, Phoneme2AsciiChen} from "$lib/word/egyptian/transliteration/ascii-chen"
+	import {pAsciiMdc, Phoneme2AsciiMdc} from "$lib/word/egyptian/transliteration/ascii-mdc"
+	import {pEgyptology, Phoneme2Egyptology} from "$lib/word/egyptian/transliteration/egyptology"
 	import {eof} from "crazy-parser"
 	import {Input} from "$lib/components/ui/input"
 
-	const parser = pAsciiChen.many()._$(eof)
+	const TransliterationParserOf = {
+		[EgyptianTransliteration.Chen]: pAsciiChen,
+		[EgyptianTransliteration.ManuelDeCodage]: pAsciiMdc,
+		[EgyptianTransliteration.Egyptology]: pEgyptology,
+	}
+
+	const TransliterationDumperOf = {
+		[EgyptianTransliteration.Chen]: Phoneme2AsciiChen,
+		[EgyptianTransliteration.ManuelDeCodage]: Phoneme2AsciiMdc,
+		[EgyptianTransliteration.Egyptology]: Phoneme2Egyptology,
+	}
 </script>
 
 <script lang="ts">
 	import type {Phoneme} from "$lib/word/egyptian"
 	import type {HieroglyphsEditCommand} from "$lib/word/egyptian/hieroglyphs"
-	import {Phoneme2AsciiChen} from "$lib/word/egyptian/transliteration/ascii-chen"
+	import {settings} from "$lib/Settings"
+
+	const charParser = $derived(TransliterationParserOf[$settings.EgyptianTransliteration])
+	const parser = $derived(charParser.many()._$(eof))
+	const dumper = $derived(TransliterationDumperOf[$settings.EgyptianTransliteration])
 
 	let {
 		value = $bindable([]),
 		onchange: _onchange = () => {},
 		placeholder = "",
 		disabled = false,
-		allowCommands = false,
 		OnCommand,
 		OnSelect,
 	}: {
@@ -24,12 +40,11 @@
 		onchange?: () => void
 		placeholder?: string
 		disabled?: boolean
-		allowCommands?: boolean
 		OnCommand?: (command: HieroglyphsEditCommand) => void
 		OnSelect?: (index: number) => void
 	} = $props()
 
-	const initValue = value.map(x => Phoneme2AsciiChen[x]).join("")
+	const initValue = $derived(value.map(x => dumper[x]).join(""))
 
 	let input: HTMLInputElement = null as any
 	let error = $state(false)
@@ -133,6 +148,7 @@
 	autocapitalize="off"
 	autocomplete="off"
 	autocorrect="off"
+	spellcheck="false"
 	bind:ref={input}
 	class="font-mono"
 	{disabled}

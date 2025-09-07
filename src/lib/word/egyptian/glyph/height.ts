@@ -5199,7 +5199,7 @@ const UnicodeHeight: Record<number, number> = {
 	0x143FA: 858,
 }
 
-export function HeightOfGlyph(glyph: Glyph)
+export function HeightOfGlyph(glyph: string)
 {
 	const code = glyph.codePointAt(0)
 

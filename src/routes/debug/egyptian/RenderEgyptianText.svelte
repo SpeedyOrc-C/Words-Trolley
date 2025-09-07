@@ -37,8 +37,8 @@
 </script>
 
 <script lang="ts">
-	import Glyph from "./Glyph.svelte"
-	import Render from "./Render.svelte"
+	import EgyptianGlyph from "./EgyptianGlyph.svelte"
+	import Render from "./RenderEgyptianText.svelte"
 
 	const {fp = 1, hie, lineHeight}: { fp?: number, hie: Hieroglyphs, lineHeight: number } = $props()
 
@@ -51,7 +51,7 @@
 {#if struct === Structure.G}
 
 	<div class="g" style:height>
-		<Glyph g={arg} {fp} {lineHeight}/>
+		<EgyptianGlyph g={arg} {fp} {lineHeight}/>
 	</div>
 
 {:else if struct === Structure.V}

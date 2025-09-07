@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {blankWordFromType, blankWordSimple, WordType, LangFromWord, type Word, UsesStringInput, CanSpeak} from "$lib"
+	import InputEgyptianTransliteration from "$lib/components/InputEgyptianTransliteration.svelte"
 	import type {Json} from "$lib/database.types"
 	import {goto} from "$app/navigation"
 	import InputEgyptianHieroglyphs from "$lib/editor/InputEgyptianHieroglyphs.svelte"
@@ -39,6 +40,8 @@
 
 	let showWordOperations = $state(true)
 	let showExtraOptions = $state(true)
+
+	let firstEffect = false
 
 	$effect.pre(() =>
 	{
@@ -439,8 +442,7 @@
 						</div>
 
 						{#if word.type === WordType.Egyptian}
-							<InputEgyptianHieroglyphs
-							/>
+							<InputEgyptianHieroglyphs bind:value={word.word} onchange={() => saved = false}/>
 						{/if}
 
 					</div>
@@ -566,6 +568,18 @@
 								/>
 
 							{/if}
+
+						{:else if word.type === WordType.Egyptian}
+
+							<div class="flex flex-col gap-2">
+								<Label>
+									{$_.linguistics.transliteration}
+								</Label>
+								<InputEgyptianTransliteration
+									bind:value={word.trans}
+									onchange={() => saved = false}
+								/>
+							</div>
 
 						{/if}
 

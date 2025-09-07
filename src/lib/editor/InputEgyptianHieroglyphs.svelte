@@ -1,7 +1,6 @@
 <script lang="ts">
 	import InputEgyptianTransliteration from "$lib/components/InputEgyptianTransliteration.svelte"
 	import {Button} from "$lib/components/ui/button"
-	import {Input} from "$lib/components/ui/input"
 	import {_} from "$lib/i18n"
 	import type {Phoneme} from "$lib/word/egyptian"
 	import Important from "$lib/word/egyptian/dictionary/important"
@@ -9,23 +8,35 @@
 		type Hieroglyphs,
 		g,
 		ExecuteHieroglyphsEditorCommand,
-		type HieroglyphsEditorState
+		type HieroglyphsEditorState, Structure
 	} from "$lib/word/egyptian/hieroglyphs"
 	import Letter2 from "$lib/word/egyptian/dictionary/letter-2"
 	import Letter3 from "$lib/word/egyptian/dictionary/letter-3"
 	import LetterMore from "$lib/word/egyptian/dictionary/letter-more"
-	import Egyptian from "../../routes/debug/egyptian/Egyptian.svelte"
-	import Render from "../../routes/debug/egyptian/Render.svelte"
+	import EgyptianText from "../../routes/debug/egyptian/EgyptianText.svelte"
+	import RenderEgyptianText from "../../routes/debug/egyptian/RenderEgyptianText.svelte"
 	import {Columns2, Rows2, Split, Blend, ArrowLeft, ArrowRight, Delete} from "@lucide/svelte"
 
 	type OperationState = "idle" | "column" | "row"
 
-	let s: HieroglyphsEditorState = $state({cursor: 0, content: []})
+	let {
+		value = $bindable([]),
+		onchange
+	}: {
+		value?: Hieroglyphs[]
+		onchange?: (hie: Hieroglyphs[]) => void
+	} = $props()
+
+	let s: HieroglyphsEditorState = $state({cursor: value.length, content: value})
 	let os: OperationState = $state("idle")
 	let imeInput: Phoneme[] = $state([])
 	let imeWords: Hieroglyphs[] = $state([])
 
-	const {}: {} = $props()
+	$effect(() =>
+	{
+		value = s.content
+		onchange?.(value)
+	})
 
 	$effect(() =>
 	{
@@ -95,7 +106,7 @@
 			{/if}
 			<div style:height="48px"
 				  onclick={e => { e.stopPropagation(); s = ExecuteHieroglyphsEditorCommand(s, ["jump", i]) }}>
-				<Render {hie} lineHeight={48}/>
+				<RenderEgyptianText {hie} lineHeight={48}/>
 			</div>
 		{/each}
 		{#if s.content.length === s.cursor}
@@ -106,31 +117,38 @@
 	</div>
 
 	<div class="relative flex gap-2">
+
 		<InputEgyptianTransliteration
 			OnCommand={c => s = ExecuteHieroglyphsEditorCommand(s, c)}
 			OnSelect={i => { if (i <= imeWords.length) s = ExecuteHieroglyphsEditorCommand(s, ["insert", imeWords[i-1]]) }}
-			allowCommands
 			bind:value={imeInput}
 			placeholder={$_.linguistics.transliteration}
 		/>
+
 		<Button
 			onclick={() => s = ExecuteHieroglyphsEditorCommand(s, ["left"])}
+			disabled={s.cursor === 0}
 			size="icon" variant="outline"
 		>
 			<ArrowLeft/>
 		</Button>
+
 		<Button
 			onclick={() => s = ExecuteHieroglyphsEditorCommand(s, ["backspace"])}
+			disabled={s.cursor === 0}
 			size="icon" variant="secondary"
 		>
 			<Delete/>
 		</Button>
+
 		<Button
 			onclick={() => s = ExecuteHieroglyphsEditorCommand(s, ["right"])}
+			disabled={s.cursor === s.content.length}
 			size="icon" variant="outline"
 		>
 			<ArrowRight/>
 		</Button>
+
 	</div>
 
 	<div class="flex flex-wrap justify-between">
@@ -148,7 +166,7 @@
 							{i + 1}
 						</code>
 						<span class="text-xl egyptian egyptian-font">
-							<Egyptian t={[hie]}/>
+							<EgyptianText t={[hie]}/>
 						</span>
 					</Button>
 				{/each}
@@ -156,9 +174,7 @@
 
 		{:else}
 
-			<div class="flex gap-2">
-
-			</div>
+			<div></div>
 
 			<div class="flex gap-2">
 
@@ -168,21 +184,22 @@
 
 				<Button
 					onclick={() => s = ExecuteHieroglyphsEditorCommand(s, ["split"])}
+					disabled={s.cursor === 0 || s.content[s.cursor - 1][0] === Structure.G}
 					size="icon" variant="outline"
 				>
 					<Split/>
 				</Button>
 
 				<Button
-					size="icon" variant={os === "column" ? "default" : "outline"}
-					onclick={() => os = os === "column" ? "idle" : "column"}
+					size="icon" variant={os === "row" ? "default" : "outline"}
+					onclick={() => os = os === "row" ? "idle" : "row"}
 				>
 					<Columns2/>
 				</Button>
 
 				<Button
-					size="icon" variant={os === "row" ? "default" : "outline"}
-					onclick={() => os = os === "row" ? "idle" : "row"}
+					size="icon" variant={os === "column" ? "default" : "outline"}
+					onclick={() => os = os === "column" ? "idle" : "column"}
 				>
 					<Rows2/>
 				</Button>
@@ -192,7 +209,7 @@
 						class="text-lg"
 						size="icon"
 						variant="outline"
-						disabled={os === "idle"}
+						disabled={os === "idle" || s.cursor < count}
 						onclick={() => OnStackButtonClick(count)}
 					>
 						{count}

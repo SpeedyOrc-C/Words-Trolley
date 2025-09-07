@@ -99,10 +99,10 @@
 
 <svelte:head>
 	<title>{$_.learn.title(data.set.name)}</title>
-	<meta name="description" content={description}>
+	<meta content={description} name="description">
 </svelte:head>
 
-<WordProgressNav index={i} {words} progressTitle={$_.learn.progress}/>
+<WordProgressNav index={i} progressTitle={$_.learn.progress} {words}/>
 
 <main class="grow flex items-center justify-around px-4">
 
@@ -162,10 +162,15 @@
 			<div class="select-all" lang={LangFromWord(word)} style="font-size: 1rem">
 				{#each word.word as char, i}
 					<ruby class="text-5xl">
-						{char}<rt>{RenderMandarinSyllable(word.syllables[i])}</rt>
+						{char}
+						<rt>{RenderMandarinSyllable(word.syllables[i])}</rt>
 					</ruby>
 				{/each}
 			</div>
+
+		{:else if word.type === WordType.Egyptian}
+
+			<!-- TODO -->
 
 		{:else}
 

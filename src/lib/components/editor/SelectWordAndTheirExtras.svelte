@@ -7,9 +7,9 @@
 		type Word,
 		WordType
 	} from "$lib"
-	import SelectEnglishRegion from "$lib/editor/SelectEnglishRegion.svelte"
-	import SelectGermanCategory from "$lib/editor/SelectGermanCategory.svelte"
-	import SelectWordType from "$lib/editor/SelectWordType.svelte"
+	import SelectEnglishRegion from "$lib/components/editor/SelectEnglishRegion.svelte"
+	import SelectGermanCategory from "$lib/components/editor/SelectGermanCategory.svelte"
+	import SelectWordType from "$lib/components/editor/SelectWordType.svelte"
 	import {_} from "$lib/i18n"
 	import {English, French, German, Japanese, Mandarin} from "$lib/word"
 	import SelectFrenchCategory from "./SelectFrenchCategory.svelte"

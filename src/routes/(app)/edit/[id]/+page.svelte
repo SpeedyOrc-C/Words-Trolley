@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Editor from "$lib/editor/Editor.svelte"
+	import Editor from "$lib/components/editor/Editor.svelte"
 	import type {Word} from "$lib"
 
 	const {data} = $props()

@@ -6,6 +6,7 @@
 	import type {Phoneme} from "$lib/word/egyptian"
 	import {Input} from "$lib/components/ui/input"
 	import type {HieroglyphsEditCommand} from "$lib/word/egyptian/hieroglyphs"
+	import {g} from "$lib/word/egyptian/hieroglyphs"
 
 	let {
 		value = $bindable([]),
@@ -36,6 +37,16 @@
 
 	function oninput()
 	{
+		// The identity determinative 𓏤 is very common but it has no pronunciation.
+		// Since it looks like a little bar, we use | to insert it.
+		if (OnCommand != undefined && input.value == "|")
+		{
+			OnCommand("insert", g("𓏤"))
+			input.value = ""
+			error = false
+			return
+		}
+
 		if (OnCommand != undefined && input.value.length == 2)
 		{
 			const rawOperation = input.value[0]

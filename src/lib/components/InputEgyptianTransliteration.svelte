@@ -12,6 +12,9 @@
 		onchange: _onchange = () => {},
 		placeholder = "",
 		disabled = false,
+		autofocus = false,
+		class: _class = "",
+		style = "",
 		OnCommand,
 		OnSelect,
 	}: {
@@ -19,6 +22,9 @@
 		onchange?: () => void
 		placeholder?: string
 		disabled?: boolean
+		autofocus?: boolean
+		class?: string
+		style?: string
 		OnCommand?: (...command: HieroglyphsEditCommand) => void
 		OnSelect?: (index: number) => void
 	} = $props()
@@ -127,13 +133,15 @@
 	autocapitalize="off"
 	autocomplete="off"
 	autocorrect="off"
+	{autofocus}
 	bind:ref={input}
-	class="font-mono"
+	class="font-mono {_class}"
 	{disabled}
 	{oninput}
 	{onkeydown}
 	{placeholder}
 	spellcheck="false"
+	{style}
 	type="text"
 	value={initValue}
 />

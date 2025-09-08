@@ -1,5 +1,7 @@
 <script lang="ts">
 	import {WordType, LangFromWord, type Word} from "$lib"
+	import EgyptianText from "$lib/components/EgyptianText.svelte"
+	import QEgyptianTransliteration from "$lib/components/QEgyptianTransliteration.svelte"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_} from "$lib/i18n"
 	import QSimple from "$lib/components/QSimple.svelte"
@@ -80,7 +82,7 @@
 	<title>{$_.test.title(data.set.name)}</title>
 </svelte:head>
 
-<WordProgressNav index={i} {words} progressTitle={$_.test.progress}/>
+<WordProgressNav index={i} progressTitle={$_.test.progress} {words}/>
 
 <main class="mx-2">
 
@@ -91,15 +93,31 @@
 	<div class="h-4"></div>
 
 	{#if showAnswer}
+
 		<div lang={LangFromWord(word)} class="text-3xl text-center">
-			{word.word}
+			{#if word.type === WordType.Egyptian}
+				<EgyptianText t={word.word}/>
+			{:else}
+				{word.word}
+			{/if}
 		</div>
+
 	{:else if word.type === WordType.French && word.category === French.Category.Noun}
+
 		<QFrenchNoun {word} {OnWin}/>
+
 	{:else if word.type === WordType.Mandarin}
+
 		<QPinyin {word} {OnWin}/>
+
+	{:else if word.type === WordType.Egyptian}
+
+		<QEgyptianTransliteration {word} {OnWin}/>
+
 	{:else}
+
 		<QSimple {word} {OnWin}/>
+
 	{/if}
 
 </main>

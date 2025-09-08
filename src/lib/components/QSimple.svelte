@@ -13,7 +13,8 @@
 </script>
 
 <Input
-	type="text" autofocus bind:value={response}
-	autocorrect="off" autocomplete="off" autocapitalize="off"
-	class="w-full max-w-80 text-center" style="font-size: 2rem"
+	autocapitalize="off" autocomplete="off" autocorrect="off"
+	autofocus bind:value={response} class="w-full max-w-80 text-center"
+	spellcheck="false"
+	style="font-size: 2rem" type="text"
 />

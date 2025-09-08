@@ -2,7 +2,7 @@
 	import {_} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
 	import {settingsOpened} from "$lib/settings/store"
-	import {Settings as Gear} from "@lucide/svelte"
+	import {Settings as Gear, Plus, Github, Bug} from "@lucide/svelte"
 
 	let {data} = $props()
 
@@ -25,9 +25,7 @@
 </script>
 
 <svelte:head>
-	<title>
-		Words Trolley
-	</title>
+	<title>Words Trolley</title>
 </svelte:head>
 
 <main>
@@ -53,6 +51,7 @@
 		{#if data.user}
 
 			<Button href="/new" size="lg">
+				<Plus/>
 				{$_.home.create_a_new_set}
 			</Button>
 
@@ -81,6 +80,15 @@
 				</Button>
 
 			{/if}
+		</div>
+
+		<div class="flex gap-4">
+			<Button href="https://github.com/SpeedyOrc-C/Words-Trolley" target="_blank" variant="ghost">
+				<Github/> GitHub
+			</Button>
+			<Button href="/debug" variant="ghost">
+				<Bug/> Debug
+			</Button>
 		</div>
 
 	</div>

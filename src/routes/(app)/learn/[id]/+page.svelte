@@ -1,9 +1,11 @@
 <script lang="ts">
 	import {LangFromWord, type Word, WordType} from "$lib"
+	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_, Language, language} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
 	import {settings} from "$lib/settings/store"
+	import {preferredEgyptianTransliterationDumper} from "$lib/settings/store/egyptian"
 	import {French, German} from "$lib/word"
 	import {Circle, Mars, Venus} from "@lucide/svelte"
 	import {BopomofoStrict, type ISyllable, Pinyin} from "$lib/word/mandarin"
@@ -94,6 +96,8 @@
 			break
 		}
 	}
+
+	$inspect(word)
 </script>
 
 <svelte:window onkeydown={onkeydown}/>
@@ -171,17 +175,20 @@
 
 		{:else if word.type === WordType.Egyptian}
 
-			<div>
+			<!-- TODO: Weird #key usage -->
+			{#key word}
+				<div class="flex flex-col items-center gap-4">
 
-				<div>
+					<div class="text-5xl" lang="egy">
+						<EgyptianText t={word.word}/>
+					</div>
+
+					<code class="text-4xl">
+						{word.trans.map(x => $preferredEgyptianTransliterationDumper[x]).join("")}
+					</code>
 
 				</div>
-
-				<div>
-
-				</div>
-
-			</div>
+			{/key}
 
 		{:else}
 

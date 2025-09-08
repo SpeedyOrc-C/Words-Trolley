@@ -1,19 +1,37 @@
 <script lang="ts">
-	import type {Word} from "$lib"
+	import {type Word, WordType} from "$lib"
 	import {Button} from "$lib/components/ui/button"
 	import {Progress} from "$lib/components/ui/progress"
 	import {_} from "$lib/i18n"
 	import {settingsOpened} from "$lib/settings/store"
+	import {Phoneme2Egyptology} from "$lib/word/egyptian/transliteration/egyptology"
 
 	const {index, words, progressTitle}: { index: number, words: Word[], progressTitle: string } = $props()
-	const wordArg = $derived(encodeURIComponent(words[index].word))
+
+	const word = $derived(words[index])
+
+	const wordArg = $derived.by(() =>
+	{
+		if (word.type == WordType.Egyptian)
+			return word.trans.map(x => Phoneme2Egyptology[x]).join("")
+
+		return word.word
+	})
+
+	const titleArg = $derived.by(() =>
+	{
+		if (word.type == WordType.Egyptian)
+			return "#Egyptian"
+
+		return ""
+	})
 </script>
 
 <nav class="p-4 w-full flex flex-col gap-2">
 
 	<Progress
-		max={words.length} value={index + 1}
-		title={progressTitle} class="opacity-20"
+		class="opacity-20" max={words.length}
+		title={progressTitle} value={index + 1}
 	/>
 
 	<div class="flex items-center">
@@ -23,7 +41,7 @@
 		</Button>
 
 		<Button
-			href="https://en.wiktionary.org/w/index.php?search={wordArg}"
+			href="https://en.wiktionary.org/w/index.php?search={encodeURIComponent(wordArg)}{titleArg}"
 			target="_blank" variant="ghost"
 		>
 			Wiktionary

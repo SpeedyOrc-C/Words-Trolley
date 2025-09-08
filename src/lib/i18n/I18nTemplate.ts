@@ -164,4 +164,10 @@ export type I18nTemplate = {
 		horizontal: s
 		split: s
 	}
+	error: {
+		code: s
+		auth: {
+			_: s
+		}
+	}
 }

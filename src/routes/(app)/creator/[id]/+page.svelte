@@ -90,3 +90,5 @@
 		</Card.Root>
 	{/each}
 </main>
+
+<div style="height: 30vh"></div>

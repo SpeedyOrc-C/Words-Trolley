@@ -163,7 +163,13 @@ const ZhCn: I18nTemplate = {
 		vertical: "上下",
 		horizontal: "左右",
 		split: "分开",
-	}
+	},
+	error: {
+		code: "错误代码",
+		auth: {
+			_: "授权错误",
+		},
+	},
 }
 
 export default ZhCn

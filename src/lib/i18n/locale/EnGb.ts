@@ -163,7 +163,13 @@ const EnGb: I18nTemplate = {
 		vertical: "Vertical",
 		horizontal: "Horizontal",
 		split: "Split",
-	}
+	},
+	error: {
+		code: "Error code",
+		auth: {
+			_: "Authentication error",
+		},
+	},
 }
 
 export default EnGb

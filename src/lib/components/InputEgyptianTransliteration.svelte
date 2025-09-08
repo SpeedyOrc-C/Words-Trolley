@@ -19,7 +19,7 @@
 		onchange?: () => void
 		placeholder?: string
 		disabled?: boolean
-		OnCommand?: (command: HieroglyphsEditCommand) => void
+		OnCommand?: (...command: HieroglyphsEditCommand) => void
 		OnSelect?: (index: number) => void
 	} = $props()
 
@@ -39,13 +39,13 @@
 			{
 				if (rawOperation == "-")
 				{
-					OnCommand(["row", count])
+					OnCommand("row", count)
 					input.value = ""
 					return
 				}
 				else if (rawOperation == "=")
 				{
-					OnCommand(["column", count])
+					OnCommand("column", count)
 					input.value = ""
 					return
 				}
@@ -102,21 +102,21 @@
 		if (e.code == "ArrowLeft" && input.selectionEnd == 0)
 		{
 			e.preventDefault()
-			OnCommand(["left"])
+			OnCommand("left")
 			return
 		}
 
 		if (e.code == "ArrowRight" && input.selectionStart == input.value.length)
 		{
 			e.preventDefault()
-			OnCommand(["right"])
+			OnCommand("right")
 			return
 		}
 
 		if (e.code == "Backspace" && input.value.length == 0)
 		{
 			e.preventDefault()
-			OnCommand(["backspace"])
+			OnCommand("backspace")
 			return
 		}
 	}

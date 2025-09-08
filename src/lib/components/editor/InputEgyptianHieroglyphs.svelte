@@ -8,7 +8,7 @@
 		type Hieroglyphs,
 		g,
 		ExecuteHieroglyphsEditorCommand,
-		type HieroglyphsEditorState, Structure
+		type HieroglyphsEditorState, Structure, type HieroglyphsEditCommand
 	} from "$lib/word/egyptian/hieroglyphs"
 	import Letter2 from "$lib/word/egyptian/dictionary/letter-2"
 	import Letter3 from "$lib/word/egyptian/dictionary/letter-3"
@@ -31,12 +31,6 @@
 	let os: OperationState = $state("idle")
 	let imeInput: Phoneme[] = $state([])
 	let imeWords: Hieroglyphs[] = $state([])
-
-	$effect(() =>
-	{
-		value = s.content
-		onchange?.(value)
-	})
 
 	$effect(() =>
 	{
@@ -79,14 +73,21 @@
 		switch (os)
 		{
 		case "column":
-			s = ExecuteHieroglyphsEditorCommand(s, ["column", count])
+			Execute("column", count)
 			os = "idle"
 			break
 		case "row":
-			s = ExecuteHieroglyphsEditorCommand(s, ["row", count])
+			Execute("row", count)
 			os = "idle"
 			break
 		}
+	}
+
+	function Execute(...command: HieroglyphsEditCommand)
+	{
+		s = ExecuteHieroglyphsEditorCommand(s, command)
+		value = s.content
+		onchange?.(s.content)
 	}
 </script>
 
@@ -94,7 +95,7 @@
 
 	<div
 		class="p-2 flex flex-wrap overflow-x-auto outline-1 rounded-md egyptian-font cursor-text"
-		onclick={() => s = ExecuteHieroglyphsEditorCommand(s, ["jump", s.content.length])}
+		onclick={() => Execute("jump", s.content.length)}
 		style:min-height="48px"
 	>
 		{#each s.content as hie, i ([hie])}
@@ -102,10 +103,10 @@
 				<div class="w-0.5 mx-1.75 h-12 bg-yellow-600/50"></div>
 			{:else}
 				<div class="w-4 h-12"
-					  onclick={e => { e.stopPropagation(); s = ExecuteHieroglyphsEditorCommand(s, ["jump", i]) }}></div>
+					  onclick={e => { e.stopPropagation(); Execute("jump", i) }}></div>
 			{/if}
 			<div style:height="48px"
-				  onclick={e => { e.stopPropagation(); s = ExecuteHieroglyphsEditorCommand(s, ["jump", i]) }}>
+				  onclick={e => { e.stopPropagation(); Execute("jump", i) }}>
 				<RenderEgyptianText {hie} lineHeight={48}/>
 			</div>
 		{/each}
@@ -119,31 +120,31 @@
 	<div class="relative flex gap-2">
 
 		<InputEgyptianTransliteration
-			OnCommand={c => s = ExecuteHieroglyphsEditorCommand(s, c)}
-			OnSelect={i => { if (i <= imeWords.length) s = ExecuteHieroglyphsEditorCommand(s, ["insert", imeWords[i-1]]) }}
+			OnCommand={Execute}
+			OnSelect={i => { if (i <= imeWords.length) Execute("insert", imeWords[i-1]) }}
 			bind:value={imeInput}
 			placeholder={$_.linguistics.transliteration}
 		/>
 
 		<Button
-			onclick={() => s = ExecuteHieroglyphsEditorCommand(s, ["left"])}
 			disabled={s.cursor === 0}
+			onclick={() => Execute("left")}
 			size="icon" variant="outline"
 		>
 			<ArrowLeft/>
 		</Button>
 
 		<Button
-			onclick={() => s = ExecuteHieroglyphsEditorCommand(s, ["backspace"])}
 			disabled={s.cursor === 0}
+			onclick={() => Execute("backspace")}
 			size="icon" variant="secondary"
 		>
 			<Delete/>
 		</Button>
 
 		<Button
-			onclick={() => s = ExecuteHieroglyphsEditorCommand(s, ["right"])}
 			disabled={s.cursor === s.content.length}
+			onclick={() => Execute("right")}
 			size="icon" variant="outline"
 		>
 			<ArrowRight/>
@@ -153,12 +154,12 @@
 
 	<div class="flex flex-wrap justify-between">
 
-		{#if imeWords.length > 0}
+		{#if imeInput.length > 0}
 
 			<div class="flex flex-wrap gap-2">
 				{#each imeWords as hie, i (hie)}
 					<Button
-						onclick={() => s = ExecuteHieroglyphsEditorCommand(s, ["insert", hie])}
+						onclick={() => Execute("insert", hie)}
 						variant="ghost"
 						class="inline-flex items-center gap-4"
 					>
@@ -183,7 +184,7 @@
 				</Button>
 
 				<Button
-					onclick={() => s = ExecuteHieroglyphsEditorCommand(s, ["split"])}
+					onclick={() => Execute("split")}
 					disabled={s.cursor === 0 || s.content[s.cursor - 1][0] === Structure.G}
 					size="icon" variant="outline"
 				>

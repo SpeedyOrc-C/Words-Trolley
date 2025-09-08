@@ -42,8 +42,6 @@
 	let showWordOperations = $state(true)
 	let showExtraOptions = $state(true)
 
-	let firstEffect = false
-
 	$effect.pre(() =>
 	{
 		if (data.online)

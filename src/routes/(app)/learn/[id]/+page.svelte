@@ -167,8 +167,7 @@
 			<div class="select-all" lang={LangFromWord(word)} style="font-size: 1rem">
 				{#each word.word as char, i}
 					<ruby class="text-5xl">
-						{char}
-						<rt>{RenderMandarinSyllable(word.syllables[i])}</rt>
+						{char}<rt>{RenderMandarinSyllable(word.syllables[i])}</rt>
 					</ruby>
 				{/each}
 			</div>
@@ -229,6 +228,6 @@
 <style>
 	@reference "tailwindcss";
 	rt {
-		@apply pb-3 pl-1 pr-1 text-xl;
+		@apply px-1 text-xl;
 	}
 </style>

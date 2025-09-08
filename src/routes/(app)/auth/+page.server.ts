@@ -10,8 +10,8 @@ export const actions: Actions = {
 		const {error} = await db.auth.signUp({email, password})
 		if (error)
 		{
-			console.error(error)
-			redirect(303, '/auth/error')
+			const {code} = error
+			redirect(303, typeof code == "string" ? `/auth/error/${code}` : '/auth/error')
 		}
 		else
 		{
@@ -27,8 +27,8 @@ export const actions: Actions = {
 		const {error} = await db.auth.signInWithPassword({email, password})
 		if (error)
 		{
-			console.error(error)
-			redirect(303, '/auth/error')
+			const {code} = error
+			redirect(303, typeof code == "string" ? `/auth/error/${code}` : '/auth/error')
 		}
 		else
 		{

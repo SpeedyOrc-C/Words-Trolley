@@ -24,11 +24,3 @@
 		<RenderEgyptianText {hie} {lineHeight}/>
 	{/each}
 </span>
-
-<style>
-	@reference "tailwindcss";
-
-	span {
-		font-family: Font_Egyptian, sans-serif;
-	}
-</style>

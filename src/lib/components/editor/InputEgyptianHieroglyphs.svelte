@@ -203,7 +203,7 @@
 <div class="flex flex-col gap-2">
 
 	<div
-		class="p-2 flex flex-wrap overflow-x-auto outline-1 rounded-md egyptian-font cursor-text"
+		class="p-2 flex flex-wrap overflow-x-auto outline-1 rounded-md cursor-text"
 		onclick={() => Execute("jump", s.content.length)}
 		style:min-height="48px"
 	>
@@ -277,7 +277,7 @@
 						<code>
 							{i + 1}
 						</code>
-						<span class="text-xl egyptian egyptian-font">
+						<span class="text-xl egyptian">
 							<EgyptianText t={[hie]}/>
 						</span>
 					</Button>
@@ -341,9 +341,5 @@
 
 	.egyptian {
 		@apply w-fit flex items-center flex-wrap select-none;
-	}
-
-	.egyptian-font {
-		font-family: Font_Egyptian, sans-serif;
 	}
 </style>

@@ -37,30 +37,32 @@
 	]
 </script>
 
-<main>
+<main class="overflow-auto">
 
-	<div class="p-2 flex flex-col gap-1">
-		{#each [row1, row2, row3] as row}
-			<div>
-				{#each row as [letter, detRows]}
-					<div class="key">
-						<div class="letter">
-							{letter}
+	<div class="inline-block">
+		<div class="m-2 flex flex-col gap-2">
+			{#each [row1, row2, row3] as row, i}
+				<div class="flex gap-2">
+					{#each row as [letter, detRows]}
+						<div class="key">
+							<div class="letter">
+								{letter}
+							</div>
+							<div class="det-col">
+								{#each detRows as detRow}
+									<div class="det-row">
+										{#each detRow as det}
+											<EgyptianGlyph lineHeight={50} g={det}/>
+										{/each}
+									</div>
+								{/each}
+							</div>
 						</div>
-						<div class="det-col">
-							{#each detRows as detRow}
-								<div class="det-row">
-									{#each detRow as det}
-										<EgyptianGlyph lineHeight={50} g={det}/>
-									{/each}
-								</div>
-							{/each}
-						</div>
-					</div>
-				{/each}
-			</div>
-		{/each}
+					{/each}
+				</div>
+			{/each}
 
+		</div>
 	</div>
 
 </main>
@@ -69,7 +71,7 @@
 	@reference "tailwindcss";
 
 	.key {
-		@apply inline-block overflow-hidden relative outline-1 w-30 h-30 mx-1;
+		@apply inline-block overflow-hidden relative outline-1 w-30 h-30;
 	}
 
 	.letter {

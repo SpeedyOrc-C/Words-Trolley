@@ -27,12 +27,20 @@
 	import {_} from "$lib/i18n"
 	import * as M from "$lib/components/ui/menubar"
 	import {Button} from "$lib/components/ui/button"
-	import {
-		Home, BookOpen, BookCheck, Settings, SaveIcon,
-		SquarePen, ListPlus, FolderInput, FolderOutput, Trash2,
-		Copy, ArrowBigLeft,
-	} from "@lucide/svelte"
+	import Home from "@lucide/svelte/icons/home"
 	import {goto} from "$app/navigation"
+
+	import BookOpen from "@lucide/svelte/icons/book-open"
+	import BookCheck from "@lucide/svelte/icons/book-check"
+	import Settings from "@lucide/svelte/icons/settings"
+	import SaveIcon from "@lucide/svelte/icons/save"
+	import SquarePen from "@lucide/svelte/icons/square-pen"
+	import ListPlus from "@lucide/svelte/icons/list-plus"
+	import FolderInput from "@lucide/svelte/icons/folder-input"
+	import FolderOutput from "@lucide/svelte/icons/folder-output"
+	import Trash2 from "@lucide/svelte/icons/trash-2"
+	import Copy from "@lucide/svelte/icons/copy"
+	import ArrowBigLeft from "@lucide/svelte/icons/arrow-big-left"
 
 	let {
 		OpenSettings, OpenInitialisation,
@@ -214,13 +222,13 @@
 	</div>
 
 	<div class="sm:hidden">
-		<Button onclick={OpenSettings} variant="outline" size="icon" aria-label={$_.settings._}>
+		<Button aria-label={$_.settings._} onclick={OpenSettings} size="icon" variant="outline">
 			<Settings/>
 		</Button>
 	</div>
 
 	<div class="sm:hidden">
-		<Button onclick={() => GuardedGoto("/")} variant="secondary" size="icon" aria-label={$_.home._}>
+		<Button aria-label={$_.home._} onclick={() => GuardedGoto("/")} size="icon" variant="secondary">
 			<Home/>
 		</Button>
 	</div>

@@ -5,7 +5,8 @@
 	import {Input} from "$lib/components/ui/input"
 	import {Button} from "$lib/components/ui/button"
 	import {Label} from "$lib/components/ui/label"
-	import {House} from "@lucide/svelte"
+
+	import House from "@lucide/svelte/icons/house"
 </script>
 
 <svelte:head>

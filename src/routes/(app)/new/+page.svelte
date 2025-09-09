@@ -4,9 +4,10 @@
 	import {Input} from "$lib/components/ui/input"
 	import {Label} from "$lib/components/ui/label"
 	import {_} from "$lib/i18n"
-	import {HouseIcon} from "@lucide/svelte"
 	import * as M from "$lib/components/ui/navigation-menu"
 	import * as Card from "$lib/components/ui/card"
+
+	import HouseIcon from "@lucide/svelte/icons/house"
 
 	const {data} = $props()
 	const db = $derived(data.db)

@@ -7,10 +7,13 @@
 	import {settings} from "$lib/settings/store"
 	import {preferredEgyptianTransliterationDumper} from "$lib/settings/store/egyptian"
 	import {French, German} from "$lib/word"
-	import {Circle, Mars, Venus} from "@lucide/svelte"
 	import {BopomofoStrict, type ISyllable, Pinyin} from "$lib/word/mandarin"
 	import {MandarinScript} from "$lib/settings"
 	import {Speak} from "$lib/speak"
+
+	import Circle from "@lucide/svelte/icons/circle"
+	import Mars from "@lucide/svelte/icons/mars"
+	import Venus from "@lucide/svelte/icons/venus"
 
 	const {data} = $props()
 	const words = data.set.words as Word[]
@@ -167,7 +170,8 @@
 			<div class="select-all" lang={LangFromWord(word)} style="font-size: 1rem">
 				{#each word.word as char, i}
 					<ruby class="text-5xl">
-						{char}<rt>{RenderMandarinSyllable(word.syllables[i])}</rt>
+						{char}
+						<rt>{RenderMandarinSyllable(word.syllables[i])}</rt>
 					</ruby>
 				{/each}
 			</div>

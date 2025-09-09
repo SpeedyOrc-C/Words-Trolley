@@ -2,7 +2,11 @@
 	import {_} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
 	import {settingsOpened} from "$lib/settings/store"
-	import {Settings as Gear, Plus, Github, Bug} from "@lucide/svelte"
+
+	import Gear from "@lucide/svelte/icons/settings"
+	import Plus from "@lucide/svelte/icons/plus"
+	import Github from "@lucide/svelte/icons/github"
+	import Bug from "@lucide/svelte/icons/bug"
 
 	let {data} = $props()
 
@@ -84,10 +88,12 @@
 
 		<div class="flex gap-4">
 			<Button href="https://github.com/SpeedyOrc-C/Words-Trolley" target="_blank" variant="ghost">
-				<Github/> GitHub
+				<Github/>
+				GitHub
 			</Button>
 			<Button href="/debug" variant="ghost">
-				<Bug/> Debug
+				<Bug/>
+				Debug
 			</Button>
 		</div>
 

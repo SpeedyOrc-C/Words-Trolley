@@ -7,7 +7,7 @@
 	import * as Table from "$lib/components/ui/table"
 	import {Label} from "$lib/components/ui/label"
 	import {settings} from "$lib/settings/store"
-	import {Languages} from "@lucide/svelte"
+	import Languages from "@lucide/svelte/icons/languages"
 	import {voices} from "$lib/speak"
 	import {Checkbox} from "$lib/components/ui/checkbox"
 

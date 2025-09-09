@@ -16,7 +16,14 @@
 	import LetterMore from "$lib/word/egyptian/dictionary/letter-more"
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import RenderEgyptianText from "$lib/components/RenderEgyptianText.svelte"
-	import {Columns2, Rows2, Split, Blend, ArrowLeft, ArrowRight, Delete} from "@lucide/svelte"
+
+	import Columns2 from "@lucide/svelte/icons/columns-2"
+	import Rows2 from "@lucide/svelte/icons/rows-2"
+	import Split from "@lucide/svelte/icons/split"
+	import Blend from "@lucide/svelte/icons/blend"
+	import ArrowLeft from "@lucide/svelte/icons/arrow-left"
+	import ArrowRight from "@lucide/svelte/icons/arrow-right"
+	import Delete from "@lucide/svelte/icons/delete"
 
 	type OperationState = "idle" | "column" | "row"
 

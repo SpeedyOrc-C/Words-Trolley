@@ -19,10 +19,16 @@
 	import * as Card from "$lib/components/ui/card"
 	import {Label} from "$lib/components/ui/label"
 	import {Input} from "$lib/components/ui/input"
-	import * as RadioGroup from "$lib/components/ui/radio-group"
-	import {Trash2, Plus, MoveUpIcon, MoveDownIcon, BetweenHorizontalStart, Speech} from "@lucide/svelte"
 	import {toast} from "svelte-sonner"
 	import {Speak} from "$lib/speak"
+	import * as RadioGroup from "$lib/components/ui/radio-group"
+
+	import Trash2 from "@lucide/svelte/icons/trash-2"
+	import Plus from "@lucide/svelte/icons/plus"
+	import MoveUpIcon from "@lucide/svelte/icons/arrow-up"
+	import MoveDownIcon from "@lucide/svelte/icons/arrow-down"
+	import BetweenHorizontalStart from "@lucide/svelte/icons/between-horizontal-start"
+	import Speech from "@lucide/svelte/icons/speech"
 
 	const data: EditorProps = $props()
 	const isMine = $derived(data.online ? data.isMine : false)

@@ -4,7 +4,13 @@
 	import * as Card from "$lib/components/ui/card"
 	import {Button} from "$lib/components/ui/button"
 	import {settingsOpened} from "$lib/settings/store"
-	import {House, Settings as Gear, Plus, BookOpen, BookCheck, SquarePen} from "@lucide/svelte"
+
+	import House from "@lucide/svelte/icons/house"
+	import Gear from "@lucide/svelte/icons/settings"
+	import Plus from "@lucide/svelte/icons/plus"
+	import BookOpen from "@lucide/svelte/icons/book-open"
+	import BookCheck from "@lucide/svelte/icons/book-check"
+	import SquarePen from "@lucide/svelte/icons/square-pen"
 
 	const {data} = $props()
 
@@ -69,7 +75,7 @@
 				<div class="flex justify-between gap-2">
 
 					<Button href="/learn/{id}" class="flex-1">
-						<BookOpen />
+						<BookOpen/>
 						{$_.set.learn}
 					</Button>
 
@@ -79,7 +85,7 @@
 					</Button>
 
 					<Button href="/edit/{id}" variant="secondary" class="flex-1">
-						<SquarePen />
+						<SquarePen/>
 						{$_.edit}
 					</Button>
 

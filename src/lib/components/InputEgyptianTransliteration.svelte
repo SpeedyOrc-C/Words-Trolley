@@ -37,7 +37,7 @@
 
 	function oninput()
 	{
-		// The identity determinative 𓏤 is very common but it has no pronunciation.
+		// The identity determinative 𓏤 is very common, but it has no pronunciation.
 		// Since it looks like a little bar, we use | to insert it.
 		if (OnCommand != undefined && input.value == "|")
 		{

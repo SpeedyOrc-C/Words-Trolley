@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {HeightOfGlyph} from "$lib/word/egyptian/glyph/height"
 
-	const {fp, g, lineHeight}: { fp: number, g: string, lineHeight: number } = $props()
+	const {fp = 1, g, lineHeight}: { fp?: number, g: string, lineHeight: number } = $props()
 	const freeHeight = $derived(lineHeight * fp)
 	const glyphProportion = $derived(HeightOfGlyph(g))
 	const glyphHeight = $derived(lineHeight * glyphProportion)
@@ -13,7 +13,7 @@
 	)
 </script>
 
-<div style="height: {glyphHeight * scale}px">
+<div class="glyph" style="height: {glyphHeight * scale}px">
 	<div
 		class="w-fit"
 		style="line-height: 100%"
@@ -23,3 +23,9 @@
 		{g}
 	</div>
 </div>
+
+<style>
+	.glyph {
+		font-family: Font_Egyptian, sans-serif;
+	}
+</style>

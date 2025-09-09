@@ -22,6 +22,11 @@ const EnGb: I18nTemplate = {
 		follows_your_system: "Follows your system",
 		ui_language: "UI Language",
 		mandarin_script: "Mandarin Script",
+		hieroglyphs_style: {
+			_: "Hieroglyphs Style",
+			sans_serif: "Sans-serif",
+			colourful: "Colourful",
+		},
 		customise_voices: {
 			_: "Customise voices",
 			tip: "Tick the languages you want to change the voice for.",

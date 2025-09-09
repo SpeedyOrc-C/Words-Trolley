@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {HieroglyphsFont} from "$lib/settings"
+	import {settings} from "$lib/settings/store"
 	import {Literal2Gardiner} from "$lib/word/egyptian/gardiner/gardiner-literal"
 	import {HeightOfGlyph} from "$lib/word/egyptian/glyph/height"
 
@@ -18,16 +20,24 @@
 </script>
 
 <div class="glyph" style="height: {glyphHeight * scale}px">
-	<div
-		class="w-fit"
-		style="line-height: 100%"
-		style:font-size="{lineHeight * scale}px"
-		style:transform="translateY(calc(-100% + {glyphHeight * scale}px))"
-	>
-		{g}
-	</div>
-<!-- TODO: Add colourful glyphs	-->
-<!--	<img src={svgPath} alt="Symbol {gardiner}"/>-->
+
+	{#if $settings.HieroglyphsFont === HieroglyphsFont.NewGardiner}
+
+		<div
+			class="w-fit"
+			style="line-height: 100%"
+			style:font-size="{lineHeight * scale}px"
+			style:transform="translateY(calc(-100% + {glyphHeight * scale}px))"
+		>
+			{g}
+		</div>
+
+	{:else if $settings.HieroglyphsFont === HieroglyphsFont.SemiessessiColourful}
+
+		<img src={svgPath} alt="Symbol {gardiner}"/>
+
+	{/if}
+
 </div>
 
 <style>

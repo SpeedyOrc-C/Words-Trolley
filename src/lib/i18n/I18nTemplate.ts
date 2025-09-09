@@ -22,6 +22,11 @@ export type I18nTemplate = {
 		follows_your_system: s
 		mandarin_script: s
 		ui_language: s
+		hieroglyphs_style: {
+			_: s
+			sans_serif: s
+			colourful: s
+		}
 		customise_voices: {
 			_: s
 			tip: s

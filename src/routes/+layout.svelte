@@ -4,7 +4,7 @@
 	import {AutoDetectLanguage, language} from "$lib/i18n"
 	import {ParseSettings} from "$lib/settings"
 	import {settings, settingsOpened} from "$lib/settings/store"
-	import {ModeWatcher} from "mode-watcher"
+	import {mode, ModeWatcher, resetMode, setMode, userPrefersMode} from "mode-watcher"
 	import {SettingsKey} from "$lib/settings"
 	import {Toaster} from "$lib/components/ui/sonner"
 	import Settings from "$lib/components/Settings.svelte"
@@ -83,6 +83,6 @@
 
 <Settings bind:open={$settingsOpened}/>
 <Toaster position="top-center" richColors/>
-<ModeWatcher/>
+<ModeWatcher track={false} defaultMode="dark"/>
 
 {@render children()}

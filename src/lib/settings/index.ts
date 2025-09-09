@@ -15,11 +15,18 @@ export enum EgyptianTransliteration
 	Chen = "chen",
 }
 
+export enum HieroglyphsFont
+{
+	NewGardiner = "new-gardiner",
+	SemiessessiColourful = "semiessessi-colourful",
+}
+
 export interface ISettings
 {
 	Language: Language | "auto"
 	MandarinScript: MandarinScript
 	EgyptianTransliteration: EgyptianTransliteration
+	HieroglyphsFont: HieroglyphsFont
 	PreferredVoice: Record<Language, string | null>
 }
 
@@ -27,6 +34,7 @@ export const defaultSettings: ISettings = {
 	Language: "auto",
 	MandarinScript: MandarinScript.Pinyin,
 	EgyptianTransliteration: EgyptianTransliteration.ManuelDeCodage,
+	HieroglyphsFont: HieroglyphsFont.NewGardiner,
 	PreferredVoice: {
 		[Language.ZhCn]: null,
 		[Language.ZhTw]: null,
@@ -36,6 +44,11 @@ export const defaultSettings: ISettings = {
 		[Language.FrFr]: null,
 		[Language.DeDe]: null,
 	}
+}
+
+function WarnCannotFind(key: string)
+{
+	console.warn(`Cannot find ${key} in settings, now use default.`)
 }
 
 export function ParseSettings(x: unknown): ISettings
@@ -56,7 +69,7 @@ export function ParseSettings(x: unknown): ISettings
 		}
 	}
 	else
-		console.warn("Cannot find Language in settings.")
+		WarnCannotFind("Language")
 
 	if ("MandarinScript" in x)
 	{
@@ -69,7 +82,7 @@ export function ParseSettings(x: unknown): ISettings
 		}
 	}
 	else
-		console.warn("Cannot find MandarinScript in settings.")
+		WarnCannotFind("MandarinScript")
 
 	if ("EgyptianTransliteration" in x)
 	{
@@ -82,7 +95,20 @@ export function ParseSettings(x: unknown): ISettings
 		}
 	}
 	else
-		console.warn("Cannot find EgyptianTransliteration in settings.")
+		WarnCannotFind("EgyptianTransliteration")
+
+	if ("HieroglyphsFont" in x)
+	{
+		const hieroglyphsFont = x.HieroglyphsFont
+
+		if (typeof hieroglyphsFont == "string" &&
+			-1 != Object.values(HieroglyphsFont).indexOf(hieroglyphsFont as HieroglyphsFont))
+		{
+			settings.HieroglyphsFont = hieroglyphsFont as HieroglyphsFont
+		}
+	}
+	else
+		WarnCannotFind("HieroglyphsFont")
 
 	if ("PreferredVoice" in x)
 	{
@@ -105,7 +131,7 @@ export function ParseSettings(x: unknown): ISettings
 		}
 	}
 	else
-		console.warn("Cannot find PreferredVoice in settings.")
+		WarnCannotFind("PreferredVoice")
 
 	return settings
 }

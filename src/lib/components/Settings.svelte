@@ -1,5 +1,7 @@
 <script lang="ts">
-	import {EgyptianTransliteration, type ISettings, MandarinScript} from "$lib/settings"
+	import EgyptianText from "$lib/components/EgyptianText.svelte"
+	import {Separator} from "$lib/components/ui/separator"
+	import {EgyptianTransliteration, HieroglyphsFont, type ISettings, MandarinScript} from "$lib/settings"
 	import {_, Language} from "$lib/i18n"
 	import * as Dialog from "$lib/components/ui/dialog"
 	import * as Select from "$lib/components/ui/select"
@@ -10,6 +12,7 @@
 	import Languages from "@lucide/svelte/icons/languages"
 	import {voices} from "$lib/speak"
 	import {Checkbox} from "$lib/components/ui/checkbox"
+	import {g, v, h} from "$lib/word/egyptian/hieroglyphs"
 
 	let {open = $bindable(false)}: { open: boolean } = $props()
 	let newSettings = $state($settings)
@@ -30,9 +33,9 @@
 		switch (l)
 		{
 		case Language.ZhCn:
-			return "中文（中华人民共和国）"
+			return "现代汉语（中华人民共和国）"
 		case Language.ZhTw:
-			return "中文（中華民國）"
+			return "現代漢語（中華民國）"
 		case Language.EnGb:
 			return "English (United Kingdom)"
 		case Language.EnUs:
@@ -59,13 +62,11 @@
 			</Dialog.Title>
 		</Dialog.Header>
 
-		<div class="flex flex-col gap-6">
+		<article class="flex flex-col gap-6">
 
-			<div class="flex flex-col gap-2">
+			<section class="flex flex-col gap-2">
 
-				<div class="set-item">
-					{$_.settings.ui_language}
-				</div>
+				<header>{$_.settings.ui_language}</header>
 
 				<Select.Root bind:value={newSettings.Language} type="single">
 
@@ -92,13 +93,13 @@
 
 				</Select.Root>
 
-			</div>
+			</section>
 
-			<div class="flex flex-col gap-2">
+			<Separator/>
 
-				<div class="set-item">
-					{$_.settings.mandarin_script}
-				</div>
+			<section class="flex flex-col gap-2">
+
+				<header>{$_.settings.mandarin_script}</header>
 
 				<RadioGroup.Root
 					bind:value={newSettings.MandarinScript}
@@ -143,67 +144,13 @@
 
 				</RadioGroup.Root>
 
-			</div>
+			</section>
 
-			<div class="flex flex-col gap-3">
+			<Separator/>
 
-				<div class="set-item">
-					{$_.settings.customise_voices._}
-				</div>
+			<section class="flex flex-col gap-2">
 
-				<p class="text-sm text-foreground/50">
-					{$_.settings.customise_voices.tip}
-				</p>
-
-				<div class="flex flex-col gap-2">
-					{#each Object.values(Language) as lang}
-						{@const names = $voices.filter(v => v.lang === lang).map(v => v.name)}
-						{@const value = newSettings.PreferredVoice[lang]}
-
-						<div class="flex flex-col gap-1">
-
-							<div class="flex items-center gap-3">
-								<Checkbox
-									checked={newSettings.PreferredVoice[lang] != null}
-									disabled={value == null && names.length === 0}
-									onCheckedChange={c => {
-									newSettings.PreferredVoice[lang] = c ? names[0] : null
-									UpdateSettings()
-								}}
-								/>
-								<div>{_Language(lang)}</div>
-							</div>
-
-							{#if value != null}
-								<Select.Root {value} type="single" onValueChange={v => {
-									newSettings.PreferredVoice[lang] = v
-									UpdateSettings()
-								}}>
-
-									<Select.Trigger>{value}</Select.Trigger>
-
-									<Select.Content>
-										{#each new Set([...names, value]) as name}
-											<Select.Item value={name}>
-												{name}
-											</Select.Item>
-										{/each}
-									</Select.Content>
-
-								</Select.Root>
-							{/if}
-
-						</div>
-					{/each}
-				</div>
-
-			</div>
-
-			<div class="flex flex-col gap-2">
-
-				<div class="set-item">
-					{$_.egyptian.transliteration}
-				</div>
+				<header>{$_.egyptian.transliteration}</header>
 
 				<RadioGroup.Root
 					bind:value={newSettings.EgyptianTransliteration}
@@ -268,9 +215,106 @@
 
 				</RadioGroup.Root>
 
-			</div>
+			</section>
 
-		</div>
+			<section class="flex flex-col gap-2">
+
+				<header>{$_.settings.hieroglyphs_style._}</header>
+
+				<div class="text-center" style="font-size: 2.5rem">
+					<EgyptianText t={[h(v(g("𓂋"), g("𓏤"), g("𓈖")), h(g("𓆎"), g("𓅓"), v(g("𓏏"), g("𓊖"))))]}/>
+				</div>
+
+				<RadioGroup.Root
+					bind:value={newSettings.HieroglyphsFont}
+					class="flex gap-4 flex-wrap"
+				>
+
+					<div class="p-2 flex items-center gap-2">
+
+						<RadioGroup.Item
+							id="set-hieroglyphs-new-gardiner"
+							value={HieroglyphsFont.NewGardiner}
+						/>
+
+						<Label for="set-hieroglyphs-new-gardiner">
+							{$_.settings.hieroglyphs_style.sans_serif}
+						</Label>
+
+					</div>
+
+					<div class="p-2 flex items-center gap-2">
+
+						<RadioGroup.Item
+							id="set-hieroglyphs-semiessessi-colourful"
+							value={HieroglyphsFont.SemiessessiColourful}
+						/>
+
+						<Label for="set-hieroglyphs-semiessessi-colourful">
+							{$_.settings.hieroglyphs_style.colourful}
+						</Label>
+
+					</div>
+
+				</RadioGroup.Root>
+
+			</section>
+
+			<Separator/>
+
+			<section class="flex flex-col gap-3">
+
+				<header>{$_.settings.customise_voices._}</header>
+
+				<p class="text-sm text-foreground/50">
+					{$_.settings.customise_voices.tip}
+				</p>
+
+				<div class="flex flex-col gap-2">
+					{#each Object.values(Language) as lang}
+						{@const names = $voices.filter(v => v.lang === lang).map(v => v.name)}
+						{@const value = newSettings.PreferredVoice[lang]}
+
+						<div class="flex flex-col gap-1">
+
+							<div class="flex items-center gap-3">
+								<Checkbox
+									checked={newSettings.PreferredVoice[lang] != null}
+									disabled={value == null && names.length === 0}
+									onCheckedChange={c => {
+									newSettings.PreferredVoice[lang] = c ? names[0] : null
+									UpdateSettings()
+								}}
+								/>
+								<div>{_Language(lang)}</div>
+							</div>
+
+							{#if value != null}
+								<Select.Root {value} type="single" onValueChange={v => {
+									newSettings.PreferredVoice[lang] = v
+									UpdateSettings()
+								}}>
+
+									<Select.Trigger>{value}</Select.Trigger>
+
+									<Select.Content>
+										{#each new Set([...names, value]) as name}
+											<Select.Item value={name}>
+												{name}
+											</Select.Item>
+										{/each}
+									</Select.Content>
+
+								</Select.Root>
+							{/if}
+
+						</div>
+					{/each}
+				</div>
+
+			</section>
+
+		</article>
 
 	</Dialog.Content>
 
@@ -279,7 +323,7 @@
 <style>
 	@reference "tailwindcss";
 
-	.set-item {
+	article > section > header {
 		@apply font-bold;
 	}
 </style>

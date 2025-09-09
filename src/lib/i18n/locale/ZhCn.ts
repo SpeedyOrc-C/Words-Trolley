@@ -22,6 +22,11 @@ const ZhCn: I18nTemplate = {
 		follows_your_system: "跟随系统",
 		ui_language: "界面语言",
 		mandarin_script: "普通话拼读文字",
+		hieroglyphs_style: {
+			_: "圣书字风格",
+			sans_serif: "无衬线",
+			colourful: "彩色",
+		},
 		customise_voices: {
 			_: "自定义语音",
 			tip: "给想要更改声音的语言打钩。",

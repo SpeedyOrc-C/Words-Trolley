@@ -16,11 +16,11 @@
 	import InputBopomofoLight from "$lib/components/InputBopomofoLight.svelte"
 	import EditorInitialisation from "$lib/components/editor/EditorInitialisation.svelte"
 	import {Button} from "$lib/components/ui/button"
-	import * as Card from "$lib/components/ui/card"
 	import {Label} from "$lib/components/ui/label"
 	import {Input} from "$lib/components/ui/input"
 	import {toast} from "svelte-sonner"
 	import {Speak} from "$lib/speak"
+	import * as Card from "$lib/components/ui/card"
 	import * as RadioGroup from "$lib/components/ui/radio-group"
 
 	import Trash2 from "@lucide/svelte/icons/trash-2"

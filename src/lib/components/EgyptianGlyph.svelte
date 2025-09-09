@@ -1,4 +1,5 @@
 <script lang="ts">
+	import {Literal2Gardiner} from "$lib/word/egyptian/gardiner/gardiner-literal"
 	import {HeightOfGlyph} from "$lib/word/egyptian/glyph/height"
 
 	const {fp = 1, g, lineHeight}: { fp?: number, g: string, lineHeight: number } = $props()
@@ -11,6 +12,9 @@
 			? freeHeight / glyphHeight
 			: 1
 	)
+
+	const gardiner = Literal2Gardiner[g]
+	const svgPath = `https://raw.githubusercontent.com/semiessessi/recoloured-tuxscribe-hieroglyphs/refs/heads/main/images/${gardiner}.svg`
 </script>
 
 <div class="glyph" style="height: {glyphHeight * scale}px">
@@ -22,10 +26,16 @@
 	>
 		{g}
 	</div>
+<!-- TODO: Add colourful glyphs	-->
+<!--	<img src={svgPath} alt="Symbol {gardiner}"/>-->
 </div>
 
 <style>
 	.glyph {
 		font-family: Font_Egyptian, sans-serif;
+	}
+
+	img {
+		height: 100%;
 	}
 </style>

@@ -46,3 +46,4 @@ Backend is powered by [Supabase](https://supabase.com).
 - [Transliteration Schemes](https://en.wikipedia.org/wiki/Transliteration_of_Ancient_Egyptian)
 - [Manuel de Codage](https://www.catchpenny.org/codage)
 - [Glyph List](https://en.wikipedia.org/wiki/List_of_Egyptian_hieroglyphs)
+- [Colourful Hieroglyphs](https://github.com/semiessessi/recoloured-tuxscribe-hieroglyphs)

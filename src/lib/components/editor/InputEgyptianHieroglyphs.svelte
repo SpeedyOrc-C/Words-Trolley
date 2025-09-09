@@ -4,16 +4,14 @@
 	import {_} from "$lib/i18n"
 	import {preferredEgyptianTransliterationParser} from "$lib/settings/store/egyptian"
 	import type {Phoneme} from "$lib/word/egyptian"
-	import Important from "$lib/word/egyptian/dictionary/important"
+	import {CandidatesFromPhonemes} from "$lib/word/egyptian/dictionary"
+	import {CandidatesFromXiaoheKmt} from "$lib/word/egyptian/dictionary/xiaohe-kmt"
 	import {
-		type Hieroglyphs,
-		g,
+		type Hieroglyphs, g, Structure,
 		ExecuteHieroglyphsEditorCommand,
-		type HieroglyphsEditorState, Structure, type HieroglyphsEditCommand
+		type HieroglyphsEditorState,
+		type HieroglyphsEditCommand
 	} from "$lib/word/egyptian/hieroglyphs"
-	import Letter2 from "$lib/word/egyptian/dictionary/letter-2"
-	import Letter3 from "$lib/word/egyptian/dictionary/letter-3"
-	import LetterMore from "$lib/word/egyptian/dictionary/letter-more"
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import RenderEgyptianText from "$lib/components/RenderEgyptianText.svelte"
 
@@ -41,42 +39,6 @@
 	let imeInput: Phoneme[] = $state([])
 	let imeInputError = $state(false)
 	let imeWords: Hieroglyphs[] = $state([])
-
-	$effect(() =>
-	{
-		const s = imeInput.join("")
-
-		const newWords: Hieroglyphs[] = []
-
-		if (imeInput.length == 1)
-		{
-			newWords.push(g(s as any))
-		}
-		else if (imeInput.length == 2)
-		{
-			for (const [k, v] of Letter2)
-				if (v == s)
-					newWords.push(g(k as any))
-		}
-		else if (imeInput.length == 3)
-		{
-			for (const [k, v] of Letter3)
-				if (v == s)
-					newWords.push(g(k as any))
-		}
-		else
-		{
-			for (const [k, v] of LetterMore)
-				if (v == s)
-					newWords.push(g(k as any))
-		}
-
-		for (const [k, v] of Important)
-			if (v == s)
-				newWords.push(k)
-
-		imeWords = newWords
-	})
 
 	function OnStackButtonClick(count: number)
 	{
@@ -158,6 +120,16 @@
 			return
 		}
 
+		// Query determinatives
+		// TODO: Add an English input scheme
+		if (imeInputRaw.startsWith(" "))
+		{
+			const input = imeInputRaw.substring(1, imeInputRaw.length).trim()
+			imeWords = CandidatesFromXiaoheKmt(input)
+			imeInputError = false
+			return
+		}
+
 		const newImeInput = $preferredEgyptianTransliterationParser.eval(imeInputRaw)
 
 		if (newImeInput instanceof Error)
@@ -166,6 +138,7 @@
 		{
 			imeInputError = false
 			imeInput = newImeInput
+			imeWords = CandidatesFromPhonemes(newImeInput)
 		}
 	}
 
@@ -198,17 +171,15 @@
 		}
 
 		// Select 1st candidate
-		if (e.code == "Space")
+		if (e.code == "Space" && imeWords.length > 0)
 		{
 			e.preventDefault()
 
-			if (imeWords.length > 0)
-			{
-				Execute("insert", imeWords[0])
-				imeInputRaw = ""
-				imeInput = []
-				imeInputError = false
-			}
+			Execute("insert", imeWords[0])
+			imeInputRaw = ""
+			imeInput = []
+			imeWords = []
+			imeInputError = false
 		}
 
 		// Select other candidates with numbers
@@ -222,6 +193,7 @@
 				Execute("insert", imeWords[digit - 1])
 				imeInputRaw = ""
 				imeInput = []
+				imeWords = []
 				imeInputError = false
 			}
 		}
@@ -293,7 +265,7 @@
 
 	<div class="flex flex-wrap justify-between">
 
-		{#if imeInput.length > 0}
+		{#if imeWords.length > 0}
 
 			<div class="flex flex-wrap gap-2">
 				{#each imeWords as hie, i (hie)}

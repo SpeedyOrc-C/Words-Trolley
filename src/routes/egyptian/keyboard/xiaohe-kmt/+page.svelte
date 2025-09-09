@@ -40,14 +40,19 @@
 <main class="overflow-auto">
 
 	<div class="inline-block">
+
 		<div class="m-2 flex flex-col gap-2">
+
 			{#each [row1, row2, row3] as row, i}
 				<div class="flex gap-2">
+
 					{#each row as [letter, detRows]}
 						<div class="key">
+
 							<div class="letter">
 								{letter}
 							</div>
+
 							<div class="det-col">
 								{#each detRows as detRow}
 									<div class="det-row">
@@ -57,8 +62,10 @@
 									</div>
 								{/each}
 							</div>
+
 						</div>
 					{/each}
+
 				</div>
 			{/each}
 

@@ -83,6 +83,6 @@
 
 <Settings bind:open={$settingsOpened}/>
 <Toaster position="top-center" richColors/>
-<ModeWatcher track={false} defaultMode="dark"/>
+<ModeWatcher/>
 
 {@render children()}

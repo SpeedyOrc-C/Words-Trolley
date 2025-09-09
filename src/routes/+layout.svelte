@@ -2,6 +2,7 @@
 	import "../app.css"
 	import {dev} from "$app/environment"
 	import {AutoDetectLanguage, language} from "$lib/i18n"
+	import {ParseSettings} from "$lib/settings"
 	import {settings, settingsOpened} from "$lib/settings/store"
 	import {ModeWatcher} from "mode-watcher"
 	import {SettingsKey} from "$lib/settings"
@@ -16,10 +17,22 @@
 		const f1 = language
 			.subscribe(lang => document.documentElement.lang = lang)
 
-		const rawStoredSettings = localStorage.getItem(SettingsKey)
+		const rawStringStoredSettings = localStorage.getItem(SettingsKey)
 
-		if (rawStoredSettings != null)
-			settings.set(JSON.parse(rawStoredSettings))
+		if (rawStringStoredSettings != null)
+			try
+			{
+				const rawJsonStoredSettings = JSON.parse(rawStringStoredSettings)
+
+				settings.set(ParseSettings(rawJsonStoredSettings))
+			}
+			catch
+			{
+				console.error(
+					"Broken settings in localStorage, now use default.",
+					rawStringStoredSettings
+				)
+			}
 
 		const f2 = settings.subscribe(set =>
 		{
@@ -64,12 +77,12 @@
 </script>
 
 <svelte:window
-	onlanguagechange={() => AutoDetectLanguage(navigator.language)}
 	onkeydown={onkeydown}
+	onlanguagechange={() => AutoDetectLanguage(navigator.language)}
 />
 
 <Settings bind:open={$settingsOpened}/>
-<Toaster richColors position="top-center"/>
+<Toaster position="top-center" richColors/>
 <ModeWatcher/>
 
 {@render children()}

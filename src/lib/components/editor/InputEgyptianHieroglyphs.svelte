@@ -1,7 +1,8 @@
 <script lang="ts">
-	import InputEgyptianTransliteration from "$lib/components/InputEgyptianTransliteration.svelte"
 	import {Button} from "$lib/components/ui/button"
+	import {Input} from "$lib/components/ui/input"
 	import {_} from "$lib/i18n"
+	import {preferredEgyptianTransliterationParser} from "$lib/settings/store/egyptian"
 	import type {Phoneme} from "$lib/word/egyptian"
 	import Important from "$lib/word/egyptian/dictionary/important"
 	import {
@@ -29,7 +30,9 @@
 
 	let s: HieroglyphsEditorState = $state({cursor: value.length, content: value})
 	let os: OperationState = $state("idle")
+	let imeInputRaw = $state("")
 	let imeInput: Phoneme[] = $state([])
+	let imeInputError = $state(false)
 	let imeWords: Hieroglyphs[] = $state([])
 
 	$effect(() =>
@@ -89,6 +92,133 @@
 		value = s.content
 		onchange?.(s.content)
 	}
+
+	function OnImeInput()
+	{
+		// Insert the identity determinative: 𓏤
+		if (imeInputRaw == "|")
+		{
+			Execute("insert", g("𓏤"))
+			imeInputRaw = ""
+			imeInput = []
+			imeInputError = false
+			return
+		}
+
+		// Join glyphs horizontally
+		if (imeInputRaw.startsWith("-"))
+		{
+			if (imeInputRaw.length == 2)
+			{
+				const count = parseInt(imeInputRaw[1])
+
+				if (! Number.isNaN(count))
+				{
+					Execute("row", count)
+					imeInputRaw = ""
+					imeInput = []
+					imeInputError = false
+				}
+				else
+					imeInputError = true
+			}
+			else
+				imeInputError = false
+
+			return
+		}
+
+		// Join glyphs vertically
+		if (imeInputRaw.startsWith("="))
+		{
+			if (imeInputRaw.length == 2)
+			{
+				const count = parseInt(imeInputRaw[1])
+
+				if (! Number.isNaN(count))
+				{
+					Execute("column", count)
+					imeInputRaw = ""
+					imeInput = []
+					imeInputError = false
+				}
+				else
+					imeInputError = true
+			}
+			else
+				imeInputError = false
+
+			return
+		}
+
+		const newImeInput = $preferredEgyptianTransliterationParser.eval(imeInputRaw)
+
+		if (newImeInput instanceof Error)
+			imeInputError = true
+		else
+		{
+			imeInputError = false
+			imeInput = newImeInput
+		}
+	}
+
+	function OnImeKeyDown(e: KeyboardEvent & { currentTarget: HTMLInputElement })
+	{
+		const t = e.currentTarget
+
+		// Move the cursor to the left
+		if (e.code == "ArrowLeft" && t.selectionEnd == 0)
+		{
+			e.preventDefault()
+			Execute("left")
+			return
+		}
+
+		// Move the cursor to the right
+		if (e.code == "ArrowRight" && t.selectionStart == t.value.length)
+		{
+			e.preventDefault()
+			Execute("right")
+			return
+		}
+
+		// Delete/split the glyph to the left of the cursor
+		if (e.code == "Backspace" && t.value.length == 0)
+		{
+			e.preventDefault()
+			Execute("backspace")
+			return
+		}
+
+		// Select 1st candidate
+		if (e.code == "Space")
+		{
+			e.preventDefault()
+
+			if (imeWords.length > 0)
+			{
+				Execute("insert", imeWords[0])
+				imeInputRaw = ""
+				imeInput = []
+				imeInputError = false
+			}
+		}
+
+		// Select other candidates with numbers
+		if (e.code.startsWith("Digit"))
+		{
+			const digit = parseInt(e.code.substring(5))
+
+			if (! Number.isNaN(digit) && digit > 0 && digit <= imeWords.length)
+			{
+				e.preventDefault()
+				Execute("insert", imeWords[digit - 1])
+				imeInputRaw = ""
+				imeInput = []
+				imeInputError = false
+			}
+		}
+	}
 </script>
 
 <div class="flex flex-col gap-2">
@@ -119,10 +249,12 @@
 
 	<div class="relative flex gap-2">
 
-		<InputEgyptianTransliteration
-			OnCommand={Execute}
-			OnSelect={i => { if (i <= imeWords.length) Execute("insert", imeWords[i-1]) }}
-			bind:value={imeInput}
+		<Input
+			aria-invalid={imeInputError}
+			bind:value={imeInputRaw}
+			class="font-mono"
+			oninput={OnImeInput}
+			onkeydown={OnImeKeyDown}
 			placeholder={$_.linguistics.transliteration}
 		/>
 

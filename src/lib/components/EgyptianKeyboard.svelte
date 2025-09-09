@@ -35,7 +35,6 @@
 	] as const
 </script>
 
-<!-- https://svgcrop.com -->
 <div class="absolute bottom-0 w-full flex flex-col"
 	  style="aspect-ratio: 10/3; padding: 0.4vw"
 >
@@ -124,7 +123,7 @@
 		& > .glyph {
 			@apply grow flex items-end justify-around;
 			font-size: 4vw;
-			font-family: Font_Egyptian;
+			font-family: Font_Egyptian sans-serif;
 		}
 	}
 

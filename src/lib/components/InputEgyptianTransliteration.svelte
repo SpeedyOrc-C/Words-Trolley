@@ -5,8 +5,6 @@
 	} from "$lib/settings/store/egyptian"
 	import type {Phoneme} from "$lib/word/egyptian"
 	import {Input} from "$lib/components/ui/input"
-	import type {HieroglyphsEditCommand} from "$lib/word/egyptian/hieroglyphs"
-	import {g} from "$lib/word/egyptian/hieroglyphs"
 
 	let {
 		value = $bindable([]),
@@ -16,8 +14,6 @@
 		autofocus = false,
 		class: _class = "",
 		style = "",
-		OnCommand,
-		OnSelect,
 	}: {
 		value?: Phoneme[]
 		onchange?: () => void
@@ -26,8 +22,6 @@
 		autofocus?: boolean
 		class?: string
 		style?: string
-		OnCommand?: (...command: HieroglyphsEditCommand) => void
-		OnSelect?: (index: number) => void
 	} = $props()
 
 	const initValue = $derived(value.map(x => $preferredEgyptianTransliterationDumper[x]).join(""))
@@ -37,67 +31,6 @@
 
 	function oninput()
 	{
-		// The identity determinative 𓏤 is very common, but it has no pronunciation.
-		// Since it looks like a little bar, we use | to insert it.
-		if (OnCommand != undefined && input.value == "|")
-		{
-			OnCommand("insert", g("𓏤"))
-			input.value = ""
-			error = false
-			return
-		}
-
-		if (OnCommand != undefined && input.value.length == 2)
-		{
-			const rawOperation = input.value[0]
-			const count = parseInt(input.value[1])
-
-			if (! Number.isNaN(count))
-			{
-				if (rawOperation == "-")
-				{
-					OnCommand("row", count)
-					input.value = ""
-					return
-				}
-				else if (rawOperation == "=")
-				{
-					OnCommand("column", count)
-					input.value = ""
-					return
-				}
-			}
-		}
-
-		if (OnSelect != undefined && input.value.length >= 2)
-		{
-			const lastChar = input.value[input.value.length - 1]
-
-			if (lastChar == " ")
-			{
-				OnSelect(1)
-				input.value = ""
-				value = []
-				return
-			}
-
-			const lastDigit = parseInt(lastChar)
-
-			if (! Number.isNaN(lastDigit) && lastDigit != 0)
-			{
-				OnSelect(lastDigit)
-				input.value = ""
-				value = []
-				return
-			}
-		}
-
-		if (input.value == "-" || input.value == "=")
-		{
-			error = false
-			return
-		}
-
 		const syllables = $preferredEgyptianTransliterationParser.eval(input.value.trim())
 
 		if (syllables instanceof Error)
@@ -108,33 +41,6 @@
 			value = syllables
 			if (_onchange != undefined)
 				_onchange()
-		}
-	}
-
-	function onkeydown(e: KeyboardEvent)
-	{
-		if (OnCommand == undefined)
-			return
-
-		if (e.code == "ArrowLeft" && input.selectionEnd == 0)
-		{
-			e.preventDefault()
-			OnCommand("left")
-			return
-		}
-
-		if (e.code == "ArrowRight" && input.selectionStart == input.value.length)
-		{
-			e.preventDefault()
-			OnCommand("right")
-			return
-		}
-
-		if (e.code == "Backspace" && input.value.length == 0)
-		{
-			e.preventDefault()
-			OnCommand("backspace")
-			return
 		}
 	}
 </script>
@@ -149,7 +55,6 @@
 	class="font-mono {_class}"
 	{disabled}
 	{oninput}
-	{onkeydown}
 	{placeholder}
 	spellcheck="false"
 	{style}

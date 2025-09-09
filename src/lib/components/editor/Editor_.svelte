@@ -36,7 +36,6 @@
 	let renaming = $state(false)
 	let forking = $state(false)
 	let dragIndex = $state<number | null>(null)
-	let dropIndex = $state<number | null>(null)
 	let initialisationOpened = $state(false)
 
 	let showWordOperations = $state(true)
@@ -307,12 +306,6 @@
 	function ondragend()
 	{
 		dragIndex = null
-		dropIndex = null
-	}
-
-	function ondragenter(i: number)
-	{
-		dropIndex = i
 	}
 
 	function ondrop(dropIndex: number)
@@ -393,7 +386,6 @@
 				ondragstart={() => ondragstart(i)}
 				ondragend={ondragend}
 				ondragover={e => e.preventDefault()}
-				ondragenter={() => ondragenter(i)}
 				ondrop={() => ondrop(i)}
 				class="relative flex flex-col"
 			>

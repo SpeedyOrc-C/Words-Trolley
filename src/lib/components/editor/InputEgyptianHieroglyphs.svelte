@@ -230,17 +230,23 @@
 
 		<Input
 			aria-invalid={imeInputError}
+			autocapitalize="off"
+			autocomplete="off"
+			autocorrect="off"
+			name={$_.editor.hieroglyphs_editor.ime_buffer}
 			bind:value={imeInputRaw}
 			class="font-mono"
 			oninput={OnImeInput}
 			onkeydown={OnImeKeyDown}
 			placeholder={$_.linguistics.transliteration}
+			spellcheck="false"
 		/>
 
 		<Button
 			disabled={s.cursor === 0}
 			onclick={() => Execute("left")}
-			size="icon" variant="outline"
+			size="icon" title={$_.editor.hieroglyphs_editor.move_cursor_left}
+			variant="outline"
 		>
 			<ArrowLeft/>
 		</Button>
@@ -248,7 +254,8 @@
 		<Button
 			disabled={s.cursor === 0}
 			onclick={() => Execute("backspace")}
-			size="icon" variant="secondary"
+			size="icon" title={$_.editor.hieroglyphs_editor.backspace}
+			variant="secondary"
 		>
 			<Delete/>
 		</Button>
@@ -256,7 +263,8 @@
 		<Button
 			disabled={s.cursor === s.content.length}
 			onclick={() => Execute("right")}
-			size="icon" variant="outline"
+			size="icon" title={$_.editor.hieroglyphs_editor.move_cursor_right}
+			variant="outline"
 		>
 			<ArrowRight/>
 		</Button>
@@ -290,7 +298,7 @@
 
 			<div class="flex gap-2">
 
-				<Button disabled size="icon" variant="outline">
+				<Button disabled size="icon" variant="outline" title={$_.editor.hieroglyphs_editor.make_ligature}>
 					<Blend/>
 				</Button>
 
@@ -298,6 +306,7 @@
 					onclick={() => Execute("split")}
 					disabled={s.cursor === 0 || s.content[s.cursor - 1][0] === Structure.G}
 					size="icon" variant="outline"
+					title={$_.editor.hieroglyphs_editor.ungroup}
 				>
 					<Split/>
 				</Button>
@@ -305,6 +314,7 @@
 				<Button
 					size="icon" variant={os === "row" ? "default" : "outline"}
 					onclick={() => os = os === "row" ? "idle" : "row"}
+					title={$_.editor.hieroglyphs_editor.join_horizontally}
 				>
 					<Columns2/>
 				</Button>
@@ -312,6 +322,7 @@
 				<Button
 					size="icon" variant={os === "column" ? "default" : "outline"}
 					onclick={() => os = os === "column" ? "idle" : "column"}
+					title={$_.editor.hieroglyphs_editor.join_vertically}
 				>
 					<Rows2/>
 				</Button>
@@ -323,6 +334,7 @@
 						variant="outline"
 						disabled={os === "idle" || s.cursor < count}
 						onclick={() => OnStackButtonClick(count)}
+						title={$_.editor.hieroglyphs_editor[`join_${count}`]}
 					>
 						{count}
 					</Button>

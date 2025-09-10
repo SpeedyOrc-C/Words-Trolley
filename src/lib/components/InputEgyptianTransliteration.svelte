@@ -12,6 +12,7 @@
 		placeholder = "",
 		disabled = false,
 		autofocus = false,
+		id,
 		class: _class = "",
 		style = "",
 	}: {
@@ -20,6 +21,7 @@
 		placeholder?: string
 		disabled?: boolean
 		autofocus?: boolean
+		id?: string
 		class?: string
 		style?: string
 	} = $props()
@@ -54,6 +56,7 @@
 	bind:ref={input}
 	class="font-mono {_class}"
 	{disabled}
+	{id}
 	{oninput}
 	{placeholder}
 	spellcheck="false"

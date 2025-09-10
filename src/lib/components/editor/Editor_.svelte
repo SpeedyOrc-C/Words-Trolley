@@ -401,9 +401,15 @@
 					<div class="flex flex-col gap-2">
 
 						<div class="flex items-center justify-between">
-							<Label for="word-{i}">
-								{$_.editor.word}
-							</Label>
+							{#if UsesStringInput(word.type)}
+								<Label for="word-{i}">
+									{$_.editor.word}
+								</Label>
+							{:else}
+								<div>
+									{$_.editor.word}
+								</div>
+							{/if}
 
 							<div class="text-xs font-mono">
 								{i + 1}<span class="text-foreground/50">/{words.length}</span>
@@ -569,11 +575,12 @@
 						{:else if word.type === WordType.Egyptian}
 
 							<div class="flex flex-col gap-2">
-								<Label>
+								<Label for="e-trans-{i}">
 									{$_.linguistics.transliteration}
 								</Label>
 								<InputEgyptianTransliteration
 									bind:value={word.trans}
+									id="e-trans-{i}"
 									onchange={() => saved = false}
 								/>
 							</div>

@@ -19,12 +19,12 @@
 	const svgPath = `https://raw.githubusercontent.com/semiessessi/recoloured-tuxscribe-hieroglyphs/refs/heads/main/images/${gardiner}.svg`
 </script>
 
-<div class="glyph" style="height: {glyphHeight * scale}px">
+<div style="height: {glyphHeight * scale}px">
 
 	{#if $settings.HieroglyphsFont === HieroglyphsFont.NewGardiner}
 
 		<div
-			class="w-fit"
+			class="w-fit glyph"
 			style="line-height: 100%"
 			style:font-size="{lineHeight * scale}px"
 			style:transform="translateY(calc(-100% + {glyphHeight * scale}px))"

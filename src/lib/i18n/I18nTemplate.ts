@@ -20,8 +20,9 @@ export type I18nTemplate = {
 	settings: {
 		_: s
 		follows_your_system: s
-		mandarin_script: s
+		mandarin_spelling_scheme: s
 		ui_language: s
+		egyptian_transliteration_scheme: s
 		hieroglyphs_style: {
 			_: s
 			sans_serif: s
@@ -119,6 +120,19 @@ export type I18nTemplate = {
 			_: s
 			word_operations: s
 			extra_options: s
+		}
+		hieroglyphs_editor: {
+			ime_buffer: s
+			move_cursor_left: s
+			move_cursor_right: s
+			backspace: s
+			make_ligature: s
+			ungroup: s
+			join_horizontally: s
+			join_vertically: s
+			join_2: s
+			join_3: s
+			join_4: s
 		}
 	}
 	WordType: {

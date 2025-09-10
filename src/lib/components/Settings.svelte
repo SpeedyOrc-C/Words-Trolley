@@ -6,9 +6,10 @@
 	import * as Dialog from "$lib/components/ui/dialog"
 	import * as Select from "$lib/components/ui/select"
 	import * as RadioGroup from "$lib/components/ui/radio-group"
-	import * as Table from "$lib/components/ui/table"
 	import {Label} from "$lib/components/ui/label"
 	import {settings} from "$lib/settings/store"
+	import {preferredEgyptianTransliterationDumper} from "$lib/settings/store/egyptian"
+	import {Phoneme} from "$lib/word/egyptian"
 	import Languages from "@lucide/svelte/icons/languages"
 	import {voices} from "$lib/speak"
 	import {Checkbox} from "$lib/components/ui/checkbox"
@@ -62,7 +63,7 @@
 			</Dialog.Title>
 		</Dialog.Header>
 
-		<article class="flex flex-col gap-6">
+		<article class="flex flex-col gap-4">
 
 			<section class="flex flex-col gap-2">
 
@@ -99,21 +100,21 @@
 
 			<section class="flex flex-col gap-2">
 
-				<header>{$_.settings.mandarin_script}</header>
+				<header>{$_.settings.mandarin_spelling_scheme}</header>
 
 				<RadioGroup.Root
 					bind:value={newSettings.MandarinScript}
 					class="flex gap-4"
 				>
 
-					<div class="p-2 flex items-center gap-2">
+					<div class="flex items-center">
 
 						<RadioGroup.Item
 							id="set-mandarin-script-pinyin"
 							value={MandarinScript.Pinyin}
 						/>
 
-						<Label class="flex flex-col items-center" for="set-mandarin-script-pinyin">
+						<Label class="pl-2 flex flex-col items-center" for="set-mandarin-script-pinyin">
 							<div>
 								{$_.linguistics.pinyin}
 							</div>
@@ -124,14 +125,14 @@
 
 					</div>
 
-					<div class="p-2 flex items-center gap-2">
+					<div class="flex items-center">
 
 						<RadioGroup.Item
 							id="set-mandarin-script-bopomofo"
 							value={MandarinScript.Bopomofo}
 						/>
 
-						<Label class="flex flex-col items-center" for="set-mandarin-script-bopomofo">
+						<Label class="pl-2 flex flex-col items-center" for="set-mandarin-script-bopomofo">
 							<div>
 								{$_.linguistics.bopomofo}
 							</div>
@@ -150,70 +151,60 @@
 
 			<section class="flex flex-col gap-2">
 
-				<header>{$_.egyptian.transliteration}</header>
+				<header>{$_.settings.egyptian_transliteration_scheme}</header>
 
 				<RadioGroup.Root
 					bind:value={newSettings.EgyptianTransliteration}
 					class="flex gap-4 flex-wrap"
 				>
 
-					<div class="p-2 flex items-center gap-2">
+					<div class="flex items-center">
 
 						<RadioGroup.Item
 							id="set-egyptian-transliteration-mdc"
 							value={EgyptianTransliteration.ManuelDeCodage}
 						/>
 
-						<Label class="flex flex-col items-center" for="set-egyptian-transliteration-mdc">
-							<div>
-								<abbr title="Manuel de Codage">
-									MdC
-								</abbr>
-							</div>
-							<code class="text-lg">
-								AabtdTD
-							</code>
+						<Label class="pl-2 flex flex-col items-center" for="set-egyptian-transliteration-mdc">
+							<abbr title="Manuel de Codage">
+								MdC
+							</abbr>
 						</Label>
 
 					</div>
 
-					<div class="p-2 flex items-center gap-2">
+					<div class="flex items-center">
 
 						<RadioGroup.Item
 							id="set-egyptian-transliteration-chen"
 							value={EgyptianTransliteration.Chen}
 						/>
 
-						<Label class="flex flex-col items-center" for="set-egyptian-transliteration-chen">
-							<div>
-								陈
-							</div>
-							<code class="text-lg">
-								aebtdcj
-							</code>
+						<Label class="pl-2 flex flex-col items-center" for="set-egyptian-transliteration-chen">
+							陈
 						</Label>
 
 					</div>
 
-					<div class="p-2 flex items-center gap-2">
+					<div class="flex items-center">
 
 						<RadioGroup.Item
 							id="set-egyptian-transliteration-egyptology"
 							value={EgyptianTransliteration.Egyptology}
 						/>
 
-						<Label class="flex flex-col items-center" for="set-egyptian-transliteration-egyptology">
-							<div>
-								{$_.egyptian.egyptology}
-							</div>
-							<code class="text-lg">
-								ꜣꜥbtdṯḏ
-							</code>
+						<Label class="pl-2 flex flex-col items-center" for="set-egyptian-transliteration-egyptology">
+							{$_.egyptian.egyptology}
 						</Label>
 
 					</div>
 
 				</RadioGroup.Root>
+
+				<code class="text-2xl text-center">
+					{([Phoneme.a, Phoneme.e, Phoneme.b, Phoneme.t, Phoneme.c, Phoneme.d, Phoneme.j])
+                   .map(x => $preferredEgyptianTransliterationDumper[x]).join("")}
+				</code>
 
 			</section>
 
@@ -221,42 +212,42 @@
 
 				<header>{$_.settings.hieroglyphs_style._}</header>
 
-				<div class="text-center" style="font-size: 2.5rem">
-					<EgyptianText t={[h(v(g("𓂋"), g("𓏤"), g("𓈖")), h(g("𓆎"), g("𓅓"), v(g("𓏏"), g("𓊖"))))]}/>
-				</div>
-
 				<RadioGroup.Root
 					bind:value={newSettings.HieroglyphsFont}
 					class="flex gap-4 flex-wrap"
 				>
 
-					<div class="p-2 flex items-center gap-2">
+					<div class="flex items-center">
 
 						<RadioGroup.Item
 							id="set-hieroglyphs-new-gardiner"
 							value={HieroglyphsFont.NewGardiner}
 						/>
 
-						<Label for="set-hieroglyphs-new-gardiner">
+						<Label class="pl-2" for="set-hieroglyphs-new-gardiner">
 							{$_.settings.hieroglyphs_style.sans_serif}
 						</Label>
 
 					</div>
 
-					<div class="p-2 flex items-center gap-2">
+					<div class="flex items-center">
 
 						<RadioGroup.Item
 							id="set-hieroglyphs-semiessessi-colourful"
 							value={HieroglyphsFont.SemiessessiColourful}
 						/>
 
-						<Label for="set-hieroglyphs-semiessessi-colourful">
+						<Label class="pl-2" for="set-hieroglyphs-semiessessi-colourful">
 							{$_.settings.hieroglyphs_style.colourful}
 						</Label>
 
 					</div>
 
 				</RadioGroup.Root>
+
+				<div class="text-center" style="font-size: 2.5rem">
+					<EgyptianText t={[h(v(g("𓂋"), g("𓏤"), g("𓈖")), h(g("𓆎"), g("𓅓"), v(g("𓏏"), g("𓊖"))))]}/>
+				</div>
 
 			</section>
 
@@ -277,8 +268,9 @@
 
 						<div class="flex flex-col gap-1">
 
-							<div class="flex items-center gap-3">
+							<div class="flex items-center">
 								<Checkbox
+									id="set-preferred-voice-{lang}"
 									checked={newSettings.PreferredVoice[lang] != null}
 									disabled={value == null && names.length === 0}
 									onCheckedChange={c => {
@@ -286,7 +278,9 @@
 									UpdateSettings()
 								}}
 								/>
-								<div>{_Language(lang)}</div>
+								<label class="pl-3" for="set-preferred-voice-{lang}">
+									{_Language(lang)}
+								</label>
 							</div>
 
 							{#if value != null}

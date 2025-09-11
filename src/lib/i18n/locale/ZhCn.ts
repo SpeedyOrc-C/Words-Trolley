@@ -134,6 +134,11 @@ const ZhCn: I18nTemplate = {
 			join_3: "连接三个字",
 			join_4: "连接四个字",
 		},
+		furigana_editor: {
+			merge_into_above: "合并到上方",
+			merge_into_below: "合并到下方",
+			split: "拆分",
+		},
 	},
 	WordType: {
 		Simple: "正常",

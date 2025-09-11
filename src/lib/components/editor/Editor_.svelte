@@ -2,6 +2,7 @@
 	import {blankWordFromType, blankWordSimple, WordType, LangFromWord, UsesStringInput, CanSpeak} from "$lib"
 	import InputEgyptianTransliteration from "$lib/components/InputEgyptianTransliteration.svelte"
 	import InputFurigana from "$lib/components/InputFurigana.svelte"
+	import {Separator} from "$lib/components/ui/separator"
 	import type {Json} from "$lib/database.types"
 	import {goto} from "$app/navigation"
 	import InputEgyptianHieroglyphs from "$lib/components/editor/InputEgyptianHieroglyphs.svelte"
@@ -23,6 +24,7 @@
 	import {Speak} from "$lib/speak"
 	import * as Card from "$lib/components/ui/card"
 	import * as RadioGroup from "$lib/components/ui/radio-group"
+	import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
 
 	import Trash2 from "@lucide/svelte/icons/trash-2"
 	import Plus from "@lucide/svelte/icons/plus"
@@ -30,6 +32,7 @@
 	import MoveDownIcon from "@lucide/svelte/icons/arrow-down"
 	import BetweenHorizontalStart from "@lucide/svelte/icons/between-horizontal-start"
 	import Speech from "@lucide/svelte/icons/speech"
+	import Ellipsis from "@lucide/svelte/icons/ellipsis"
 
 	const data: EditorProps = $props()
 	const isMine = $derived(data.online ? data.isMine : false)
@@ -416,62 +419,28 @@
 
 				<Card.Content class="flex flex-col gap-4">
 
+					<div class="absolute top-1 right-2 text-xs font-mono">
+						{i + 1}<span class="text-foreground/50">/{words.length}</span>
+					</div>
+
 					<div class="flex flex-col gap-2">
 
-						<div class="flex items-center justify-between">
-							{#if UsesStringInput(word.type)}
-								<Label for="word-{i}">
-									{$_.editor.word}
-								</Label>
-							{:else}
-								<div>
-									{$_.editor.word}
-								</div>
-							{/if}
-
-							<div class="text-xs font-mono">
-								{i + 1}<span class="text-foreground/50">/{words.length}</span>
-							</div>
-						</div>
-
-						<div class="flex gap-2 md:gap-4">
-
-							{#if showWordOperations && CanSpeak(word.type)}
-								<Button size="icon" variant="secondary" onclick={() => $Speak(word)}
-										  aria-label={$_.learn.speak}>
-									<Speech/>
-								</Button>
-							{/if}
-
-							{#if UsesStringInput(word.type)}
-								<Input
-									type="text" value={word.word}
-									onfocusin={() => typing = true}
-									onfocusout={() => typing = false}
-									onchange={e => OnWordChange(e, i)}
-									id="word-{i}"
-									lang={LangFromWord(word)}
-								/>
-							{/if}
-
-							{#if showWordOperations}
-								<Button size="icon" variant="destructive" onclick={() => DeleteWord(i)} aria-label={$_.delete}>
-									<Trash2/>
-								</Button>
-							{/if}
-
-						</div>
+						{#if UsesStringInput(word.type)}
+							<Input
+								type="text" value={word.word}
+								onfocusin={() => typing = true}
+								onfocusout={() => typing = false}
+								onchange={e => OnWordChange(e, i)}
+								id="word-{i}"
+								lang={LangFromWord(word)}
+								style="font-size: 1.5rem"
+								placeholder={$_.editor.word}
+							/>
+						{/if}
 
 						{#if word.type === WordType.Egyptian}
 							<InputEgyptianHieroglyphs bind:value={word.word} onchange={() => saved = false}/>
 						{/if}
-
-					</div>
-
-					<div class="flex flex-col gap-2">
-						<Label for="meaning-{i}">
-							{$_.editor.meaning}
-						</Label>
 
 						<Input
 							type="text" bind:value={word.meaning}
@@ -479,10 +448,15 @@
 							onfocusout={() => typing = false}
 							onchange={() => saved = false}
 							id="meaning-{i}"
+							name="meaning-{i}"
+							placeholder={$_.editor.meaning}
 						/>
+
 					</div>
 
 					{#if showExtraOptions}
+
+						<Separator/>
 
 						<SelectWordAndTheirExtras
 							bind:saved
@@ -499,16 +473,16 @@
 								class="w-full flex items-center gap-4"
 							>
 
-								<div>{$_.linguistics.gender}</div>
+								<Label>{$_.linguistics.gender}</Label>
 
-								<div class="flex items-center gap-2">
+								<div class="flex items-center">
 									<RadioGroup.Item id="m" value={French.Gender.M}/>
-									<Label for="m">{$_.linguistics.abbr.masculine}</Label>
+									<Label class="pl-2" for="m">{$_.linguistics.abbr.masculine}</Label>
 								</div>
 
-								<div class="flex items-center gap-2">
+								<div class="flex items-center">
 									<RadioGroup.Item id="f" value={French.Gender.F}/>
-									<Label for="f">{$_.linguistics.abbr.feminine}</Label>
+									<Label class="pl-2" for="f">{$_.linguistics.abbr.feminine}</Label>
 								</div>
 
 							</RadioGroup.Root>
@@ -522,21 +496,21 @@
 								class="w-full flex items-center gap-4"
 							>
 
-								<div>{$_.linguistics.gender}</div>
+								<Label>{$_.linguistics.gender}</Label>
 
-								<div class="flex items-center gap-2">
+								<div class="flex items-center">
 									<RadioGroup.Item id="m" value={German.Gender.M}/>
-									<label for="m">{$_.linguistics.abbr.masculine}</label>
+									<label class="pl-2" for="m">{$_.linguistics.abbr.masculine}</label>
 								</div>
 
-								<div class="flex items-center gap-2">
+								<div class="flex items-center">
 									<RadioGroup.Item id="n" value={German.Gender.N}/>
-									<label for="n">{$_.linguistics.abbr.neutral}</label>
+									<label class="pl-2" for="n">{$_.linguistics.abbr.neutral}</label>
 								</div>
 
-								<div class="flex items-center gap-2">
+								<div class="flex items-center">
 									<RadioGroup.Item id="f" value={German.Gender.F}/>
-									<label for="f">{$_.linguistics.abbr.feminine}</label>
+									<label class="pl-2" for="f">{$_.linguistics.abbr.feminine}</label>
 								</div>
 
 							</RadioGroup.Root>
@@ -550,6 +524,7 @@
 								<InputFurigana
 									text={word.word}
 									bind:value={word.furi}
+									onchange={() => saved = false}
 								/>
 
 							</div>
@@ -563,26 +538,26 @@
 									class="w-full flex items-center gap-4"
 								>
 
-									<div>{$_.linguistics.verb_group}</div>
+									<Label>{$_.linguistics.verb_group}</Label>
 
-									<div class="flex items-center gap-2">
+									<div class="flex items-center">
 										<RadioGroup.Item id="jvt-c-{i}" value={Japanese.VerbType.Consonant}/>
-										<Label for="jvt-c-{i}">1</Label>
+										<Label class="pl-2" for="jvt-c-{i}">1</Label>
 									</div>
 
-									<div class="flex items-center gap-2">
+									<div class="flex items-center">
 										<RadioGroup.Item id="jvt-v-{i}" value={Japanese.VerbType.Vowel}/>
-										<Label for="jvt-v-{i}">2</Label>
+										<Label class="pl-2" for="jvt-v-{i}">2</Label>
 									</div>
 
-									<div class="flex items-center gap-2">
+									<div class="flex items-center">
 										<RadioGroup.Item id="jvt-n-{i}" value={Japanese.VerbType.Noun}/>
-										<Label for="jvt-n-{i}">3</Label>
+										<Label class="pl-2" for="jvt-n-{i}">3</Label>
 									</div>
 
-									<div class="flex items-center gap-2">
+									<div class="flex items-center">
 										<RadioGroup.Item id="jvt-ir-{i}" value={Japanese.VerbType.Irregular}/>
-										<Label for="jvt-ir-{i}">?</Label>
+										<Label class="pl-2" for="jvt-ir-{i}">?</Label>
 									</div>
 
 								</RadioGroup.Root>
@@ -629,14 +604,53 @@
 					{#if showWordOperations}
 						<div class="w-full flex gap-2">
 
-							<Button onclick={() => MoveUp(i)} disabled={i === 0}
-									  class="flex-1" variant="secondary">
+							<Button
+								onclick={() => MoveUp(i)} disabled={i === 0}
+								class="flex-1" variant="secondary"
+								title={$_.editor.move_up}
+							>
 								<MoveUpIcon/>
 								{$_.editor.move_up}
 							</Button>
 
-							<Button onclick={() => MoveDown(i)} disabled={i === words.length - 1}
-									  class="flex-1" variant="secondary">
+							<DropdownMenu.Root>
+
+								<DropdownMenu.Trigger>
+									{#snippet child({props})}
+										<Button {...props} variant="secondary">
+											<Ellipsis/>
+											{$_.more}
+										</Button>
+									{/snippet}
+								</DropdownMenu.Trigger>
+
+								<DropdownMenu.Content>
+
+									<DropdownMenu.Item
+										onclick={() => $Speak(word)}
+										disabled={!CanSpeak(word.type)}
+									>
+										<Speech/>
+										{$_.learn.speak}
+									</DropdownMenu.Item>
+
+									<DropdownMenu.Item
+										onclick={() => DeleteWord(i)}
+										variant="destructive"
+									>
+										<Trash2/>
+										{$_.delete}
+									</DropdownMenu.Item>
+
+								</DropdownMenu.Content>
+
+							</DropdownMenu.Root>
+
+							<Button
+								onclick={() => MoveDown(i)} disabled={i === words.length - 1}
+								class="flex-1" variant="secondary"
+								title={$_.editor.move_down}
+							>
 								<MoveDownIcon/>
 								{$_.editor.move_down}
 							</Button>
@@ -645,6 +659,7 @@
 					{/if}
 
 				</Card.Content>
+
 			</Card.Root>
 
 		{/each}

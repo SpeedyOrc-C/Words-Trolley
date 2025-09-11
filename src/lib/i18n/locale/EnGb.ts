@@ -134,6 +134,11 @@ const EnGb: I18nTemplate = {
 			join_3: "Join three glyphs",
 			join_4: "Join four glyphs",
 		},
+		furigana_editor: {
+			merge_into_above: "Merge into above",
+			merge_into_below: "Merge into below",
+			split: "Split",
+		},
 	},
 	WordType: {
 		Simple: "Simple",

@@ -20,7 +20,8 @@
 <script lang="ts">
 	import {Button} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
-	import {FuriganaTemplateFromWord} from "$lib/word/japanese"
+	import {type Furigana, FuriganaTemplateFromWord} from "$lib/word/japanese"
+	import {_} from "$lib/i18n"
 
 	import SeparatorHorizontal from "@lucide/svelte/icons/separator-horizontal"
 	import ArrowUpToLine from "@lucide/svelte/icons/arrow-up-to-line"
@@ -29,9 +30,11 @@
 	let {
 		text,
 		value = $bindable([]),
+		onchange,
 	}: {
 		text: string
 		value: [number, number, string][] // start, length, furi (partial)
+		onchange?: (value: Furigana) => void
 	} = $props()
 
 	$effect(() =>
@@ -45,6 +48,7 @@
 			)
 
 			value = FuriganaTemplateFromWord(text)
+			onchange?.(value)
 		}
 	})
 
@@ -58,6 +62,7 @@
 		const furi = value[i - 1][2] + value[i][2]
 
 		value.splice(i - 1, 2, [start, length, furi])
+		onchange?.(value)
 	}
 
 	function MergeIntoBelow(i: number)
@@ -70,6 +75,7 @@
 		const furi = value[i][2] + value[i + 1][2]
 
 		value.splice(i, 2, [start, length, furi])
+		onchange?.(value)
 	}
 
 	function Split(i: number)
@@ -85,6 +91,7 @@
 		mid[0][2] = value[i][2]
 
 		value = [...head, ...mid, ...tail]
+		onchange?.(value)
 	}
 </script>
 
@@ -98,12 +105,13 @@
 				{text.slice(start, start + length)}
 			</div>
 
-			<Input class="flex-1" bind:value={value[i][2]}/>
+			<Input class="flex-1" bind:value={value[i][2]} onchange={() => onchange?.(value)}/>
 
 			<Button
 				size="icon" variant="outline"
 				onclick={() => MergeIntoAbove(i)}
 				disabled={i === 0}
+				title={$_.editor.furigana_editor.merge_into_above}
 			>
 				<ArrowUpToLine/>
 			</Button>
@@ -112,6 +120,7 @@
 				size="icon" variant="outline"
 				onclick={() => MergeIntoBelow(i)}
 				disabled={i === value.length - 1}
+				title={$_.editor.furigana_editor.merge_into_below}
 			>
 				<ArrowDownToLine/>
 			</Button>
@@ -120,6 +129,7 @@
 				size="icon" variant="outline"
 				onclick={() => Split(i)}
 				disabled={length === 1}
+				title={$_.editor.furigana_editor.split}
 			>
 				<SeparatorHorizontal/>
 			</Button>

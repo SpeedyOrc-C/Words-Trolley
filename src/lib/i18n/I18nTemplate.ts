@@ -134,6 +134,11 @@ export type I18nTemplate = {
 			join_3: s
 			join_4: s
 		}
+		furigana_editor: {
+			merge_into_above: s
+			merge_into_below: s
+			split: s
+		}
 	}
 	WordType: {
 		Simple: s

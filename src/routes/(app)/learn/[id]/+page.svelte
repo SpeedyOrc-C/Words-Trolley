@@ -165,27 +165,35 @@
 
 		{:else if word.type === WordType.Mandarin}
 
-			<div class="select-all" lang={LangFromWord(word)} style="font-size: 1rem">
+			<div class="select-all text-5xl" lang={LangFromWord(word)}>
 				{#each word.word as char, i}
-					<ruby class="text-5xl">
-						{char}
-						<rt>{RenderMandarinSyllable(word.syllables[i])}</rt>
+					<ruby>
+						{char}<rt>{RenderMandarinSyllable(word.syllables[i])}</rt>
 					</ruby>
+				{/each}
+			</div>
+
+		{:else if word.type === WordType.Japanese}
+
+			<div class="select-all text-5xl" lang={LangFromWord(word)}>
+				{#each word.furi as [start, length, furi]}
+					{#if furi.length === 0}
+						{word.word.slice(start, start + length)}
+					{:else}
+						<ruby>
+							{word.word.slice(start, start + length)}<rt>{furi}</rt>
+						</ruby>
+					{/if}
 				{/each}
 			</div>
 
 		{:else if word.type === WordType.Egyptian}
 
-			<div class="flex flex-col items-center gap-4">
-
-				<div class="text-5xl" lang="egy">
+			<div class="text-5xl" lang="egy">
+				<ruby>
 					<EgyptianText t={word.word}/>
-				</div>
-
-				<code class="text-4xl">
-					{word.trans.map(x => $preferredEgyptianTransliterationDumper[x]).join("")}
-				</code>
-
+					<rt>{word.trans.map(x => $preferredEgyptianTransliterationDumper[x]).join("")}</rt>
+				</ruby>
 			</div>
 
 		{:else}
@@ -226,7 +234,12 @@
 
 <style>
 	@reference "tailwindcss";
+
 	rt {
-		@apply px-1 text-xl;
+		@apply select-none px-1;
+
+		div[lang="egy"] & {
+			@apply pb-4 font-mono text-4xl;
+		}
 	}
 </style>

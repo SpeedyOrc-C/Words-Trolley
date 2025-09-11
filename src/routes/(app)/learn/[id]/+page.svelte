@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {LangFromWord, type Word, WordType} from "$lib"
+	import {CanSpeak, LangFromWord, type Word, WordType} from "$lib"
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_, Language, language} from "$lib/i18n"
@@ -168,7 +168,7 @@
 			<div class="select-all text-5xl" lang={LangFromWord(word)}>
 				{#each word.word as char, i}
 					<ruby>
-						{char}<rt>{RenderMandarinSyllable(word.syllables[i])}</rt>
+						<span>{char}</span><rt>{RenderMandarinSyllable(word.syllables[i])}</rt>
 					</ruby>
 				{/each}
 			</div>
@@ -181,7 +181,7 @@
 						{word.word.slice(start, start + length)}
 					{:else}
 						<ruby>
-							{word.word.slice(start, start + length)}<rt>{furi}</rt>
+							<span>{word.word.slice(start, start + length)}</span><rt>{furi}</rt>
 						</ruby>
 					{/if}
 				{/each}
@@ -211,7 +211,12 @@
 <div class="w-full p-3 flex flex-col gap-3" id="control">
 
 	<div class="flex gap-3">
-		<Button class="h-24 text-xl flex-1" onclick={() => $Speak(word)} variant="secondary">
+		<Button
+			class="h-24 text-xl flex-1"
+			disabled={! CanSpeak(word.type)}
+			onclick={() => $Speak(word)}
+			variant="secondary"
+		>
 			{$_.learn.speak}
 		</Button>
 

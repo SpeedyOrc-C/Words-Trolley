@@ -8,12 +8,13 @@
 	import * as RadioGroup from "$lib/components/ui/radio-group"
 	import {Label} from "$lib/components/ui/label"
 	import {settings} from "$lib/settings/store"
-	import {preferredEgyptianTransliterationDumper} from "$lib/settings/store/egyptian"
-	import {Phoneme} from "$lib/word/egyptian"
+	import {egyptianTransliterationSampleText} from "$lib/settings/store/egyptian"
+	import {mandarinSpellingSampleText} from "$lib/settings/store/mandarin"
 	import Languages from "@lucide/svelte/icons/languages"
 	import {voices} from "$lib/speak"
 	import {Checkbox} from "$lib/components/ui/checkbox"
 	import {g, v, h} from "$lib/word/egyptian/hieroglyphs"
+	import Settings from "@lucide/svelte/icons/settings";
 
 	let {open = $bindable(false)}: { open: boolean } = $props()
 	let newSettings = $state($settings)
@@ -58,8 +59,11 @@
 	<Dialog.Content class="max-h-1/1 overflow-y-auto">
 
 		<Dialog.Header>
-			<Dialog.Title>
-				{$_.settings._}
+			<Dialog.Title class="flex items-center gap-2">
+				<Settings/>
+				<div class="text-2xl">
+					{$_.settings._}
+				</div>
 			</Dialog.Title>
 		</Dialog.Header>
 
@@ -114,13 +118,8 @@
 							value={MandarinScript.Pinyin}
 						/>
 
-						<Label class="pl-2 flex flex-col items-center" for="set-mandarin-script-pinyin">
-							<div>
-								{$_.linguistics.pinyin}
-							</div>
-							<div style="font-size: 1.25em">
-								pīn yīn
-							</div>
+						<Label class="pl-2" for="set-mandarin-script-pinyin">
+							{$_.linguistics.pinyin}
 						</Label>
 
 					</div>
@@ -132,18 +131,17 @@
 							value={MandarinScript.Bopomofo}
 						/>
 
-						<Label class="pl-2 flex flex-col items-center" for="set-mandarin-script-bopomofo">
-							<div>
-								{$_.linguistics.bopomofo}
-							</div>
-							<div style="font-size: 1.25em">
-								ㄓㄨˋ ㄧㄣ
-							</div>
+						<Label class="pl-2" for="set-mandarin-script-bopomofo">
+							{$_.linguistics.bopomofo}
 						</Label>
 
 					</div>
 
 				</RadioGroup.Root>
+
+				<div class="text-2xl text-center">
+					{$mandarinSpellingSampleText}
+				</div>
 
 			</section>
 
@@ -202,8 +200,7 @@
 				</RadioGroup.Root>
 
 				<code class="text-2xl text-center">
-					{([Phoneme.a, Phoneme.e, Phoneme.b, Phoneme.t, Phoneme.c, Phoneme.d, Phoneme.j])
-                   .map(x => $preferredEgyptianTransliterationDumper[x]).join("")}
+					{$egyptianTransliterationSampleText}
 				</code>
 
 			</section>

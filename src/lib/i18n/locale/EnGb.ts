@@ -173,6 +173,9 @@ const EnGb: I18nTemplate = {
 			us: "United States",
 		}
 	},
+	japanese: {
+		furigana: "Furigana",
+	},
 	egyptian: {
 		identity: "Identity",
 		egyptology: "Egyptology",

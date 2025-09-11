@@ -1,5 +1,6 @@
 import {EgyptianTransliteration} from "$lib/settings"
 import {settings} from "$lib/settings/store"
+import {Phoneme} from "$lib/word/egyptian"
 import {pAsciiChen, Phoneme2AsciiChen} from "$lib/word/egyptian/transliteration/ascii-chen"
 import {pAsciiMdc, Phoneme2AsciiMdc} from "$lib/word/egyptian/transliteration/ascii-mdc"
 import {pEgyptology, Phoneme2Egyptology} from "$lib/word/egyptian/transliteration/egyptology"
@@ -23,3 +24,9 @@ export const preferredEgyptianTransliterationParser =
 
 export const preferredEgyptianTransliterationDumper =
 	derived(settings, s => TransliterationDumperOf[s.EgyptianTransliteration])
+
+export const egyptianTransliterationSampleText =
+	derived(preferredEgyptianTransliterationDumper, f => [
+		Phoneme.a, Phoneme.e, Phoneme.b, Phoneme.t,
+		Phoneme.c, Phoneme.d, Phoneme.j,
+	].map(x => f[x]).join(""))

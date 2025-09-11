@@ -173,6 +173,9 @@ export type I18nTemplate = {
 			us: s
 		}
 	}
+	japanese: {
+		furigana: s
+	}
 	egyptian: {
 		identity: s
 		egyptology: s

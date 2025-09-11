@@ -200,7 +200,7 @@
 	}
 </script>
 
-<div class="flex flex-col gap-2">
+<div class="flex flex-col gap-1">
 
 	<div
 		class="p-2 flex flex-wrap overflow-x-auto outline-1 rounded-md cursor-text"
@@ -226,7 +226,7 @@
 		{/if}
 	</div>
 
-	<div class="relative flex gap-2">
+	<div class="relative flex gap-1">
 
 		<Input
 			aria-invalid={imeInputError}
@@ -275,7 +275,7 @@
 
 		{#if imeWords.length > 0}
 
-			<div class="flex flex-wrap gap-2">
+			<div class="flex flex-wrap gap-1">
 				{#each imeWords as hie, i (hie)}
 					<Button
 						onclick={() => Execute("insert", hie)}
@@ -296,7 +296,7 @@
 
 			<div></div>
 
-			<div class="flex gap-2">
+			<div class="flex gap-1">
 
 				<Button disabled size="icon" variant="outline" title={$_.editor.hieroglyphs_editor.make_ligature}>
 					<Blend/>

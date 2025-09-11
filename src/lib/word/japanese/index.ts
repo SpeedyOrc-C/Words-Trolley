@@ -4,6 +4,13 @@ export enum Category
 	Verb = "verb",
 }
 
+export type Furigana =
+	[
+		number, // start index
+		number, // length
+		string, // furigana
+	][]
+
 export enum Mora
 {
 	A = "あ", I = "い", U = "う", E = "え", O = "お",
@@ -84,4 +91,44 @@ export function VerbTypeFromRecursiveForm(word: string): VerbType | null
 		return VerbType.Consonant
 
 	return null
+}
+
+export function IsCJKV(c: string): boolean
+{
+	const code = c.charCodeAt(0)
+
+	return (0x4E00 <= code && code <= 0x9FFF) || // CJK Unified Ideographs
+		(0x3400 <= code && code <= 0x4DBF) || // CJK Unified Ideographs Extension A
+		(0x20000 <= code && code <= 0x2A6DF) || // CJK Unified Ideographs Extension B
+		(0x2A700 <= code && code <= 0x2B73F) || // CJK Unified Ideographs Extension C
+		(0x2B740 <= code && code <= 0x2B81F) || // CJK Unified Ideographs Extension D
+		(0x2B820 <= code && code <= 0x2CEAF) || // CJK Unified Ideographs Extension E
+		(0xF900 <= code && code <= 0xFAFF) || // CJK Compatibility Ideographs
+		(0x2F800 <= code && code <= 0x2FA1F) // CJK Compatibility Ideographs Supplement
+}
+
+export function FuriganaTemplateFromWord(word: string): Furigana
+{
+	const result: Furigana = []
+
+	for (let i = 0; i < word.length;)
+	{
+		if (IsCJKV(word[i]))
+		{
+			result.push([i, 1, ""])
+			i += 1
+		}
+		else
+		{
+			let j = i + 1
+
+			for (; j < word.length && ! IsCJKV(word[j]); j += 1)
+			{}
+
+			result.push([i, j - i, ""])
+			i = j
+		}
+	}
+
+	return result
 }

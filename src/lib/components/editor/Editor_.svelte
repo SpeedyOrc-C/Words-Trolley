@@ -1,13 +1,14 @@
 <script lang="ts">
-	import {blankWordFromType, blankWordSimple, WordType, LangFromWord, type Word, UsesStringInput, CanSpeak} from "$lib"
+	import {blankWordFromType, blankWordSimple, WordType, LangFromWord, UsesStringInput, CanSpeak} from "$lib"
 	import InputEgyptianTransliteration from "$lib/components/InputEgyptianTransliteration.svelte"
+	import InputFurigana from "$lib/components/InputFurigana.svelte"
 	import type {Json} from "$lib/database.types"
 	import {goto} from "$app/navigation"
 	import InputEgyptianHieroglyphs from "$lib/components/editor/InputEgyptianHieroglyphs.svelte"
 	import {_} from "$lib/i18n"
 	import {settings, settingsOpened} from "$lib/settings/store"
 	import {French, German, Japanese} from "$lib/word"
-	import {VerbTypeFromRecursiveForm} from "$lib/word/japanese"
+	import {FuriganaTemplateFromWord, VerbTypeFromRecursiveForm} from "$lib/word/japanese"
 	import InputPinyinLight from "$lib/components/InputPinyinLight.svelte"
 	import SelectWordAndTheirExtras from "$lib/components/editor/SelectWordAndTheirExtras.svelte"
 	import type {EditorProps} from "$lib/components/editor/Editor.svelte"
@@ -257,7 +258,7 @@
 		name = newName
 	}
 
-	function OnWordChange(_: Event, i: number)
+	function OnWordChange(e: Event & { currentTarget: HTMLInputElement }, i: number)
 	{
 		saved = false
 
@@ -267,6 +268,9 @@
 		{
 		case WordType.Japanese:
 		{
+			word.word = e.currentTarget.value
+			word.furi = FuriganaTemplateFromWord(e.currentTarget.value)
+
 			switch (word.category)
 			{
 			case Japanese.Category.Verb:
@@ -279,7 +283,13 @@
 				break
 			}
 			}
+			break
 		}
+		case WordType.Egyptian:
+			break
+		default:
+			word.word = e.currentTarget.value
+			break
 		}
 	}
 
@@ -290,10 +300,18 @@
 		saved = false
 	}
 
-	function SetAllCardsTypes(card: WordType)
+	function SetAllCardsTypes(newType: WordType)
 	{
-		words = words.map(({word, meaning}) =>
-			structuredClone({...blankWordFromType[card], word, meaning}) as Word)
+		words = words.map(w =>
+		{
+			if (w.type == newType)
+				return w
+
+			if (w.type == WordType.Egyptian || newType == WordType.Egyptian)
+				return structuredClone({...blankWordFromType[WordType.Egyptian], meaning: w.meaning})
+
+			return structuredClone({...blankWordFromType[newType], word: w.word, meaning: w.meaning})
+		})
 
 		saved = false
 	}
@@ -427,7 +445,7 @@
 
 							{#if UsesStringInput(word.type)}
 								<Input
-									type="text" bind:value={word.word}
+									type="text" value={word.word}
 									onfocusin={() => typing = true}
 									onfocusout={() => typing = false}
 									onchange={e => OnWordChange(e, i)}
@@ -466,7 +484,11 @@
 
 					{#if showExtraOptions}
 
-						<SelectWordAndTheirExtras bind:saved bind:word={words[i]} {i} onchange={w => words[i] = w}/>
+						<SelectWordAndTheirExtras
+							bind:saved
+							bind:word={words[i]}
+							onchange={w => words[i] = w}
+						/>
 
 						{#if word.type === WordType.French && word.category === French.Category.Noun}
 
@@ -519,38 +541,53 @@
 
 							</RadioGroup.Root>
 
-						{:else if word.type === WordType.Japanese && word.category === Japanese.Category.Verb}
+						{:else if word.type === WordType.Japanese}
 
-							<RadioGroup.Root
-								bind:value={word.verb_type}
-								name="jvt-{i}"
-								onValueChange={() => saved = false}
-								class="w-full flex items-center gap-4"
-							>
+							<div class="flex flex-col gap-2">
 
-								<div>{$_.linguistics.verb_group}</div>
+								<Label>{$_.japanese.furigana}</Label>
 
-								<div class="flex items-center gap-2">
-									<RadioGroup.Item id="jvt-c-{i}" value={Japanese.VerbType.Consonant}/>
-									<Label for="jvt-c-{i}">1</Label>
-								</div>
+								<InputFurigana
+									text={word.word}
+									bind:value={word.furi}
+								/>
 
-								<div class="flex items-center gap-2">
-									<RadioGroup.Item id="jvt-v-{i}" value={Japanese.VerbType.Vowel}/>
-									<Label for="jvt-v-{i}">2</Label>
-								</div>
+							</div>
 
-								<div class="flex items-center gap-2">
-									<RadioGroup.Item id="jvt-n-{i}" value={Japanese.VerbType.Noun}/>
-									<Label for="jvt-n-{i}">3</Label>
-								</div>
+							{#if word.category === Japanese.Category.Verb}
 
-								<div class="flex items-center gap-2">
-									<RadioGroup.Item id="jvt-ir-{i}" value={Japanese.VerbType.Irregular}/>
-									<Label for="jvt-ir-{i}">?</Label>
-								</div>
+								<RadioGroup.Root
+									bind:value={word.verb_type}
+									name="jvt-{i}"
+									onValueChange={() => saved = false}
+									class="w-full flex items-center gap-4"
+								>
 
-							</RadioGroup.Root>
+									<div>{$_.linguistics.verb_group}</div>
+
+									<div class="flex items-center gap-2">
+										<RadioGroup.Item id="jvt-c-{i}" value={Japanese.VerbType.Consonant}/>
+										<Label for="jvt-c-{i}">1</Label>
+									</div>
+
+									<div class="flex items-center gap-2">
+										<RadioGroup.Item id="jvt-v-{i}" value={Japanese.VerbType.Vowel}/>
+										<Label for="jvt-v-{i}">2</Label>
+									</div>
+
+									<div class="flex items-center gap-2">
+										<RadioGroup.Item id="jvt-n-{i}" value={Japanese.VerbType.Noun}/>
+										<Label for="jvt-n-{i}">3</Label>
+									</div>
+
+									<div class="flex items-center gap-2">
+										<RadioGroup.Item id="jvt-ir-{i}" value={Japanese.VerbType.Irregular}/>
+										<Label for="jvt-ir-{i}">?</Label>
+									</div>
+
+								</RadioGroup.Root>
+
+							{/if}
 
 						{:else if word.type === WordType.Mandarin}
 

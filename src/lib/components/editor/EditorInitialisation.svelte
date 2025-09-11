@@ -67,7 +67,6 @@
 					</Button>
 				{/if}
 
-
 			</div>
 
 			<div class="flex flex-col gap-2">
@@ -88,7 +87,6 @@
 						{$_.editor.initialisation.set_all_languages._}
 					</Button>
 				{/if}
-
 
 			</div>
 

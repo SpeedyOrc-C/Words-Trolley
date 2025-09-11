@@ -66,7 +66,7 @@ export type JapaneseWord = {
 	type: WordType.Japanese
 	word: string
 	category: Japanese.Category.Word
-	morae: Japanese.Mora[][]
+	furi: [number, number, string][]
 	tone: number
 }
 
@@ -74,7 +74,7 @@ export type JapaneseVerb = {
 	type: WordType.Japanese
 	word: string
 	category: Japanese.Category.Verb
-	morae: Japanese.Mora[][]
+	furi: [number, number, string][]
 	tone: number
 	verb_type: Japanese.VerbType
 }
@@ -153,7 +153,7 @@ const blankWordJapanese: Word = {
 	word: "",
 	type: WordType.Japanese,
 	category: Japanese.Category.Word,
-	morae: [],
+	furi: [],
 	tone: 0,
 }
 

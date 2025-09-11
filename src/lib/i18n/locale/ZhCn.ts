@@ -173,6 +173,9 @@ const ZhCn: I18nTemplate = {
 			us: "美利坚合众国",
 		}
 	},
+	japanese: {
+		furigana: "振假名",
+	},
 	egyptian: {
 		identity: "音形如一",
 		egyptology: "埃及学",

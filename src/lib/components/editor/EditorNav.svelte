@@ -77,7 +77,7 @@
 	}
 </script>
 
-<div class="sticky top-0 p-2 z-10 flex gap-2 md:gap-4 backdrop-blur-sm" id="editor-nav">
+<div class="sticky top-0 p-2 z-10 flex gap-2 backdrop-blur-sm" id="editor-nav">
 
 	<M.Root class="grow">
 

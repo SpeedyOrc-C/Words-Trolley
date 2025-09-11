@@ -45,7 +45,7 @@
 	const freeHeight = $derived(lineHeight * fp)
 	const height = $derived(`${freeHeight}px`)
 
-	const [struct, arg] = hie
+	const [struct, arg] = $derived(hie)
 </script>
 
 {#if struct === Structure.G}

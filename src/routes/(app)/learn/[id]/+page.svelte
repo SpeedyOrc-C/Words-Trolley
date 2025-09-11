@@ -99,8 +99,6 @@
 			break
 		}
 	}
-
-	$inspect(word)
 </script>
 
 <svelte:window onkeydown={onkeydown}/>
@@ -178,20 +176,17 @@
 
 		{:else if word.type === WordType.Egyptian}
 
-			<!-- TODO: Weird #key usage -->
-			{#key word}
-				<div class="flex flex-col items-center gap-4">
+			<div class="flex flex-col items-center gap-4">
 
-					<div class="text-5xl" lang="egy">
-						<EgyptianText t={word.word}/>
-					</div>
-
-					<code class="text-4xl">
-						{word.trans.map(x => $preferredEgyptianTransliterationDumper[x]).join("")}
-					</code>
-
+				<div class="text-5xl" lang="egy">
+					<EgyptianText t={word.word}/>
 				</div>
-			{/key}
+
+				<code class="text-4xl">
+					{word.trans.map(x => $preferredEgyptianTransliterationDumper[x]).join("")}
+				</code>
+
+			</div>
 
 		{:else}
 

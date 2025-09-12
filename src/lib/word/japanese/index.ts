@@ -97,14 +97,14 @@ export function IsCJKV(c: string): boolean
 {
 	const code = c.charCodeAt(0)
 
-	return (0x4E00 <= code && code <= 0x9FFF) || // CJK Unified Ideographs
-		(0x3400 <= code && code <= 0x4DBF) || // CJK Unified Ideographs Extension A
-		(0x20000 <= code && code <= 0x2A6DF) || // CJK Unified Ideographs Extension B
-		(0x2A700 <= code && code <= 0x2B73F) || // CJK Unified Ideographs Extension C
-		(0x2B740 <= code && code <= 0x2B81F) || // CJK Unified Ideographs Extension D
-		(0x2B820 <= code && code <= 0x2CEAF) || // CJK Unified Ideographs Extension E
-		(0xF900 <= code && code <= 0xFAFF) || // CJK Compatibility Ideographs
-		(0x2F800 <= code && code <= 0x2FA1F) // CJK Compatibility Ideographs Supplement
+	return (0x4E00 <= code && code <= 0x9FFF) ||
+		(0x3400 <= code && code <= 0x4DBF) || // Extension A
+		(0x20000 <= code && code <= 0x2A6DF) || // Extension B
+		(0x2A700 <= code && code <= 0x2B73F) || // Extension C
+		(0x2B740 <= code && code <= 0x2B81F) || // Extension D
+		(0x2B820 <= code && code <= 0x2CEAF) || // Extension E
+		(0xF900 <= code && code <= 0xFAFF) || // Compatibility
+		(0x2F800 <= code && code <= 0x2FA1F) // Compatibility Supplement
 }
 
 export function FuriganaTemplateFromWord(word: string): Furigana

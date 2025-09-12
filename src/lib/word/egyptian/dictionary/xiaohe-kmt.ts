@@ -16,7 +16,7 @@ Original Xiaohe Yinxing scheme: https://flypy.cc/help/#/zg
 import {g, type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
 
 const XiaoheKmt: Record<string, string[]> = {
-	"Q": ["𓂸", "𓄛"], // 且 犬
+	"Q": ["𓂸", "𓄛", "𓃠"], // 且 犬
 	"W": ["𓀯"], // 王
 	"E": ["𓈉", "𓅪"], // 山 恶 # “山”自像大写字母 E
 	"R": ["𓀀", "𓄹"], // 人 肉

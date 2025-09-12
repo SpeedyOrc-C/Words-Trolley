@@ -185,6 +185,14 @@ export type I18nTemplate = {
 		identity: s
 		egyptology: s
 		transliteration: s
+		typewriter: {
+			title: s
+			height: s
+			custom_text_colour: s
+			hide_cursor: s
+			hide_input_border: s
+			hide_controls: s
+		}
 	}
 	stack: {
 		vertical: s

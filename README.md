@@ -6,29 +6,30 @@ A flashcard app that just works.
 
 Unlike other apps, you can add language-specific information to each word:
 
+### Japanese
+
+* Add furigana（振り仮名）for each word.
+* Specify verb's group. (Although it can be deduced in most cases.)
+
 ### French
 
-You can add gender for nouns.
+* Specify noun's gender.
 
 ### German
 
-You can add gender for nouns.
+* Specify noun's gender.
 
 ### Mandarin
 
-You can add pronunciation for each word.
-Supports both Pinyin and Bopomofo (Zhuyin).
-You only type one of them, and get the other one automatically.
+* Add Pinyin（拼音）or Bopomofo（注音）for each word.
 
 ### Egyptian
 
-We have a dedicated system for typing Hieroglyphs without referring to any Gardiner's signs.
-
-The sound based IME supports transliteration schemes from:
-
-- Manuel de Codage
-- Gardiner
-- Me?
+* Enter hieroglyphs like a breeze using our dedicated IME.
+* Add transliteration for each word, supports schemes from:
+  * Manuel de Codage
+  * Gardiner
+  * Me?
 
 ## Get Involved
 

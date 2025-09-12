@@ -185,6 +185,14 @@ const EnGb: I18nTemplate = {
 		identity: "Identity",
 		egyptology: "Egyptology",
 		transliteration: "Egyptian transliteration",
+		typewriter: {
+			title: "Egyptian Hieroglyphs Typewriter",
+			height: "Height",
+			custom_text_colour: "Custom text colour",
+			hide_cursor: "Hide cursor",
+			hide_input_border: "Hide input border",
+			hide_controls: "Hide controls",
+		},
 	},
 	stack: {
 		vertical: "Vertical",

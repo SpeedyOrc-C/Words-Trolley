@@ -1,9 +1,12 @@
+<script lang="ts" module>
+	const joinCounts = [2, 3, 4] as const
+</script>
+
 <script lang="ts">
 	import {Button} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
 	import {_} from "$lib/i18n"
 	import {preferredEgyptianTransliterationParser} from "$lib/settings/store/egyptian"
-	import type {Phoneme} from "$lib/word/egyptian"
 	import {CandidatesFromPhonemes} from "$lib/word/egyptian/dictionary"
 	import {CandidatesFromXiaoheKmt} from "$lib/word/egyptian/dictionary/xiaohe-kmt"
 	import {
@@ -27,16 +30,25 @@
 
 	let {
 		value = $bindable([]),
-		onchange
+		onchange,
+		hideCursor = false,
+		hideInputBorder = false,
+		hideControls = false,
+		color = "inherit",
+		height = 48,
 	}: {
 		value?: Hieroglyphs[]
 		onchange?: (hie: Hieroglyphs[]) => void
+		hideCursor?: boolean
+		hideInputBorder?: boolean
+		hideControls?: boolean
+		color?: string
+		height?: number
 	} = $props()
 
 	let s: HieroglyphsEditorState = $state({cursor: value.length, content: value})
 	let os: OperationState = $state("idle")
 	let imeInputRaw = $state("")
-	let imeInput: Phoneme[] = $state([])
 	let imeInputError = $state(false)
 	let imeWords: Hieroglyphs[] = $state([])
 
@@ -69,7 +81,6 @@
 		{
 			Execute("insert", g("𓏤"))
 			imeInputRaw = ""
-			imeInput = []
 			imeInputError = false
 			return
 		}
@@ -85,7 +96,6 @@
 				{
 					Execute("row", count)
 					imeInputRaw = ""
-					imeInput = []
 					imeInputError = false
 				}
 				else
@@ -108,7 +118,6 @@
 				{
 					Execute("column", count)
 					imeInputRaw = ""
-					imeInput = []
 					imeInputError = false
 				}
 				else
@@ -137,7 +146,6 @@
 		else
 		{
 			imeInputError = false
-			imeInput = newImeInput
 			imeWords = CandidatesFromPhonemes(newImeInput)
 		}
 	}
@@ -177,7 +185,6 @@
 
 			Execute("insert", imeWords[0])
 			imeInputRaw = ""
-			imeInput = []
 			imeWords = []
 			imeInputError = false
 		}
@@ -192,7 +199,6 @@
 				e.preventDefault()
 				Execute("insert", imeWords[digit - 1])
 				imeInputRaw = ""
-				imeInput = []
 				imeWords = []
 				imeInputError = false
 			}
@@ -203,39 +209,34 @@
 <div class="flex flex-col gap-1">
 
 	<div
-		class="p-2 flex flex-wrap overflow-x-auto outline-1 rounded-md cursor-text"
-		onclick={() => Execute("jump", s.content.length)}
-		style:min-height="48px"
+		class="p-2 flex flex-wrap overflow-x-auto rounded-md cursor-text"
+		class:outline-1={!hideInputBorder}
+		style:color
+		style:gap="{height / 3}px"
 	>
 		{#each s.content as hie, i ([hie])}
-			{#if i === s.cursor}
-				<div class="w-0.5 mx-1.75 h-12 bg-yellow-600/50"></div>
-			{:else}
-				<div class="w-4 h-12"
-					  onclick={e => { e.stopPropagation(); Execute("jump", i) }}></div>
-			{/if}
-			<div style:height="48px"
-				  onclick={e => { e.stopPropagation(); Execute("jump", i) }}>
-				<RenderEgyptianText {hie} lineHeight={48}/>
+			<div class="relative" style:height="{height}px">
+				<RenderEgyptianText {hie} lineHeight={height}/>
+				{#if !hideCursor && i === 0 && 0 === s.cursor}
+					<div class="cursor left-0"></div>
+				{/if}
+				{#if !hideCursor && i === s.cursor - 1}
+					<div class="cursor right-0"></div>
+				{/if}
 			</div>
 		{/each}
-		{#if s.content.length === s.cursor}
-			<div class="w-0.5 mx-1.75 h-12 bg-yellow-600/50"></div>
-		{:else}
-			<div class="w-4 h-12"></div>
-		{/if}
 	</div>
 
-	<div class="relative flex gap-1">
+	<div class="relative flex gap-1" class:hidden={hideControls}>
 
 		<Input
 			aria-invalid={imeInputError}
 			autocapitalize="off"
 			autocomplete="off"
 			autocorrect="off"
-			name={$_.editor.hieroglyphs_editor.ime_buffer}
 			bind:value={imeInputRaw}
 			class="font-mono"
+			name={$_.editor.hieroglyphs_editor.ime_buffer}
 			oninput={OnImeInput}
 			onkeydown={OnImeKeyDown}
 			placeholder={$_.linguistics.transliteration}
@@ -271,7 +272,7 @@
 
 	</div>
 
-	<div class="flex flex-wrap justify-between">
+	<div class="flex flex-wrap justify-between" class:hidden={hideControls}>
 
 		{#if imeWords.length > 0}
 
@@ -327,7 +328,7 @@
 					<Rows2/>
 				</Button>
 
-				{#each [2, 3, 4] as count}
+				{#each joinCounts as count}
 					<Button
 						class="text-lg"
 						size="icon"
@@ -353,5 +354,22 @@
 
 	.egyptian {
 		@apply w-fit flex items-center flex-wrap select-none;
+	}
+
+	.cursor {
+		@apply absolute top-0 h-full w-0.5 bg-yellow-500;
+		animation: blink 1s step-start 0s infinite;
+	}
+
+	@keyframes blink {
+		0% {
+			opacity: 0;
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+		}
 	}
 </style>

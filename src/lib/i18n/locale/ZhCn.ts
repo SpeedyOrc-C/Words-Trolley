@@ -185,6 +185,14 @@ const ZhCn: I18nTemplate = {
 		identity: "音形如一",
 		egyptology: "埃及学",
 		transliteration: "埃及语转写",
+		typewriter: {
+			title: "圣书字打字机",
+			height: "高度",
+			custom_text_colour: "自定义文字颜色",
+			hide_cursor: "隐藏光标",
+			hide_input_border: "隐藏输入边框",
+			hide_controls: "隐藏控件",
+		},
 	},
 	stack: {
 		vertical: "上下",

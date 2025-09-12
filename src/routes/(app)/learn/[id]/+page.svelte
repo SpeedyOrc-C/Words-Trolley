@@ -29,7 +29,7 @@
 		{
 		case Language.ZhCn:
 			return `学习《${data.set.name}》中的单词。`
-		case Language.EnGb:
+		default:
 			return `Learn the words in ${data.set.name}.`
 		}
 	})

@@ -14,10 +14,12 @@
 		type Hieroglyphs, g, Structure,
 		ExecuteHieroglyphsEditorCommand,
 		type HieroglyphsEditorState,
-		type HieroglyphsEditCommand
+		type HieroglyphsEditCommand, DumpHieroglyphs
 	} from "$lib/word/egyptian/hieroglyphs"
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
-	import RenderEgyptianText from "$lib/components/RenderEgyptianText.svelte"
+	import RenderEgyptianHieroglyphs from "$lib/components/RenderEgyptianHieroglyphs.svelte"
+	import {pHieroglyphs} from "$lib/word/egyptian/hieroglyphs/parser"
+	import {toast} from "svelte-sonner"
 
 	import Columns2 from "@lucide/svelte/icons/columns-2"
 	import Rows2 from "@lucide/svelte/icons/rows-2"
@@ -26,6 +28,8 @@
 	import ArrowLeft from "@lucide/svelte/icons/arrow-left"
 	import ArrowRight from "@lucide/svelte/icons/arrow-right"
 	import Delete from "@lucide/svelte/icons/delete"
+	import Copy from "@lucide/svelte/icons/copy"
+	import ClipboardPaste from "@lucide/svelte/icons/clipboard-paste"
 
 	type OperationState = "idle" | "column" | "row"
 
@@ -49,7 +53,7 @@
 
 	let s: HieroglyphsEditorState = $state({cursor: value.length, content: value})
 	let os: OperationState = $state("idle")
-	let imeInputRaw = $state("")
+	let imeInput = $state("")
 	let imeInputError = $state(false)
 	let imeWords: Hieroglyphs[] = $state([])
 
@@ -70,42 +74,47 @@
 
 	function Execute(...command: HieroglyphsEditCommand)
 	{
-		s = ExecuteHieroglyphsEditorCommand(s, command)
-		value = s.content
-		onchange?.(s.content)
+		try
+		{
+			s = ExecuteHieroglyphsEditorCommand(s, command)
+			value = s.content
+			onchange?.(s.content)
+		}
+		catch (e)
+		{}
 	}
 
 	function OnImeInput()
 	{
 		// Insert the identity determinative: 𓏤
-		if (imeInputRaw == "|")
+		if (imeInput == "|")
 		{
 			Execute("insert", g("𓏤"))
-			imeInputRaw = ""
+			imeInput = ""
 			imeInputError = false
 			return
 		}
 
 		// Overlap 2 glyphs
-		if (imeInputRaw == "&")
+		if (imeInput == "&")
 		{
 			Execute("overlap")
-			imeInputRaw = ""
+			imeInput = ""
 			imeInputError = false
 			return
 		}
 
 		// Join glyphs horizontally
-		if (imeInputRaw.startsWith("-"))
+		if (imeInput.startsWith("-"))
 		{
-			if (imeInputRaw.length == 2)
+			if (imeInput.length == 2)
 			{
-				const count = parseInt(imeInputRaw[1])
+				const count = parseInt(imeInput[1])
 
 				if (! Number.isNaN(count))
 				{
 					Execute("row", count)
-					imeInputRaw = ""
+					imeInput = ""
 					imeInputError = false
 				}
 				else
@@ -118,16 +127,16 @@
 		}
 
 		// Join glyphs vertically
-		if (imeInputRaw.startsWith("="))
+		if (imeInput.startsWith("="))
 		{
-			if (imeInputRaw.length == 2)
+			if (imeInput.length == 2)
 			{
-				const count = parseInt(imeInputRaw[1])
+				const count = parseInt(imeInput[1])
 
 				if (! Number.isNaN(count))
 				{
 					Execute("column", count)
-					imeInputRaw = ""
+					imeInput = ""
 					imeInputError = false
 				}
 				else
@@ -141,18 +150,18 @@
 
 		// Query determinatives
 		// TODO: Add an English input scheme
-		if (imeInputRaw.startsWith(" "))
+		if (imeInput.startsWith(" "))
 		{
-			const input = imeInputRaw.substring(1, imeInputRaw.length).trim()
+			const input = imeInput.substring(1, imeInput.length).trim()
 			imeWords = CandidatesFromXiaoheKmt(input)
 			imeInputError = false
 			return
 		}
 
 		// Query numerical glyphs
-		if (imeInputRaw.startsWith("#"))
+		if (imeInput.startsWith("#"))
 		{
-			const input = imeInputRaw.substring(1, imeInputRaw.length).trim()
+			const input = imeInput.substring(1, imeInput.length).trim()
 			const number = parseInt(input)
 
 			if (Number.isNaN(number))
@@ -166,7 +175,7 @@
 			return
 		}
 
-		const newImeInput = $preferredEgyptianTransliterationParser.eval(imeInputRaw)
+		const newImeInput = $preferredEgyptianTransliterationParser.eval(imeInput)
 
 		if (newImeInput instanceof Error)
 			imeInputError = true
@@ -211,13 +220,13 @@
 			e.preventDefault()
 
 			Execute("insert", imeWords[0])
-			imeInputRaw = ""
+			imeInput = ""
 			imeWords = []
 			imeInputError = false
 		}
 
 		// Select other candidates with numbers
-		if (e.code.startsWith("Digit") && !imeInputRaw.startsWith("#"))
+		if (e.code.startsWith("Digit") && ! imeInput.startsWith("#"))
 		{
 			const digit = parseInt(e.code.substring(5))
 
@@ -225,11 +234,26 @@
 			{
 				e.preventDefault()
 				Execute("insert", imeWords[digit - 1])
-				imeInputRaw = ""
+				imeInput = ""
 				imeWords = []
 				imeInputError = false
 			}
 		}
+	}
+
+	async function PasteRawHieroglyphs()
+	{
+		const text = await navigator.clipboard.readText()
+		const value = pHieroglyphs.eval(text)
+
+		if (value instanceof Error)
+		{
+			toast.error($_.editor.hieroglyphs_editor.syntax_error)
+			return
+		}
+
+		Execute("replace", value)
+		toast.success($_.pasted)
 	}
 </script>
 
@@ -243,17 +267,17 @@
 	>
 		{#if s.content.length === 0}
 			<div class="relative" style:height="{height}px">
-				<div class="cursor left-0" class:hideCursor></div>
+				<div class="cursor bg-accent-foreground left-0" class:hideCursor></div>
 			</div>
 		{/if}
 		{#each s.content as hie, i ([hie])}
 			<div class="relative" style:height="{height}px">
-				<RenderEgyptianText {hie} lineHeight={height}/>
+				<RenderEgyptianHieroglyphs {hie} lineHeight={height}/>
 				{#if !hideCursor && i === 0 && 0 === s.cursor}
-					<div class="cursor left-0" class:hideCursor></div>
+					<div class="cursor bg-accent-foreground left-0" class:hideCursor></div>
 				{/if}
 				{#if !hideCursor && i === s.cursor - 1}
-					<div class="cursor right-0" class:hideCursor></div>
+					<div class="cursor bg-accent-foreground translate-x-[200%] right-0" class:hideCursor></div>
 				{/if}
 			</div>
 		{/each}
@@ -266,7 +290,7 @@
 			autocapitalize="off"
 			autocomplete="off"
 			autocorrect="off"
-			bind:value={imeInputRaw}
+			bind:value={imeInput}
 			class="font-mono"
 			name={$_.editor.hieroglyphs_editor.ime_buffer}
 			oninput={OnImeInput}
@@ -274,6 +298,23 @@
 			placeholder={$_.linguistics.transliteration}
 			spellcheck="false"
 		/>
+
+		<Button
+			disabled={value.length === 0}
+			onclick={() => navigator.clipboard.writeText(DumpHieroglyphs(value))}
+			size="icon" title={$_.copy}
+			variant="outline"
+		>
+			<Copy/>
+		</Button>
+
+		<Button
+			onclick={PasteRawHieroglyphs}
+			size="icon" title={$_.paste}
+			variant="outline"
+		>
+			<ClipboardPaste/>
+		</Button>
 
 		<Button
 			disabled={s.cursor === 0}
@@ -394,7 +435,7 @@
 	}
 
 	.cursor {
-		@apply absolute top-0 h-full w-0.5 bg-yellow-500;
+		@apply absolute top-0 h-full w-0.5;
 		animation: blink 1s step-start 0s infinite;
 
 		&.hideCursor {

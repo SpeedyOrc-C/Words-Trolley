@@ -1,5 +1,3 @@
-import Glyph from "$lib/word/egyptian/glyph"
-
 export enum Structure
 {
 	G = "G",
@@ -48,6 +46,7 @@ export type HieroglyphsEditCommand
 	| ["right"]
 	| ["backspace"]
 	| ["insert", Hieroglyphs]
+	| ["replace", Hieroglyphs[]]
 
 export function ExecuteHieroglyphsEditorCommand
 (
@@ -183,5 +182,32 @@ export function ExecuteHieroglyphsEditorCommand
 			content: [...left, arg, ...right]
 		}
 	}
+	case "replace":
+	{
+		return {
+			cursor: arg.length,
+			content: arg,
+		}
 	}
+	}
+}
+
+function DumpHieroglyphsItem([type, arg]: Hieroglyphs): string
+{
+	switch (type)
+	{
+	case Structure.G:
+		return arg
+	case Structure.V:
+		return `V${arg.length}${arg.map(DumpHieroglyphsItem).join("")}`
+	case Structure.H:
+		return `H${arg.length}${arg.map(DumpHieroglyphsItem).join("")}`
+	case Structure.L:
+		return `L${DumpHieroglyphsItem(arg[0])}${DumpHieroglyphsItem(arg[1])}`
+	}
+}
+
+export function DumpHieroglyphs(xs: Hieroglyphs[]): string
+{
+	return xs.map(DumpHieroglyphsItem).join("")
 }

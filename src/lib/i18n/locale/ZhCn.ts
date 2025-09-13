@@ -17,6 +17,10 @@ const ZhCn: I18nTemplate = {
 	more: "更多",
 	word_set: "单词集",
 	goto: "前往",
+	copy: "复制",
+	copied: "已复制",
+	paste: "粘贴",
+	pasted: "已粘贴",
 	settings: {
 		_: "设置",
 		follows_your_system: "跟随系统",
@@ -133,6 +137,7 @@ const ZhCn: I18nTemplate = {
 			join_2: "连接两个字",
 			join_3: "连接三个字",
 			join_4: "连接四个字",
+			syntax_error: "语法错误",
 		},
 		furigana_editor: {
 			merge_into_above: "合并到上方",

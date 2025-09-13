@@ -41,7 +41,7 @@
 
 <script lang="ts">
 	import EgyptianGlyph from "./EgyptianGlyph.svelte"
-	import Render from "./RenderEgyptianText.svelte"
+	import Render from "./RenderEgyptianHieroglyphs.svelte"
 
 	const {fp = 1, hie, lineHeight}: { fp?: number, hie: Hieroglyphs, lineHeight: number } = $props()
 

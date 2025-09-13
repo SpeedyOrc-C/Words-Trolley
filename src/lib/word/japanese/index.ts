@@ -95,9 +95,10 @@ export function VerbTypeFromRecursiveForm(word: string): VerbType | null
 
 export function IsCJKV(c: string): boolean
 {
-	const code = c.charCodeAt(0)
+	const code = c.codePointAt(0)
 
-	return (0x4E00 <= code && code <= 0x9FFF) ||
+	return code != undefined && (
+		(0x4E00 <= code && code <= 0x9FFF) ||
 		(0x3400 <= code && code <= 0x4DBF) || // Extension A
 		(0x20000 <= code && code <= 0x2A6DF) || // Extension B
 		(0x2A700 <= code && code <= 0x2B73F) || // Extension C
@@ -105,6 +106,7 @@ export function IsCJKV(c: string): boolean
 		(0x2B820 <= code && code <= 0x2CEAF) || // Extension E
 		(0xF900 <= code && code <= 0xFAFF) || // Compatibility
 		(0x2F800 <= code && code <= 0x2FA1F) // Compatibility Supplement
+	)
 }
 
 export function FuriganaTemplateFromWord(word: string): Furigana

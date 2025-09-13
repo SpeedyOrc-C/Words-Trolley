@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type {Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
 	import {onMount} from "svelte"
-	import RenderEgyptianText from "./RenderEgyptianText.svelte"
+	import RenderEgyptianHieroglyphs from "./RenderEgyptianHieroglyphs.svelte"
 
 	const {t}: { t: Hieroglyphs[] } = $props()
 
@@ -21,6 +21,6 @@
 	style:gap="{lineHeight * 0.2}px"
 >
 	{#each t as hie}
-		<RenderEgyptianText {hie} {lineHeight}/>
+		<RenderEgyptianHieroglyphs {hie} {lineHeight}/>
 	{/each}
 </span>

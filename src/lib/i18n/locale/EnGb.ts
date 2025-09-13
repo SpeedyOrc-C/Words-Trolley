@@ -17,6 +17,10 @@ const EnGb: I18nTemplate = {
 	more: "More",
 	word_set: "Word set",
 	goto: "Go to",
+	copy: "Copy",
+	copied: "Copied",
+	paste: "Paste",
+	pasted: "Pasted",
 	settings: {
 		_: "Settings",
 		follows_your_system: "Follows your system",
@@ -133,6 +137,7 @@ const EnGb: I18nTemplate = {
 			join_2: "Join two glyphs",
 			join_3: "Join three glyphs",
 			join_4: "Join four glyphs",
+			syntax_error: "Syntax error",
 		},
 		furigana_editor: {
 			merge_into_above: "Merge into above",

@@ -17,6 +17,10 @@ export type I18nTemplate = {
 	more: s
 	word_set: s
 	goto: s
+	copy: s
+	copied: s
+	paste: s
+	pasted: s
 	settings: {
 		_: s
 		follows_your_system: s
@@ -133,6 +137,7 @@ export type I18nTemplate = {
 			join_2: s
 			join_3: s
 			join_4: s
+			syntax_error: s
 		}
 		furigana_editor: {
 			merge_into_above: s

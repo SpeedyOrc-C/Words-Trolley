@@ -17,6 +17,9 @@
 				+ verticalGap * (arg.length - 1)
 		case Structure.H:
 			return Math.max(...arg.map(PessimisticHeight))
+		case Structure.L:
+			// TODO: Make it more accurate
+			return PessimisticHeight(arg[0])
 		}
 	}
 
@@ -72,6 +75,28 @@
 			<Render hie={hie} fp={fp} {lineHeight}/>
 		{/each}
 	</div>
+
+{:else if struct === Structure.L}
+
+	{@const [[t1, a1], [t2, a2]] = arg}
+
+	{#if t1 === Structure.G && t2 === Structure.G}
+		{#if a1 === "𓆓" && a2 === "𓋴"}
+			<div class="relative flex justify-between" style:height>
+				<EgyptianGlyph g="𓆓" fp={fp * 0.7} {lineHeight}/>
+				<div class="absolute bottom-0 left-[50%] translate-x-[-50%]">
+					<EgyptianGlyph g="𓋴" fp={fp * 0.7} {lineHeight}/>
+				</div>
+			</div>
+		{:else if a1 === "𓆓" && a2 === "𓂧"}
+			<div class="g" style:height>
+				<EgyptianGlyph g="𓆓" {fp} {lineHeight}/>
+				<div class="absolute left-0 translate-x-[20%] translate-y-[50%]">
+					<EgyptianGlyph g="𓂧" fp={fp * 0.2} {lineHeight}/>
+				</div>
+			</div>
+		{/if}
+	{/if}
 
 {/if}
 

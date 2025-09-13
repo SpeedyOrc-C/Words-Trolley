@@ -188,6 +188,7 @@ export type I18nTemplate = {
 		typewriter: {
 			title: s
 			height: s
+			enable_custom_text_colour: s
 			custom_text_colour: s
 			hide_cursor: s
 			hide_input_border: s

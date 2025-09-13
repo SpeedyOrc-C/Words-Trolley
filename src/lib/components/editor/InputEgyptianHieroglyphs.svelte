@@ -8,6 +8,7 @@
 	import {_} from "$lib/i18n"
 	import {preferredEgyptianTransliterationParser} from "$lib/settings/store/egyptian"
 	import {CandidatesFromPhonemes} from "$lib/word/egyptian/dictionary"
+	import {CandidatesFromNumber} from "$lib/word/egyptian/dictionary/numbers"
 	import {CandidatesFromXiaoheKmt} from "$lib/word/egyptian/dictionary/xiaohe-kmt"
 	import {
 		type Hieroglyphs, g, Structure,
@@ -85,6 +86,15 @@
 			return
 		}
 
+		// Overlap 2 glyphs
+		if (imeInputRaw == "&")
+		{
+			Execute("overlap")
+			imeInputRaw = ""
+			imeInputError = false
+			return
+		}
+
 		// Join glyphs horizontally
 		if (imeInputRaw.startsWith("-"))
 		{
@@ -135,6 +145,23 @@
 		{
 			const input = imeInputRaw.substring(1, imeInputRaw.length).trim()
 			imeWords = CandidatesFromXiaoheKmt(input)
+			imeInputError = false
+			return
+		}
+
+		// Query numerical glyphs
+		if (imeInputRaw.startsWith("#"))
+		{
+			const input = imeInputRaw.substring(1, imeInputRaw.length).trim()
+			const number = parseInt(input)
+
+			if (Number.isNaN(number))
+			{
+				imeWords = []
+				return
+			}
+
+			imeWords = CandidatesFromNumber(number)
 			imeInputError = false
 			return
 		}
@@ -190,7 +217,7 @@
 		}
 
 		// Select other candidates with numbers
-		if (e.code.startsWith("Digit"))
+		if (e.code.startsWith("Digit") && !imeInputRaw.startsWith("#"))
 		{
 			const digit = parseInt(e.code.substring(5))
 
@@ -209,19 +236,24 @@
 <div class="flex flex-col gap-1">
 
 	<div
-		class="p-2 flex flex-wrap overflow-x-auto rounded-md cursor-text"
+		class="p-2 flex flex-wrap rounded-md"
 		class:outline-1={!hideInputBorder}
 		style:color
 		style:gap="{height / 3}px"
 	>
+		{#if s.content.length === 0}
+			<div class="relative" style:height="{height}px">
+				<div class="cursor left-0" class:hideCursor></div>
+			</div>
+		{/if}
 		{#each s.content as hie, i ([hie])}
 			<div class="relative" style:height="{height}px">
 				<RenderEgyptianText {hie} lineHeight={height}/>
 				{#if !hideCursor && i === 0 && 0 === s.cursor}
-					<div class="cursor left-0"></div>
+					<div class="cursor left-0" class:hideCursor></div>
 				{/if}
 				{#if !hideCursor && i === s.cursor - 1}
-					<div class="cursor right-0"></div>
+					<div class="cursor right-0" class:hideCursor></div>
 				{/if}
 			</div>
 		{/each}
@@ -299,7 +331,12 @@
 
 			<div class="flex gap-1">
 
-				<Button disabled size="icon" variant="outline" title={$_.editor.hieroglyphs_editor.make_ligature}>
+				<Button
+					onclick={() => Execute("overlap")}
+					disabled={s.cursor < 2}
+					size="icon" variant="outline"
+					title={$_.editor.hieroglyphs_editor.make_ligature}
+				>
 					<Blend/>
 				</Button>
 
@@ -359,6 +396,11 @@
 	.cursor {
 		@apply absolute top-0 h-full w-0.5 bg-yellow-500;
 		animation: blink 1s step-start 0s infinite;
+
+		&.hideCursor {
+			@apply opacity-0;
+			animation: none;
+		}
 	}
 
 	@keyframes blink {

@@ -5,16 +5,19 @@ export enum Structure
 	G = "G",
 	V = "V",
 	H = "H",
+	L = "L",
 }
 
 export type Hieroglyphs
 	= [Structure.G, string]
 	| [Structure.V, Hieroglyphs[]]
 	| [Structure.H, Hieroglyphs[]]
+	| [Structure.L, [Hieroglyphs, Hieroglyphs]]
 
 export const g = (g: string): Hieroglyphs => [Structure.G, g]
 export const v = (...v: Hieroglyphs[]): Hieroglyphs => [Structure.V, v]
 export const h = (...h: Hieroglyphs[]): Hieroglyphs => [Structure.H, h]
+export const l = (a: Hieroglyphs, b: Hieroglyphs): Hieroglyphs => [Structure.L, [a, b]]
 
 export function Split(hie: Hieroglyphs): Hieroglyphs[]
 {
@@ -25,6 +28,8 @@ export function Split(hie: Hieroglyphs): Hieroglyphs[]
 	case Structure.V:
 	case Structure.H:
 		return hie[1]
+	case Structure.L:
+		return [hie[1][0], hie[1][1]]
 	}
 }
 
@@ -86,7 +91,17 @@ export function ExecuteHieroglyphsEditorCommand
 	}
 	case "overlap":
 	{
-		throw "Not implemented."
+		if (cursor < 2)
+			throw "Not enough characters."
+
+		const left = content.slice(0, cursor - 2)
+		const middle = content.slice(cursor - 2, cursor)
+		const right = content.slice(cursor)
+
+		return {
+			cursor: cursor - 1,
+			content: [...left, l(middle[0], middle[1]), ...right]
+		}
 	}
 	case "split":
 	{

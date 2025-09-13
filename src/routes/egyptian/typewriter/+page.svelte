@@ -24,14 +24,14 @@
 	<div class="xl:w-xs flex flex-col gap-4">
 
 		<div class="flex gap-4">
-			<Label>{$_.egyptian.typewriter.height}</Label>
+			<Label for="height">{$_.egyptian.typewriter.height}</Label>
+			<Slider bind:value={height} id="height" class="flex-1" max={96} min={16} type="single"/>
 			<code>{height}</code>
-			<Slider bind:value={height} class="flex-1" max={96} min={16} type="single"/>
 		</div>
 
 		<div class="flex items-center">
 			<div class="flex items-center gap-2">
-				<Switch bind:checked={useCustomTextColour} id="use-custom-text-colour"/>
+				<Switch bind:checked={useCustomTextColour} title={$_.egyptian.typewriter.enable_custom_text_colour}/>
 				<input bind:value={customTextColour} class="h-9 w-12 outline-1" id="text-colour" type="color">
 			</div>
 			<Label class="pl-4" for="text-colour">

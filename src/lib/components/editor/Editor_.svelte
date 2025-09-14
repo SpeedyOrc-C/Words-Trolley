@@ -76,7 +76,7 @@
 		if (error)
 		{
 			console.error(error)
-			alert(error.message)
+			toast.error(error.message)
 			return
 		}
 
@@ -101,7 +101,7 @@
 		if (error)
 		{
 			console.error(error)
-			alert(error.message)
+			toast.error(error.message)
 			forking = false
 			return
 		}
@@ -223,7 +223,7 @@
 		if (error)
 		{
 			console.error(error)
-			alert(error.message)
+			toast.error(error.message)
 			return
 		}
 
@@ -254,7 +254,7 @@
 		if (error)
 		{
 			console.error(error)
-			alert(error.message)
+			toast.error(error.message)
 			return
 		}
 

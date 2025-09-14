@@ -1,7 +1,5 @@
-import type {Json} from "$lib/database.types"
 import {English, French, German, Japanese, Mandarin, Egyptian} from "$lib/word"
 import type {Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
-import {VerbType} from "$lib/word/japanese"
 import { Language } from "./i18n"
 
 export type Word = Metadata & { meaning: string }
@@ -238,46 +236,4 @@ export function CanSpeak(type: WordType): boolean
 export function UsesStringInput(type: WordType): boolean
 {
 	return type != WordType.Egyptian
-}
-
-export function TypeCheckWords(input: Json): boolean
-{
-	if (! (input instanceof Array))
-		return false
-
-	return input.map(TypeCheckWord).reduce((a, b) => a && b, true)
-}
-
-function TypeCheckWord(input: Json): boolean
-{
-	if (typeof input != "object" || input === null || input instanceof Array)
-		return false
-
-	if (typeof input.word != "string")
-		return false
-
-	if (typeof input.meaning != "string")
-		return false
-
-	const type = input.type
-
-	if (typeof type != "string")
-		return false
-
-	// TODO
-	switch (type)
-	{
-	case WordType.Simple:
-		return true
-	case WordType.Mandarin:
-		return true
-	case WordType.Japanese:
-		return true
-	case WordType.French:
-		return true
-	case WordType.German:
-		return true
-	default:
-		return false
-	}
 }

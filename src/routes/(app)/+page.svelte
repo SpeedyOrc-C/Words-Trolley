@@ -3,7 +3,7 @@
 	import {Button} from "$lib/components/ui/button"
 	import {settingsOpened} from "$lib/settings/store"
 
-	import Gear from "@lucide/svelte/icons/settings"
+	import Settings from "@lucide/svelte/icons/settings"
 	import Plus from "@lucide/svelte/icons/plus"
 	import Github from "@lucide/svelte/icons/github"
 	import Bug from "@lucide/svelte/icons/bug"
@@ -67,7 +67,7 @@
 
 		<div class="flex gap-4">
 			<Button onclick={() => settingsOpened.set(true)} size="lg" variant="outline">
-				<Gear/>
+				<Settings/>
 				{$_.settings._}
 			</Button>
 

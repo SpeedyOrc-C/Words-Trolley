@@ -1,3 +1,6 @@
+import {type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
+import {WordType} from "$lib/word/types"
+
 export enum Phoneme
 {
 	a = "𓄿",
@@ -30,4 +33,10 @@ export enum Phoneme
 export function PhonemeEqual_BlurrySZ(a: string, b: string): boolean
 {
 	return a.replaceAll(Phoneme.z, Phoneme.s) == b.replaceAll(Phoneme.z, Phoneme.s)
+}
+
+export type Word = {
+	type: WordType.Egyptian
+	word: Hieroglyphs[]
+	trans: Phoneme[]
 }

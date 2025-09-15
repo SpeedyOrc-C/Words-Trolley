@@ -1,10 +1,11 @@
 <script lang="ts">
-	import {type Word, WordType} from "$lib"
 	import {Button} from "$lib/components/ui/button"
 	import {Progress} from "$lib/components/ui/progress"
 	import {_} from "$lib/i18n"
 	import {settingsOpened} from "$lib/settings/store"
+	import type {Word} from "$lib/word"
 	import {Phoneme2Egyptology} from "$lib/word/egyptian/transliteration/egyptology"
+	import {WordType} from "$lib/word/types"
 
 	const {index, words, progressTitle}: { index: number, words: Word[], progressTitle: string } = $props()
 

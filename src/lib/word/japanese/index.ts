@@ -1,3 +1,5 @@
+import {WordType} from "$lib/word/types"
+
 export enum Category
 {
 	Word = "word",
@@ -133,4 +135,21 @@ export function FuriganaTemplateFromWord(word: string): Furigana
 	}
 
 	return result
+}
+
+export type Word = {
+	type: WordType.Japanese
+	word: string
+	category: Category.Word
+	furi: [number, number, string][]
+	tone: number
+}
+
+export type Verb = {
+	type: WordType.Japanese
+	word: string
+	category: Category.Verb
+	furi: [number, number, string][]
+	tone: number
+	verb_type: VerbType
 }

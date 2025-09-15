@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {blankWordFromType, blankWordSimple, WordType, LangFromWord, UsesStringInput, CanSpeak} from "$lib"
+	import {blankWordFromType, blankWordSimple, LangFromWord, UsesStringInput, CanSpeak} from "$lib"
 	import InputEgyptianTransliteration from "$lib/components/InputEgyptianTransliteration.svelte"
 	import InputFurigana from "$lib/components/InputFurigana.svelte"
 	import {Separator} from "$lib/components/ui/separator"
@@ -20,6 +20,7 @@
 	import {Button} from "$lib/components/ui/button"
 	import {Label} from "$lib/components/ui/label"
 	import {Input} from "$lib/components/ui/input"
+	import {WordType} from "$lib/word/types"
 	import {toast} from "svelte-sonner"
 	import {Speak} from "$lib/speak"
 	import * as Card from "$lib/components/ui/card"

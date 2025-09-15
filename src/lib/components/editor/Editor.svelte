@@ -1,7 +1,7 @@
 <script lang="ts" module>
+	import type {Word} from "$lib/word"
 	import type {SupabaseClient} from "@supabase/supabase-js"
 	import type {Database} from "$lib/database.types"
-	import type {Word} from "$lib"
 
 	export type EditorProps = {
 		online: true,

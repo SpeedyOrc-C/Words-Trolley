@@ -1,11 +1,10 @@
 <script lang="ts">
 	import InputEgyptianTransliteration from "$lib/components/InputEgyptianTransliteration.svelte"
-	import type {EgyptianWord, Word} from "$lib"
-	import type {Phoneme} from "$lib/word/egyptian"
+	import {Egyptian, type Word} from "$lib/word"
 
-	const {word, OnWin}: { word: Word & EgyptianWord, OnWin: () => any } = $props()
+	const {word, OnWin}: { word: Word & Egyptian.Word, OnWin: () => any } = $props()
 
-	let response: Phoneme[] = $state([])
+	let response: Egyptian.Phoneme[] = $state([])
 
 	$effect(() =>
 	{

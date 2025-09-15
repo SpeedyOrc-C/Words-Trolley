@@ -1,15 +1,16 @@
 <script lang="ts">
-	import {CanSpeak, LangFromWord, type Word, WordType} from "$lib"
+	import {CanSpeak, LangFromWord} from "$lib"
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {_, Language, language} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
 	import {settings} from "$lib/settings/store"
 	import {preferredEgyptianTransliterationDumper} from "$lib/settings/store/egyptian"
-	import {French, German} from "$lib/word"
+	import {French, German, type Word} from "$lib/word"
 	import {BopomofoStrict, type ISyllable, Pinyin} from "$lib/word/mandarin"
 	import {MandarinScript} from "$lib/settings"
 	import {Speak} from "$lib/speak"
+	import {WordType} from "$lib/word/types"
 
 	import Circle from "@lucide/svelte/icons/circle"
 	import Mars from "@lucide/svelte/icons/mars"

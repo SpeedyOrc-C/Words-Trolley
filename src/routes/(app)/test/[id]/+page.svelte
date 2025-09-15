@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {WordType, LangFromWord, type Word} from "$lib"
+	import {LangFromWord} from "$lib"
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import QEgyptianTransliteration from "$lib/components/QEgyptianTransliteration.svelte"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
@@ -8,7 +8,8 @@
 	import QPinyin from "$lib/components/QPinyin.svelte"
 	import {Button} from "$lib/components/ui/button"
 	import QFrenchNoun from "$lib/components/QFrenchNoun.svelte"
-	import {French} from "$lib/word"
+	import {French, type Word} from "$lib/word"
+	import {WordType} from "$lib/word/types"
 
 	const {data} = $props()
 	const words = data.set.words as Word[]

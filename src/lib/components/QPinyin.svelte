@@ -1,16 +1,15 @@
 <script lang="ts">
-	import {type ISyllable, SyllablesEqual, Tone} from "$lib/word/mandarin"
+	import {Mandarin, type Word} from "$lib/word"
 	import {onMount} from "svelte"
 	import InputPinyin from "$lib/components/InputPinyin.svelte"
 	import {type Writable, writable} from "svelte/store"
-	import type {MandarinWord, Word} from "$lib"
 
-	const {word, OnWin}: { word: Word & MandarinWord, OnWin: () => any } = $props()
+	const {word, OnWin}: { word: Word & Mandarin.Word, OnWin: () => any } = $props()
 
-	const toneWriter: Writable<{ tone: Tone } | undefined> = writable(undefined)
+	const toneWriter: Writable<{ tone: Mandarin.Tone } | undefined> = writable(undefined)
 
 	let visualViewportHeight = $state(0)
-	let value: Array<ISyllable> = $state([])
+	let value: Array<Mandarin.ISyllable> = $state([])
 	let showToneInput = $state(false)
 
 	onMount(() =>
@@ -36,7 +35,7 @@
 
 	$effect(() =>
 	{
-		if (SyllablesEqual(value, word.syllables))
+		if (Mandarin.SyllablesEqual(value, word.syllables))
 			OnWin()
 	})
 </script>

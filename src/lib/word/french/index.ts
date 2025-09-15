@@ -1,3 +1,5 @@
+import {WordType} from "$lib/word/types"
+
 export enum Gender { M = "M", F = "F" }
 
 export enum Category
@@ -128,4 +130,17 @@ export function StartsWithVowel(word: string)
 		throw "Empty word"
 
 	return VowelLetters.has(w[0]) || WordsStartWithAspiratedLetterH.has(w)
+}
+
+export type Word = {
+	type: WordType.French
+	word: string
+	category: Category.Word
+}
+
+export type Noun = {
+	type: WordType.French
+	word: string
+	category: Category.Noun
+	gender: Gender
 }

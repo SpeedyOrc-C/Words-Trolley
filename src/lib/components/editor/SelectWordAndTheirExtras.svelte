@@ -1,17 +1,14 @@
 <script lang="ts">
 	import {
 		blankWordFromType,
-		blankWordFromTypeAndCategory,
-		type EnglishWord,
-		type MandarinWord,
-		type Word,
-		WordType
+		blankWordFromTypeAndCategory
 	} from "$lib"
 	import SelectEnglishRegion from "$lib/components/editor/SelectEnglishRegion.svelte"
 	import SelectGermanCategory from "$lib/components/editor/SelectGermanCategory.svelte"
 	import SelectWordType from "$lib/components/editor/SelectWordType.svelte"
-	import {English, French, German, Japanese, Mandarin} from "$lib/word"
+	import {English, French, German, Japanese, Mandarin, type Word} from "$lib/word"
 	import {FuriganaTemplateFromWord} from "$lib/word/japanese"
+	import {WordType} from "$lib/word/types"
 	import SelectFrenchCategory from "./SelectFrenchCategory.svelte"
 	import SelectJapaneseCategory from "./SelectJapaneseCategory.svelte"
 	import SelectMandarinRegion from "./SelectMandarinRegion.svelte"
@@ -101,14 +98,14 @@
 		saved = false
 	}
 
-	function OnMandarinRegionChange(word: Word & MandarinWord, region: Mandarin.Region)
+	function OnMandarinRegionChange(word: Word & Mandarin.Word, region: Mandarin.Region)
 	{
 		word.region = region
 
 		saved = false
 	}
 
-	function OnEnglishRegionChange(word: Word & EnglishWord, region: English.Region)
+	function OnEnglishRegionChange(word: Word & English.Word, region: English.Region)
 	{
 		word.region = region
 

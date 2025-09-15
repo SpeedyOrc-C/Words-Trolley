@@ -142,7 +142,6 @@ export type Word = {
 	word: string
 	category: Category.Word
 	furi: [number, number, string][]
-	tone: number
 }
 
 export type Verb = {
@@ -150,6 +149,5 @@ export type Verb = {
 	word: string
 	category: Category.Verb
 	furi: [number, number, string][]
-	tone: number
 	verb_type: VerbType
 }

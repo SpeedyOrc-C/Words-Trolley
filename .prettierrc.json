@@ -1,4 +1,7 @@
 {
 	"useTabs": true,
-	"tabWidth": 3
+	"tabWidth": 3,
+	"bracketSpacing": false,
+	"semi": false,
+	"arrowParens": "avoid"
 }

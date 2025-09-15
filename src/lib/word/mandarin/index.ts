@@ -1,6 +1,5 @@
 import {WordType} from "$lib/word/types"
 import {Nothing} from "crazy-parser"
-import {asum, eq, nil, obj, type Validator} from "crazy-parser/json/validate"
 
 export enum Region
 {
@@ -828,9 +827,3 @@ export type Word = {
 	region: Region
 	syllables: ISyllable[]
 }
-
-export const ValidateSyllable: Validator<ISyllable> = obj({
-	Initial: asum(nil, ...Object.values(Initial).map(eq)),
-	Final: asum(...Object.values(Final).map(eq)),
-	Tone: asum(...[Tone.Neutral, Tone.Flat, Tone.Rise, Tone.FallRise, Tone.Fall].map(eq)),
-})

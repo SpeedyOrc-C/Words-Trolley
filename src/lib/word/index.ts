@@ -1,10 +1,10 @@
-import * as Simple from "./simple"
 import * as Egyptian from "./egyptian"
 import * as English from "./english"
 import * as French from "./french"
 import * as German from "./german"
 import * as Japanese from "./japanese"
 import * as Mandarin from "./mandarin"
+import * as Simple from "./simple"
 
 export type Word = Metadata & { meaning: string }
 

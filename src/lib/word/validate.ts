@@ -6,9 +6,9 @@ import {Validate as ValidateGerman} from "$lib/word/german/validate"
 import {Validate as ValidateJapanese} from "$lib/word/japanese/validate"
 import {Validate as ValidateMandarin} from "$lib/word/mandarin/validate"
 import {Validate as ValidateSimple} from "$lib/word/simple/validate"
-import {ands, asum, obj, str, type Validator} from "crazy-parser/json/validate"
+import {ands, array, asum, obj, str, type Validator} from "crazy-parser/json/validate"
 
-export const Validate: Validator<Word> = ands(
+const Validate: Validator<Word> = ands(
 	obj({meaning: str}),
 	asum(
 		ValidateSimple,
@@ -20,3 +20,5 @@ export const Validate: Validator<Word> = ands(
 		ValidateJapanese,
 	),
 )
+
+export const ValidateWords = array(Validate)

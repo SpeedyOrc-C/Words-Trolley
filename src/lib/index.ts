@@ -59,7 +59,6 @@ const blankWordJapanese: Word = {
 	type: WordType.Japanese,
 	category: Japanese.Category.Word,
 	furi: [],
-	tone: 0,
 }
 
 const blankWordJapaneseVerb: Word = {

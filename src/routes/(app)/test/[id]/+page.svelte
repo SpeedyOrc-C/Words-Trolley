@@ -8,11 +8,11 @@
 	import QPinyin from "$lib/components/QPinyin.svelte"
 	import {Button} from "$lib/components/ui/button"
 	import QFrenchNoun from "$lib/components/QFrenchNoun.svelte"
-	import {French, type Word} from "$lib/word"
+	import {French} from "$lib/word"
 	import {WordType} from "$lib/word/types"
 
 	const {data} = $props()
-	const words = data.set.words as Word[]
+	const words = data.words
 
 	const score: Array<null | false | true> = $state(new Array(words.length).fill(null))
 
@@ -80,7 +80,7 @@
 <svelte:window onkeydown={onkeydown}/>
 
 <svelte:head>
-	<title>{$_.test.title(data.set.name)}</title>
+	<title>{$_.test.title(data.name)}</title>
 </svelte:head>
 
 <WordProgressNav index={i} progressTitle={$_.test.progress} {words}/>

@@ -6,7 +6,7 @@
 	import {Button} from "$lib/components/ui/button"
 	import {settings} from "$lib/settings/store"
 	import {preferredEgyptianTransliterationDumper} from "$lib/settings/store/egyptian"
-	import {French, German, type Word} from "$lib/word"
+	import {French, German} from "$lib/word"
 	import {BopomofoStrict, type ISyllable, Pinyin} from "$lib/word/mandarin"
 	import {MandarinScript} from "$lib/settings"
 	import {Speak} from "$lib/speak"
@@ -17,7 +17,7 @@
 	import Venus from "@lucide/svelte/icons/venus"
 
 	const {data} = $props()
-	const words = data.set.words as Word[]
+	const words = data.words
 
 	let i = $state(0)
 	let flipped = $state(false)
@@ -29,9 +29,9 @@
 		switch ($language)
 		{
 		case Language.ZhCn:
-			return `学习《${data.set.name}》中的单词。`
+			return `学习《${data.name}》中的单词。`
 		default:
-			return `Learn the words in ${data.set.name}.`
+			return `Learn the words in ${data.name}.`
 		}
 	})
 
@@ -105,7 +105,7 @@
 <svelte:window onkeydown={onkeydown}/>
 
 <svelte:head>
-	<title>{$_.learn.title(data.set.name)}</title>
+	<title>{$_.learn.title(data.name)}</title>
 	<meta content={description} name="description">
 </svelte:head>
 

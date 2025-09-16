@@ -15,8 +15,8 @@
 			: 1
 	)
 
-	const gardiner = Literal2Gardiner[g]
-	const svgPath = `https://raw.githubusercontent.com/semiessessi/recoloured-tuxscribe-hieroglyphs/refs/heads/main/images/${gardiner}.svg`
+	const gardiner = $derived(Literal2Gardiner[g])
+	const svgPath = $derived(`https://raw.githubusercontent.com/semiessessi/recoloured-tuxscribe-hieroglyphs/refs/heads/main/images/${gardiner}.svg`)
 </script>
 
 <div style="height: {glyphHeight * scale}px">

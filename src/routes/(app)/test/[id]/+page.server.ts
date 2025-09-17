@@ -5,7 +5,7 @@ export async function load({locals: {db}, params: {id}, depends})
 {
 	depends("supabase:db:sets")
 
-	const {data, error} = await db
+	const {data} = await db
 		.from("sets")
 		.select("*")
 		.eq("id", id)

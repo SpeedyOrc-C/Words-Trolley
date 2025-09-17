@@ -53,7 +53,7 @@
   "dependencies": {
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.57.4",
-    "crazy-i18n": "^0.2.1",
+    "crazy-i18n": "^1.0.0",
     "crazy-parser": "^1.4.0",
     "mode-watcher": "^1.1.0"
   },

@@ -15,8 +15,8 @@ importers:
         specifier: ^2.57.4
         version: 2.57.4
       crazy-i18n:
-        specifier: ^0.2.1
-        version: 0.2.1
+        specifier: ^1.0.0
+        version: 1.0.0
       crazy-parser:
         specifier: ^1.4.0
         version: 1.4.0
@@ -1129,8 +1129,8 @@ packages:
     resolution: {integrity: sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA==}
     engines: {node: '>=18'}
 
-  crazy-i18n@0.2.1:
-    resolution: {integrity: sha512-nmPT3PamU0weEAc19ThTTQmXg4zgEZaSOep25u6ifeCUw/4hmJerX3UkeaC9qzaLYv/tI5vbcIiEW9EPBj4UUQ==}
+  crazy-i18n@1.0.0:
+    resolution: {integrity: sha512-/vQ5RODFr3KymEEhljaFqUs3ki9UCdgiIM6s2xw1PeSwdPD7edI/9jkzK4biGQGublEZqfDAamCDDyIM0yB8jQ==}
 
   crazy-parser@1.4.0:
     resolution: {integrity: sha512-p2bN3cQjVxqSh91lKdONfU+RqsyrA+br3+yGoxV9NCj4/pS57qefbveiv/BLs+S2AErL4s/KHaHVa+GvKQ1t/Q==}
@@ -3461,7 +3461,7 @@ snapshots:
 
   cookie@1.0.2: {}
 
-  crazy-i18n@0.2.1:
+  crazy-i18n@1.0.0:
     dependencies:
       ts-toolbelt: 9.6.0
 

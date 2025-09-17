@@ -248,9 +248,9 @@
 				tabindex="0"
 				role="textbox"
 				onkeydown={e => OnSyllableKeyDown(i, e)}
-				onkeyup={e => OnSyllableKeyUp()}
-				ondblclick={e => OnSyllableDoubleClick(i)}
-				onfocusin={e => OnElementFocusIn(i)}
+				onkeyup={OnSyllableKeyUp}
+				ondblclick={() => OnSyllableDoubleClick(i)}
+				onfocusin={() => OnElementFocusIn(i)}
 				use:AttachSyllable={i}
 			>
 				{Pinyin(buffer)}
@@ -267,7 +267,7 @@
 				autocapitalize="off"
 				onkeydown={e => OnBufferKeyDown(i, e)}
 				onkeyup={e => OnBufferKeyUp(i, e)}
-				onfocusin={e => OnElementFocusIn(i)}
+				onfocusin={() => OnElementFocusIn(i)}
 				style="font-size: 2rem"
 				bind:ref={elements[i]}
 			/>

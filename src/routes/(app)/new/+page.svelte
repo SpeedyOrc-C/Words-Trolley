@@ -43,18 +43,12 @@
 	</title>
 </svelte:head>
 
-<M.Root class="m-2">
-	<M.List>
-		<M.Item>
-			<M.Link href="/">
-				<div class="flex items-center gap-2">
-					<HouseIcon/>
-					<div>{$_.home._}</div>
-				</div>
-			</M.Link>
-		</M.Item>
-	</M.List>
-</M.Root>
+<nav class="p-2">
+	<Button href="/" variant="outline">
+		<HouseIcon />
+		<div>{$_.home._}</div>
+	</Button>
+</nav>
 
 <Card.Root class="m-auto mt-6 w-full max-w-sm">
 
@@ -65,11 +59,11 @@
 	</Card.Header>
 
 	<Card.Content>
-		<form class="flex flex-col gap-6" method="POST" action="?/do" {onsubmit}>
+		<form action="?/do" class="flex flex-col gap-6" method="POST" {onsubmit}>
 
 			<div class="flex flex-col gap-2">
 				<Label for="name">{$_.name}</Label>
-				<Input bind:value={name} id="name" name="name" required type="text"/>
+				<Input bind:value={name} id="name" name="name" required type="text" />
 			</div>
 
 			<Button {disabled} type="submit">

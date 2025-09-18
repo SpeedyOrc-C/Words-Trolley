@@ -17,7 +17,7 @@
 
 <span
 	bind:this={root}
-	class="inline-flex flex-wrap align-text-bottom select-none overflow-hidden"
+	class="inline-flex flex-wrap align-text-bottom select-none"
 	style:gap="{lineHeight * 0.2}px"
 >
 	{#each t as hie}

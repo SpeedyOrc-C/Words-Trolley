@@ -1,100 +1,72 @@
 <script lang="ts">
 	import {_} from "$lib/i18n"
-	import * as M from "$lib/components/ui/navigation-menu"
-	import * as Card from "$lib/components/ui/card"
 	import {Button} from "$lib/components/ui/button"
 	import {settingsOpened} from "$lib/settings/store"
 
 	import House from "@lucide/svelte/icons/house"
-	import Gear from "@lucide/svelte/icons/settings"
+	import Settings from "@lucide/svelte/icons/settings"
 	import Plus from "@lucide/svelte/icons/plus"
-	import BookOpen from "@lucide/svelte/icons/book-open"
-	import BookCheck from "@lucide/svelte/icons/book-check"
-	import SquarePen from "@lucide/svelte/icons/square-pen"
 
 	const {data} = $props()
 
-	const title = data.user?.id == data.creator.id
-		? $_.creator.title_me
-		: $_.creator.title(data.creator.id)
+	const title =
+		data.user != null &&
+		data.creator != null &&
+		data.user.id == data.creator.id
+			? $_.creator.title_me
+			: $_.creator.title(data.creator?.name ?? "***")
 </script>
 
 <svelte:head>
 	<title>{title}</title>
 </svelte:head>
 
-<div class="p-2 sticky top-0 bg-background shadow">
-	<M.Root>
-		<M.List>
+<nav class="sticky top-0 p-2 z-10 flex items-center justify-between backdrop-blur-sm">
 
-			<M.Item>
-				<M.Link href="/">
-					<div class="flex items-center gap-2">
-						<House/>
-						<div>{$_.home._}</div>
-					</div>
-				</M.Link>
-			</M.Item>
+	<Button href="/" tabindex={0} variant="outline">
+		<House />
+		{$_.home._}
+	</Button>
 
-			<M.Item>
-				<Button onclick={() => settingsOpened.set(true)} variant="ghost">
-					<div class="flex items-center gap-2">
-						<Gear/>
-						<div>{$_.settings._}</div>
-					</div>
-				</Button>
-			</M.Item>
+	<div class="flex items-center gap-2">
 
-			{#if data.user?.id === data.creator.id}
-				<M.Item>
-					<M.Link href="/new">
-						<div class="flex items-center gap-2">
-							<Plus/>
-							<div>{$_.new._}</div>
-						</div>
-					</M.Link>
-				</M.Item>
-			{/if}
+		<Button onclick={() => settingsOpened.set(true)} variant="outline">
+			<Settings />
+			{$_.settings._}
+		</Button>
 
-		</M.List>
-	</M.Root>
-</div>
+		<Button href="/new" tabindex={0}>
+			<Plus />
+			{$_.new._}
+		</Button>
 
-<main class="mx-auto p-4 w-full max-w-7xl flex gap-4 flex-wrap">
+	</div>
+
+</nav>
+
+<header class="p-4 text-lg text-center">
+	{data.creator?.name ?? "***"}
+</header>
+
+<main class="mx-auto py-4 pl-2 pr-4 w-full max-w-xl flex flex-col items-center">
 	{#each data.sets as {name, id}}
-		<Card.Root class="w-full sm:max-w-sm">
-
-			<Card.Content class="flex flex-col gap-6">
-
-				<header class="grow flex items-center justify-around">
-					<div class="text-xl text-center">
-						{name}
-					</div>
-				</header>
-
-				<div class="flex justify-between gap-2">
-
-					<Button href="/learn/{id}" class="flex-1">
-						<BookOpen/>
-						{$_.set.learn}
-					</Button>
-
-					<Button href="/test/{id}" variant="outline" class="flex-1">
-						<BookCheck/>
-						{$_.set.test}
-					</Button>
-
-					<Button href="/edit/{id}" variant="secondary" class="flex-1">
-						<SquarePen/>
-						{$_.edit}
-					</Button>
-
-				</div>
-
-			</Card.Content>
-
-		</Card.Root>
+		<a href="/word-set/{id}" class="word-set" tabindex="0">
+			{name}
+		</a>
 	{/each}
 </main>
 
 <div style="height: 30vh"></div>
+
+<style>
+	@reference "tailwindcss";
+
+	.word-set {
+		@apply w-full py-2 px-3 text-xl rounded-r-md border-l-3 outline-none transition-all duration-100;
+
+		&:hover, &:focus {
+			background-color: var(--secondary);
+			border-color: var(--ring);
+		}
+	}
+</style>

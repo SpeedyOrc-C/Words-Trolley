@@ -77,7 +77,7 @@
 	}
 </script>
 
-<div class="sticky top-0 p-2 z-10 flex gap-2 backdrop-blur-sm" id="editor-nav">
+<nav class="sticky top-0 p-2 z-10 flex gap-2 backdrop-blur-sm">
 
 	<M.Root class="grow">
 
@@ -168,12 +168,12 @@
 
 				<M.Content>
 
-					<M.Item onclick={() => GuardedGoto(`/learn/${id}`)}>
+					<M.Item onclick={() => GuardedGoto(`/word-set/${id}/learn`)}>
 						<BookOpen/>
 						{$_.set.learn}
 					</M.Item>
 
-					<M.Item onclick={() => GuardedGoto(`/test/${id}`)}>
+					<M.Item onclick={() => GuardedGoto(`/word-set/${id}/test`)}>
 						<BookCheck/>
 						{$_.set.test}
 					</M.Item>
@@ -233,4 +233,4 @@
 		</Button>
 	</div>
 
-</div>
+</nav>

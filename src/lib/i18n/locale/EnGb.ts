@@ -10,6 +10,9 @@ const EnGb: I18nTemplate = {
 	password: "Password",
 	submit: "Submit",
 	name: "Name",
+	display_name: "Display name",
+	continue: "Continue",
+	return: "Return",
 	edit: "Edit",
 	delete: "Delete",
 	insert: "Insert",
@@ -21,6 +24,9 @@ const EnGb: I18nTemplate = {
 	copied: "Copied",
 	paste: "Paste",
 	pasted: "Pasted",
+	onboarding: {
+		complete_your_profile: "Complete your profile",
+	},
 	settings: {
 		_: "Settings",
 		follows_your_system: "Follows your system",
@@ -49,9 +55,12 @@ const EnGb: I18nTemplate = {
 		create_a_new_set_of_words: "Create a new set of words...",
 	},
 	set: {
+		title: name => `Word set -  ${name}`,
 		learn: "Learn",
 		test: "Test",
 		origin: "Origin",
+		creator_label: name => `Creator: ${name}`,
+		creator_profile_missing: "Creator’s profile is missing",
 	},
 	creator: {
 		title: name => `Word sets by ${name}`,

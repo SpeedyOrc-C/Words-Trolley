@@ -10,6 +10,9 @@ const ZhCn: I18nTemplate = {
 	password: "密码",
 	submit: "提交",
 	name: "名字",
+	display_name: "对外展示名字",
+	continue: "继续",
+	return: "返回",
 	edit: "编辑",
 	delete: "删除",
 	insert: "插入",
@@ -21,6 +24,9 @@ const ZhCn: I18nTemplate = {
 	copied: "已复制",
 	paste: "粘贴",
 	pasted: "已粘贴",
+	onboarding: {
+		complete_your_profile: "完善您的个人信息",
+	},
 	settings: {
 		_: "设置",
 		follows_your_system: "跟随系统",
@@ -49,9 +55,12 @@ const ZhCn: I18nTemplate = {
 		create_a_new_set_of_words: "创建一套新单词集……",
 	},
 	set: {
+		title: name => `单词集《${name}》`,
 		learn: "学习",
 		test: "测验",
 		origin: "源头",
+		creator_label: name => `作者：${name}`,
+		creator_profile_missing: "作者个人资料不存在",
 	},
 	creator: {
 		title: name => `${name}的单词集`,

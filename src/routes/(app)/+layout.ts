@@ -1,33 +1,34 @@
-import {createBrowserClient, createServerClient, isBrowser} from '@supabase/ssr'
-import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from '$env/static/public'
-import type {LayoutLoad} from "./$types"
+import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from "$env/static/public"
 import type {Database} from "$lib/database.types"
 import {AutoDetectLanguage} from "$lib/i18n"
+import {createBrowserClient, createServerClient, isBrowser} from "@supabase/ssr"
+import {redirect} from "@sveltejs/kit"
+import type {LayoutLoad} from "./$types"
 
-export const load: LayoutLoad = async ({data, depends, fetch}) =>
+export const load: LayoutLoad = async ({url, data, depends, fetch}) =>
 {
 	/**
 	 * Declare a dependency so the layout can be invalidated, for example, on
 	 * session refresh.
 	 */
-	depends('supabase:auth')
+	depends("supabase:auth")
 
 	const db = isBrowser()
 		? createBrowserClient<Database>(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
 			global: {
-				fetch,
-			},
+				fetch
+			}
 		})
 		: createServerClient<Database>(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
 			global: {
-				fetch,
+				fetch
 			},
 			cookies: {
 				getAll()
 				{
 					return data.cookies
-				},
-			},
+				}
+			}
 		})
 
 	/**
@@ -37,6 +38,17 @@ export const load: LayoutLoad = async ({data, depends, fetch}) =>
 	 */
 	const {data: {session}} = await db.auth.getSession()
 	const {data: {user}} = await db.auth.getUser()
+	const {data: profile} = await (
+		user == null ? {data: null} : db
+			.from("profiles")
+			.select("*")
+			.eq("id", user.id)
+			.single()
+	)
+
+	// If logged in but has no profile, redirect to onboarding.
+	if (user != null && profile == null && ! url.pathname.startsWith("/onboarding"))
+		redirect(303, "/onboarding")
 
 	// Set the language based on the Accept-Language header.
 	// This is done before components mount, so there's no flicker.
@@ -48,5 +60,5 @@ export const load: LayoutLoad = async ({data, depends, fetch}) =>
 		AutoDetectLanguage(language)
 	}
 
-	return {session, db, user}
+	return {session, db, user, profile}
 }

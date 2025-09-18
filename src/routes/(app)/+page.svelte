@@ -40,7 +40,7 @@
 
 			{$_.home.welcome_back}
 			<br>
-			{data.user.email}
+			{data.profile?.name ?? "***"}
 
 		{:else}
 

@@ -10,6 +10,9 @@ export type I18nTemplate = {
 	password: s
 	submit: s
 	name: s
+	display_name: s
+	continue: s
+	return: s
 	edit: s
 	delete: s
 	insert: s
@@ -21,6 +24,9 @@ export type I18nTemplate = {
 	copied: s
 	paste: s
 	pasted: s
+	onboarding: {
+		complete_your_profile: s
+	}
 	settings: {
 		_: s
 		follows_your_system: s
@@ -49,9 +55,12 @@ export type I18nTemplate = {
 		create_a_new_set_of_words: s
 	}
 	set: {
+		title: (name: s) => s
 		learn: s
 		test: s
 		origin: s
+		creator_label: (name: s) => s
+		creator_profile_missing: s
 	}
 	creator: {
 		title: (name: s) => s

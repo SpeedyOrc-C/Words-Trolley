@@ -15,7 +15,7 @@ export const actions: Actions = {
 		}
 		else
 		{
-			redirect(303, '/')
+			redirect(303, '/onboarding')
 		}
 	},
 	login: async ({request, locals: {db}}) =>

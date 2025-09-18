@@ -12,7 +12,7 @@
 	import {WordType} from "$lib/word/types"
 
 	const {data} = $props()
-	const words = data.words
+	const words = data.word_set.words
 
 	const score: Array<null | false | true> = $state(new Array(words.length).fill(null))
 
@@ -80,10 +80,10 @@
 <svelte:window onkeydown={onkeydown}/>
 
 <svelte:head>
-	<title>{$_.test.title(data.name)}</title>
+	<title>{$_.test.title(data.word_set.name)}</title>
 </svelte:head>
 
-<WordProgressNav index={i} progressTitle={$_.test.progress} {words}/>
+<WordProgressNav index={i} progressTitle={$_.test.progress} {words} id={data.word_set.id}/>
 
 <main class="mx-2">
 

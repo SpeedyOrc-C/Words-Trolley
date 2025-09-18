@@ -1,9 +1,11 @@
-export type WordOf<C extends string> = _WordOf<C, MaxWordLength>
+import type {Phoneme} from "$lib/word/egyptian"
 
-type MaxWordLength = 12
+export enum Punctuation
+{
+	Equal = "=",
+	Minus = "-",
+	Dot = ".",
+	Space = " ",
+}
 
-type _WordOf<c extends string, n extends number> =
-	n extends 0 ? never :
-	`${c}` | `${c}${_WordOf<c, Prev[n]>}`
-
-type Prev = [never, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+type SentenceTransliterationUnit = Phoneme | Punctuation

@@ -7,7 +7,17 @@
 	import {Phoneme2Egyptology} from "$lib/word/egyptian/transliteration/egyptology"
 	import {WordType} from "$lib/word/types"
 
-	const {index, words, progressTitle}: { index: number, words: Word[], progressTitle: string } = $props()
+	const {
+		index,
+		words,
+		id,
+		progressTitle
+	}: {
+		index: number
+		words: Word[]
+		id: string
+		progressTitle: string
+	} = $props()
 
 	const word = $derived(words[index])
 
@@ -37,8 +47,8 @@
 
 	<div class="flex items-center">
 
-		<Button href="/" variant="ghost">
-			{$_.home._}
+		<Button href="/word-set/{id}" variant="ghost">
+			{$_.return}
 		</Button>
 
 		<Button

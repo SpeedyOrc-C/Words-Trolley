@@ -17,7 +17,7 @@
 	import Venus from "@lucide/svelte/icons/venus"
 
 	const {data} = $props()
-	const words = data.words
+	const words = data.word_set.words
 
 	let i = $state(0)
 	let flipped = $state(false)
@@ -29,9 +29,9 @@
 		switch ($language)
 		{
 		case Language.ZhCn:
-			return `学习《${data.name}》中的单词。`
+			return `学习《${data.word_set.name}》中的单词。`
 		default:
-			return `Learn the words in ${data.name}.`
+			return `Learn the words in ${data.word_set.name}.`
 		}
 	})
 
@@ -105,11 +105,11 @@
 <svelte:window onkeydown={onkeydown}/>
 
 <svelte:head>
-	<title>{$_.learn.title(data.name)}</title>
+	<title>{$_.learn.title(data.word_set.name)}</title>
 	<meta content={description} name="description">
 </svelte:head>
 
-<WordProgressNav index={i} progressTitle={$_.learn.progress} {words}/>
+<WordProgressNav index={i} progressTitle={$_.learn.progress} {words} id={data.word_set.id}/>
 
 <main class="grow flex items-center justify-around px-4">
 

@@ -1,4 +1,5 @@
 import type {I18nTemplate} from "$lib/i18n/I18nTemplate"
+import {Language} from "$lib/i18n/Language"
 
 const EnGb: I18nTemplate = {
 	hello: "Hello!",
@@ -61,6 +62,7 @@ const EnGb: I18nTemplate = {
 		origin: "Origin",
 		creator_label: name => `Creator: ${name}`,
 		creator_profile_missing: "Creator’s profile is missing",
+		language_missing: "Word set’s source language is missing",
 	},
 	creator: {
 		title: name => `Word sets by ${name}`,
@@ -219,6 +221,16 @@ const EnGb: I18nTemplate = {
 		auth: {
 			_: "Authentication error",
 		},
+	},
+	language: {
+		[Language.ZhCn]: "Chinese (Mainland)",
+		[Language.ZhTw]: "Chinese (Taiwan)",
+		[Language.EnGb]: "English (UK)",
+		[Language.EnUs]: "English (US)",
+		[Language.JaJp]: "Japanese",
+		[Language.FrFr]: "French (France)",
+		[Language.DeDe]: "German (Germany)",
+		[Language.Egy]: "Egyptian",
 	},
 }
 

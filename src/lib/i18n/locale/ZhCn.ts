@@ -1,4 +1,5 @@
 import type {I18nTemplate} from "$lib/i18n/I18nTemplate"
+import {Language} from "$lib/i18n/Language"
 
 const ZhCn: I18nTemplate = {
 	hello: "你好！",
@@ -61,6 +62,7 @@ const ZhCn: I18nTemplate = {
 		origin: "源头",
 		creator_label: name => `作者：${name}`,
 		creator_profile_missing: "作者个人资料不存在",
+		language_missing: "单词集源语言信息不存在",
 	},
 	creator: {
 		title: name => `${name}的单词集`,
@@ -220,6 +222,16 @@ const ZhCn: I18nTemplate = {
 			_: "授权错误",
 		},
 	},
+	language: {
+		[Language.ZhCn]: "汉语（内地）",
+		[Language.ZhTw]: "汉语（台湾）",
+		[Language.EnGb]: "英语（英国）",
+		[Language.EnUs]: "英语（美国）",
+		[Language.JaJp]: "日语",
+		[Language.FrFr]: "法语（法国）",
+		[Language.DeDe]: "德语（德国）",
+		[Language.Egy]: "埃及语",
+	}
 }
 
 export default ZhCn

@@ -1,6 +1,6 @@
+import {Language} from "$lib/i18n/Language"
 import {English, French, German, Japanese, Mandarin, type Word} from "$lib/word"
 import {WordType} from "$lib/word/types"
-import {Language} from "./i18n"
 
 const baseWord = {
 	meaning: "",

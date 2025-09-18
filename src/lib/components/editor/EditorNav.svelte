@@ -77,7 +77,7 @@
 	}
 </script>
 
-<nav class="sticky top-0 p-2 z-10 flex gap-2 backdrop-blur-sm">
+<nav class="sticky top-0 p-2 z-10 flex gap-2 backdrop-blur-xs">
 
 	<M.Root class="grow">
 

@@ -1,8 +1,9 @@
 <script lang="ts">
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import {Separator} from "$lib/components/ui/separator"
+	import {Language} from "$lib/i18n/Language"
 	import {EgyptianTransliteration, HieroglyphsFont, type ISettings, MandarinScript} from "$lib/settings"
-	import {_, Language} from "$lib/i18n"
+	import {_, LivingLanguages} from "$lib/i18n"
 	import * as Dialog from "$lib/components/ui/dialog"
 	import * as Select from "$lib/components/ui/select"
 	import * as RadioGroup from "$lib/components/ui/radio-group"
@@ -259,7 +260,7 @@
 				</p>
 
 				<div class="flex flex-col gap-2">
-					{#each Object.values(Language) as lang}
+					{#each LivingLanguages as lang}
 						{@const names = $voices.filter(v => v.lang === lang).map(v => v.name)}
 						{@const value = newSettings.PreferredVoice[lang]}
 

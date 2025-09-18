@@ -1,4 +1,5 @@
-import {Language} from "$lib/i18n"
+import {type LivingLanguage, LivingLanguages} from "$lib/i18n"
+import {Language} from "$lib/i18n/Language"
 
 export const SettingsKey = "words-trolley-settings"
 
@@ -23,11 +24,11 @@ export enum HieroglyphsFont
 
 export interface ISettings
 {
-	Language: Language | "auto"
+	Language: LivingLanguage | "auto"
 	MandarinScript: MandarinScript
 	EgyptianTransliteration: EgyptianTransliteration
 	HieroglyphsFont: HieroglyphsFont
-	PreferredVoice: Record<Language, string | null>
+	PreferredVoice: Record<LivingLanguage, string | null>
 }
 
 export const defaultSettings: ISettings = {
@@ -63,9 +64,9 @@ export function ParseSettings(x: unknown): ISettings
 		const language = x.Language
 
 		if (typeof language == "string" &&
-			-1 != Object.values(Language).indexOf(language as Language))
+			-1 != LivingLanguages.indexOf(language as LivingLanguage))
 		{
-			settings.Language = language as Language
+			settings.Language = language as LivingLanguage
 		}
 	}
 	else
@@ -116,7 +117,7 @@ export function ParseSettings(x: unknown): ISettings
 
 		if (typeof preferredVoice == "object" && preferredVoice !== null)
 		{
-			for (let lang of Object.values(Language))
+			for (let lang of LivingLanguages)
 			{
 				if (! (lang in preferredVoice))
 					continue

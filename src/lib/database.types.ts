@@ -33,6 +33,7 @@ export type Database = {
         Row: {
           creator: string | null
           id: string
+          language: Database["public"]["Enums"]["language"] | null
           name: string
           origin: string | null
           words: Json
@@ -40,6 +41,7 @@ export type Database = {
         Insert: {
           creator?: string | null
           id?: string
+          language?: Database["public"]["Enums"]["language"] | null
           name: string
           origin?: string | null
           words: Json
@@ -47,6 +49,7 @@ export type Database = {
         Update: {
           creator?: string | null
           id?: string
+          language?: Database["public"]["Enums"]["language"] | null
           name?: string
           origin?: string | null
           words?: Json
@@ -69,7 +72,15 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      lang: "english" | "mandarin" | "japanese"
+      language:
+        | "zh-CN"
+        | "zh-TW"
+        | "en-GB"
+        | "en-US"
+        | "ja-JP"
+        | "fr-FR"
+        | "de-DE"
+        | "egy"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -197,7 +208,16 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      lang: ["english", "mandarin", "japanese"],
+      language: [
+        "zh-CN",
+        "zh-TW",
+        "en-GB",
+        "en-US",
+        "ja-JP",
+        "fr-FR",
+        "de-DE",
+        "egy",
+      ],
     },
   },
 } as const

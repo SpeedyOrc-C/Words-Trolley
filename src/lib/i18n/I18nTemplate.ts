@@ -1,3 +1,5 @@
+import {Language} from "$lib/i18n/Language"
+
 type s = string
 
 export type I18nTemplate = {
@@ -61,6 +63,7 @@ export type I18nTemplate = {
 		origin: s
 		creator_label: (name: s) => s
 		creator_profile_missing: s
+		language_missing: s
 	}
 	creator: {
 		title: (name: s) => s
@@ -219,5 +222,8 @@ export type I18nTemplate = {
 		auth: {
 			_: s
 		}
+	}
+	language: {
+		[k in Language]: s
 	}
 }

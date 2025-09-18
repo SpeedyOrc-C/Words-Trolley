@@ -1,20 +1,29 @@
-import {derived, writable} from "svelte/store"
-import _ZhCn from "$lib/i18n/locale/ZhCn"
+import {Language} from "$lib/i18n/Language"
 import _EnGb from "$lib/i18n/locale/EnGb"
+import _ZhCn from "$lib/i18n/locale/ZhCn"
 import {PopulateLanguagePacks} from "crazy-i18n/unify"
+import {derived, writable} from "svelte/store"
 
-export enum Language
-{
-	ZhCn = "zh-CN",
-	ZhTw = "zh-TW",
-	EnGb = "en-GB",
-	EnUs = "en-US",
-	JaJp = "ja-JP",
-	FrFr = "fr-FR",
-	DeDe = "de-DE",
-}
+export type LivingLanguage
+	= Language.ZhCn
+	| Language.ZhTw
+	| Language.EnGb
+	| Language.EnUs
+	| Language.JaJp
+	| Language.FrFr
+	| Language.DeDe
 
-export const language = writable<Language>(Language.EnGb)
+export const LivingLanguages = [
+	Language.ZhCn,
+	Language.ZhTw,
+	Language.EnGb,
+	Language.EnUs,
+	Language.JaJp,
+	Language.FrFr,
+	Language.DeDe,
+] as const
+
+export const language = writable<LivingLanguage>(Language.EnGb)
 
 const {ZhCn, EnGb} = PopulateLanguagePacks({ZhCn: _ZhCn, EnGb: _EnGb})
 

@@ -17,7 +17,7 @@
 		TableBody,
 		TableRow,
 		TableHead,
-		TableCell,
+		TableCell
 	} from "$lib/components/ui/table"
 	import {WordType} from "$lib/word/types"
 
@@ -40,7 +40,11 @@
 		data.user.id == data.creator_profile.id
 </script>
 
-<nav class="sticky top-0 z-20 p-2 flex justify-between">
+<svelte:head>
+	<title>{$_.set.title(data.word_set.name)}</title>
+</svelte:head>
+
+<nav class="sticky top-0 z-20 p-2 flex justify-between backdrop-blur-xs">
 
 	<Button href="/" tabindex={0} variant="outline">
 		<House />
@@ -64,11 +68,13 @@
 </nav>
 
 <header class="my-4 px-4 text-center">
+
 	<div class="text-3xl">
 		{data.word_set.name}
 	</div>
+
 	{#if data.creator_profile == null}
-		<div class="text-muted-foreground">
+		<div class="text-muted-foreground text-sm">
 			{$_.set.creator_profile_missing}
 		</div>
 	{:else}
@@ -78,22 +84,29 @@
 			</a>
 		</div>
 	{/if}
-</header>
 
-<svelte:head>
-	<title>{$_.set.title(data.word_set.name)}</title>
-</svelte:head>
+	{#if data.word_set.language == null}
+		<div class="text-muted-foreground text-sm">
+			{$_.set.language_missing}
+		</div>
+	{:else}
+		<div>
+			{$_.language[data.word_set.language]}
+		</div>
+	{/if}
+
+</header>
 
 <main>
 
 	<div class="mx-auto my-4 px-4 w-full max-w-md flex gap-4">
 
-		<Button class="flex-1" href="/word-set/{data.word_set.id}/learn">
+		<Button class="flex-1" href="/word-set/{data.word_set.id}/learn" tabindex={0}>
 			<BookOpen />
 			{$_.set.learn}
 		</Button>
 
-		<Button class="flex-1" href="/word-set/{data.word_set.id}/test" variant="outline">
+		<Button class="flex-1" href="/word-set/{data.word_set.id}/test" tabindex={0} variant="outline">
 			<BookCheck />
 			{$_.set.test}
 		</Button>
@@ -101,33 +114,35 @@
 		<DropdownMenu>
 
 			<DropdownMenuTrigger>
-				<Button variant="secondary">
-					<Ellipsis />
-					{$_.more}
-				</Button>
+				{#snippet child({props})}
+					<Button {...props} variant="secondary">
+						<Ellipsis />
+						{$_.more}
+					</Button>
+				{/snippet}
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent>
 
-<!--				<DropdownMenuItem>-->
-<!--					<Copy />-->
-<!--					{$_.editor.fork._}-->
-<!--				</DropdownMenuItem>-->
+				<!--				<DropdownMenuItem>-->
+				<!--					<Copy />-->
+				<!--					{$_.editor.fork._}-->
+				<!--				</DropdownMenuItem>-->
 
-<!--				<DropdownMenuItem disabled={!isMine}>-->
-<!--					<PenLine />-->
-<!--					{$_.editor.rename}-->
-<!--				</DropdownMenuItem>-->
+				<!--				<DropdownMenuItem disabled={!isMine}>-->
+				<!--					<PenLine />-->
+				<!--					{$_.editor.rename}-->
+				<!--				</DropdownMenuItem>-->
 
 				<DropdownMenuItem disabled={!isMine} onclick={() => goto(`/edit/${data.word_set.id}`)}>
 					<SquarePen />
 					{$_.edit}
 				</DropdownMenuItem>
 
-<!--				<DropdownMenuItem disabled={!isMine} variant="destructive">-->
-<!--					<Trash2 />-->
-<!--					{$_.editor.delete}-->
-<!--				</DropdownMenuItem>-->
+				<!--				<DropdownMenuItem disabled={!isMine} variant="destructive">-->
+				<!--					<Trash2 />-->
+				<!--					{$_.editor.delete}-->
+				<!--				</DropdownMenuItem>-->
 
 			</DropdownMenuContent>
 
@@ -135,38 +150,40 @@
 
 	</div>
 
-	<Table class="mx-auto my-4 px-4 w-full max-w-md">
+	<div class="mx-2">
+		<Table class="mx-auto my-4 w-full max-w-md">
 
-		<TableHeader>
-			<TableRow>
-				<TableHead class="text-muted-foreground">
-					{$_.editor.word}
-				</TableHead>
-				<TableHead class="text-muted-foreground">
-					{$_.editor.meaning}
-				</TableHead>
-			</TableRow>
-		</TableHeader>
-
-		<TableBody>
-			{#each data.word_set.words as word}
+			<TableHeader>
 				<TableRow>
-					<TableCell>
-						{#if word.type === WordType.Egyptian}
-							<EgyptianText t={word.word}/>
-						{:else}
-							<span lang={LangFromWord(word)}>
-								{word.word}
-							</span>
-						{/if}
-					</TableCell>
-					<TableCell>
-						{word.meaning}
-					</TableCell>
+					<TableHead class="text-muted-foreground">
+						{$_.editor.word}
+					</TableHead>
+					<TableHead class="text-muted-foreground">
+						{$_.editor.meaning}
+					</TableHead>
 				</TableRow>
-			{/each}
-		</TableBody>
+			</TableHeader>
 
-	</Table>
+			<TableBody>
+				{#each data.word_set.words as word}
+					<TableRow>
+						<TableCell>
+							{#if word.type === WordType.Egyptian}
+								<EgyptianText t={word.word} />
+							{:else}
+								<span lang={LangFromWord(word)}>
+									{word.word}
+								</span>
+							{/if}
+						</TableCell>
+						<TableCell>
+							{word.meaning}
+						</TableCell>
+					</TableRow>
+				{/each}
+			</TableBody>
+
+		</Table>
+	</div>
 
 </main>

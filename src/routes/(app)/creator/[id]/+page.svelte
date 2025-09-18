@@ -21,7 +21,7 @@
 	<title>{title}</title>
 </svelte:head>
 
-<nav class="sticky top-0 p-2 z-10 flex items-center justify-between backdrop-blur-sm">
+<nav class="sticky top-0 p-2 z-10 flex items-center justify-between backdrop-blur-xs">
 
 	<Button href="/" tabindex={0} variant="outline">
 		<House />

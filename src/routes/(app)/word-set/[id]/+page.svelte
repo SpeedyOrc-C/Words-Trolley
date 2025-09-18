@@ -139,11 +139,11 @@
 
 		<TableHeader>
 			<TableRow>
-				<TableHead>
-					Word
+				<TableHead class="text-muted-foreground">
+					{$_.editor.word}
 				</TableHead>
-				<TableHead>
-					Meaning
+				<TableHead class="text-muted-foreground">
+					{$_.editor.meaning}
 				</TableHead>
 			</TableRow>
 		</TableHeader>

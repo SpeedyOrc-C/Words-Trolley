@@ -25,6 +25,7 @@ const ZhCn: I18nTemplate = {
 	copied: "已复制",
 	paste: "粘贴",
 	pasted: "已粘贴",
+	not_specified: "未指定",
 	onboarding: {
 		complete_your_profile: "完善您的个人信息",
 	},
@@ -62,7 +63,8 @@ const ZhCn: I18nTemplate = {
 		origin: "源头",
 		creator_label: name => `作者：${name}`,
 		creator_profile_missing: "作者个人资料不存在",
-		language_missing: "单词集源语言信息不存在",
+		main_language: "主要语言",
+		main_language_missing: "单词集源语言信息不存在",
 	},
 	creator: {
 		title: name => `${name}的单词集`,

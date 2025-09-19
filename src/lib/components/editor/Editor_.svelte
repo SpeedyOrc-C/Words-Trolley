@@ -7,6 +7,7 @@
 	import {goto} from "$app/navigation"
 	import InputEgyptianHieroglyphs from "$lib/components/editor/InputEgyptianHieroglyphs.svelte"
 	import {_} from "$lib/i18n"
+	import type {Language} from "$lib/i18n/Language"
 	import {settings, settingsOpened} from "$lib/settings/store"
 	import {French, German, Japanese} from "$lib/word"
 	import {FuriganaTemplateFromWord, VerbTypeFromRecursiveForm} from "$lib/word/japanese"
@@ -26,6 +27,7 @@
 	import * as Card from "$lib/components/ui/card"
 	import * as RadioGroup from "$lib/components/ui/radio-group"
 	import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
+	import {} from "$lib/components/ui/dialog"
 
 	import Trash2 from "@lucide/svelte/icons/trash-2"
 	import Plus from "@lucide/svelte/icons/plus"
@@ -40,6 +42,7 @@
 
 	let name = $derived(data.online ? data.name : "")
 	let words = $state(data.online ? data.words : [])
+	let mainLanguage = $derived(data.online ? data.language : null)
 	let saved = $state(true)
 	let saving = $state(false)
 	let deleting = $state(false)
@@ -48,6 +51,7 @@
 	let forking = $state(false)
 	let dragIndex = $state<number | null>(null)
 	let initialisationOpened = $state(false)
+	let changingMainLanguage = $state(false)
 
 	let showWordOperations = $state(true)
 	let showExtraOptions = $state(true)
@@ -182,7 +186,7 @@
 		input.type = "file"
 		input.accept = ".json"
 
-		input.onchange = async function ()
+		input.onchange = async function()
 		{
 			const {files} = input
 
@@ -262,7 +266,7 @@
 		name = newName
 	}
 
-	function OnWordChange(e: Event & { currentTarget: HTMLInputElement }, i: number)
+	function OnWordChange(e: Event & {currentTarget: HTMLInputElement}, i: number)
 	{
 		saved = false
 
@@ -363,9 +367,34 @@
 			return
 		}
 	}
+
+	async function ChangeMainLanguage(language: Language | null)
+	{
+		if (! data.online || changingMainLanguage)
+			return
+
+		changingMainLanguage = true
+
+		const {error} = await data.db
+			.from("sets")
+			.update({language})
+			.eq("id", data.id)
+			.single()
+
+		changingMainLanguage = false
+
+		if (error)
+		{
+			console.error(error)
+			toast.error(error.message)
+			return
+		}
+
+		mainLanguage = language
+	}
 </script>
 
-<svelte:window {onbeforeunload} {onkeydown}/>
+<svelte:window {onbeforeunload} {onkeydown} />
 
 <svelte:head>
 	<title>
@@ -374,16 +403,19 @@
 </svelte:head>
 
 <EditorNav
-	{Delete} {Export} {Fork} {Import} OpenInitialisation={() => initialisationOpened = true}
+	{ChangeMainLanguage} {Delete} {Export} {Fork} {Import}
+	OpenInitialisation={() => initialisationOpened = true}
 	OpenSettings={() => settingsOpened.set(true)}
 	{Rename}
 	{Save}
 	bind:showExtraOptions
 	bind:showWordOperations
+	{changingMainLanguage}
 	{deleting}
 	{forking}
 	id={data.online ? data.id : null}
-	isMine={isMine} online={data.online} origin={data.online ? data.origin : null} {renaming} {saved} {saving}
+	isMine={isMine}
+	{mainLanguage} online={data.online} origin={data.online ? data.origin : null} {renaming} {saved} {saving}
 />
 
 <main class="grow overflow-x-clip overflow-y-auto">
@@ -402,7 +434,7 @@
 
 			{#if showWordOperations}
 				<Button variant="ghost" onclick={() => InsertNewWord(i)} class="text-foreground/60">
-					<BetweenHorizontalStart/>
+					<BetweenHorizontalStart />
 					{$_.editor.insert_here}
 				</Button>
 			{:else}
@@ -440,7 +472,7 @@
 						{/if}
 
 						{#if word.type === WordType.Egyptian}
-							<InputEgyptianHieroglyphs bind:value={word.word} onchange={() => saved = false}/>
+							<InputEgyptianHieroglyphs bind:value={word.word} onchange={() => saved = false} />
 						{/if}
 
 						<Input
@@ -457,7 +489,7 @@
 
 					{#if showExtraOptions}
 
-						<Separator/>
+						<Separator />
 
 						<SelectWordAndTheirExtras
 							bind:saved
@@ -477,12 +509,12 @@
 								<Label>{$_.linguistics.gender}</Label>
 
 								<div class="flex items-center">
-									<RadioGroup.Item id="m" value={French.Gender.M}/>
+									<RadioGroup.Item id="m" value={French.Gender.M} />
 									<Label class="pl-2" for="m">{$_.linguistics.abbr.masculine}</Label>
 								</div>
 
 								<div class="flex items-center">
-									<RadioGroup.Item id="f" value={French.Gender.F}/>
+									<RadioGroup.Item id="f" value={French.Gender.F} />
 									<Label class="pl-2" for="f">{$_.linguistics.abbr.feminine}</Label>
 								</div>
 
@@ -500,17 +532,17 @@
 								<Label>{$_.linguistics.gender}</Label>
 
 								<div class="flex items-center">
-									<RadioGroup.Item id="m" value={German.Gender.M}/>
+									<RadioGroup.Item id="m" value={German.Gender.M} />
 									<label class="pl-2" for="m">{$_.linguistics.abbr.masculine}</label>
 								</div>
 
 								<div class="flex items-center">
-									<RadioGroup.Item id="n" value={German.Gender.N}/>
+									<RadioGroup.Item id="n" value={German.Gender.N} />
 									<label class="pl-2" for="n">{$_.linguistics.abbr.neutral}</label>
 								</div>
 
 								<div class="flex items-center">
-									<RadioGroup.Item id="f" value={German.Gender.F}/>
+									<RadioGroup.Item id="f" value={German.Gender.F} />
 									<label class="pl-2" for="f">{$_.linguistics.abbr.feminine}</label>
 								</div>
 
@@ -542,22 +574,22 @@
 									<Label>{$_.linguistics.verb_group}</Label>
 
 									<div class="flex items-center">
-										<RadioGroup.Item id="jvt-c-{i}" value={Japanese.VerbType.Consonant}/>
+										<RadioGroup.Item id="jvt-c-{i}" value={Japanese.VerbType.Consonant} />
 										<Label class="pl-2" for="jvt-c-{i}">1</Label>
 									</div>
 
 									<div class="flex items-center">
-										<RadioGroup.Item id="jvt-v-{i}" value={Japanese.VerbType.Vowel}/>
+										<RadioGroup.Item id="jvt-v-{i}" value={Japanese.VerbType.Vowel} />
 										<Label class="pl-2" for="jvt-v-{i}">2</Label>
 									</div>
 
 									<div class="flex items-center">
-										<RadioGroup.Item id="jvt-n-{i}" value={Japanese.VerbType.Noun}/>
+										<RadioGroup.Item id="jvt-n-{i}" value={Japanese.VerbType.Noun} />
 										<Label class="pl-2" for="jvt-n-{i}">3</Label>
 									</div>
 
 									<div class="flex items-center">
-										<RadioGroup.Item id="jvt-ir-{i}" value={Japanese.VerbType.Irregular}/>
+										<RadioGroup.Item id="jvt-ir-{i}" value={Japanese.VerbType.Irregular} />
 										<Label class="pl-2" for="jvt-ir-{i}">?</Label>
 									</div>
 
@@ -610,7 +642,7 @@
 								class="flex-1" variant="secondary"
 								title={$_.editor.move_up}
 							>
-								<MoveUpIcon/>
+								<MoveUpIcon />
 								{$_.editor.move_up}
 							</Button>
 
@@ -619,7 +651,7 @@
 								<DropdownMenu.Trigger>
 									{#snippet child({props})}
 										<Button {...props} variant="secondary">
-											<Ellipsis/>
+											<Ellipsis />
 											{$_.more}
 										</Button>
 									{/snippet}
@@ -631,7 +663,7 @@
 										onclick={() => $Speak(word)}
 										disabled={!CanSpeak(word.type)}
 									>
-										<Speech/>
+										<Speech />
 										{$_.learn.speak}
 									</DropdownMenu.Item>
 
@@ -639,7 +671,7 @@
 										onclick={() => DeleteWord(i)}
 										variant="destructive"
 									>
-										<Trash2/>
+										<Trash2 />
 										{$_.delete}
 									</DropdownMenu.Item>
 
@@ -652,7 +684,7 @@
 								class="flex-1" variant="secondary"
 								title={$_.editor.move_down}
 							>
-								<MoveDownIcon/>
+								<MoveDownIcon />
 								{$_.editor.move_down}
 							</Button>
 
@@ -671,7 +703,7 @@
 			</Button>
 		{:else if showWordOperations}
 			<Button class="mx-2" onclick={() => InsertNewWord(words.length)} variant="secondary">
-				<Plus/>
+				<Plus />
 				{$_.editor.add_a_word}
 			</Button>
 		{/if}

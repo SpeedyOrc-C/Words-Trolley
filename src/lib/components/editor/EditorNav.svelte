@@ -4,12 +4,14 @@
 		online: boolean
 		id: string | null
 		origin: string | null
+		mainLanguage: Language | null
 		isMine: boolean
 		saving: boolean
 		saved: boolean
 		deleting: boolean
 		renaming: boolean
 		forking: boolean
+		changingMainLanguage: boolean
 		showWordOperations: boolean
 		showExtraOptions: boolean
 		OpenSettings: () => any
@@ -20,6 +22,7 @@
 		Export: () => any
 		Delete: () => any
 		Rename: () => any
+		ChangeMainLanguage: (language: Language | null) => Promise<any>
 	}
 </script>
 
@@ -27,9 +30,10 @@
 	import {_} from "$lib/i18n"
 	import * as M from "$lib/components/ui/menubar"
 	import {Button} from "$lib/components/ui/button"
-	import Home from "@lucide/svelte/icons/home"
 	import {goto} from "$app/navigation"
+	import {Language} from "$lib/i18n/Language"
 
+	import Home from "@lucide/svelte/icons/home"
 	import BookOpen from "@lucide/svelte/icons/book-open"
 	import BookCheck from "@lucide/svelte/icons/book-check"
 	import Settings from "@lucide/svelte/icons/settings"
@@ -41,13 +45,32 @@
 	import Trash2 from "@lucide/svelte/icons/trash-2"
 	import Copy from "@lucide/svelte/icons/copy"
 	import ArrowBigLeft from "@lucide/svelte/icons/arrow-big-left"
+	import Ban from "@lucide/svelte/icons/ban"
+	import Check from "@lucide/svelte/icons/check"
 
 	let {
-		OpenSettings, OpenInitialisation,
+		OpenSettings,
+		OpenInitialisation,
 		showWordOperations = $bindable(),
 		showExtraOptions = $bindable(),
-		online, isMine, id, origin, saving, saved, deleting, renaming, forking,
-		Save, Import, Export, Delete, Rename, Fork,
+		online,
+		isMine,
+		id,
+		origin,
+		mainLanguage,
+		saving,
+		saved,
+		deleting,
+		renaming,
+		forking,
+		changingMainLanguage,
+		Save,
+		Import,
+		Export,
+		Delete,
+		Rename,
+		Fork,
+		ChangeMainLanguage
 	}: EditorNavProps = $props()
 
 	async function GuardedGoto(url: string)
@@ -90,7 +113,7 @@
 			<M.Content>
 
 				<M.Item disabled={saving || saved || ! online || ! isMine} onclick={Save}>
-					<SaveIcon/>
+					<SaveIcon />
 					{#if saving}
 						{$_.editor.saving}
 					{:else if saved}
@@ -101,36 +124,74 @@
 				</M.Item>
 
 				<M.Item disabled={renaming || ! online} onclick={Rename}>
-					<SquarePen/>
+					<SquarePen />
 					{$_.editor.rename}
 				</M.Item>
 
+				<M.Sub>
+
+					<M.SubTrigger disabled={changingMainLanguage || ! online}>
+						{$_.set.main_language}
+					</M.SubTrigger>
+
+					<M.SubContent>
+
+						<M.Item
+							disabled={mainLanguage == null || changingMainLanguage}
+							onclick={() => ChangeMainLanguage(null)}
+						>
+							{#if mainLanguage == null}
+								<Check />
+							{:else}
+								<Ban />
+							{/if}
+							{$_.not_specified}
+						</M.Item>
+
+						<M.Separator />
+
+						{#each Object.values(Language) as language}
+							<M.Item
+								disabled={mainLanguage === language || changingMainLanguage}
+								onclick={() => ChangeMainLanguage(language)}
+							>
+								{#if mainLanguage === language}
+									<Check />
+								{/if}
+								{$_.language[language]}
+							</M.Item>
+						{/each}
+
+					</M.SubContent>
+
+				</M.Sub>
+
 				<M.Item onclick={OpenInitialisation}>
-					<ListPlus/>
+					<ListPlus />
 					{$_.editor.initialise}
 				</M.Item>
 
-				<M.Separator/>
+				<M.Separator />
 
 				<M.Item disabled={! online || forking} onclick={() => GuardedAction(Fork)}>
-					<Copy/>
+					<Copy />
 					{$_.editor.fork._}
 				</M.Item>
 
 				<M.Item onclick={Import}>
-					<FolderInput/>
+					<FolderInput />
 					{$_.editor.import}
 				</M.Item>
 
 				<M.Item onclick={Export}>
-					<FolderOutput/>
+					<FolderOutput />
 					{$_.editor.export}
 				</M.Item>
 
-				<M.Separator/>
+				<M.Separator />
 
 				<M.Item disabled={deleting || ! online} onclick={Delete} variant="destructive">
-					<Trash2/>
+					<Trash2 />
 					{$_.editor.delete}
 				</M.Item>
 
@@ -169,17 +230,17 @@
 				<M.Content>
 
 					<M.Item onclick={() => GuardedGoto(`/word-set/${id}/learn`)}>
-						<BookOpen/>
+						<BookOpen />
 						{$_.set.learn}
 					</M.Item>
 
 					<M.Item onclick={() => GuardedGoto(`/word-set/${id}/test`)}>
-						<BookCheck/>
+						<BookCheck />
 						{$_.set.test}
 					</M.Item>
 
 					<M.Item disabled={origin == null} onclick={() => GuardedGoto(`/edit/${origin}`)}>
-						<ArrowBigLeft/>
+						<ArrowBigLeft />
 						{$_.set.origin}
 					</M.Item>
 
@@ -189,7 +250,7 @@
 
 		{/if}
 
-		{#if !saved && isMine}
+		{#if ! saved && isMine}
 
 			<M.Menu>
 
@@ -209,27 +270,27 @@
 
 	<div class="hidden sm:block">
 		<Button onclick={OpenSettings} variant="outline">
-			<Settings/>
+			<Settings />
 			{$_.settings._}
 		</Button>
 	</div>
 
 	<div class="hidden sm:block">
 		<Button onclick={() => GuardedGoto("/")} variant="secondary">
-			<Home/>
+			<Home />
 			{$_.home._}
 		</Button>
 	</div>
 
 	<div class="sm:hidden">
 		<Button aria-label={$_.settings._} onclick={OpenSettings} size="icon" variant="outline">
-			<Settings/>
+			<Settings />
 		</Button>
 	</div>
 
 	<div class="sm:hidden">
 		<Button aria-label={$_.home._} onclick={() => GuardedGoto("/")} size="icon" variant="secondary">
-			<Home/>
+			<Home />
 		</Button>
 	</div>
 

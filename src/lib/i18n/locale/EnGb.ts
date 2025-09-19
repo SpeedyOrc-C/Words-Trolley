@@ -25,6 +25,7 @@ const EnGb: I18nTemplate = {
 	copied: "Copied",
 	paste: "Paste",
 	pasted: "Pasted",
+	not_specified: "Not specified",
 	onboarding: {
 		complete_your_profile: "Complete your profile",
 	},
@@ -62,7 +63,8 @@ const EnGb: I18nTemplate = {
 		origin: "Origin",
 		creator_label: name => `Creator: ${name}`,
 		creator_profile_missing: "Creator’s profile is missing",
-		language_missing: "Word set’s source language is missing",
+		main_language: "Main language",
+		main_language_missing: "Word set’s source language is missing",
 	},
 	creator: {
 		title: name => `Word sets by ${name}`,

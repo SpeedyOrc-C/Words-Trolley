@@ -87,7 +87,7 @@
 
 	{#if data.word_set.language == null}
 		<div class="text-muted-foreground text-sm">
-			{$_.set.language_missing}
+			{$_.set.main_language_missing}
 		</div>
 	{:else}
 		<div>

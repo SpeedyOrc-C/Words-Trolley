@@ -26,6 +26,7 @@ export type I18nTemplate = {
 	copied: s
 	paste: s
 	pasted: s
+	not_specified: s
 	onboarding: {
 		complete_your_profile: s
 	}
@@ -63,7 +64,8 @@ export type I18nTemplate = {
 		origin: s
 		creator_label: (name: s) => s
 		creator_profile_missing: s
-		language_missing: s
+		main_language: s
+		main_language_missing: s
 	}
 	creator: {
 		title: (name: s) => s

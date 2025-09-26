@@ -6,7 +6,7 @@
 	import {Language} from "$lib/i18n/Language"
 	import {_, language} from "$lib/i18n/store"
 	import {settings} from "$lib/settings/store"
-	import {preferredEgyptianTransliterationDumper} from "$lib/settings/store/egyptian"
+	import {preferredSentenceTransliterationDumper} from "$lib/settings/store/egyptian"
 	import {French, German} from "$lib/word"
 	import {BopomofoStrict, type ISyllable, Pinyin} from "$lib/word/mandarin"
 	import {MandarinScript} from "$lib/settings"
@@ -194,7 +194,7 @@
 			<div class="text-5xl" lang="egy">
 				<ruby>
 					<EgyptianText t={word.word}/>
-					<rt>{word.trans.map(x => $preferredEgyptianTransliterationDumper[x]).join("")}</rt>
+					<rt>{$preferredSentenceTransliterationDumper(word.trans)}</rt>
 				</ruby>
 			</div>
 

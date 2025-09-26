@@ -1,10 +1,10 @@
 <script lang="ts">
 	import {
-		preferredEgyptianTransliterationDumper,
-		preferredEgyptianTransliterationParser
+		preferredSentenceTransliterationDumper,
+		preferredSentenceTransliterationParser,
 	} from "$lib/settings/store/egyptian"
-	import type {Phoneme} from "$lib/word/egyptian"
 	import {Input} from "$lib/components/ui/input"
+	import type {SentenceTransliteration} from "$lib/word/egyptian/transliteration"
 
 	let {
 		value = $bindable([]),
@@ -16,7 +16,7 @@
 		class: _class = "",
 		style = "",
 	}: {
-		value?: Phoneme[]
+		value?: SentenceTransliteration
 		onchange?: () => void
 		placeholder?: string
 		disabled?: boolean
@@ -26,14 +26,14 @@
 		style?: string
 	} = $props()
 
-	const initValue = $derived(value.map(x => $preferredEgyptianTransliterationDumper[x]).join(""))
+	const initValue = $derived($preferredSentenceTransliterationDumper(value))
 
 	let input: HTMLInputElement = null as any
 	let error = $state(false)
 
 	function oninput()
 	{
-		const syllables = $preferredEgyptianTransliterationParser.eval(input.value.trim())
+		const syllables = $preferredSentenceTransliterationParser.eval(input.value.trim())
 
 		if (syllables instanceof Error)
 			error = true

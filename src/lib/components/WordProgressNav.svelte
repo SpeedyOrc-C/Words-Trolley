@@ -4,8 +4,8 @@
 
 	import {_} from "$lib/i18n/store"
 	import {settingsOpened} from "$lib/settings/store"
+	import {preferredSentenceTransliterationDumper} from "$lib/settings/store/egyptian"
 	import type {Word} from "$lib/word"
-	import {Phoneme2Egyptology} from "$lib/word/egyptian/transliteration/egyptology"
 	import {WordType} from "$lib/word/types"
 
 	const {
@@ -25,7 +25,7 @@
 	const wordArg = $derived.by(() =>
 	{
 		if (word.type == WordType.Egyptian)
-			return word.trans.map(x => Phoneme2Egyptology[x]).join("")
+			return $preferredSentenceTransliterationDumper(word.trans)
 
 		return word.word
 	})

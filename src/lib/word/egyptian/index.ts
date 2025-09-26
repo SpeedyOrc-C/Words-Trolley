@@ -1,5 +1,6 @@
 import {type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
 import {WordType} from "$lib/word/types"
+import type {SentenceTransliteration} from "$lib/word/egyptian/transliteration"
 
 export enum Phoneme
 {
@@ -38,5 +39,5 @@ export function PhonemeEqual_BlurrySZ(a: string, b: string): boolean
 export type Word = {
 	type: WordType.Egyptian
 	word: Hieroglyphs[]
-	trans: Phoneme[]
+	trans: SentenceTransliteration
 }

@@ -5,7 +5,8 @@
 <script lang="ts">
 	import {Button} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
-	import {_} from "$lib/i18n"
+
+	import {_} from "$lib/i18n/store"
 	import {preferredEgyptianTransliterationParser} from "$lib/settings/store/egyptian"
 	import {CandidatesFromPhonemes} from "$lib/word/egyptian/dictionary"
 	import {CandidatesFromNumber} from "$lib/word/egyptian/dictionary/numbers"

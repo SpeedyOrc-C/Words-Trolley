@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {_} from "$lib/i18n"
 	import * as Card from "$lib/components/ui/card"
 	import * as M from "$lib/components/ui/navigation-menu"
 	import {Input} from "$lib/components/ui/input"
 	import {Button} from "$lib/components/ui/button"
 	import {Label} from "$lib/components/ui/label"
+	import {_} from "$lib/i18n/store"
 
 	import House from "@lucide/svelte/icons/house"
 </script>

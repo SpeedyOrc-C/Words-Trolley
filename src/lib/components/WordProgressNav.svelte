@@ -1,7 +1,8 @@
 <script lang="ts">
 	import {Button} from "$lib/components/ui/button"
 	import {Progress} from "$lib/components/ui/progress"
-	import {_} from "$lib/i18n"
+
+	import {_} from "$lib/i18n/store"
 	import {settingsOpened} from "$lib/settings/store"
 	import type {Word} from "$lib/word"
 	import {Phoneme2Egyptology} from "$lib/word/egyptian/transliteration/egyptology"

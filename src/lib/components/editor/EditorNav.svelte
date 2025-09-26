@@ -27,11 +27,11 @@
 </script>
 
 <script lang="ts">
-	import {_} from "$lib/i18n"
 	import * as M from "$lib/components/ui/menubar"
 	import {Button} from "$lib/components/ui/button"
 	import {goto} from "$app/navigation"
 	import {Language} from "$lib/i18n/Language"
+	import {_} from "$lib/i18n/store"
 
 	import Home from "@lucide/svelte/icons/home"
 	import BookOpen from "@lucide/svelte/icons/book-open"

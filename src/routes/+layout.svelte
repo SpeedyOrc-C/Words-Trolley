@@ -1,7 +1,8 @@
 <script lang="ts">
 	import "../app.css"
 	import {dev} from "$app/environment"
-	import {AutoDetectLanguage, language} from "$lib/i18n"
+	import {AutoDetectLanguage} from "$lib/i18n"
+	import {language} from "$lib/i18n/store"
 	import {ParseSettings} from "$lib/settings"
 	import {settings, settingsOpened} from "$lib/settings/store"
 	import {ModeWatcher} from "mode-watcher"

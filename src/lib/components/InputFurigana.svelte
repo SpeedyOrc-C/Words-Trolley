@@ -20,8 +20,8 @@
 <script lang="ts">
 	import {Button} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
+	import {_} from "$lib/i18n/store"
 	import {type Furigana, FuriganaTemplateFromWord} from "$lib/word/japanese"
-	import {_} from "$lib/i18n"
 
 	import SeparatorHorizontal from "@lucide/svelte/icons/separator-horizontal"
 	import ArrowUpToLine from "@lucide/svelte/icons/arrow-up-to-line"

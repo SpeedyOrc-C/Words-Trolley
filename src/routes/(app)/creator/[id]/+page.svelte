@@ -1,6 +1,6 @@
 <script lang="ts">
-	import {_} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
+	import {_} from "$lib/i18n/store"
 	import {settingsOpened} from "$lib/settings/store"
 
 	import House from "@lucide/svelte/icons/house"

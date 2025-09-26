@@ -3,11 +3,11 @@
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import QEgyptianTransliteration from "$lib/components/QEgyptianTransliteration.svelte"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
-	import {_} from "$lib/i18n"
 	import QSimple from "$lib/components/QSimple.svelte"
 	import QPinyin from "$lib/components/QPinyin.svelte"
 	import {Button} from "$lib/components/ui/button"
 	import QFrenchNoun from "$lib/components/QFrenchNoun.svelte"
+	import {_} from "$lib/i18n/store"
 	import {French} from "$lib/word"
 	import {WordType} from "$lib/word/types"
 

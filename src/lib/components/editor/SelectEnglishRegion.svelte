@@ -1,5 +1,6 @@
 <script lang="ts">
-	import {_} from "$lib/i18n"
+
+	import {_} from "$lib/i18n/store"
 	import {Region} from "$lib/word/english"
 	import * as Select from "$lib/components/ui/select"
 

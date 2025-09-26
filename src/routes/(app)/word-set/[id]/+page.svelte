@@ -2,8 +2,8 @@
 	import {goto} from "$app/navigation"
 	import {LangFromWord} from "$lib"
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
-	import {_} from "$lib/i18n"
 	import {Button} from "$lib/components/ui/button"
+	import {_} from "$lib/i18n/store"
 	import {settingsOpened} from "$lib/settings/store"
 	import {
 		DropdownMenu,

@@ -3,7 +3,8 @@
 	import {Label} from "$lib/components/ui/label"
 	import {Slider} from "$lib/components/ui/slider"
 	import {Switch} from "$lib/components/ui/switch"
-	import {_} from "$lib/i18n"
+
+	import {_} from "$lib/i18n/store"
 
 	let useCustomTextColour = $state(false)
 	let customTextColour = $state("#000000")

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import {_} from "$lib/i18n"
 
 	import {Button} from "$lib/components/ui/button"
 	import {CardContent, CardHeader, CardTitle} from "$lib/components/ui/card/index.js"
 	import {Input} from "$lib/components/ui/input"
 	import {Card} from "$lib/components/ui/card"
 	import {Label} from "$lib/components/ui/label"
+	import {_} from "$lib/i18n/store"
 </script>
 
 <svelte:head>

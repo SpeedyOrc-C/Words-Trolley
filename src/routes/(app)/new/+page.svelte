@@ -3,9 +3,9 @@
 	import {Button} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
 	import {Label} from "$lib/components/ui/label"
-	import {_} from "$lib/i18n"
 	import * as M from "$lib/components/ui/navigation-menu"
 	import * as Card from "$lib/components/ui/card"
+	import {_} from "$lib/i18n/store"
 
 	import HouseIcon from "@lucide/svelte/icons/house"
 

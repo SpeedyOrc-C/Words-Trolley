@@ -49,10 +49,8 @@
 		<h1>Navigator Languages</h1>
 
 		<p class="inline-flex gap-4 flex-wrap">
-			{#each navigator.languages as lang, i}
-				<code>
-					{lang}
-				</code>
+			{#each navigator.languages as lang}
+				<code>{lang}</code>
 			{/each}
 		</p>
 	</section>
@@ -75,13 +73,17 @@
 				{#each $voices as voice}
 					<T.Row>
 						<T.Cell>
-							<Checkbox checked={voice.default}/>
+							<Checkbox readonly checked={voice.default}/>
 						</T.Cell>
 						<T.Cell>
-							<Checkbox checked={voice.localService}/>
+							<Checkbox readonly checked={voice.localService}/>
 						</T.Cell>
-						<T.Cell><code>{voice.lang}</code></T.Cell>
-						<T.Cell>{voice.name}</T.Cell>
+						<T.Cell>
+							<code>{voice.lang}</code>
+						</T.Cell>
+						<T.Cell>
+							{voice.name}
+						</T.Cell>
 					</T.Row>
 				{/each}
 			</T.Body>

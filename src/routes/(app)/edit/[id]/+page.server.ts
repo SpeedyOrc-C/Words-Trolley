@@ -23,3 +23,5 @@ export async function load({locals: {db}, params: {id}, depends})
 
 	return {set: {...data, words}}
 }
+
+export const ssr = false

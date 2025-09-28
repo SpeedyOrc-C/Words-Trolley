@@ -20,6 +20,8 @@
 		TableCell
 	} from "$lib/components/ui/table"
 	import {WordType} from "$lib/word/types"
+	import {toast} from "svelte-sonner"
+	import {Service} from "$lib/service"
 
 	import House from "@lucide/svelte/icons/house"
 	import BookOpen from "@lucide/svelte/icons/book-open"
@@ -34,10 +36,31 @@
 
 	const {data} = $props()
 
+	const service = new Service(data.db)
+
+	let forking = $state(false)
+
 	const isMine =
 		data.user != null &&
 		data.creator_profile != null &&
 		data.user.id == data.creator_profile.id
+
+	async function Fork()
+	{
+		forking = true
+		const newId = await service.WordSet.Fork(data.word_set.id)
+		forking = false
+
+		if (newId instanceof Error)
+		{
+			console.error(newId)
+			toast.error(newId.message)
+			return
+		}
+
+		toast.success($_.editor.fork.success)
+		await goto(`/word-set/${newId}`)
+	}
 </script>
 
 <svelte:head>
@@ -124,10 +147,10 @@
 
 			<DropdownMenuContent>
 
-				<!--				<DropdownMenuItem>-->
-				<!--					<Copy />-->
-				<!--					{$_.editor.fork._}-->
-				<!--				</DropdownMenuItem>-->
+				<DropdownMenuItem onclick={Fork} disabled={forking}>
+					<Copy />
+					{$_.editor.fork._}
+				</DropdownMenuItem>
 
 				<!--				<DropdownMenuItem disabled={!isMine}>-->
 				<!--					<PenLine />-->

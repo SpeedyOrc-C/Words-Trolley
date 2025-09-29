@@ -239,7 +239,7 @@
 
 </div>
 
-<style>
+<style lang="postcss">
 	@reference "tailwindcss";
 
 	rt {

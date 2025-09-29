@@ -100,7 +100,7 @@
 
 {/if}
 
-<style>
+<style lang="postcss">
 	@reference "tailwindcss";
 
 	.g {

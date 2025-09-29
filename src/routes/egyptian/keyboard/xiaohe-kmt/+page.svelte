@@ -74,7 +74,7 @@
 
 </main>
 
-<style>
+<style lang="postcss">
 	@reference "tailwindcss";
 
 	.key {

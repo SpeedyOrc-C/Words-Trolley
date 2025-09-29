@@ -29,8 +29,35 @@ export type Database = {
         }
         Relationships: []
       }
+      saves: {
+        Row: {
+          saved_at: string
+          saver: string
+          set: string
+        }
+        Insert: {
+          saved_at?: string
+          saver: string
+          set: string
+        }
+        Update: {
+          saved_at?: string
+          saver?: string
+          set?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saves_set_fkey"
+            columns: ["set"]
+            isOneToOne: false
+            referencedRelation: "sets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sets: {
         Row: {
+          created_at: string
           creator: string | null
           id: string
           language: Database["public"]["Enums"]["language"] | null
@@ -39,6 +66,7 @@ export type Database = {
           words: Json
         }
         Insert: {
+          created_at?: string
           creator?: string | null
           id?: string
           language?: Database["public"]["Enums"]["language"] | null
@@ -47,6 +75,7 @@ export type Database = {
           words: Json
         }
         Update: {
+          created_at?: string
           creator?: string | null
           id?: string
           language?: Database["public"]["Enums"]["language"] | null

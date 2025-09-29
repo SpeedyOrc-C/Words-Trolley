@@ -428,7 +428,7 @@
 
 </div>
 
-<style>
+<style lang="postcss">
 	@reference "tailwindcss";
 
 	.egyptian {

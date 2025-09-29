@@ -68,7 +68,7 @@
 
 <div style="height: 30vh"></div>
 
-<style>
+<style lang="postcss">
 	@reference "tailwindcss";
 
 	.word-set {

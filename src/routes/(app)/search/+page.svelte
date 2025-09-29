@@ -43,7 +43,7 @@
 	</Button>
 
 	<form onsubmit={Search} class="flex max-w-sm grow gap-2">
-		<Input bind:value={query} />
+		<Input bind:value={query} autofocus />
 		<Button
 			onclick={Search}
 			disabled={searching || _query.length == 0}

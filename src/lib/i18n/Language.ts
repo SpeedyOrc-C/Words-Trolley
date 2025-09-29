@@ -1,3 +1,5 @@
+import {asum, eq} from "crazy-parser/json/validate"
+
 export enum Language
 {
 	ZhCn = "zh-CN",
@@ -9,3 +11,6 @@ export enum Language
 	DeDe = "de-DE",
 	Egy = "egy",
 }
+
+export const ValidateLanguage =
+	asum(...Object.values(Language).map(v => eq(v)))

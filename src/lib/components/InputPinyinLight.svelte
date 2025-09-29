@@ -27,11 +27,14 @@
 
 	const initValue = value.map(Pinyin).join(" ")
 
-	let input: HTMLInputElement = null as any
+	let input: HTMLInputElement | null = $state(null)
 	let error = $state(false)
 
 	function onchange()
 	{
+		if (! input)
+			return
+
 		const syllables = parser.eval(input.value.trim().toLowerCase())
 
 		if (syllables instanceof Error)
@@ -46,12 +49,18 @@
 
 	function onfocusin()
 	{
+		if (! input)
+			return
+
 		if (! error)
 			input.value = value.map(PinyinWithToneNumber).join(" ")
 	}
 
 	function onfocusout()
 	{
+		if (! input)
+			return
+
 		if (! error)
 			input.value = value.map(Pinyin).join(" ")
 	}

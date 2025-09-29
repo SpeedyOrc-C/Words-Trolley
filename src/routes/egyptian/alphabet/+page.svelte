@@ -137,7 +137,7 @@
 
 </article>
 
-<style>
+<style lang="postcss">
 	@reference "tailwindcss";
 
 	.v {

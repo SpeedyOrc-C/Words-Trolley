@@ -28,11 +28,14 @@
 
 	const initValue = $derived($preferredSentenceTransliterationDumper(value))
 
-	let input: HTMLInputElement = null as any
+	let input: HTMLInputElement | null = $state(null)
 	let error = $state(false)
 
 	function oninput()
 	{
+		if (! input)
+			return
+
 		const syllables = $preferredSentenceTransliterationParser.eval(input.value.trim())
 
 		if (syllables instanceof Error)

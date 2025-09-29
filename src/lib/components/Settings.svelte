@@ -313,7 +313,7 @@
 
 </Dialog.Root>
 
-<style>
+<style lang="postcss">
 	@reference "tailwindcss";
 
 	article > section > header {

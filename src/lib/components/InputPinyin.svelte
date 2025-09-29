@@ -278,7 +278,7 @@
 
 </div>
 
-<style>
+<style lang="postcss">
     @reference "tailwindcss";
 
     @keyframes ani-blinking-underline {

@@ -27,11 +27,14 @@
 
 	const initValue = value.map(Bopomofo).join(" ")
 
-	let input: HTMLInputElement = null as any
+	let input: HTMLInputElement | null = $state(null)
 	let error = $state(false)
 
 	function onchange()
 	{
+		if (! input)
+			return
+
 		const syllables = parser.eval(input.value.trim().toLowerCase())
 
 		if (syllables instanceof Error)
@@ -46,6 +49,9 @@
 
 	function onfocusout()
 	{
+		if (! input)
+			return
+
 		if (! error)
 			input.value = value.map(Bopomofo).join(" ")
 	}

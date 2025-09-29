@@ -101,7 +101,7 @@
 
 </main>
 
-<style>
+<style lang="postcss">
 	@reference "tailwindcss";
 
 	h1 {

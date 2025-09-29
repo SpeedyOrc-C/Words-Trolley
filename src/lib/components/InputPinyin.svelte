@@ -220,11 +220,6 @@
 		focusedBufferIndex = i
 	}
 
-	function AttachBuffer(e: HTMLInputElement, i: number)
-	{
-		elements[i] = e
-	}
-
 	function AttachSyllable(e: HTMLElement, i: number)
 	{
 		elements[i] = e

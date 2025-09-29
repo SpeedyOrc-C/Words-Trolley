@@ -31,6 +31,7 @@
 	import SquarePen from "@lucide/svelte/icons/square-pen"
 	import Copy from "@lucide/svelte/icons/copy"
 	import Ellipsis from "@lucide/svelte/icons/ellipsis"
+	import Search from "@lucide/svelte/icons/search"
 	import Trash2 from "@lucide/svelte/icons/trash-2"
 	import PenLine from "@lucide/svelte/icons/pen-line"
 
@@ -69,10 +70,19 @@
 
 <nav class="sticky top-0 z-20 p-2 flex justify-between backdrop-blur-xs">
 
-	<Button href="/" tabindex={0} variant="outline">
-		<House />
-		{$_.home._}
-	</Button>
+	<div class="flex gap-2">
+
+		<Button href="/" tabindex={0} variant="outline">
+			<House />
+			{$_.home._}
+		</Button>
+
+		<Button href="/search" variant="outline" tabindex={0}>
+			<Search />
+			{$_.search}
+		</Button>
+
+	</div>
 
 	<div class="flex items-center gap-2">
 

@@ -6,6 +6,7 @@
 	import House from "@lucide/svelte/icons/house"
 	import Settings from "@lucide/svelte/icons/settings"
 	import Plus from "@lucide/svelte/icons/plus"
+	import Search from "@lucide/svelte/icons/search"
 
 	const {data} = $props()
 
@@ -23,10 +24,19 @@
 
 <nav class="sticky top-0 p-2 z-10 flex items-center justify-between backdrop-blur-xs">
 
-	<Button href="/" tabindex={0} variant="outline">
-		<House />
-		{$_.home._}
-	</Button>
+	<div class="flex gap-2">
+
+		<Button href="/" tabindex={0} variant="outline">
+			<House />
+			{$_.home._}
+		</Button>
+
+		<Button href="/search" variant="outline" tabindex={0}>
+			<Search />
+			{$_.search}
+		</Button>
+
+	</div>
 
 	<div class="flex items-center gap-2">
 

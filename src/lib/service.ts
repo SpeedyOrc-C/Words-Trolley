@@ -95,4 +95,25 @@ class WordSet
 
       return newSet.id
    }
+
+   async Search(query: string)
+   {
+      let _query = query.trim()
+
+      if (! _query.startsWith("%"))
+         _query = "%" + _query
+
+      if (! _query.endsWith("%"))
+         _query = _query + "%"
+
+      const {data, error} = await this.db
+         .from("sets")
+         .select("id,name,language,creator,origin")
+         .ilike("name", _query)
+
+      if (error)
+         return error
+
+      return data
+   }
 }

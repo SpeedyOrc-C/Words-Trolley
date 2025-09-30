@@ -4,6 +4,7 @@ import {AutoDetectLanguage} from "$lib/i18n"
 import {createBrowserClient, createServerClient, isBrowser} from "@supabase/ssr"
 import {redirect} from "@sveltejs/kit"
 import type {LayoutLoad} from "./$types"
+import {Service} from "$lib/service"
 
 export const load: LayoutLoad = async ({url, data, depends, fetch}) =>
 {
@@ -30,6 +31,8 @@ export const load: LayoutLoad = async ({url, data, depends, fetch}) =>
 				}
 			}
 		})
+
+	const service = new Service(db)
 
 	/**
 	 * It's fine to use `getSession` here, because on the client, `getSession` is
@@ -60,5 +63,5 @@ export const load: LayoutLoad = async ({url, data, depends, fetch}) =>
 		AutoDetectLanguage(language)
 	}
 
-	return {session, db, user, profile}
+	return {session, db, service, user, profile}
 }

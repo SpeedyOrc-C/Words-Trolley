@@ -1,5 +1,6 @@
 import type {Session, SupabaseClient, User} from '@supabase/supabase-js'
 import type {Database} from '$lib/database.types' // import generated types
+import type {Service} from '$lib/service'
 
 declare global
 {
@@ -10,6 +11,7 @@ declare global
 		interface Locals
 		{
 			db: SupabaseClient<Database>
+			service: Service
 			safeGetSession: () => Promise<{ session: Session | null; user: User | null }>
 			session: Session | null
 			user: User | null

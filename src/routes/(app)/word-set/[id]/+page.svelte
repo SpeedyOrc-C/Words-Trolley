@@ -21,7 +21,6 @@
 	} from "$lib/components/ui/table"
 	import {WordType} from "$lib/word/types"
 	import {toast} from "svelte-sonner"
-	import {Service} from "$lib/service"
 
 	import House from "@lucide/svelte/icons/house"
 	import BookOpen from "@lucide/svelte/icons/book-open"
@@ -36,20 +35,21 @@
 	import PenLine from "@lucide/svelte/icons/pen-line"
 
 	const {data} = $props()
+	const {word_set, creator_profile, service} = $derived(data)
 
-	const service = new Service(data.db)
+	const isMine = $derived(
+		data.user != null &&
+		creator_profile != null &&
+		data.user.id == creator_profile.id
+	)
 
 	let forking = $state(false)
-
-	const isMine =
-		data.user != null &&
-		data.creator_profile != null &&
-		data.user.id == data.creator_profile.id
+	let deleting = $state(false)
 
 	async function Fork()
 	{
 		forking = true
-		const newId = await service.WordSet.Fork(data.word_set.id)
+		const newId = await service.WordSet.Fork(word_set.id)
 		forking = false
 
 		if (newId instanceof Error)
@@ -62,10 +62,32 @@
 		toast.success($_.editor.fork.success)
 		await goto(`/word-set/${newId}`)
 	}
+
+	async function Delete()
+	{
+		const ok = confirm(`${$_.editor.delete_confirm.this_will_be_deleted}\n${word_set.name}\n${$_.editor.delete_confirm.are_you_sure}`)
+
+		if (! ok)
+			return
+
+		deleting = true
+		const error = await service.WordSet.Delete(word_set.id)
+		deleting = false
+
+		if (error instanceof Error)
+		{
+			console.error(error)
+			toast.error(error.message)
+			return
+		}
+
+		if (creator_profile != null)
+			await goto(`/creator/${creator_profile.id}`)
+	}
 </script>
 
 <svelte:head>
-	<title>{$_.set.title(data.word_set.name)}</title>
+	<title>{$_.set.title(word_set.name)}</title>
 </svelte:head>
 
 <nav class="sticky top-0 z-20 p-2 flex justify-between backdrop-blur-xs">
@@ -103,28 +125,28 @@
 <header class="my-4 px-4 text-center">
 
 	<div class="text-3xl">
-		{data.word_set.name}
+		{word_set.name}
 	</div>
 
-	{#if data.creator_profile == null}
+	{#if creator_profile == null}
 		<div class="text-muted-foreground text-sm">
 			{$_.set.creator_profile_missing}
 		</div>
 	{:else}
 		<div>
-			<a href="/creator/{data.creator_profile.id}" tabindex="0">
-				{$_.set.creator_label(data.creator_profile.name)}
+			<a href="/creator/{creator_profile.id}" tabindex="0">
+				{$_.set.creator_label(creator_profile.name)}
 			</a>
 		</div>
 	{/if}
 
-	{#if data.word_set.language == null}
+	{#if word_set.language == null}
 		<div class="text-muted-foreground text-sm">
 			{$_.set.main_language_missing}
 		</div>
 	{:else}
 		<div>
-			{$_.language[data.word_set.language]}
+			{$_.language[word_set.language]}
 		</div>
 	{/if}
 
@@ -134,12 +156,12 @@
 
 	<div class="mx-auto my-4 px-4 w-full max-w-md flex gap-4">
 
-		<Button class="flex-1" href="/word-set/{data.word_set.id}/learn" tabindex={0}>
+		<Button class="flex-1" href="/word-set/{word_set.id}/learn" tabindex={0}>
 			<BookOpen />
 			{$_.set.learn}
 		</Button>
 
-		<Button class="flex-1" href="/word-set/{data.word_set.id}/test" tabindex={0} variant="outline">
+		<Button class="flex-1" href="/word-set/{word_set.id}/test" tabindex={0} variant="outline">
 			<BookCheck />
 			{$_.set.test}
 		</Button>
@@ -167,15 +189,15 @@
 				<!--					{$_.editor.rename}-->
 				<!--				</DropdownMenuItem>-->
 
-				<DropdownMenuItem disabled={!isMine} onclick={() => goto(`/edit/${data.word_set.id}`)}>
+				<DropdownMenuItem disabled={!isMine} onclick={() => goto(`/edit/${word_set.id}`)}>
 					<SquarePen />
 					{$_.edit}
 				</DropdownMenuItem>
 
-				<!--				<DropdownMenuItem disabled={!isMine} variant="destructive">-->
-				<!--					<Trash2 />-->
-				<!--					{$_.editor.delete}-->
-				<!--				</DropdownMenuItem>-->
+				<DropdownMenuItem disabled={!isMine || deleting} onclick={Delete} variant="destructive">
+					<Trash2 />
+					{$_.editor.delete}
+				</DropdownMenuItem>
 
 			</DropdownMenuContent>
 
@@ -198,7 +220,7 @@
 			</TableHeader>
 
 			<TableBody>
-				{#each data.word_set.words as word}
+				{#each word_set.words as word}
 					<TableRow>
 						<TableCell>
 							{#if word.type === WordType.Egyptian}

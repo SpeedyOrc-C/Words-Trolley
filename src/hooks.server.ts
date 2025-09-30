@@ -2,6 +2,7 @@ import {createServerClient} from '@supabase/ssr'
 import {type Handle} from '@sveltejs/kit'
 import {PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY} from '$env/static/public'
 import type {Database} from "$lib/database.types"
+import {Service} from '$lib/service'
 
 export const handle: Handle = async ({event, resolve}) =>
 {
@@ -35,6 +36,8 @@ export const handle: Handle = async ({event, resolve}) =>
 			},
 		},
 	})
+
+	event.locals.service = new Service(event.locals.db)
 
 	/**
 	 * Unlike `supabase.auth.getSession()`, which returns the session _without_

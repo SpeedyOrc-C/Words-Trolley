@@ -6,16 +6,45 @@ import type {Word} from "./word"
 export class Service
 {
    readonly WordSet: WordSet
+   readonly Creator: Creator
 
    constructor(readonly db: SupabaseClient<Database>)
    {
       this.WordSet = new WordSet(db)
+      this.Creator = new Creator(db)
+   }
+}
+
+class Creator
+{
+   constructor(private readonly db: SupabaseClient<Database>) { }
+
+   async Get(id: string)
+   {
+      const {data, error} = await this.db
+         .from("profiles")
+         .select("*")
+         .eq("id", id)
+         .single()
+
+      return error ?? data
    }
 }
 
 class WordSet
 {
    constructor(private readonly db: SupabaseClient<Database>) { }
+
+   async Get(id: string)
+   {
+      const {data, error} = await this.db
+         .from("sets")
+         .select("*")
+         .eq("id", id)
+         .single()
+
+      return error ?? data
+   }
 
    async Save(id: string, words: Word[])
    {

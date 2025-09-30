@@ -1,17 +1,13 @@
 import {ValidateWords} from "$lib/word/validate"
 import {error} from "@sveltejs/kit"
 
-export async function load({locals: {db}, params: {id}, depends})
+export async function load({locals: {service}, params: {id}, depends})
 {
 	depends("supabase:db:sets")
 
-	const {data: word_set} = await db
-		.from("sets")
-		.select("*")
-		.eq("id", id)
-		.single()
+	const word_set = await service.WordSet.Get(id)
 
-	if (word_set == null)
+	if (word_set instanceof Error)
 		error(404)
 
 	const words = ValidateWords(word_set.words)
@@ -22,11 +18,10 @@ export async function load({locals: {db}, params: {id}, depends})
 	if (word_set.creator == null)
 		return {word_set: {...word_set, words}}
 
-	const {data: creator_profile} = await db
-		.from("profiles")
-		.select("*")
-		.eq("id", word_set.creator)
-		.single()
+	const creator_profile = await service.Creator.Get(word_set.creator)
 
-	return {word_set: {...word_set, words}, creator_profile}
+	return {
+		word_set: {...word_set, words},
+		creator_profile: creator_profile instanceof Error ? null : creator_profile
+	}
 }

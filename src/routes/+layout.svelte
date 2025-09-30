@@ -75,12 +75,14 @@
 			return
 		}
 	}
+
+	function onlanguagechange()
+	{
+		AutoDetectLanguage(navigator.language)
+	}
 </script>
 
-<svelte:window
-	onkeydown={onkeydown}
-	onlanguagechange={() => AutoDetectLanguage(navigator.language)}
-/>
+<svelte:window {onkeydown} {onlanguagechange}/>
 
 <Settings bind:open={$settingsOpened}/>
 <Toaster position="top-center" richColors/>

@@ -1,4 +1,4 @@
-import {ValidateLanguage} from "$lib/i18n/Language"
+import {ValidateMaybeLanguage} from "$lib/i18n/Language"
 import {ValidateWords} from "$lib/word/validate"
 import * as kit from "@sveltejs/kit"
 
@@ -22,7 +22,7 @@ export async function load({locals: {db}, params: {id}, depends})
 	if (words instanceof TypeError)
 		kit.error(409, `Invalid words: ${words.message}`)
 
-	const language = ValidateLanguage(data.language)
+	const language = ValidateMaybeLanguage(data.language)
 
 	if (language instanceof TypeError)
 		kit.error(409, `Invalid language: ${language.message}`)

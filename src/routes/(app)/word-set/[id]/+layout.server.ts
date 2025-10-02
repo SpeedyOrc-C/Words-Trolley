@@ -15,12 +15,16 @@ export async function load({locals: {service}, params: {id}, depends})
 	if (words instanceof TypeError)
 		error(409, `Cannot load until this erroneous word set is fixed. ${words.message}`)
 
+	const saved = await service.Save.Get(id)
+
 	if (word_set.creator == null)
-		return {word_set: {...word_set, words}}
+		return {saved, word_set: {...word_set, words}}
 
 	const creator_profile = await service.Creator.Get(word_set.creator)
 
+
 	return {
+		saved,
 		word_set: {...word_set, words},
 		creator_profile: creator_profile instanceof Error ? null : creator_profile
 	}

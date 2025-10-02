@@ -50,12 +50,13 @@ const EnGb: I18nTemplate = {
 		_: "Home",
 		welcome_to_words_trolley: "Welcome to Words Trolley",
 		welcome_back: "Welcome back",
-		create_a_new_set: "Create a new set",
-		browse_my_sets: "Browse my sets",
+		create_a_word_set: "Create a word set",
+		created_by_me: "Created by me",
+		saved_by_me: "Saved by me",
 	},
 	new: {
 		_: "Create",
-		create_a_new_set_of_words: "Create a new set of words...",
+		create_a_new_word_set: "Create a new word set...",
 	},
 	set: {
 		title: name => `Word set -  ${name}`,
@@ -66,6 +67,8 @@ const EnGb: I18nTemplate = {
 		creator_profile_missing: "Creator’s profile is missing",
 		main_language: "Main language",
 		main_language_missing: "Word set’s source language is missing",
+		save: "Save",
+		unsave: "Unsave",
 	},
 	creator: {
 		title: name => `Word sets by ${name}`,

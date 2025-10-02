@@ -39,7 +39,7 @@
 
 <svelte:head>
 	<title>
-		{$_.new.create_a_new_set_of_words}
+		{$_.new.create_a_new_word_set}
 	</title>
 </svelte:head>
 
@@ -54,7 +54,7 @@
 
 	<Card.Header>
 		<Card.Title>
-			{$_.new.create_a_new_set_of_words}
+			{$_.new.create_a_new_word_set}
 		</Card.Title>
 	</Card.Header>
 

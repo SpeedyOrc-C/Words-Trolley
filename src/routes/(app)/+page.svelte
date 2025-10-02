@@ -8,6 +8,10 @@
 	import Github from "@lucide/svelte/icons/github"
 	import Bug from "@lucide/svelte/icons/bug"
 	import Search from "@lucide/svelte/icons/search"
+	import LogIn from "@lucide/svelte/icons/log-in"
+	import LogOut from "@lucide/svelte/icons/log-out"
+	import Bookmark from "@lucide/svelte/icons/bookmark"
+	import BookUser from "@lucide/svelte/icons/book-user"
 
 	let {data} = $props()
 	let loading = $state(false)
@@ -47,42 +51,50 @@
 
 </header>
 
-<main class="w-full flex flex-col gap-4 items-center">
+<main class="mx-auto w-full max-w-xs flex flex-col gap-4 items-center">
 
-	<Button href="/search" size="lg" tabindex={0}>
+	<Button href="/search" variant="outline" size="lg" tabindex={0} class="w-full">
 		<Search />
 		{$_.search}
 	</Button>
 
 	{#if data.user}
 
-		<Button href="/new" size="lg" variant="outline" tabindex={0}>
+		<Button href="/new" size="lg" variant="outline" tabindex={0} class="w-full">
 			<Plus/>
-			{$_.home.create_a_new_set}
+			{$_.home.create_a_word_set}
 		</Button>
 
-		<Button href="/creator/{data.user.id}" size="lg" variant="outline" tabindex={0}>
-			{$_.home.browse_my_sets}
+		<Button href="/creator/{data.user.id}" size="lg" variant="outline" tabindex={0} class="w-full">
+			<BookUser />
+			{$_.home.created_by_me}
+		</Button>
+
+		<Button href="/saved" size="lg" variant="outline" tabindex={0} class="w-full">
+			<Bookmark />
+			{$_.home.saved_by_me}
 		</Button>
 
 	{/if}
 
-	<div class="flex gap-4">
+	<div class="w-full flex gap-4">
 
-		<Button onclick={() => settingsOpened.set(true)} size="lg" variant="outline">
+		<Button onclick={() => settingsOpened.set(true)} size="lg" variant="outline" class="flex-1">
 			<Settings/>
 			{$_.settings._}
 		</Button>
 
 		{#if data.user}
 
-			<Button disabled={loading} onclick={SignOut} size="lg" variant="destructive">
+			<Button disabled={loading} onclick={SignOut} size="lg" variant="secondary" class="flex-1">
+				<LogOut />
 				{$_.logout}
 			</Button>
 
 		{:else}
 
-			<Button href="/auth" size="lg">
+			<Button href="/auth" size="lg" class="flex-1">
+				<LogIn />
 				{$_.login_and_signup}
 			</Button>
 
@@ -90,14 +102,14 @@
 
 	</div>
 
-	<div class="flex gap-4">
+	<div class="w-full flex gap-4">
 
-		<Button href="https://github.com/SpeedyOrc-C/Words-Trolley" target="_blank" variant="ghost" tabindex={0}>
+		<Button href="https://github.com/SpeedyOrc-C/Words-Trolley" target="_blank" variant="ghost" size="lg" tabindex={0} class="flex-1">
 			<Github/>
 			GitHub
 		</Button>
 
-		<Button href="/debug" variant="ghost" tabindex={0}>
+		<Button href="/debug" variant="ghost" size="lg" tabindex={0} class="flex-1">
 			<Bug/>
 			Debug
 		</Button>

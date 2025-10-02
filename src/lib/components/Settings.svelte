@@ -201,9 +201,9 @@
 
 				</RadioGroup.Root>
 
-				<code class="text-2xl text-center">
+				<div class="text-2xl text-center">
 					{$egyptianTransliterationSampleText}
-				</code>
+				</div>
 
 			</section>
 

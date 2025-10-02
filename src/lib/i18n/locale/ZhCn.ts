@@ -50,12 +50,13 @@ const ZhCn: I18nTemplate = {
 		_: "主页",
 		welcome_to_words_trolley: "欢迎来到 Words Trolley",
 		welcome_back: "欢迎回来",
-		create_a_new_set: "创建一套新单词集",
-		browse_my_sets: "浏览我的单词集",
+		create_a_word_set: "创建一套单词集",
+		created_by_me: "我做的单词集",
+		saved_by_me: "我收藏的单词集",
 	},
 	new: {
 		_: "新建",
-		create_a_new_set_of_words: "创建一套新单词集……",
+		create_a_new_word_set: "创建一套新单词集……",
 	},
 	set: {
 		title: name => `单词集《${name}》`,
@@ -66,6 +67,8 @@ const ZhCn: I18nTemplate = {
 		creator_profile_missing: "作者个人资料不存在",
 		main_language: "主要语言",
 		main_language_missing: "单词集源语言信息不存在",
+		save: "收藏",
+		unsave: "取消收藏",
 	},
 	creator: {
 		title: name => `${name}的单词集`,

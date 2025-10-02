@@ -7,11 +7,59 @@ export class Service
 {
    readonly WordSet: WordSet
    readonly Creator: Creator
+   readonly Save: Save
 
    constructor(readonly db: SupabaseClient<Database>)
    {
       this.WordSet = new WordSet(db)
       this.Creator = new Creator(db)
+      this.Save = new Save(db)
+   }
+}
+
+class Save
+{
+   constructor(private readonly db: SupabaseClient<Database>) { }
+
+   async Get(wordSetId: string)
+   {
+      const {data} = await this.db
+      .from("saves")
+      .select("*")
+      .eq("set", wordSetId)
+      .single()
+
+      return data != null
+   }
+
+   async GetIndex()
+   {
+      const {data, error} = await this.db
+         .from("saves")
+         .select("sets(id,name)")
+
+      return error ?? data.map(item => item.sets)
+   }
+
+   async Put(wordSetId: string)
+   {
+      const {error} = await this.db
+         .from("saves")
+         .insert({set: wordSetId})
+
+      if (error)
+         return error
+   }
+
+   async Delete(wordSetId: string)
+   {
+      const {error} = await this.db
+         .from("saves")
+         .delete()
+         .eq("set", wordSetId)
+
+      if (error)
+         return error
    }
 }
 
@@ -46,7 +94,7 @@ class WordSet
       return error ?? data
    }
 
-   async Save(id: string, words: Word[])
+   async Put(id: string, words: Word[])
    {
       const {error} = await this.db
          .from("sets")

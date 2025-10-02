@@ -1,30 +1,24 @@
 <script lang="ts">
-	import {Button} from "$lib/components/ui/button"
-	import {_} from "$lib/i18n/store"
-	import {settingsOpened} from "$lib/settings/store"
+   import {_} from "$lib/i18n/store"
+   import {Button} from "$lib/components/ui/button"
+   import House from "@lucide/svelte/icons/house"
+   import Settings from "@lucide/svelte/icons/settings"
+   import Plus from "@lucide/svelte/icons/plus"
+   import Search from "@lucide/svelte/icons/search"
+   import {settingsOpened} from "$lib/settings/store"
 
-	import House from "@lucide/svelte/icons/house"
-	import Settings from "@lucide/svelte/icons/settings"
-	import Plus from "@lucide/svelte/icons/plus"
-	import Search from "@lucide/svelte/icons/search"
+   const {data} = $props()
 
-	const {data} = $props()
-
-	const title =
-		data.user != null &&
-		data.creator != null &&
-		data.user.id == data.creator.id
-			? $_.creator.title_me
-			: $_.creator.title(data.creator?.name ?? "***")
+   $inspect(data)
 </script>
 
 <svelte:head>
-	<title>{title}</title>
+	<title>{$_.home.saved_by_me}</title>
 </svelte:head>
 
 <nav class="sticky top-0 p-2 z-10 flex items-center justify-between backdrop-blur-xs">
 
-	<div class="flex gap-2">
+   <div class="flex gap-2">
 
 		<Button href="/" tabindex={0} variant="outline">
 			<House />
@@ -55,11 +49,11 @@
 </nav>
 
 <header class="p-4 text-xl text-center">
-	{data.creator?.name ?? "***"}
+	{$_.home.saved_by_me}
 </header>
 
 <main class="mx-auto py-4 pl-2 pr-4 w-full max-w-xl flex flex-col items-center">
-	{#each data.sets as {name, id}}
+	{#each data.saved_word_sets as {name, id}}
 		<a href="/word-set/{id}" class="word-set" tabindex="0">
 			{name}
 		</a>

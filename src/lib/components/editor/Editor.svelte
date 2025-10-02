@@ -79,7 +79,7 @@
 			return
 
 		saving = true
-		const error = await data.service.WordSet.Save(data.id, words)
+		const error = await data.service.WordSet.Put(data.id, words)
 		saving = false
 
 		if (error)

@@ -51,12 +51,13 @@ export type I18nTemplate = {
 		_: s
 		welcome_to_words_trolley: s
 		welcome_back: s
-		create_a_new_set: s
-		browse_my_sets: s
+		create_a_word_set: s
+		created_by_me: s
+		saved_by_me: s
 	}
 	new: {
 		_: s
-		create_a_new_set_of_words: s
+		create_a_new_word_set: s
 	}
 	set: {
 		title: (name: s) => s
@@ -67,6 +68,8 @@ export type I18nTemplate = {
 		creator_profile_missing: s
 		main_language: s
 		main_language_missing: s
+		save: s
+		unsave: s
 	}
 	creator: {
 		title: (name: s) => s

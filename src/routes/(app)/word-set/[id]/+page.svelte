@@ -32,10 +32,12 @@
 	import Ellipsis from "@lucide/svelte/icons/ellipsis"
 	import Search from "@lucide/svelte/icons/search"
 	import Trash2 from "@lucide/svelte/icons/trash-2"
+	import Bookmark from "@lucide/svelte/icons/bookmark"
+	import BookmarkX from "@lucide/svelte/icons/bookmark-x"
 	import PenLine from "@lucide/svelte/icons/pen-line"
 
 	const {data} = $props()
-	const {word_set, creator_profile, service} = $derived(data)
+	const {saved: _saved, word_set, creator_profile, service} = $derived(data)
 
 	const isMine = $derived(
 		data.user != null &&
@@ -43,6 +45,8 @@
 		data.user.id == creator_profile.id
 	)
 
+	let saving = $state(false)
+	let saved = $derived(_saved)
 	let forking = $state(false)
 	let deleting = $state(false)
 
@@ -83,6 +87,38 @@
 
 		if (creator_profile != null)
 			await goto(`/creator/${creator_profile.id}`)
+	}
+
+	async function Save()
+	{
+		saving = true
+		const error = await service.Save.Put(word_set.id)
+		saving = false
+
+		if (error)
+		{
+			console.error(error)
+			toast.error(error.message)
+			return
+		}
+
+		saved = true
+	}
+
+	async function Unsave()
+	{
+		saving = true
+		const error = await service.Save.Delete(word_set.id)
+		saving = false
+
+		if (error)
+		{
+			console.error(error)
+			toast.error(error.message)
+			return
+		}
+
+		saved = false
 	}
 </script>
 
@@ -154,7 +190,7 @@
 
 <main>
 
-	<div class="mx-auto my-4 px-4 w-full max-w-md flex gap-4">
+	<div class="mx-auto my-4 px-2 w-full max-w-md flex gap-4">
 
 		<Button class="flex-1" href="/word-set/{word_set.id}/learn" tabindex={0}>
 			<BookOpen />
@@ -164,6 +200,16 @@
 		<Button class="flex-1" href="/word-set/{word_set.id}/test" tabindex={0} variant="outline">
 			<BookCheck />
 			{$_.set.test}
+		</Button>
+
+		<Button class="flex-1" disabled={saving} onclick={saved ? Unsave : Save} variant={saved ? "secondary" : "outline"}>
+			{#if saved}
+				<BookmarkX />
+				{$_.set.unsave}
+			{:else}
+				<Bookmark />
+				{$_.set.save}
+			{/if}
 		</Button>
 
 		<DropdownMenu>

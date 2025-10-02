@@ -37,7 +37,7 @@ export type Database = {
         }
         Insert: {
           saved_at?: string
-          saver: string
+          saver?: string
           set: string
         }
         Update: {

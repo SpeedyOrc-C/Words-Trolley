@@ -201,7 +201,7 @@
 
 				</RadioGroup.Root>
 
-				<div class="text-2xl text-center">
+				<div class="text-2xl text-center font-egy-trans">
 					{$egyptianTransliterationSampleText}
 				</div>
 

@@ -13,7 +13,7 @@
 
 <script lang="ts">
 	import {Bopomofo, type ISyllable} from "$lib/word/mandarin"
-	import {bopomofoOverrider} from "$lib/MandarinInputOverrider"
+	import {bopomofoOverrider} from "$lib/word/mandarin/MandarinInputOverrider"
 
 	let {
 		value = $bindable(),
@@ -74,6 +74,7 @@
 		{onfocusout}
 		{placeholder}
 		type="text"
+		style="font-size: 1.25rem"
 	/>
 
 </div>

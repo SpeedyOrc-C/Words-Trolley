@@ -2,7 +2,7 @@
 	import {Input} from "$lib/components/ui/input"
 	import * as Mandarin from "$lib/word/mandarin"
 	import {onMount} from "svelte"
-	import {pinyinSingleSyllableOverrider as overrider} from "$lib/MandarinInputOverrider"
+	import {pinyinSingleSyllableOverrider as overrider} from "$lib/word/mandarin/MandarinInputOverrider"
 	import {writable, type Writable} from "svelte/store"
 	import {Pinyin, Tone} from "$lib/word/mandarin"
 

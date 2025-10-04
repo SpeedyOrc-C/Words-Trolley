@@ -58,3 +58,8 @@ export function ParserFromRecord<A>(record: Record<string, A>)
 		return record[char]
 	})
 }
+
+export function ParserFromInvertedRecord<A extends string, B extends string>(record: Record<A, B>)
+{
+	return ParserFromRecord(InverseRecord(record))
+}

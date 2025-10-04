@@ -122,6 +122,64 @@
 }
 
 @font-face {
-	font-family: Font_Egyptian;
-	src: url("/NewGardiner.ttf") format("truetype");
+    font-family: Font_Egyptian;
+    src: url("/NewGardiner.ttf") format("truetype");
+}
+
+/* Charis Font */
+
+@font-face {
+    font-family: CharisW;
+    font-weight: 400;
+    src: url(/font/Charis-Regular.woff2);
+}
+
+@font-face {
+    font-family: CharisW;
+    font-weight: 500;
+    src: url(/font/Charis-Medium.woff2);
+}
+
+@font-face {
+    font-family: CharisW;
+    font-weight: 600;
+    src: url(/font/Charis-SemiBold.woff2);
+}
+
+@font-face {
+    font-family: CharisW;
+    font-weight: 700;
+    src: url(/font/Charis-Bold.woff2);
+}
+
+@font-face {
+    font-family: CharisW;
+    font-weight: 400;
+    font-style: italic;
+    src: url(/font/Charis-Italic.woff2);
+}
+
+@font-face {
+    font-family: CharisW;
+    font-weight: 500;
+    font-style: italic;
+    src: url(/font/Charis-MediumItalic.woff2);
+}
+
+@font-face {
+    font-family: CharisW;
+    font-weight: 600;
+    font-style: italic;
+    src: url(/font/Charis-SemiBoldItalic.woff2);
+}
+
+@font-face {
+    font-family: CharisW;
+    font-weight: 700;
+    font-style: italic;
+    src: url(/font/Charis-BoldItalic.woff2);
+}
+
+.font-egy-trans {
+    font-family: -apple-system-ui-serif, ui-serif, CharisW, serif;
 }

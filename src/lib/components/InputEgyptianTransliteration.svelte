@@ -57,13 +57,13 @@
 	autocorrect="off"
 	{autofocus}
 	bind:ref={input}
-	class="font-mono {_class}"
+	class="font-egy-trans {_class}"
 	{disabled}
 	{id}
 	{oninput}
 	{placeholder}
 	spellcheck="false"
-	{style}
+	style="font-size: 1.25rem; {style}"
 	type="text"
 	value={initValue}
 />

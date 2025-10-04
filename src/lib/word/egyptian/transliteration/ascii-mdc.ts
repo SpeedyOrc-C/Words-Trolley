@@ -7,42 +7,35 @@ This is ASCII-only, good for typing and exchanging data.
 Uses 6 capital letters.
 */
 
-import {InverseRecord, ParserFromRecord} from "$lib/utils"
-import {Phoneme} from "$lib/word/egyptian"
+import {ParserFromInvertedRecord} from "$lib/utils"
+import {Phoneme as P} from "$lib/word/egyptian"
 
-export type AsciiMdc
-	= "a" | "A" | "b" | "d" | "D" | "f" | "g"
-	| "h" | "H" | "i" | "k" | "m" | "n"
-	| "p" | "q" | "r" | "s" | "S" | "t" | "T"
-	| "w" | "x" | "X" | "y" | "z"
+export const Phoneme2AsciiMdc = {
+	[P.a]: "A",
+	[P.b]: "b",
+	[P.c]: "T",
+	[P.C]: "X",
+	[P.d]: "d",
+	[P.e]: "a",
+	[P.f]: "f",
+	[P.g]: "g",
+	[P.h]: "h",
+	[P.H]: "H",
+	[P.i]: "i",
+	[P.j]: "D",
+	[P.k]: "k",
+	[P.m]: "m",
+	[P.n]: "n",
+	[P.p]: "p",
+	[P.q]: "q",
+	[P.r]: "r",
+	[P.s]: "s",
+	[P.S]: "S",
+	[P.t]: "t",
+	[P.w]: "w",
+	[P.x]: "x",
+	[P.y]: "y",
+	[P.z]: "z",
+} as const
 
-export const Phoneme2AsciiMdc: Record<Phoneme, AsciiMdc> = {
-	[Phoneme.e]: "a",
-	[Phoneme.C]: "X",
-	[Phoneme.H]: "H",
-	[Phoneme.S]: "S",
-	[Phoneme.a]: "A",
-	[Phoneme.b]: "b",
-	[Phoneme.c]: "T",
-	[Phoneme.d]: "d",
-	[Phoneme.f]: "f",
-	[Phoneme.g]: "g",
-	[Phoneme.h]: "h",
-	[Phoneme.i]: "i",
-	[Phoneme.j]: "D",
-	[Phoneme.k]: "k",
-	[Phoneme.m]: "m",
-	[Phoneme.n]: "n",
-	[Phoneme.p]: "p",
-	[Phoneme.q]: "q",
-	[Phoneme.r]: "r",
-	[Phoneme.s]: "s",
-	[Phoneme.t]: "t",
-	[Phoneme.w]: "w",
-	[Phoneme.x]: "x",
-	[Phoneme.y]: "y",
-	[Phoneme.z]: "z",
-}
-
-export const AsciiMdc2Phoneme = InverseRecord(Phoneme2AsciiMdc)
-export const pAsciiMdc = ParserFromRecord(AsciiMdc2Phoneme)
+export const pAsciiMdc = ParserFromInvertedRecord(Phoneme2AsciiMdc)

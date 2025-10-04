@@ -13,7 +13,7 @@
 
 <script lang="ts">
 	import {type ISyllable, Pinyin, PinyinWithToneNumber} from "$lib/word/mandarin"
-	import {pinyinSyllablesOverrider} from "$lib/MandarinInputOverrider"
+	import {pinyinSyllablesOverrider} from "$lib/word/mandarin/MandarinInputOverrider"
 
 	let {
 		value = $bindable(),
@@ -85,6 +85,7 @@
 		{placeholder}
 		type="text"
 		value={initValue}
+		style="font-size: 1.25rem"
 	/>
 
 </div>

@@ -29,6 +29,7 @@ Unlike other apps, you can add language-specific information to each word:
 * Add transliteration for each word, supports schemes from:
   * Manuel de Codage
   * Gardiner
+  * Wiktionary
   * Me?
 
 ## Get Involved

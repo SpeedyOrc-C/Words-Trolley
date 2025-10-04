@@ -191,11 +191,13 @@
 
 		{:else if word.type === WordType.Egyptian}
 
-			<div class="text-5xl" lang="egy">
-				<ruby>
+			<div class="flex flex-col items-center gap-4" lang="egy">
+				<div class="font-egy-trans text-3xl">
+					{$preferredSentenceTransliterationDumper(word.trans)}
+				</div>
+				<div class="text-5xl">
 					<EgyptianText t={word.word}/>
-					<rt>{$preferredSentenceTransliterationDumper(word.trans)}</rt>
-				</ruby>
+				</div>
 			</div>
 
 		{:else}
@@ -244,9 +246,5 @@
 
 	rt {
 		@apply select-none px-1;
-
-		div[lang="egy"] & {
-			@apply pb-4 font-mono text-4xl;
-		}
 	}
 </style>

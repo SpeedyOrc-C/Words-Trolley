@@ -6,7 +6,7 @@
 	import {Language} from "$lib/i18n/Language"
 	import {_, language} from "$lib/i18n/store"
 	import {settings} from "$lib/settings/store"
-	import {preferredSentenceTransliterationDumper} from "$lib/settings/store/egyptian"
+	import {preferredSentenceTransliterationDumperForRead} from "$lib/settings/store/egyptian"
 	import {French, German} from "$lib/word"
 	import {BopomofoStrict, type ISyllable, Pinyin} from "$lib/word/mandarin"
 	import {MandarinScript} from "$lib/settings"
@@ -193,7 +193,7 @@
 
 			<div class="flex flex-col items-center gap-4" lang="egy">
 				<div class="font-egy-trans text-3xl">
-					{$preferredSentenceTransliterationDumper(word.trans)}
+					{$preferredSentenceTransliterationDumperForRead(word.trans)}
 				</div>
 				<div class="text-5xl">
 					<EgyptianText t={word.word}/>

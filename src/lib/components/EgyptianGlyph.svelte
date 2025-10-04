@@ -21,7 +21,7 @@
 
 <div style="height: {glyphHeight * scale}px">
 
-	{#if $settings.HieroglyphsFont === HieroglyphsFont.NewGardiner}
+	{#if $settings.Egyptian.HieroglyphsFont === HieroglyphsFont.NewGardiner}
 
 		<div
 			class="w-fit glyph"
@@ -32,7 +32,7 @@
 			{g}
 		</div>
 
-	{:else if $settings.HieroglyphsFont === HieroglyphsFont.SemiessessiColourful}
+	{:else if $settings.Egyptian.HieroglyphsFont === HieroglyphsFont.SemiessessiColourful}
 
 		<img src={svgPath} alt="Symbol {gardiner}"/>
 

@@ -34,8 +34,16 @@ const ZhCn: I18nTemplate = {
 		_: "设置",
 		follows_your_system: "跟随系统",
 		ui_language: "界面语言",
-		mandarin_spelling_scheme: "普通话拼读方案",
-		egyptian_transliteration_scheme: "埃及语转写方案",
+		mandarin: {
+			_: "现代汉语",
+			spelling_scheme: "拼读方案",
+		},
+		egyptian: {
+			_: "埃及语",
+			transliteration_for_read: "阅读时的转写方案",
+			transliteration_for_edit: "编辑时的转写方案",
+			hieroglyphs_font: "圣书字字体",
+		},
 		hieroglyphs_style: {
 			_: "圣书字风格",
 			sans_serif: "无衬线",

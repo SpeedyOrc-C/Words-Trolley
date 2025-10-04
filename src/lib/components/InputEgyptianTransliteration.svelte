@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {
-		preferredSentenceTransliterationDumper,
-		preferredSentenceTransliterationParser,
+		preferredSentenceTransliterationDumperForEdit as Dump,
+		preferredSentenceTransliterationParserForEdit as Parse,
 	} from "$lib/settings/store/egyptian"
 	import {Input} from "$lib/components/ui/input"
 	import type {SentenceTransliteration} from "$lib/word/egyptian/transliteration"
@@ -26,7 +26,7 @@
 		style?: string
 	} = $props()
 
-	const initValue = $derived($preferredSentenceTransliterationDumper(value))
+	const initValue = $derived($Dump(value))
 
 	let input: HTMLInputElement | null = $state(null)
 	let error = $state(false)
@@ -36,7 +36,7 @@
 		if (! input)
 			return
 
-		const syllables = $preferredSentenceTransliterationParser.eval(input.value.trim())
+		const syllables = $Parse.eval(input.value.trim())
 
 		if (syllables instanceof Error)
 			error = true

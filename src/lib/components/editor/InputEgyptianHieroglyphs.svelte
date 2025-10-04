@@ -7,7 +7,7 @@
 	import {Input} from "$lib/components/ui/input"
 
 	import {_} from "$lib/i18n/store"
-	import {preferredEgyptianTransliterationParser} from "$lib/settings/store/egyptian"
+	import {preferredEgyptianTransliterationParserForEdit} from "$lib/settings/store/egyptian"
 	import {CandidatesFromPhonemes} from "$lib/word/egyptian/dictionary"
 	import {CandidatesFromNumber} from "$lib/word/egyptian/dictionary/numbers"
 	import {CandidatesFromXiaoheKmt} from "$lib/word/egyptian/dictionary/xiaohe-kmt"
@@ -176,7 +176,7 @@
 			return
 		}
 
-		const newImeInput = $preferredEgyptianTransliterationParser.eval(imeInput)
+		const newImeInput = $preferredEgyptianTransliterationParserForEdit.eval(imeInput)
 
 		if (newImeInput instanceof Error)
 			imeInputError = true

@@ -27,16 +27,22 @@ export interface ISettings
 {
 	Language: LivingLanguage | "auto"
 	MandarinScript: MandarinScript
-	EgyptianTransliteration: EgyptianTransliteration
-	HieroglyphsFont: HieroglyphsFont
+	Egyptian: {
+		HieroglyphsFont: HieroglyphsFont
+		TransliterationForRead: EgyptianTransliteration
+		TransliterationForEdit: EgyptianTransliteration
+	}
 	PreferredVoice: Record<LivingLanguage, string | null>
 }
 
 export const defaultSettings: ISettings = {
 	Language: "auto",
 	MandarinScript: MandarinScript.Pinyin,
-	EgyptianTransliteration: EgyptianTransliteration.ManuelDeCodage,
-	HieroglyphsFont: HieroglyphsFont.NewGardiner,
+	Egyptian: {
+		HieroglyphsFont: HieroglyphsFont.NewGardiner,
+		TransliterationForRead: EgyptianTransliteration.Egyptology,
+		TransliterationForEdit: EgyptianTransliteration.ManuelDeCodage,
+	},
 	PreferredVoice: {
 		[Language.ZhCn]: null,
 		[Language.ZhTw]: null,
@@ -86,31 +92,51 @@ export function ParseSettings(x: unknown): ISettings
 	else
 		WarnCannotFind("MandarinScript")
 
-	if ("EgyptianTransliteration" in x)
+	if ("Egyptian" in x && typeof x.Egyptian == "object" && x.Egyptian !== null)
 	{
-		const egyptianTransliteration = x.EgyptianTransliteration
+		const y = x.Egyptian
 
-		if (typeof egyptianTransliteration == "string" &&
-			-1 != Object.values(EgyptianTransliteration).indexOf(egyptianTransliteration as EgyptianTransliteration))
+		if ("HieroglyphsFont" in y)
 		{
-			settings.EgyptianTransliteration = egyptianTransliteration as EgyptianTransliteration
+			const hieroglyphsFont = y.HieroglyphsFont
+
+			if (typeof hieroglyphsFont == "string" &&
+				-1 != Object.values(HieroglyphsFont).indexOf(hieroglyphsFont as HieroglyphsFont))
+			{
+				settings.Egyptian.HieroglyphsFont = hieroglyphsFont as HieroglyphsFont
+			}
 		}
+		else
+			WarnCannotFind("Egyptian.HieroglyphsFont")
+
+		if ("TransliterationForRead" in y)
+		{
+			const transliterationForRead = y.TransliterationForRead
+
+			if (typeof transliterationForRead == "string" &&
+				-1 != Object.values(EgyptianTransliteration).indexOf(transliterationForRead as EgyptianTransliteration))
+			{
+				settings.Egyptian.TransliterationForRead = transliterationForRead as EgyptianTransliteration
+			}
+		}
+		else
+			WarnCannotFind("Egyptian.TransliterationForRead")
+
+		if ("TransliterationForEdit" in y)
+		{
+			const transliterationForEdit = y.TransliterationForEdit
+
+			if (typeof transliterationForEdit == "string" &&
+				-1 != Object.values(EgyptianTransliteration).indexOf(transliterationForEdit as EgyptianTransliteration))
+			{
+				settings.Egyptian.TransliterationForEdit = transliterationForEdit as EgyptianTransliteration
+			}
+		}
+		else
+			WarnCannotFind("Egyptian.TransliterationForEdit")
 	}
 	else
-		WarnCannotFind("EgyptianTransliteration")
-
-	if ("HieroglyphsFont" in x)
-	{
-		const hieroglyphsFont = x.HieroglyphsFont
-
-		if (typeof hieroglyphsFont == "string" &&
-			-1 != Object.values(HieroglyphsFont).indexOf(hieroglyphsFont as HieroglyphsFont))
-		{
-			settings.HieroglyphsFont = hieroglyphsFont as HieroglyphsFont
-		}
-	}
-	else
-		WarnCannotFind("HieroglyphsFont")
+		WarnCannotFind("Egyptian")
 
 	if ("PreferredVoice" in x)
 	{
@@ -120,7 +146,7 @@ export function ParseSettings(x: unknown): ISettings
 		{
 			for (let lang of LivingLanguages)
 			{
-				if (! (lang in preferredVoice))
+				if (!(lang in preferredVoice))
 					continue
 
 				const voice = (preferredVoice as Record<Language, unknown>)[lang]

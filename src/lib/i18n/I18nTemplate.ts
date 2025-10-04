@@ -34,9 +34,17 @@ export type I18nTemplate = {
 	settings: {
 		_: s
 		follows_your_system: s
-		mandarin_spelling_scheme: s
+		mandarin: {
+			_: s
+			spelling_scheme: s
+		}
 		ui_language: s
-		egyptian_transliteration_scheme: s
+		egyptian: {
+			_: s
+			transliteration_for_read: s
+			transliteration_for_edit: s
+			hieroglyphs_font: s
+		}
 		hieroglyphs_style: {
 			_: s
 			sans_serif: s

@@ -34,15 +34,23 @@ const EnGb: I18nTemplate = {
 		_: "Settings",
 		follows_your_system: "Follows your system",
 		ui_language: "UI Language",
-		mandarin_spelling_scheme: "Mandarin Spelling Scheme",
-		egyptian_transliteration_scheme: "Egyptian Transliteration Scheme",
+		mandarin: {
+			_: "Mandarin",
+			spelling_scheme: "Spelling Scheme",
+		},
+		egyptian: {
+			_: "Egyptian",
+			transliteration_for_read: "Transliteration Scheme for Read",
+			transliteration_for_edit: "Transliteration Scheme for Edit",
+			hieroglyphs_font: "Hieroglyphs Font",
+		},
 		hieroglyphs_style: {
 			_: "Hieroglyphs Style",
 			sans_serif: "Sans-serif",
 			colourful: "Colourful",
 		},
 		customise_voices: {
-			_: "Customise voices",
+			_: "Customise Voices",
 			tip: "Tick the languages you want to change the voice for.",
 		},
 	},

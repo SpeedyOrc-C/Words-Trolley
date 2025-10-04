@@ -14,6 +14,7 @@ export enum EgyptianTransliteration
 	Egyptology = "egyptology",
 	ManuelDeCodage = "mdc",
 	Chen = "chen",
+	Wiktionary = "wiktionary",
 }
 
 export enum HieroglyphsFont

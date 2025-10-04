@@ -1,23 +1,26 @@
 import {EgyptianTransliteration} from "$lib/settings"
 import {settings} from "$lib/settings/store"
 import {Phoneme} from "$lib/word/egyptian"
-import {pPunctuation, type SentenceTransliteration} from "$lib/word/egyptian/transliteration"
+import {pPunctuation, Punctuation, type SentenceTransliteration} from "$lib/word/egyptian/transliteration"
 import {pAsciiChen, Phoneme2AsciiChen} from "$lib/word/egyptian/transliteration/ascii-chen"
 import {pAsciiMdc, Phoneme2AsciiMdc} from "$lib/word/egyptian/transliteration/ascii-mdc"
 import {pEgyptology, Phoneme2Egyptology} from "$lib/word/egyptian/transliteration/egyptology"
-import {eof} from "crazy-parser"
+import {pWiktionary, Phoneme2Wiktionary} from "$lib/word/egyptian/transliteration/wiktionary"
+import {eof, Parser} from "crazy-parser"
 import {derived} from "svelte/store"
 
-const TransliterationParserOf = {
+const TransliterationParserOf: Record<EgyptianTransliteration, Parser<Phoneme[]>> = {
 	[EgyptianTransliteration.Chen]: pAsciiChen.many().left(eof),
 	[EgyptianTransliteration.ManuelDeCodage]: pAsciiMdc.many().left(eof),
 	[EgyptianTransliteration.Egyptology]: pEgyptology.many().left(eof),
+	[EgyptianTransliteration.Wiktionary]: pWiktionary.many().left(eof),
 }
 
-const TransliterationDumperOf = {
+const TransliterationDumperOf: Record<EgyptianTransliteration, Record<Phoneme, string>> = {
 	[EgyptianTransliteration.Chen]: Phoneme2AsciiChen,
 	[EgyptianTransliteration.ManuelDeCodage]: Phoneme2AsciiMdc,
 	[EgyptianTransliteration.Egyptology]: Phoneme2Egyptology,
+	[EgyptianTransliteration.Wiktionary]: Phoneme2Wiktionary,
 }
 
 export const preferredEgyptianTransliterationParser =
@@ -26,31 +29,39 @@ export const preferredEgyptianTransliterationParser =
 export const preferredEgyptianTransliterationDumper =
 	derived(settings, s => TransliterationDumperOf[s.EgyptianTransliteration])
 
-export const egyptianTransliterationSampleText =
-	derived(preferredEgyptianTransliterationDumper, f => [
-		Phoneme.a, Phoneme.e, Phoneme.b, Phoneme.t,
-		Phoneme.c, Phoneme.d, Phoneme.j,
-	].map(x => f[x]).join(""))
+function MakeSentenceParser(parser: Parser<Phoneme>)
+	: Parser<SentenceTransliteration>
+{
+	return parser.or(pPunctuation).many().left(eof)
+}
 
 const SentenceTransliterationParserOf = {
 	[EgyptianTransliteration.Chen]:
-		pAsciiChen.or(pPunctuation).many().left(eof),
+		MakeSentenceParser(pAsciiChen),
 	[EgyptianTransliteration.ManuelDeCodage]:
-		pAsciiMdc.or(pPunctuation).many().left(eof),
+		MakeSentenceParser(pAsciiMdc),
 	[EgyptianTransliteration.Egyptology]:
-		pEgyptology.or(pPunctuation).many().left(eof),
+		MakeSentenceParser(pEgyptology),
+	[EgyptianTransliteration.Wiktionary]:
+		MakeSentenceParser(pWiktionary),
+}
+
+function MakeSentenceDumper(dumper: Record<Phoneme, string>)
+	: (xs: SentenceTransliteration) => string
+{
+	return (xs: SentenceTransliteration) =>
+		xs.map(x => x in dumper ? dumper[x as Phoneme] : x).join("")
 }
 
 const SentenceTransliterationDumperOf = {
 	[EgyptianTransliteration.Chen]:
-		(xs: SentenceTransliteration) => xs.map(x =>
-			x in Phoneme2AsciiChen ? Phoneme2AsciiChen[x as Phoneme] : x).join(""),
+		MakeSentenceDumper(Phoneme2AsciiChen),
 	[EgyptianTransliteration.ManuelDeCodage]:
-		(xs: SentenceTransliteration) => xs.map(x =>
-			x in Phoneme2AsciiMdc ? Phoneme2AsciiMdc[x as Phoneme] : x).join(""),
+		MakeSentenceDumper(Phoneme2AsciiMdc),
 	[EgyptianTransliteration.Egyptology]:
-		(xs: SentenceTransliteration) => xs.map(x =>
-			x in Phoneme2Egyptology ? Phoneme2Egyptology[x as Phoneme] : x).join(""),
+		MakeSentenceDumper(Phoneme2Egyptology),
+	[EgyptianTransliteration.Wiktionary]:
+		MakeSentenceDumper(Phoneme2Wiktionary),
 }
 
 export const preferredSentenceTransliterationParser =
@@ -58,3 +69,12 @@ export const preferredSentenceTransliterationParser =
 
 export const preferredSentenceTransliterationDumper =
 	derived(settings, s => SentenceTransliterationDumperOf[s.EgyptianTransliteration])
+
+export const egyptianTransliterationSampleText =
+	derived(preferredSentenceTransliterationDumper, f => f([
+		Phoneme.a, Phoneme.e, Phoneme.i, Punctuation.Space,
+		Phoneme.t, Phoneme.c, Punctuation.Space,
+		Phoneme.d, Phoneme.j, Punctuation.Space,
+		Phoneme.k, Phoneme.q, Punctuation.Space,
+		Phoneme.h, Phoneme.H, Phoneme.x, Phoneme.C,
+	]))

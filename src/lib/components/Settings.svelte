@@ -159,44 +159,45 @@
 				>
 
 					<div class="flex items-center">
-
 						<RadioGroup.Item
 							id="set-egyptian-transliteration-mdc"
 							value={EgyptianTransliteration.ManuelDeCodage}
 						/>
-
 						<Label class="pl-2 flex flex-col items-center" for="set-egyptian-transliteration-mdc">
 							<abbr title="Manuel de Codage">
 								MdC
 							</abbr>
 						</Label>
-
 					</div>
 
 					<div class="flex items-center">
-
 						<RadioGroup.Item
 							id="set-egyptian-transliteration-chen"
 							value={EgyptianTransliteration.Chen}
 						/>
-
 						<Label class="pl-2 flex flex-col items-center" for="set-egyptian-transliteration-chen">
 							陈
 						</Label>
-
 					</div>
 
 					<div class="flex items-center">
+						<RadioGroup.Item
+							id="set-egyptian-transliteration-wiktionary"
+							value={EgyptianTransliteration.Wiktionary}
+						/>
+						<Label class="pl-2 flex flex-col items-center" for="set-egyptian-transliteration-wiktionary">
+							Wiktionary
+						</Label>
+					</div>
 
+					<div class="flex items-center">
 						<RadioGroup.Item
 							id="set-egyptian-transliteration-egyptology"
 							value={EgyptianTransliteration.Egyptology}
 						/>
-
 						<Label class="pl-2 flex flex-col items-center" for="set-egyptian-transliteration-egyptology">
-							{$_.egyptian.egyptology}
+							Gardiner
 						</Label>
-
 					</div>
 
 				</RadioGroup.Root>

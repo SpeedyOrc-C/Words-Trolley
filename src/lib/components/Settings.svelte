@@ -85,22 +85,54 @@
 						</Select.Trigger>
 
 						<Select.Content>
-
 							<Select.Item value="auto">
 								{$_.settings.follows_your_system}
 							</Select.Item>
-
 							<Select.Item value={Language.ZhCn}>
 								{_Language(Language.ZhCn)}
 							</Select.Item>
-
 							<Select.Item value={Language.EnGb}>
 								{_Language(Language.EnGb)}
 							</Select.Item>
-
 						</Select.Content>
 
 					</Select.Root>
+
+				</article>
+
+				<article>
+
+					<header>{$_.settings.learning._}</header>
+
+					<div class="flex flex-col gap-2">
+
+						<div class="flex items-center">
+							<Checkbox
+								bind:checked={newSettings.Learning.ShowMeaningAndWordAtTheSameTime}
+								id="set-show-meaning-and-word-at-the-same-time"
+							/>
+							<Label
+								class="pl-3"
+								for="set-show-meaning-and-word-at-the-same-time"
+							>
+								{$_.settings.learning.show_meaning_and_word_at_the_same_time}
+							</Label>
+						</div>
+
+						<div class="flex items-center">
+							<Checkbox
+								bind:checked={newSettings.Learning.ShowPronunciation}
+								id="set-show-pronunciation-above-words"
+							/>
+							<Label
+								class="pl-3"
+								for="set-show-pronunciation-above-words"
+							>
+								{$_.settings.learning.show_pronunciation}
+							</Label>
+						</div>
+
+					</div>
 
 				</article>
 
@@ -122,29 +154,23 @@
 					>
 
 						<div class="flex items-center">
-
 							<RadioGroup.Item
 								id="set-mandarin-script-pinyin"
 								value={MandarinScript.Pinyin}
 							/>
-
 							<Label class="pl-2" for="set-mandarin-script-pinyin">
 								{$_.linguistics.pinyin}
 							</Label>
-
 						</div>
 
 						<div class="flex items-center">
-
 							<RadioGroup.Item
 								id="set-mandarin-script-bopomofo"
 								value={MandarinScript.Bopomofo}
 							/>
-
 							<Label class="pl-2" for="set-mandarin-script-bopomofo">
 								{$_.linguistics.bopomofo}
 							</Label>
-
 						</div>
 
 					</RadioGroup.Root>
@@ -295,29 +321,23 @@
 					>
 
 						<div class="flex items-center">
-
 							<RadioGroup.Item
 								id="set-hieroglyphs-new-gardiner"
 								value={HieroglyphsFont.NewGardiner}
 							/>
-
 							<Label class="pl-2" for="set-hieroglyphs-new-gardiner">
 								{$_.settings.hieroglyphs_style.sans_serif}
 							</Label>
-
 						</div>
 
 						<div class="flex items-center">
-
 							<RadioGroup.Item
 								id="set-hieroglyphs-semiessessi-colourful"
 								value={HieroglyphsFont.SemiessessiColourful}
 							/>
-
 							<Label class="pl-2" for="set-hieroglyphs-semiessessi-colourful">
 								{$_.settings.hieroglyphs_style.colourful}
 							</Label>
-
 						</div>
 
 					</RadioGroup.Root>
@@ -359,9 +379,9 @@
 										UpdateSettings()
 									}}
 									/>
-									<label class="pl-3" for="set-preferred-voice-{lang}">
+									<Label class="pl-3" for="set-preferred-voice-{lang}">
 										{_Language(lang)}
-									</label>
+									</Label>
 								</div>
 
 								{#if value != null}

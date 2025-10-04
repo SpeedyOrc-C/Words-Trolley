@@ -34,6 +34,11 @@ export type I18nTemplate = {
 	settings: {
 		_: s
 		follows_your_system: s
+		learning: {
+			_: s
+			show_meaning_and_word_at_the_same_time: s
+			show_pronunciation: s
+		}
 		mandarin: {
 			_: s
 			spelling_scheme: s

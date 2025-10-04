@@ -5,7 +5,11 @@
 	import {Button} from "$lib/components/ui/button"
 	import {Language} from "$lib/i18n/Language"
 	import {_, language} from "$lib/i18n/store"
-	import {settings} from "$lib/settings/store"
+	import {
+		settings,
+		showMeaningWhileLearning,
+		showPronunciation,
+	} from "$lib/settings/store"
 	import {preferredSentenceTransliterationDumperForRead} from "$lib/settings/store/egyptian"
 	import {French, German} from "$lib/word"
 	import {BopomofoStrict, type ISyllable, Pinyin} from "$lib/word/mandarin"
@@ -112,101 +116,114 @@
 
 <WordProgressNav index={i} progressTitle={$_.learn.progress} {words} id={data.word_set.id}/>
 
-<main class="grow flex items-center justify-around px-4">
+<main class="grow px-4 flex flex-col items-center justify-around">
 
-	{#if flipped}
+	{#if flipped && ! $showMeaningWhileLearning}
 
-		<div class="text-5xl select-all text-center">
+		<div class="text-5xl text-center select-all">
 			{word.meaning}
 		</div>
 
 	{:else}
 
-		{#if word.type === WordType.French && word.category === French.Category.Noun}
+		<div class="flex flex-col items-center gap-4">
 
-			<div class="flex flex-col items-center gap-4">
 
-				<div class="text-5xl select-all" lang="fr-FR">
-					{word.word}
+			{#if word.type === WordType.French && word.category === French.Category.Noun}
+
+				<div class="flex flex-col items-center gap-4">
+
+					<div class="text-5xl select-all" lang="fr-FR">
+						{word.word}
+					</div>
+
+					<div class="flex items-center gap-2 text-xl opacity-60">
+						{#if word.gender === French.Gender.M}
+							<Mars/>
+							<div>{$_.linguistics.abbr.masculine}</div>
+						{:else}
+							<Venus/>
+							<div>{$_.linguistics.abbr.feminine}</div>
+						{/if}
+					</div>
+
 				</div>
 
-				<div class="flex items-center gap-2 text-xl opacity-60">
-					{#if word.gender === French.Gender.M}
-						<Mars/>
-						<div>{$_.linguistics.abbr.masculine}</div>
-					{:else}
-						<Venus/>
-						<div>{$_.linguistics.abbr.feminine}</div>
-					{/if}
+			{:else if word.type === WordType.German && word.category === German.Category.Noun}
+
+				<div class="flex flex-col items-center gap-4">
+
+					<div class="text-5xl select-all" lang="de-DE">
+						{word.word}
+					</div>
+
+					<div class="flex items-center gap-2 text-xl opacity-60">
+						{#if word.gender === German.Gender.M}
+							<Mars/>
+							<div>{$_.linguistics.abbr.masculine}</div>
+						{:else if word.gender === German.Gender.F}
+							<Venus/>
+							<div>{$_.linguistics.abbr.feminine}</div>
+						{:else}
+							<Circle/>
+							<div>{$_.linguistics.abbr.neutral}</div>
+						{/if}
+					</div>
+
 				</div>
 
-			</div>
+			{:else if word.type === WordType.Mandarin}
 
-		{:else if word.type === WordType.German && word.category === German.Category.Noun}
-
-			<div class="flex flex-col items-center gap-4">
-
-				<div class="text-5xl select-all" lang="de-DE">
-					{word.word}
-				</div>
-
-				<div class="flex items-center gap-2 text-xl opacity-60">
-					{#if word.gender === German.Gender.M}
-						<Mars/>
-						<div>{$_.linguistics.abbr.masculine}</div>
-					{:else if word.gender === German.Gender.F}
-						<Venus/>
-						<div>{$_.linguistics.abbr.feminine}</div>
-					{:else}
-						<Circle/>
-						<div>{$_.linguistics.abbr.neutral}</div>
-					{/if}
-				</div>
-
-			</div>
-
-		{:else if word.type === WordType.Mandarin}
-
-			<div class="select-all text-5xl" lang={LangFromWord(word)}>
-				{#each word.word as char, i}
-					<ruby>
-						<span>{char}</span><rt>{RenderMandarinSyllable(word.syllables[i])}</rt>
-					</ruby>
-				{/each}
-			</div>
-
-		{:else if word.type === WordType.Japanese}
-
-			<div class="select-all text-5xl" lang={LangFromWord(word)}>
-				{#each word.furi as [start, length, furi]}
-					{#if furi.length === 0}
-						{word.word.slice(start, start + length)}
-					{:else}
+				<div class="select-all text-5xl" lang={LangFromWord(word)}>
+					{#each word.word as char, i}
 						<ruby>
-							<span>{word.word.slice(start, start + length)}</span><rt>{furi}</rt>
+							<span>{char}</span>{#if $showPronunciation}<rt>{RenderMandarinSyllable(word.syllables[i])}</rt>{/if}
 						</ruby>
+					{/each}
+				</div>
+
+			{:else if word.type === WordType.Japanese}
+
+				<div class="select-all text-5xl" lang={LangFromWord(word)}>
+					{#each word.furi as [start, length, furi]}
+						{#if furi.length === 0}
+							{word.word.slice(start, start + length)}
+						{:else}
+							<ruby>
+								<span>{word.word.slice(start, start + length)}</span>{#if $showPronunciation}<rt>{furi}</rt>{/if}
+							</ruby>
+						{/if}
+					{/each}
+				</div>
+
+			{:else if word.type === WordType.Egyptian}
+
+				<div class="flex flex-col items-center gap-4" lang="egy">
+					{#if $showPronunciation}
+						<div class="font-egy-trans text-3xl">
+							{$preferredSentenceTransliterationDumperForRead(word.trans)}
+						</div>
 					{/if}
-				{/each}
-			</div>
-
-		{:else if word.type === WordType.Egyptian}
-
-			<div class="flex flex-col items-center gap-4" lang="egy">
-				<div class="font-egy-trans text-3xl">
-					{$preferredSentenceTransliterationDumperForRead(word.trans)}
+					<div class="text-5xl">
+						<EgyptianText t={word.word}/>
+					</div>
 				</div>
-				<div class="text-5xl">
-					<EgyptianText t={word.word}/>
+
+			{:else}
+
+				<div class="text-5xl select-all" lang={LangFromWord(word)}>
+					{word.word}
 				</div>
-			</div>
 
-		{:else}
+			{/if}
 
-			<div class="text-5xl select-all" lang={LangFromWord(word)}>
-				{word.word}
-			</div>
+			{#if $showMeaningWhileLearning}
+				<div class="text-2xl text-center select-all text-foreground/50">
+					{word.meaning}
+				</div>
+			{/if}
 
-		{/if}
+		</div>
 
 	{/if}
 
@@ -230,9 +247,12 @@
 	</div>
 
 	<div class="flex gap-3">
-		<Button class="h-24 text-xl flex-1" onclick={Flip} variant="secondary">
-			{$_.learn.flip}
-		</Button>
+
+		{#if ! $showMeaningWhileLearning}
+			<Button class="h-24 text-xl flex-1" onclick={Flip} variant="secondary">
+				{$_.learn.flip}
+			</Button>
+		{/if}
 
 		<Button class="h-24 text-xl flex-1" onclick={Next} variant="outline">
 			{$_.learn.next}

@@ -34,6 +34,11 @@ const ZhCn: I18nTemplate = {
 		_: "设置",
 		follows_your_system: "跟随系统",
 		ui_language: "界面语言",
+		learning: {
+			_: "学习",
+			show_meaning_and_word_at_the_same_time: "学习时显示单词意思。",
+			show_pronunciation: "学习时显示发音。",
+		},
 		mandarin: {
 			_: "现代汉语",
 			spelling_scheme: "拼读方案",

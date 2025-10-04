@@ -34,14 +34,19 @@ const EnGb: I18nTemplate = {
 		_: "Settings",
 		follows_your_system: "Follows your system",
 		ui_language: "UI Language",
+		learning: {
+			_: "Learning",
+			show_meaning_and_word_at_the_same_time: "Show word and its meaning at the same time.",
+			show_pronunciation: "Show pronunciation while learning.",
+		},
 		mandarin: {
 			_: "Mandarin",
 			spelling_scheme: "Spelling Scheme",
 		},
 		egyptian: {
 			_: "Egyptian",
-			transliteration_for_read: "Transliteration Scheme for Read",
-			transliteration_for_edit: "Transliteration Scheme for Edit",
+			transliteration_for_read: "Transliteration Scheme for Reading",
+			transliteration_for_edit: "Transliteration Scheme for Editing",
 			hieroglyphs_font: "Hieroglyphs Font",
 		},
 		hieroglyphs_style: {

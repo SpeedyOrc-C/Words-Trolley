@@ -3,6 +3,22 @@ import {Language} from "$lib/i18n/Language"
 
 export const SettingsKey = "words-trolley-settings"
 
+export interface ISettings
+{
+	Language: LivingLanguage | "auto"
+	Learning: {
+		ShowMeaningAndWordAtTheSameTime: boolean
+		ShowPronunciation: boolean
+	}
+	MandarinScript: MandarinScript
+	Egyptian: {
+		HieroglyphsFont: HieroglyphsFont
+		TransliterationForRead: EgyptianTransliteration
+		TransliterationForEdit: EgyptianTransliteration
+	}
+	PreferredVoice: Record<LivingLanguage, string | null>
+}
+
 export enum MandarinScript
 {
 	Pinyin = "pinyin",
@@ -23,20 +39,12 @@ export enum HieroglyphsFont
 	SemiessessiColourful = "semiessessi-colourful",
 }
 
-export interface ISettings
-{
-	Language: LivingLanguage | "auto"
-	MandarinScript: MandarinScript
-	Egyptian: {
-		HieroglyphsFont: HieroglyphsFont
-		TransliterationForRead: EgyptianTransliteration
-		TransliterationForEdit: EgyptianTransliteration
-	}
-	PreferredVoice: Record<LivingLanguage, string | null>
-}
-
 export const defaultSettings: ISettings = {
 	Language: "auto",
+	Learning: {
+		ShowMeaningAndWordAtTheSameTime: false,
+		ShowPronunciation: true,
+	},
 	MandarinScript: MandarinScript.Pinyin,
 	Egyptian: {
 		HieroglyphsFont: HieroglyphsFont.NewGardiner,
@@ -78,6 +86,27 @@ export function ParseSettings(x: unknown): ISettings
 	}
 	else
 		WarnCannotFind("Language")
+
+	if ("Learning" in x && typeof x.Learning == "object" && x.Learning !== null)
+	{
+		const y = x.Learning
+
+		if ("ShowMeaningAndWordAtTheSameTime" in y && typeof y.ShowMeaningAndWordAtTheSameTime == "boolean")
+		{
+			settings.Learning.ShowMeaningAndWordAtTheSameTime = y.ShowMeaningAndWordAtTheSameTime
+		}
+		else
+			WarnCannotFind("Learning.ShowMeaningAndWordAtTheSameTime")
+
+		if ("ShowPronunciation" in y && typeof y.ShowPronunciation == "boolean")
+		{
+			settings.Learning.ShowPronunciation = y.ShowPronunciation
+		}
+		else
+			WarnCannotFind("Learning.ShowPronunciation")
+	}
+	else
+		WarnCannotFind("Learning")
 
 	if ("MandarinScript" in x)
 	{

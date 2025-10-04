@@ -116,7 +116,7 @@
 
 	{#if flipped}
 
-		<div class="text-5xl select-all">
+		<div class="text-5xl select-all text-center">
 			{word.meaning}
 		</div>
 

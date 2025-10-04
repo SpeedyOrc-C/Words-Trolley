@@ -116,7 +116,11 @@ const EnGb: I18nTemplate = {
 			success: "Forked successfully",
 		},
 		export: "Export",
-		import: "Import...",
+		import: {
+			_: "Import...",
+			win: "Words imported successfully.",
+			bad_file_error: "The words is corrupted. Please check the console for error details.",
+		},
 		delete: "Delete...",
 		deleting: "Deleting",
 		delete_confirm: {

@@ -117,7 +117,11 @@ export type I18nTemplate = {
 			success: s
 		}
 		export: s
-		import: s
+		import: {
+			_: s
+			win: s
+			bad_file_error: s
+		}
 		delete: s
 		deleting: s
 		delete_confirm: {

@@ -35,6 +35,7 @@
 	import Speech from "@lucide/svelte/icons/speech"
 	import Ellipsis from "@lucide/svelte/icons/ellipsis"
 	import {Service} from "$lib/service"
+	import {ValidateWords} from "$lib/word/validate"
 
 	const data: {
 		online: true
@@ -181,9 +182,32 @@
 				return
 			}
 
-			const rawWords = await files[0].text()
+			const rawTextWords = await files[0].text()
 
-			words = JSON.parse(rawWords)
+			let rawJsonWords: any
+
+			try
+			{
+				rawJsonWords = JSON.parse(rawTextWords)
+			} catch (e)
+			{
+				console.error(e)
+				toast.error($_.editor.import.bad_file_error)
+				return
+			}
+
+			const newWords = ValidateWords(rawJsonWords)
+
+			if (newWords instanceof Error)
+			{
+				console.error(newWords)
+				toast.error($_.editor.import.bad_file_error)
+				return
+			}
+
+			words = newWords
+			saved = false
+			toast.success($_.editor.import.win)
 		}
 
 		input.click()

@@ -116,7 +116,11 @@ const ZhCn: I18nTemplate = {
 			success: "成功创建副本",
 		},
 		export: "导出",
-		import: "导入…",
+		import: {
+			_: "导入…",
+			win: "成功导入单词。",
+			bad_file_error: "单词已破损，请前往控制台查看错误详情。",
+		},
 		delete: "删除…",
 		deleting: "删除中",
 		delete_confirm: {

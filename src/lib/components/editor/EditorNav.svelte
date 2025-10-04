@@ -180,7 +180,7 @@
 
 				<M.Item onclick={Import}>
 					<FolderInput />
-					{$_.editor.import}
+					{$_.editor.import._}
 				</M.Item>
 
 				<M.Item onclick={Export}>

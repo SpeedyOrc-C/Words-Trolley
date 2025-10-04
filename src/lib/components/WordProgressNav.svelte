@@ -3,9 +3,10 @@
 	import {Progress} from "$lib/components/ui/progress"
 
 	import {_} from "$lib/i18n/store"
+	import {EgyptianTransliteration} from "$lib/settings"
 	import {settingsOpened} from "$lib/settings/store"
-	import {preferredSentenceTransliterationDumper} from "$lib/settings/store/egyptian"
 	import type {Word} from "$lib/word"
+	import {SentenceTransliterationDumperOf} from "$lib/word/egyptian/transliteration"
 	import {WordType} from "$lib/word/types"
 
 	const {
@@ -25,7 +26,7 @@
 	const wordArg = $derived.by(() =>
 	{
 		if (word.type == WordType.Egyptian)
-			return $preferredSentenceTransliterationDumper(word.trans)
+			return SentenceTransliterationDumperOf[EgyptianTransliteration.Wiktionary](word.trans)
 
 		return word.word
 	})

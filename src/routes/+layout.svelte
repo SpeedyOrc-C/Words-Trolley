@@ -85,7 +85,7 @@
 <svelte:window {onkeydown} {onlanguagechange}/>
 
 <Settings bind:open={$settingsOpened}/>
-<Toaster position="top-center" richColors/>
+<Toaster position="bottom-right" richColors/>
 <ModeWatcher/>
 
 {@render children()}

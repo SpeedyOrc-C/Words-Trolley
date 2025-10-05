@@ -5,15 +5,45 @@ import type {Word} from "./word"
 
 export class Service
 {
+   readonly Profile: Profile
    readonly WordSet: WordSet
    readonly Creator: Creator
    readonly Save: Save
 
    constructor(readonly db: SupabaseClient<Database>)
    {
+      this.Profile = new Profile(db)
       this.WordSet = new WordSet(db)
       this.Creator = new Creator(db)
       this.Save = new Save(db)
+   }
+}
+
+class Profile
+{
+   constructor(private readonly db: SupabaseClient<Database>) { }
+
+   async Get(id: string)
+   {
+      const {data, error} = await this.db
+         .from("profiles")
+         .select("*")
+         .eq("id", id)
+         .single()
+
+      return error ?? data
+   }
+
+   async PutName(id: string, name: string)
+   {
+      const {error} = await this.db
+         .from("profiles")
+         .update({name})
+         .eq("id", id)
+         .single()
+
+      if (error)
+         return error
    }
 }
 

@@ -28,7 +28,15 @@ const ZhCn: I18nTemplate = {
 	pasted: "已粘贴",
 	not_specified: "未指定",
 	onboarding: {
-		complete_your_profile: "完善您的个人信息",
+		complete_your_profile: "完善您的个人资料",
+	},
+	my_profile: {
+		_: "个人资料",
+		name: "名字",
+		save: {
+			_: "保存",
+			win: "保存成功",
+		}
 	},
 	settings: {
 		_: "设置",
@@ -36,8 +44,8 @@ const ZhCn: I18nTemplate = {
 		ui_language: "界面语言",
 		learning: {
 			_: "学习",
-			show_meaning_and_word_at_the_same_time: "学习时显示单词意思。",
-			show_pronunciation: "学习时显示发音。",
+			show_meaning_and_word_at_the_same_time: "学习时同时显示单词及其意思",
+			show_pronunciation: "学习时显示发音",
 		},
 		mandarin: {
 			_: "现代汉语",

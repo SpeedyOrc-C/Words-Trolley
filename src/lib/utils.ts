@@ -63,3 +63,10 @@ export function ParserFromInvertedRecord<A extends string, B extends string>(rec
 {
 	return ParserFromRecord(InverseRecord(record))
 }
+
+export function trace<A>(a: A): A
+{
+	console.log(a)
+	return a
+}
+

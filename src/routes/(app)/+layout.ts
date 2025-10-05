@@ -8,6 +8,16 @@ import {Service} from "$lib/service"
 
 export const load: LayoutLoad = async ({url, data, depends, fetch}) =>
 {
+	// Set the language based on the Accept-Language header.
+	// This is done before components mount, so there's no flicker.
+	const acceptLanguage = data.acceptLanguage
+
+	if (acceptLanguage != null)
+	{
+		const language = acceptLanguage.split(",")[0]
+		AutoDetectLanguage(language)
+	}
+
 	/**
 	 * Declare a dependency so the layout can be invalidated, for example, on
 	 * session refresh.
@@ -41,27 +51,16 @@ export const load: LayoutLoad = async ({url, data, depends, fetch}) =>
 	 */
 	const {data: {session}} = await db.auth.getSession()
 	const {data: {user}} = await db.auth.getUser()
-	const {data: profile} = await (
-		user == null ? {data: null} : db
-			.from("profiles")
-			.select("*")
-			.eq("id", user.id)
-			.single()
-	)
+
+	if (user == null)
+		return {session, db, service, user, profile: null}
+
+	const _profile = await service.Profile.Get(user.id)
+	const profile = _profile instanceof Error ? null : _profile
 
 	// If logged in but has no profile, redirect to onboarding.
-	if (user != null && profile == null && ! url.pathname.startsWith("/onboarding"))
+	if (profile == null && !url.pathname.startsWith("/onboarding"))
 		redirect(303, "/onboarding")
-
-	// Set the language based on the Accept-Language header.
-	// This is done before components mount, so there's no flicker.
-	const acceptLanguage = data.acceptLanguage
-
-	if (acceptLanguage != null)
-	{
-		const language = acceptLanguage.split(",")[0]
-		AutoDetectLanguage(language)
-	}
 
 	return {session, db, service, user, profile}
 }

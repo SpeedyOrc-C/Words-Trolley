@@ -31,6 +31,14 @@ export type I18nTemplate = {
 	onboarding: {
 		complete_your_profile: s
 	}
+	my_profile: {
+		_: s
+		name: s
+		save: {
+			_: s
+			win: s
+		}
+	}
 	settings: {
 		_: s
 		follows_your_system: s

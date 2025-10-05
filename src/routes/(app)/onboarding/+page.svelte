@@ -1,7 +1,6 @@
 <script lang="ts">
-
 	import {Button} from "$lib/components/ui/button"
-	import {CardContent, CardHeader, CardTitle} from "$lib/components/ui/card/index.js"
+	import {CardContent, CardHeader, CardTitle} from "$lib/components/ui/card"
 	import {Input} from "$lib/components/ui/input"
 	import {Card} from "$lib/components/ui/card"
 	import {Label} from "$lib/components/ui/label"

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {Button} from "$lib/components/ui/button"
+	import {Separator} from "$lib/components/ui/separator"
 	import {_} from "$lib/i18n/store"
 	import {settingsOpened} from "$lib/settings/store"
 
@@ -12,6 +13,7 @@
 	import LogOut from "@lucide/svelte/icons/log-out"
 	import Bookmark from "@lucide/svelte/icons/bookmark"
 	import BookUser from "@lucide/svelte/icons/book-user"
+	import User from "@lucide/svelte/icons/user"
 
 	let {data} = $props()
 	let loading = $state(false)
@@ -76,6 +78,13 @@
 		</Button>
 
 	{/if}
+
+	<Separator/>
+
+	<Button class="w-full" href="/profile" size="lg" variant="outline" tabindex={0}>
+		<User/>
+		{$_.my_profile._}
+	</Button>
 
 	<div class="w-full flex gap-4">
 

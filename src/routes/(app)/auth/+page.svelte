@@ -1,4 +1,6 @@
 <script lang="ts">
+	import {goto} from "$app/navigation"
+	import {enhance} from "$app/forms"
 	import * as Card from "$lib/components/ui/card"
 	import {Input} from "$lib/components/ui/input"
 	import {Button} from "$lib/components/ui/button"
@@ -6,6 +8,8 @@
 	import {_} from "$lib/i18n/store"
 
 	import House from "@lucide/svelte/icons/house"
+
+	let loading = $state(false)
 </script>
 
 <svelte:head>
@@ -24,7 +28,24 @@
 <main>
 	<Card.Root class="m-auto mt-6 w-full max-w-sm">
 		<Card.Content>
-			<form action="?/login" class="flex flex-col gap-6" method="POST">
+			<form
+				action="?/login" class="flex flex-col gap-6" method="POST"
+				use:enhance={({}) =>
+				{
+					loading = true
+
+					return async ({result}) =>
+					{
+						loading = false
+
+						if (result.type == "redirect")
+						{
+							await goto(result.location)
+							return
+						}
+					}
+				}}
+			>
 				<div class="flex flex-col gap-2">
 					<Label for="email">{$_.email}</Label>
 					<Input id="email" name="email" required type="email" />
@@ -36,11 +57,11 @@
 				</div>
 
 				<div class="flex flex-col gap-2">
-					<Button type="submit">
+					<Button type="submit" disabled={loading}>
 						{$_.login}
 					</Button>
 
-					<Button formaction="?/signup" type="submit" variant="outline">
+					<Button type="submit" disabled={loading} formaction="?/signup" variant="outline">
 						{$_.signup}
 					</Button>
 				</div>

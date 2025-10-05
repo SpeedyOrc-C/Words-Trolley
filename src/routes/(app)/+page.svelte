@@ -81,10 +81,13 @@
 
 	<Separator/>
 
-	<Button class="w-full" href="/profile" size="lg" variant="outline" tabindex={0}>
-		<User/>
-		{$_.my_profile._}
-	</Button>
+	{#if data.user && data.profile}
+		<Button class="w-full" href="/profile" size="lg" variant="outline" tabindex={0}>
+			<User/>
+			{$_.my_profile._}
+		</Button>
+	{/if}
+
 
 	<div class="w-full flex gap-4">
 

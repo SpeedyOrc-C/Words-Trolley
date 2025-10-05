@@ -84,6 +84,7 @@ export type I18nTemplate = {
 		title: (name: s) => s
 		learn: s
 		test: s
+		preview: s
 		origin: s
 		creator_label: (name: s) => s
 		creator_profile_missing: s

@@ -83,6 +83,7 @@ const EnGb: I18nTemplate = {
 		title: name => `Word set -  ${name}`,
 		learn: "Learn",
 		test: "Test",
+		preview: "Preview",
 		origin: "Origin",
 		creator_label: name => `Creator: ${name}`,
 		creator_profile_missing: "Creator’s profile is missing",

@@ -47,6 +47,7 @@
 	import ArrowBigLeft from "@lucide/svelte/icons/arrow-big-left"
 	import Ban from "@lucide/svelte/icons/ban"
 	import Check from "@lucide/svelte/icons/check"
+	import ScanEye from "@lucide/svelte/icons/scan-eye"
 
 	let {
 		OpenSettings,
@@ -238,6 +239,13 @@
 						<BookCheck />
 						{$_.set.test}
 					</M.Item>
+
+					<M.Item onclick={() => GuardedGoto(`/word-set/${id}`)}>
+						<ScanEye />
+						{$_.set.preview}
+					</M.Item>
+
+					<M.Separator/>
 
 					<M.Item disabled={origin == null} onclick={() => GuardedGoto(`/edit/${origin}`)}>
 						<ArrowBigLeft />

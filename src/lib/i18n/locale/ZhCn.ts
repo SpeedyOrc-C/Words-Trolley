@@ -83,6 +83,7 @@ const ZhCn: I18nTemplate = {
 		title: name => `单词集《${name}》`,
 		learn: "学习",
 		test: "测验",
+		preview: "预览",
 		origin: "源头",
 		creator_label: name => `作者：${name}`,
 		creator_profile_missing: "作者个人资料不存在",

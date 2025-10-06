@@ -9,6 +9,7 @@
 
 	import House from "@lucide/svelte/icons/house"
 	import Settings from "@lucide/svelte/icons/settings"
+	import WordSetEntry from "$lib/components/WordSetEntry.svelte"
 
 	const {data} = $props()
 	const service = new Service(data.db)
@@ -64,51 +65,26 @@
 
 </nav>
 
-<main class="m-auto w-full max-w-xl">
+<header class="p-4 text-center text-xl">
+	{#if ! (result instanceof Error) && result.length > 0}
+		{result.length}
+	{/if}
+</header>
+
+<main class="m-auto w-full max-w-md flex flex-col gap-4">
 	{#if result instanceof Error}
 
 		Error
 
 	{:else if result.length > 0}
 
-		<Table>
+		{#each result as {id, name, language}}
 
-			<TableHeader>
+			<WordSetEntry {id} {name} {language} />
 
-				<TableRow>
-					<TableHead>
-						{$_.word_set}
-					</TableHead>
-					<TableHead>
-						{$_.set.main_language}
-					</TableHead>
-				</TableRow>
-
-			</TableHeader>
-
-			<TableBody>
-				{#each result as {id, name, language}}
-					<TableRow>
-
-						<TableCell>
-							<a href="/word-set/{id}" class="text-xl">
-								{name}
-							</a>
-						</TableCell>
-
-						<TableCell>
-							{#if language != null}
-								{$_.language[language]}
-							{/if}
-						</TableCell>
-
-					</TableRow>
-				{/each}
-			</TableBody>
-
-		</Table>
+		{/each}
 
 	{/if}
 
-	<div style="height: 50dvh"></div>
+	<div class="h-8"></div>
 </main>

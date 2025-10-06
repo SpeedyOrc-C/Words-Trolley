@@ -4,7 +4,7 @@ export async function load({locals: {db}, params: {id}})
 {
 	const {data: sets} = await db
 		.from("sets")
-		.select("id,name")
+		.select("id,name,language")
 		.eq("creator", id)
 
 	if (sets == null)

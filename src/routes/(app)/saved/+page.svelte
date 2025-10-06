@@ -6,10 +6,9 @@
    import Plus from "@lucide/svelte/icons/plus"
    import Search from "@lucide/svelte/icons/search"
    import {settingsOpened} from "$lib/settings/store"
+	import WordSetEntry from "$lib/components/WordSetEntry.svelte"
 
    const {data} = $props()
-
-   $inspect(data)
 </script>
 
 <svelte:head>
@@ -52,25 +51,10 @@
 	{$_.home.saved_by_me}
 </header>
 
-<main class="mx-auto py-4 pl-2 pr-4 w-full max-w-xl flex flex-col items-center">
-	{#each data.saved_word_sets as {name, id}}
-		<a href="/word-set/{id}" class="word-set" tabindex="0">
-			{name}
-		</a>
+<main class="mx-auto py-4 px-4 w-full max-w-md flex flex-col gap-4">
+	{#each data.saved_word_sets as {name, id, language}}
+		<WordSetEntry {name} {id} {language} />
 	{/each}
 </main>
 
-<div style="height: 30vh"></div>
-
-<style lang="postcss">
-	@reference "tailwindcss";
-
-	.word-set {
-		@apply w-full py-2 px-3 text-xl rounded-r-md border-l-3 outline-none transition-all duration-100;
-
-		&:hover, &:focus {
-			background-color: var(--secondary);
-			border-color: var(--ring);
-		}
-	}
-</style>
+<div class="h-8"></div>

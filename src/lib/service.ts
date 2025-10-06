@@ -66,7 +66,7 @@ class Save
    {
       const {data, error} = await this.db
          .from("saves")
-         .select("sets(id,name)")
+         .select("sets(id,name,language)")
 
       return error ?? data.map(item => item.sets)
    }

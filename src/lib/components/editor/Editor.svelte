@@ -36,6 +36,7 @@
 	import Ellipsis from "@lucide/svelte/icons/ellipsis"
 	import {Service} from "$lib/service"
 	import {ValidateWords} from "$lib/word/validate"
+	import {onMount} from "svelte"
 
 	const data: {
 		online: true
@@ -72,6 +73,23 @@
 	{
 		if (data.online)
 			words = data.words
+	})
+
+	onMount(() =>
+	{
+		if (! data.online || ! data.isMine)
+			return
+
+		const saveInterval = setInterval(() =>
+		{
+			if (! typing && ! saving && ! saved)
+				Save()
+		}, 2000)
+
+		return () =>
+		{
+			clearInterval(saveInterval)
+		}
 	})
 
 	async function Save()

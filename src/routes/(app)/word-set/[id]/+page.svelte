@@ -34,7 +34,7 @@
 	import Trash2 from "@lucide/svelte/icons/trash-2"
 	import Bookmark from "@lucide/svelte/icons/bookmark"
 	import BookmarkX from "@lucide/svelte/icons/bookmark-x"
-	import PenLine from "@lucide/svelte/icons/pen-line"
+	import {onMount} from "svelte"
 
 	const {data} = $props()
 	const {saved: _saved, word_set, creator_profile, service} = $derived(data)
@@ -229,11 +229,6 @@
 					<Copy />
 					{$_.editor.fork._}
 				</DropdownMenuItem>
-
-				<!--				<DropdownMenuItem disabled={!isMine}>-->
-				<!--					<PenLine />-->
-				<!--					{$_.editor.rename}-->
-				<!--				</DropdownMenuItem>-->
 
 				<DropdownMenuItem disabled={!isMine} onclick={() => goto(`/edit/${word_set.id}`)}>
 					<SquarePen />

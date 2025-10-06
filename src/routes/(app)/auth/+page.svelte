@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {goto} from "$app/navigation"
+	import {goto, invalidate} from "$app/navigation"
 	import {enhance} from "$app/forms"
 	import * as Card from "$lib/components/ui/card"
 	import {Input} from "$lib/components/ui/input"
@@ -40,6 +40,7 @@
 
 						if (result.type == "redirect")
 						{
+							await invalidate("supabase:auth")
 							await goto(result.location)
 							return
 						}

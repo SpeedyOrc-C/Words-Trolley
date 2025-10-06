@@ -236,7 +236,10 @@ const EnGb: I18nTemplate = {
 	egyptian: {
 		identity: "Identity",
 		egyptology: "Egyptology",
-		transliteration: "Egyptian transliteration",
+		transliteration: {
+			wiktionary: "Wiktionary",
+			gardiner: "Gardiner",
+		},
 		typewriter: {
 			title: "Egyptian Hieroglyphs Typewriter",
 			height: "Height",

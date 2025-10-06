@@ -236,7 +236,10 @@ const ZhCn: I18nTemplate = {
 	egyptian: {
 		identity: "音形如一",
 		egyptology: "埃及学",
-		transliteration: "埃及语转写",
+		transliteration: {
+			wiktionary: "维基词典",
+			gardiner: "高德纳",
+		},
 		typewriter: {
 			title: "圣书字打字机",
 			height: "高度",

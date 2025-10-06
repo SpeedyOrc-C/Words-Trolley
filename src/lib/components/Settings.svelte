@@ -246,7 +246,7 @@
 								value={EgyptianTransliteration.Wiktionary}
 							/>
 							<Label class="pl-2" for="set-egyptian-transliteration-for-read-wiktionary">
-								Wiktionary
+								{$_.egyptian.transliteration.wiktionary}
 							</Label>
 						</div>
 
@@ -256,7 +256,7 @@
 								value={EgyptianTransliteration.Egyptology}
 							/>
 							<Label class="pl-2" for="set-egyptian-transliteration-for-read-egyptology">
-								Gardiner
+								{$_.egyptian.transliteration.gardiner}
 							</Label>
 						</div>
 
@@ -307,7 +307,7 @@
 								value={EgyptianTransliteration.Wiktionary}
 							/>
 							<Label class="pl-2" for="set-egyptian-transliteration-for-edit-wiktionary">
-								Wiktionary
+								{$_.egyptian.transliteration.wiktionary}
 							</Label>
 						</div>
 
@@ -317,7 +317,7 @@
 								value={EgyptianTransliteration.Egyptology}
 							/>
 							<Label class="pl-2" for="set-egyptian-transliteration-for-edit-egyptology">
-								Gardiner
+								{$_.egyptian.transliteration.gardiner}
 							</Label>
 						</div>
 

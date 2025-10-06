@@ -237,7 +237,10 @@ export type I18nTemplate = {
 	egyptian: {
 		identity: s
 		egyptology: s
-		transliteration: s
+		transliteration: {
+			wiktionary: s
+			gardiner: s
+		}
 		typewriter: {
 			title: s
 			height: s

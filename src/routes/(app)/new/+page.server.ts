@@ -5,13 +5,12 @@ export const actions: Actions = {
 	{
 		const formData = await request.formData()
 
-		const name = formData.get('name') as string
-		const words: never[] = []
+		const name = formData.get("name") as string
 
 		const {data, error} = await db
 			.from("sets")
-			.insert({name, words})
-			.select()
+			.insert({name})
+			.select("id")
 
 		if (error)
 		{

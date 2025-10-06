@@ -72,7 +72,7 @@ export type Database = {
           language?: Database["public"]["Enums"]["language"] | null
           name: string
           origin?: string | null
-          words: Json
+          words?: Json
         }
         Update: {
           created_at?: string

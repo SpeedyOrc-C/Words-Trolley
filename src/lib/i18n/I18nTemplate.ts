@@ -47,6 +47,10 @@ export type I18nTemplate = {
 			show_meaning_and_word_at_the_same_time: s
 			show_pronunciation: s
 		}
+		editor: {
+			_: s
+			autosave: s
+		}
 		mandarin: {
 			_: s
 			spelling_scheme: s

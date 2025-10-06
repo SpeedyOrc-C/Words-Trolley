@@ -1,8 +1,9 @@
 <script lang="ts">
 	import {_} from "$lib/i18n/store"
 	import {settingsOpened} from "$lib/settings/store"
-	import Button from "$lib/components/ui/button/button.svelte"
-	import Input from "$lib/components/ui/input/input.svelte"
+	import {Button} from "$lib/components/ui/button"
+	import {ButtonGroup} from "$lib/components/ui/button-group"
+	import {Input} from "$lib/components/ui/input"
 	import {Table, TableHeader, TableHead, TableBody, TableRow, TableCell} from "$lib/components/ui/table"
 	import {Service} from "$lib/service"
 
@@ -43,14 +44,17 @@
 	</Button>
 
 	<form onsubmit={Search} class="flex max-w-sm grow gap-2">
-		<Input bind:value={query} autofocus />
-		<Button
-			onclick={Search}
-			disabled={searching || _query.length == 0}
-			type="submit"
-		>
-			{$_.search}
-		</Button>
+		<ButtonGroup class="w-full">
+			<Input bind:value={query} autofocus />
+			<Button
+				onclick={Search}
+				disabled={searching || _query.length == 0}
+				variant="outline"
+				type="submit"
+			>
+				{$_.search}
+			</Button>
+		</ButtonGroup>
 	</form>
 
 	<Button onclick={() => settingsOpened.set(true)} variant="outline">

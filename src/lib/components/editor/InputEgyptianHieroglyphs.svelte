@@ -5,6 +5,7 @@
 <script lang="ts">
 	import {Button} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
+	import {ButtonGroup} from "$lib/components/ui/button-group"
 
 	import {_} from "$lib/i18n/store"
 	import {preferredEgyptianTransliterationParserForEdit} from "$lib/settings/store/egyptian"
@@ -13,9 +14,10 @@
 	import {CandidatesFromXiaoheKmt} from "$lib/word/egyptian/dictionary/xiaohe-kmt"
 	import {
 		type Hieroglyphs, g, Structure,
-		ExecuteHieroglyphsEditorCommand,
 		type HieroglyphsEditorState,
-		type HieroglyphsEditCommand, DumpHieroglyphs
+		type HieroglyphsEditCommand, DumpHieroglyphs,
+		ExecuteHieroglyphsEditCommand,
+		HieroglyphsEditCommandNoSideEffect
 	} from "$lib/word/egyptian/hieroglyphs"
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import RenderEgyptianHieroglyphs from "$lib/components/RenderEgyptianHieroglyphs.svelte"
@@ -77,7 +79,11 @@
 	{
 		try
 		{
-			s = ExecuteHieroglyphsEditorCommand(s, command)
+			s = ExecuteHieroglyphsEditCommand(s, command)
+
+			if (HieroglyphsEditCommandNoSideEffect(command))
+				return
+
 			value = s.content
 			onchange?.(s.content)
 		}
@@ -300,49 +306,57 @@
 			spellcheck="false"
 		/>
 
-		<Button
-			disabled={value.length === 0}
-			onclick={() => navigator.clipboard.writeText(DumpHieroglyphs(value))}
-			size="icon" title={$_.copy}
-			variant="outline"
-		>
-			<Copy/>
-		</Button>
+		<ButtonGroup>
 
-		<Button
-			onclick={PasteRawHieroglyphs}
-			size="icon" title={$_.paste}
-			variant="outline"
-		>
-			<ClipboardPaste/>
-		</Button>
+			<Button
+				disabled={value.length === 0}
+				onclick={() => navigator.clipboard.writeText(DumpHieroglyphs(value))}
+				size="icon" title={$_.copy}
+				variant="outline"
+			>
+				<Copy/>
+			</Button>
 
-		<Button
-			disabled={s.cursor === 0}
-			onclick={() => Execute("left")}
-			size="icon" title={$_.editor.hieroglyphs_editor.move_cursor_left}
-			variant="outline"
-		>
-			<ArrowLeft/>
-		</Button>
+			<Button
+				onclick={PasteRawHieroglyphs}
+				size="icon" title={$_.paste}
+				variant="outline"
+			>
+				<ClipboardPaste/>
+			</Button>
 
-		<Button
-			disabled={s.cursor === 0}
-			onclick={() => Execute("backspace")}
-			size="icon" title={$_.editor.hieroglyphs_editor.backspace}
-			variant="secondary"
-		>
-			<Delete/>
-		</Button>
+		</ButtonGroup>
 
-		<Button
-			disabled={s.cursor === s.content.length}
-			onclick={() => Execute("right")}
-			size="icon" title={$_.editor.hieroglyphs_editor.move_cursor_right}
-			variant="outline"
-		>
-			<ArrowRight/>
-		</Button>
+		<ButtonGroup>
+
+			<Button
+				disabled={s.cursor === 0}
+				onclick={() => Execute("left")}
+				size="icon" title={$_.editor.hieroglyphs_editor.move_cursor_left}
+				variant="outline"
+			>
+				<ArrowLeft/>
+			</Button>
+
+			<Button
+				disabled={s.cursor === 0}
+				onclick={() => Execute("backspace")}
+				size="icon" title={$_.editor.hieroglyphs_editor.backspace}
+				variant="outline"
+			>
+				<Delete/>
+			</Button>
+
+			<Button
+				disabled={s.cursor === s.content.length}
+				onclick={() => Execute("right")}
+				size="icon" title={$_.editor.hieroglyphs_editor.move_cursor_right}
+				variant="outline"
+			>
+				<ArrowRight/>
+			</Button>
+
+		</ButtonGroup>
 
 	</div>
 
@@ -373,52 +387,58 @@
 
 			<div class="flex gap-1">
 
-				<Button
-					onclick={() => Execute("overlap")}
-					disabled={s.cursor < 2}
-					size="icon" variant="outline"
-					title={$_.editor.hieroglyphs_editor.make_ligature}
-				>
-					<Blend/>
-				</Button>
+				<ButtonGroup>
 
-				<Button
-					onclick={() => Execute("split")}
-					disabled={s.cursor === 0 || s.content[s.cursor - 1][0] === Structure.G}
-					size="icon" variant="outline"
-					title={$_.editor.hieroglyphs_editor.ungroup}
-				>
-					<Split/>
-				</Button>
-
-				<Button
-					size="icon" variant={os === "row" ? "default" : "outline"}
-					onclick={() => os = os === "row" ? "idle" : "row"}
-					title={$_.editor.hieroglyphs_editor.join_horizontally}
-				>
-					<Columns2/>
-				</Button>
-
-				<Button
-					size="icon" variant={os === "column" ? "default" : "outline"}
-					onclick={() => os = os === "column" ? "idle" : "column"}
-					title={$_.editor.hieroglyphs_editor.join_vertically}
-				>
-					<Rows2/>
-				</Button>
-
-				{#each joinCounts as count}
 					<Button
-						class="text-lg"
-						size="icon"
-						variant="outline"
-						disabled={os === "idle" || s.cursor < count}
-						onclick={() => OnStackButtonClick(count)}
-						title={$_.editor.hieroglyphs_editor[`join_${count}`]}
+						onclick={() => Execute("overlap")}
+						disabled={s.cursor < 2}
+						size="icon" variant="outline"
+						title={$_.editor.hieroglyphs_editor.make_ligature}
 					>
-						{count}
+						<Blend/>
 					</Button>
-				{/each}
+
+					<Button
+						onclick={() => Execute("split")}
+						disabled={s.cursor === 0 || s.content[s.cursor - 1][0] === Structure.G}
+						size="icon" variant="outline"
+						title={$_.editor.hieroglyphs_editor.ungroup}
+					>
+						<Split/>
+					</Button>
+
+					<Button
+						size="icon" variant={os === "row" ? "default" : "outline"}
+						onclick={() => os = os === "row" ? "idle" : "row"}
+						title={$_.editor.hieroglyphs_editor.join_horizontally}
+					>
+						<Columns2/>
+					</Button>
+
+					<Button
+						size="icon" variant={os === "column" ? "default" : "outline"}
+						onclick={() => os = os === "column" ? "idle" : "column"}
+						title={$_.editor.hieroglyphs_editor.join_vertically}
+					>
+						<Rows2/>
+					</Button>
+
+				</ButtonGroup>
+
+				<ButtonGroup>
+					{#each joinCounts as count}
+						<Button
+							class="text-lg"
+							size="icon"
+							variant="outline"
+							disabled={os === "idle" || s.cursor < count}
+							onclick={() => OnStackButtonClick(count)}
+							title={$_.editor.hieroglyphs_editor[`join_${count}`]}
+						>
+							{count}
+						</Button>
+					{/each}
+				</ButtonGroup>
 
 			</div>
 

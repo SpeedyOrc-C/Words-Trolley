@@ -25,6 +25,7 @@
 	import * as Card from "$lib/components/ui/card"
 	import * as RadioGroup from "$lib/components/ui/radio-group"
 	import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
+	import {ButtonGroup} from "$lib/components/ui/button-group"
 	import {} from "$lib/components/ui/dialog"
 
 	import Trash2 from "@lucide/svelte/icons/trash-2"
@@ -644,11 +645,11 @@
 					{/if}
 
 					{#if showWordOperations}
-						<div class="w-full flex gap-2">
+						<ButtonGroup class="w-full">
 
 							<Button
 								onclick={() => MoveUp(i)} disabled={i === 0}
-								class="flex-1" variant="secondary"
+								class="flex-1" variant="outline"
 								title={$_.editor.move_up}
 							>
 								<MoveUpIcon />
@@ -659,7 +660,7 @@
 
 								<DropdownMenu.Trigger>
 									{#snippet child({props})}
-										<Button {...props} variant="secondary">
+										<Button {...props} variant="outline">
 											<Ellipsis />
 											{$_.more}
 										</Button>
@@ -690,14 +691,14 @@
 
 							<Button
 								onclick={() => MoveDown(i)} disabled={i === words.length - 1}
-								class="flex-1" variant="secondary"
+								class="flex-1" variant="outline"
 								title={$_.editor.move_down}
 							>
 								<MoveDownIcon />
 								{$_.editor.move_down}
 							</Button>
 
-						</div>
+						</ButtonGroup>
 					{/if}
 
 				</Card.Content>

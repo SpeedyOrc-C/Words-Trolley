@@ -136,6 +136,24 @@
 
 				</article>
 
+				<article>
+
+					<header>
+						{$_.settings.editor._}
+					</header>
+
+					<div class="flex items-center">
+						<Checkbox
+							bind:checked={newSettings.Editor.Autosave}
+							id="set-autosave"
+						/>
+						<Label class="pl-3" for="set-autosave">
+							{$_.settings.editor.autosave}
+						</Label>
+					</div>
+
+				</article>
+
 			</section>
 
 			<Separator/>

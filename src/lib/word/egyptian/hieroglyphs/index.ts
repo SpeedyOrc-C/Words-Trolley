@@ -61,7 +61,13 @@ export type HieroglyphsEditCommand
 	| ["insert", Hieroglyphs]
 	| ["replace", Hieroglyphs[]]
 
-export function ExecuteHieroglyphsEditorCommand
+export function HieroglyphsEditCommandNoSideEffect(command: HieroglyphsEditCommand): boolean
+{
+	const [type] = command
+	return type === "jump" || type === "left" || type === "right"
+}
+
+export function ExecuteHieroglyphsEditCommand
 (
 	state: HieroglyphsEditorState,
 	command: HieroglyphsEditCommand,

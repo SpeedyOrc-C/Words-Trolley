@@ -47,6 +47,10 @@ const EnGb: I18nTemplate = {
 			show_meaning_and_word_at_the_same_time: "Show word and its meaning at the same time",
 			show_pronunciation: "Show pronunciation while learning",
 		},
+		editor: {
+			_: "Editor",
+			autosave: "Autosave",
+		},
 		mandarin: {
 			_: "Mandarin",
 			spelling_scheme: "Spelling Scheme",

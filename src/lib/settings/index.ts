@@ -10,6 +10,9 @@ export interface ISettings
 		ShowMeaningAndWordAtTheSameTime: boolean
 		ShowPronunciation: boolean
 	}
+	Editor: {
+		Autosave: boolean
+	}
 	MandarinScript: MandarinScript
 	Egyptian: {
 		HieroglyphsFont: HieroglyphsFont
@@ -45,6 +48,9 @@ export const defaultSettings: ISettings = {
 		ShowMeaningAndWordAtTheSameTime: false,
 		ShowPronunciation: true,
 	},
+	Editor: {
+		Autosave: true,
+	},
 	MandarinScript: MandarinScript.Pinyin,
 	Egyptian: {
 		HieroglyphsFont: HieroglyphsFont.NewGardiner,
@@ -74,15 +80,12 @@ export function ParseSettings(x: unknown): ISettings
 	if (typeof x != "object" || x === null)
 		return settings
 
-	if ("Language" in x)
+	if ("Language" in x
+		&& typeof x.Language == "string"
+		&& (x.Language == "auto" || -1 != LivingLanguages.indexOf(x.Language as LivingLanguage))
+	)
 	{
-		const language = x.Language
-
-		if (typeof language == "string" &&
-			-1 != LivingLanguages.indexOf(language as LivingLanguage))
-		{
-			settings.Language = language as LivingLanguage
-		}
+		settings.Language = x.Language as LivingLanguage | "auto"
 	}
 	else
 		WarnCannotFind("Language")
@@ -107,6 +110,20 @@ export function ParseSettings(x: unknown): ISettings
 	}
 	else
 		WarnCannotFind("Learning")
+
+	if ("Editor" in x && typeof x.Editor == "object" && x.Editor !== null)
+	{
+		const y = x.Editor
+
+		if ("Autosave" in y && typeof y.Autosave == "boolean")
+		{
+			settings.Editor.Autosave = y.Autosave
+		}
+		else
+			WarnCannotFind("Editor.Autosave")
+	}
+	else
+		WarnCannotFind("Editor")
 
 	if ("MandarinScript" in x)
 	{

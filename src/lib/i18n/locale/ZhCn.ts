@@ -47,6 +47,10 @@ const ZhCn: I18nTemplate = {
 			show_meaning_and_word_at_the_same_time: "学习时同时显示单词及其意思",
 			show_pronunciation: "学习时显示发音",
 		},
+		editor: {
+			_: "编辑器",
+			autosave: "自动保存",
+		},
 		mandarin: {
 			_: "现代汉语",
 			spelling_scheme: "拼读方案",

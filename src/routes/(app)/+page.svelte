@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {Button} from "$lib/components/ui/button"
-	import {Separator} from "$lib/components/ui/separator"
+	import {ButtonGroup} from "$lib/components/ui/button-group"
 	import {_} from "$lib/i18n/store"
 	import {settingsOpened} from "$lib/settings/store"
 
@@ -55,31 +55,33 @@
 
 <main class="mx-auto w-full max-w-xs flex flex-col gap-4 items-center">
 
-	<Button href="/search" variant="outline" size="lg" tabindex={0} class="w-full">
-		<Search />
-		{$_.search}
-	</Button>
+	<ButtonGroup orientation="vertical" class="w-full">
 
-	{#if data.user}
-
-		<Button href="/new" size="lg" variant="outline" tabindex={0} class="w-full">
-			<Plus/>
-			{$_.home.create_a_word_set}
+		<Button href="/search" variant="outline" size="lg" tabindex={0}>
+			<Search />
+			{$_.search}
 		</Button>
 
-		<Button href="/creator/{data.user.id}" size="lg" variant="outline" tabindex={0} class="w-full">
-			<BookUser />
-			{$_.home.created_by_me}
-		</Button>
+		{#if data.user}
 
-		<Button href="/saved" size="lg" variant="outline" tabindex={0} class="w-full">
-			<Bookmark />
-			{$_.home.saved_by_me}
-		</Button>
+			<Button href="/new" size="lg" variant="outline" tabindex={0}>
+				<Plus/>
+				{$_.home.create_a_word_set}
+			</Button>
 
-	{/if}
+			<Button href="/creator/{data.user.id}" size="lg" variant="outline" tabindex={0}>
+				<BookUser />
+				{$_.home.created_by_me}
+			</Button>
 
-	<Separator/>
+			<Button href="/saved" size="lg" variant="outline" tabindex={0}>
+				<Bookmark />
+				{$_.home.saved_by_me}
+			</Button>
+
+		{/if}
+
+	</ButtonGroup>
 
 	{#if data.user && data.profile}
 		<Button class="w-full" href="/profile" size="lg" variant="outline" tabindex={0}>

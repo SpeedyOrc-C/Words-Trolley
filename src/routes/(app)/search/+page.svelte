@@ -4,12 +4,11 @@
 	import {Button} from "$lib/components/ui/button"
 	import {ButtonGroup} from "$lib/components/ui/button-group"
 	import {Input} from "$lib/components/ui/input"
-	import {Table, TableHeader, TableHead, TableBody, TableRow, TableCell} from "$lib/components/ui/table"
 	import {Service} from "$lib/service"
 
-	import House from "@lucide/svelte/icons/house"
 	import Settings from "@lucide/svelte/icons/settings"
 	import WordSetEntry from "$lib/components/WordSetEntry.svelte"
+	import House from "@lucide/svelte/icons/house"
 
 	const {data} = $props()
 	const service = new Service(data.db)
@@ -39,9 +38,8 @@
 
 <nav class="sticky top-0 z-20 p-2 flex gap-2 justify-between backdrop-blur-xs">
 
-	<Button href="/" tabindex={0} variant="outline">
+	<Button href="/" tabindex={0} variant="outline" size="icon" title={$_.home._}>
 		<House />
-		{$_.home._}
 	</Button>
 
 	<form onsubmit={Search} class="flex max-w-sm grow gap-2">
@@ -71,7 +69,7 @@
 	{/if}
 </header>
 
-<main class="m-auto w-full max-w-md flex flex-col gap-4">
+<main class="m-auto px-2 w-full max-w-md flex flex-col gap-4">
 	{#if result instanceof Error}
 
 		Error

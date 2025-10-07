@@ -34,7 +34,6 @@
 	import Trash2 from "@lucide/svelte/icons/trash-2"
 	import Bookmark from "@lucide/svelte/icons/bookmark"
 	import BookmarkX from "@lucide/svelte/icons/bookmark-x"
-	import {onMount} from "svelte"
 
 	const {data} = $props()
 	const {saved: _saved, word_set, creator_profile, service} = $derived(data)
@@ -130,9 +129,8 @@
 
 	<div class="flex gap-2">
 
-		<Button href="/" tabindex={0} variant="outline">
+		<Button href="/" tabindex={0} variant="outline" size="icon" title={$_.home._}>
 			<House />
-			{$_.home._}
 		</Button>
 
 		<Button href="/search" variant="outline" tabindex={0}>
@@ -246,41 +244,39 @@
 
 	</div>
 
-	<div class="mx-2">
-		<Table class="mx-auto my-4 w-full max-w-md">
+	<Table class="mx-auto my-4 w-full max-w-md">
 
-			<TableHeader>
+		<TableHeader>
+			<TableRow>
+				<TableHead class="text-muted-foreground">
+					{$_.editor.word}
+				</TableHead>
+				<TableHead class="text-muted-foreground">
+					{$_.editor.meaning}
+				</TableHead>
+			</TableRow>
+		</TableHeader>
+
+		<TableBody>
+			{#each word_set.words as word}
 				<TableRow>
-					<TableHead class="text-muted-foreground">
-						{$_.editor.word}
-					</TableHead>
-					<TableHead class="text-muted-foreground">
-						{$_.editor.meaning}
-					</TableHead>
+					<TableCell>
+						{#if word.type === WordType.Egyptian}
+							<EgyptianText t={word.word} />
+						{:else}
+							<span lang={LangFromWord(word)}>
+								{word.word}
+							</span>
+						{/if}
+					</TableCell>
+					<TableCell>
+						{word.meaning}
+					</TableCell>
 				</TableRow>
-			</TableHeader>
+			{/each}
+		</TableBody>
 
-			<TableBody>
-				{#each word_set.words as word}
-					<TableRow>
-						<TableCell>
-							{#if word.type === WordType.Egyptian}
-								<EgyptianText t={word.word} />
-							{:else}
-								<span lang={LangFromWord(word)}>
-									{word.word}
-								</span>
-							{/if}
-						</TableCell>
-						<TableCell>
-							{word.meaning}
-						</TableCell>
-					</TableRow>
-				{/each}
-			</TableBody>
-
-		</Table>
-	</div>
+	</Table>
 
 </main>
 

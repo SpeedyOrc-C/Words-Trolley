@@ -27,9 +27,8 @@
 
 	<div class="flex gap-2">
 
-		<Button href="/" tabindex={0} variant="outline">
+		<Button href="/" tabindex={0} variant="outline" size="icon" title={$_.home._}>
 			<House />
-			{$_.home._}
 		</Button>
 
 		<Button href="/search" variant="outline" tabindex={0}>

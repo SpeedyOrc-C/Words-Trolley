@@ -7,7 +7,7 @@
 	import InputEgyptianHieroglyphs from "$lib/components/editor/InputEgyptianHieroglyphs.svelte"
 	import type {Language} from "$lib/i18n/Language"
 	import {_} from "$lib/i18n/store"
-	import {settings, settingsOpened} from "$lib/settings/store"
+	import {autosave, settings, settingsOpened} from "$lib/settings/store"
 	import {French, German, Japanese, type Word} from "$lib/word"
 	import {FuriganaTemplateFromWord, VerbTypeFromRecursiveForm} from "$lib/word/japanese"
 	import InputPinyinLight from "$lib/components/InputPinyinLight.svelte"
@@ -83,7 +83,7 @@
 
 		const saveInterval = setInterval(() =>
 		{
-			if (! typing && ! saving && ! saved)
+			if ($autosave && ! typing && ! saving && ! saved)
 				Save()
 		}, 2000)
 

@@ -5,6 +5,9 @@ export const settingsOpened = writable(false)
 
 export const settings = writable(structuredClone(defaultSettings))
 
+export const autosave =
+   derived(settings, s => s.Editor.Autosave)
+
 export const showMeaningWhileLearning =
    derived(settings, s => s.Learning.ShowMeaningAndWordAtTheSameTime)
 

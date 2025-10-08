@@ -147,7 +147,7 @@ export type I18nTemplate = {
 		new_name: s
 		word: s
 		meaning: s
-		type: s
+		word_type: s
 		extra: s
 		add_a_word: s
 		move_up: s

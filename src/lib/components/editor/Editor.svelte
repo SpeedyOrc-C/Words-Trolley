@@ -1,17 +1,15 @@
 <script lang="ts">
-	import {blankWordFromType, blankWordSimple, LangFromWord, UsesStringInput, CanSpeak} from "$lib"
+	import {blankWordFromType, blankWordSimple, LangFromWord, UsesStringInput, CanSpeak, blankWordFromTypeAndCategory} from "$lib"
 	import InputEgyptianTransliteration from "$lib/components/InputEgyptianTransliteration.svelte"
 	import InputFurigana from "$lib/components/InputFurigana.svelte"
-	import {Separator} from "$lib/components/ui/separator"
 	import {goto} from "$app/navigation"
 	import InputEgyptianHieroglyphs from "$lib/components/editor/InputEgyptianHieroglyphs.svelte"
 	import type {Language} from "$lib/i18n/Language"
 	import {_} from "$lib/i18n/store"
 	import {autosave, settings, settingsOpened} from "$lib/settings/store"
-	import {French, German, Japanese, type Word} from "$lib/word"
+	import {English, French, German, Japanese, Mandarin, type Word} from "$lib/word"
 	import {FuriganaTemplateFromWord, VerbTypeFromRecursiveForm} from "$lib/word/japanese"
 	import InputPinyinLight from "$lib/components/InputPinyinLight.svelte"
-	import SelectWordAndTheirExtras from "$lib/components/editor/SelectWordAndTheirExtras.svelte"
 	import EditorNav from "$lib/components/editor/EditorNav.svelte"
 	import {MandarinScript} from "$lib/settings"
 	import InputBopomofoLight from "$lib/components/InputBopomofoLight.svelte"
@@ -35,6 +33,8 @@
 	import BetweenHorizontalStart from "@lucide/svelte/icons/between-horizontal-start"
 	import Speech from "@lucide/svelte/icons/speech"
 	import Ellipsis from "@lucide/svelte/icons/ellipsis"
+	import Check from "@lucide/svelte/icons/check"
+	import Languages from "@lucide/svelte/icons/languages"
 	import {Service} from "$lib/service"
 	import {ValidateWords} from "$lib/word/validate"
 	import {onMount} from "svelte"
@@ -402,6 +402,70 @@
 
 		mainLanguage = language
 	}
+
+	function ChangeWordType<T extends WordType>(
+		i: number,
+		...[newType, newType2]:
+			T extends WordType.English ? [T, English.Region] :
+			T extends WordType.Mandarin ? [T, Mandarin.Region] :
+			T extends WordType.French ? [T, French.Category] :
+			T extends WordType.Japanese ? [T, Japanese.Category] :
+			T extends WordType.German ? [T, German.Category] :
+			[T]
+	)
+	{
+		const word = words[i]
+
+		switch (newType)
+		{
+		case WordType.Simple:
+			words[i] = {
+				...structuredClone(blankWordFromTypeAndCategory.simple),
+				meaning: word.meaning,
+				word: UsesStringInput(word.type) ? word.word as string : "",
+			}
+			break
+		case WordType.Egyptian:
+			words[i] = {
+				...structuredClone(blankWordFromType.egyptian),
+				meaning: word.meaning,
+				word: word.type == WordType.Egyptian ? word.word : [],
+				trans: word.type == WordType.Egyptian ? word.trans : [],
+			}
+			break
+		case WordType.English:
+			words[i] = {
+				...structuredClone(blankWordFromTypeAndCategory.english),
+				meaning: word.meaning,
+				region: newType2 as English.Region,
+				word: UsesStringInput(word.type) ? word.word as string : "",
+			}
+			break
+		case WordType.Mandarin:
+			words[i] = {
+				...structuredClone(blankWordFromTypeAndCategory.mandarin),
+				meaning: word.meaning,
+				region: newType2 as Mandarin.Region,
+				word: UsesStringInput(word.type) ? word.word as string : "",
+				syllables: word.type == WordType.Mandarin ? word.syllables : [],
+			}
+			break
+		case WordType.French:
+			words[i] = {
+				...structuredClone(blankWordFromTypeAndCategory.french[newType2 as French.Category]),
+				meaning: word.meaning,
+				word: UsesStringInput(word.type) ? word.word as string : "",
+			}
+			break
+		case WordType.German:
+			words[i] = {
+				...structuredClone(blankWordFromTypeAndCategory.german[newType2 as German.Category]),
+				meaning: word.meaning,
+				word: UsesStringInput(word.type) ? word.word as string : "",
+			}
+			break
+		}
+	}
 </script>
 
 <svelte:window {onbeforeunload} {onkeydown} />
@@ -498,14 +562,6 @@
 					</div>
 
 					{#if showExtraOptions}
-
-						<Separator />
-
-						<SelectWordAndTheirExtras
-							bind:saved
-							bind:word={words[i]}
-							onchange={w => words[i] = w}
-						/>
 
 						{#if word.type === WordType.French && word.category === French.Category.Noun}
 
@@ -676,6 +732,152 @@
 										<Speech />
 										{$_.learn.speak}
 									</DropdownMenu.Item>
+
+									<DropdownMenu.Sub>
+
+										<DropdownMenu.SubTrigger>
+											<Languages/>
+											{$_.editor.word_type}
+										</DropdownMenu.SubTrigger>
+
+										<DropdownMenu.SubContent>
+
+											<DropdownMenu.Sub>
+												<DropdownMenu.SubTrigger>
+													{#if word.type == WordType.English}
+														<Check/>
+													{/if}
+													{$_.WordType.English}
+												</DropdownMenu.SubTrigger>
+												<DropdownMenu.SubContent>
+													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.English, English.Region.GB)}>
+														{#if word.type == WordType.English && word.region == English.Region.GB}
+															<Check/>
+														{/if}
+														{$_.english.region.gb}
+													</DropdownMenu.Item>
+													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.English, English.Region.US)}>
+														{#if word.type == WordType.English && word.region == English.Region.US}
+															<Check/>
+														{/if}
+														{$_.english.region.us}
+													</DropdownMenu.Item>
+												</DropdownMenu.SubContent>
+											</DropdownMenu.Sub>
+
+											<DropdownMenu.Sub>
+												<DropdownMenu.SubTrigger>
+													{#if word.type == WordType.Japanese}
+														<Check/>
+													{/if}
+													{$_.WordType.Japanese}
+												</DropdownMenu.SubTrigger>
+												<DropdownMenu.SubContent>
+													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.Japanese, Japanese.Category.Word)}>
+														{#if word.type == WordType.Japanese && word.category == Japanese.Category.Word}
+															<Check/>
+														{/if}
+														{$_.editor.word}
+													</DropdownMenu.Item>
+													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.Japanese, Japanese.Category.Verb)}>
+														{#if word.type == WordType.Japanese && word.category == Japanese.Category.Verb}
+															<Check/>
+														{/if}
+														{$_.linguistics.verb}
+													</DropdownMenu.Item>
+												</DropdownMenu.SubContent>
+											</DropdownMenu.Sub>
+
+											<DropdownMenu.Sub>
+												<DropdownMenu.SubTrigger>
+													{#if word.type == WordType.Mandarin}
+														<Check/>
+													{/if}
+													{$_.WordType.Mandarin}
+												</DropdownMenu.SubTrigger>
+												<DropdownMenu.SubContent>
+													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.Mandarin, Mandarin.Region.PRC)}>
+														{#if word.type == WordType.Mandarin && word.region == Mandarin.Region.PRC}
+															<Check/>
+														{/if}
+														{$_.mandarin.region.prc}
+													</DropdownMenu.Item>
+													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.Mandarin, Mandarin.Region.ROC)}>
+														{#if word.type == WordType.Mandarin && word.region == Mandarin.Region.ROC}
+															<Check/>
+														{/if}
+														{$_.mandarin.region.roc}
+													</DropdownMenu.Item>
+												</DropdownMenu.SubContent>
+											</DropdownMenu.Sub>
+
+											<DropdownMenu.Sub>
+												<DropdownMenu.SubTrigger>
+													{#if word.type == WordType.French}
+														<Check/>
+													{/if}
+													{$_.WordType.French}
+												</DropdownMenu.SubTrigger>
+												<DropdownMenu.SubContent>
+													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.French, French.Category.Word)}>
+														{#if word.type == WordType.French && word.category == French.Category.Word}
+															<Check/>
+														{/if}
+														{$_.editor.word}
+													</DropdownMenu.Item>
+													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.French, French.Category.Noun)}>
+														{#if word.type == WordType.French && word.category == French.Category.Noun}
+															<Check/>
+														{/if}
+														{$_.linguistics.noun}
+													</DropdownMenu.Item>
+												</DropdownMenu.SubContent>
+											</DropdownMenu.Sub>
+
+											<DropdownMenu.Sub>
+												<DropdownMenu.SubTrigger>
+													{#if word.type == WordType.German}
+														<Check/>
+													{/if}
+													{$_.WordType.German}
+												</DropdownMenu.SubTrigger>
+												<DropdownMenu.SubContent>
+													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.German, German.Category.Word)}>
+														{#if word.type == WordType.German && word.category == German.Category.Word}
+															<Check/>
+														{/if}
+														{$_.editor.word}
+													</DropdownMenu.Item>
+													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.German, German.Category.Noun)}>
+														{#if word.type == WordType.German && word.category == German.Category.Noun}
+															<Check/>
+														{/if}
+														{$_.linguistics.noun}
+													</DropdownMenu.Item>
+												</DropdownMenu.SubContent>
+											</DropdownMenu.Sub>
+
+											<DropdownMenu.Separator/>
+
+											<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.Egyptian)}>
+												{#if word.type == WordType.Egyptian}
+													<Check/>
+												{/if}
+												{$_.WordType.Egyptian}
+											</DropdownMenu.Item>
+
+											<DropdownMenu.Separator/>
+
+											<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.Simple)}>
+												{#if word.type == WordType.Simple}
+													<Check/>
+												{/if}
+												{$_.WordType.Simple}
+											</DropdownMenu.Item>
+
+										</DropdownMenu.SubContent>
+
+									</DropdownMenu.Sub>
 
 									<DropdownMenu.Item
 										onclick={() => DeleteWord(i)}

@@ -146,7 +146,7 @@ const EnGb: I18nTemplate = {
 		new_name: "New name",
 		word: "Word",
 		meaning: "Meaning",
-		type: "Type",
+		word_type: "Word type",
 		extra: "Extra",
 		add_a_word: "Add a word",
 		move_up: "Move up",

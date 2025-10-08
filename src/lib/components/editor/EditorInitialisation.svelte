@@ -1,7 +1,6 @@
 <script lang="ts">
 	import SelectWordType from "$lib/components/editor/SelectWordType.svelte"
 	import * as Dialog from "$lib/components/ui/dialog"
-	import * as Select from "$lib/components/ui/select"
 	import {Button} from "$lib/components/ui/button"
 	import {Label} from "$lib/components/ui/label"
 	import {Input} from "$lib/components/ui/input"

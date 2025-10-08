@@ -146,7 +146,7 @@ const ZhCn: I18nTemplate = {
 		new_name: "新名字",
 		word: "单词",
 		meaning: "含义",
-		type: "类型",
+		word_type: "单词类型",
 		extra: "额外信息",
 		add_a_word: "添加一个单词",
 		move_up: "上移",

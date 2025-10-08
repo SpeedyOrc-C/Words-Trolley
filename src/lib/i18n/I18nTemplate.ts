@@ -265,4 +265,7 @@ export type I18nTemplate = {
 	language: {
 		[k in Language]: s
 	}
+	not_by_ai: {
+		developer: s
+	}
 }

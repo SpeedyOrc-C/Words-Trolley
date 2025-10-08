@@ -14,6 +14,7 @@
 	import Bookmark from "@lucide/svelte/icons/bookmark"
 	import BookUser from "@lucide/svelte/icons/book-user"
 	import User from "@lucide/svelte/icons/user"
+	import NotByAiBadge from "$lib/components/not-by-ai/NotByAiBadge.svelte"
 
 	let {data} = $props()
 	let loading = $state(false)
@@ -131,3 +132,9 @@
 	</div>
 
 </main>
+
+<footer class="my-4 mx-auto w-fit">
+	<div class="opacity-70 hover:opacity-100">
+		<NotByAiBadge/>
+	</div>
+</footer>

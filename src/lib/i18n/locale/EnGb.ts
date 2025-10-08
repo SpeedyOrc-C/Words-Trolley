@@ -271,6 +271,9 @@ const EnGb: I18nTemplate = {
 		[Language.DeDe]: "German (Germany)",
 		[Language.Egy]: "Egyptian",
 	},
+	not_by_ai: {
+		developer: "Developed by humans, not by AI.",
+	}
 }
 
 export default EnGb

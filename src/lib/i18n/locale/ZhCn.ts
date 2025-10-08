@@ -270,6 +270,9 @@ const ZhCn: I18nTemplate = {
 		[Language.FrFr]: "法语（法国）",
 		[Language.DeDe]: "德语（德国）",
 		[Language.Egy]: "埃及语",
+	},
+	not_by_ai: {
+		developer: "真人编码，非 AI 生成。",
 	}
 }
 

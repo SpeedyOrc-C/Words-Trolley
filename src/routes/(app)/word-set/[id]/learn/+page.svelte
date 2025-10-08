@@ -3,6 +3,7 @@
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {Button} from "$lib/components/ui/button"
+	import {Kbd, KbdGroup} from "$lib/components/ui/kbd"
 	import {Language} from "$lib/i18n/Language"
 	import {_, language} from "$lib/i18n/store"
 	import {
@@ -241,21 +242,24 @@
 			{$_.learn.speak}
 		</Button>
 
-		<Button class="h-24 text-xl flex-1" onclick={Previous} variant="secondary">
+		<Button class="h-24 text-xl flex-1 inline-flex flex-col sm:flex-row items-center" onclick={Previous} variant="secondary">
 			{$_.learn.previous}
+			<Kbd>← / ↑ / A / W / K / H</Kbd>
 		</Button>
 	</div>
 
 	<div class="flex gap-3">
 
 		{#if ! $showMeaningWhileLearning}
-			<Button class="h-24 text-xl flex-1" onclick={Flip} variant="secondary">
+			<Button class="h-24 text-xl flex-1 inline-flex flex-col sm:flex-row items-center" onclick={Flip} variant="secondary">
 				{$_.learn.flip}
+				<Kbd>␣ / ⏎</Kbd>
 			</Button>
 		{/if}
 
-		<Button class="h-24 text-xl flex-1" onclick={Next} variant="outline">
-			{$_.learn.next}
+		<Button class="h-24 text-xl flex-1 inline-flex flex-col sm:flex-row items-center" onclick={Next} variant="outline">
+			<span>{$_.learn.next}</span>
+			<Kbd>→ / ↓ / D / S / J / L</Kbd>
 		</Button>
 	</div>
 

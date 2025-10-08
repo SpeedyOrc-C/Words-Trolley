@@ -12,7 +12,7 @@
 <a
    href="https://notbyai.fyi/app/words-trolley"
    title={$_.not_by_ai.developer}
-   class="block"
+   class="block opacity-70 hover:opacity-100 focus:opacity-100"
    target="_blank" tabindex={0}
 >
    {#if $language == Language.ZhCn}

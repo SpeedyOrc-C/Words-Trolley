@@ -27,6 +27,7 @@ const ZhCn: I18nTemplate = {
 	paste: "粘贴",
 	pasted: "已粘贴",
 	not_specified: "未指定",
+	wiktionary: "维基词典",
 	onboarding: {
 		complete_your_profile: "完善您的个人资料",
 	},
@@ -237,7 +238,6 @@ const ZhCn: I18nTemplate = {
 		identity: "音形如一",
 		egyptology: "埃及学",
 		transliteration: {
-			wiktionary: "维基词典",
 			gardiner: "高德纳",
 		},
 		typewriter: {

@@ -246,7 +246,7 @@
 								value={EgyptianTransliteration.Wiktionary}
 							/>
 							<Label class="pl-2" for="set-egyptian-transliteration-for-read-wiktionary">
-								{$_.egyptian.transliteration.wiktionary}
+								{$_.wiktionary}
 							</Label>
 						</div>
 
@@ -307,7 +307,7 @@
 								value={EgyptianTransliteration.Wiktionary}
 							/>
 							<Label class="pl-2" for="set-egyptian-transliteration-for-edit-wiktionary">
-								{$_.egyptian.transliteration.wiktionary}
+								{$_.wiktionary}
 							</Label>
 						</div>
 

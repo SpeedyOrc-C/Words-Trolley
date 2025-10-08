@@ -10,6 +10,7 @@
 	import {_} from "$lib/i18n/store"
 	import {French} from "$lib/word"
 	import {WordType} from "$lib/word/types"
+	import {goto} from "$app/navigation"
 
 	const {data} = $props()
 	const words = data.word_set.words
@@ -61,19 +62,14 @@
 		case "Space":
 		case "Enter":
 			if (showAnswer)
+			{
 				if (hasNext)
 					Next()
-				else
-					Finish()
+			}
 			else
 				ShowAnswer()
 			break
 		}
-	}
-
-	function Finish()
-	{
-
 	}
 </script>
 
@@ -85,13 +81,11 @@
 
 <WordProgressNav index={i} progressTitle={$_.test.progress} {words} id={data.word_set.id}/>
 
-<main class="mx-2">
+<main class="mx-2 flex flex-col items-center gap-8">
 
 	<div class="text-5xl text-center">
 		{word.meaning}
 	</div>
-
-	<div class="h-4"></div>
 
 	{#if showAnswer}
 
@@ -131,13 +125,13 @@
 
 		{#if hasNext}
 
-			<Button onclick={Next} variant="secondary" class="w-full text-xl h-24">
+			<Button onclick={Next} variant="outline" class="w-full text-xl h-24">
 				{$_.test.next}
 			</Button>
 
 		{:else}
 
-			<Button onclick={Finish} class="w-full text-xl h-24">
+			<Button href="/word-set/{data.word_set.id}" class="w-full text-xl h-24">
 				{$_.test.finish}
 			</Button>
 

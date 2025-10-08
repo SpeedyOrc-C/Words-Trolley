@@ -30,6 +30,7 @@ const EnGb: I18nTemplate = {
 	onboarding: {
 		complete_your_profile: "Complete your profile",
 	},
+	wiktionary: "Wiktionary",
 	my_profile: {
 		_: "My Profile",
 		name: "Name",
@@ -237,7 +238,6 @@ const EnGb: I18nTemplate = {
 		identity: "Identity",
 		egyptology: "Egyptology",
 		transliteration: {
-			wiktionary: "Wiktionary",
 			gardiner: "Gardiner",
 		},
 		typewriter: {

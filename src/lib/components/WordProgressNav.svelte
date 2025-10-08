@@ -57,7 +57,7 @@
 			href="https://en.wiktionary.org/w/index.php?search={encodeURIComponent(wordArg)}{titleArg}"
 			target="_blank" variant="ghost"
 		>
-			Wiktionary
+			{$_.wiktionary}
 		</Button>
 
 		<Button onclick={() => settingsOpened.set(true)} variant="ghost">

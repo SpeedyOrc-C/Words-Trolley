@@ -134,7 +134,7 @@
 </main>
 
 <footer class="my-4 mx-auto w-fit">
-	<div class="opacity-70 hover:opacity-100">
+	<div>
 		<NotByAiBadge/>
 	</div>
 </footer>

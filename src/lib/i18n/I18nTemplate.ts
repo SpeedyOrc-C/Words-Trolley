@@ -28,6 +28,7 @@ export type I18nTemplate = {
 	paste: s
 	pasted: s
 	not_specified: s
+	wiktionary: s
 	onboarding: {
 		complete_your_profile: s
 	}
@@ -238,7 +239,6 @@ export type I18nTemplate = {
 		identity: s
 		egyptology: s
 		transliteration: {
-			wiktionary: s
 			gardiner: s
 		}
 		typewriter: {

@@ -298,12 +298,12 @@
 			autocomplete="off"
 			autocorrect="off"
 			bind:value={imeInput}
-			class="font-mono"
 			name={$_.editor.hieroglyphs_editor.ime_buffer}
 			oninput={OnImeInput}
 			onkeydown={OnImeKeyDown}
 			placeholder={$_.linguistics.transliteration}
 			spellcheck="false"
+			style="font-size: 1.25rem"
 		/>
 
 		<ButtonGroup>

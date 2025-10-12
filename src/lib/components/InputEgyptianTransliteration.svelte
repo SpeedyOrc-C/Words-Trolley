@@ -8,7 +8,7 @@
 
 	let {
 		value = $bindable([]),
-		onchange: _onchange = () => {},
+		onchange: _onchange,
 		placeholder = "",
 		disabled = false,
 		autofocus = false,

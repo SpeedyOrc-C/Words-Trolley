@@ -230,6 +230,7 @@
 			imeInput = ""
 			imeWords = []
 			imeInputError = false
+			return
 		}
 
 		// Select other candidates with numbers

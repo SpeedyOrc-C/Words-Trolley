@@ -29,6 +29,27 @@ export type I18nTemplate = {
 	pasted: s
 	not_specified: s
 	wiktionary: s
+	learning_resources: {
+		_: s
+		egyptian: {
+			_: s
+			alphabet: {
+				_: s
+				description: s
+				inner: {
+					title: s
+					letter: s
+				}
+			}
+			typewriter: {
+				_: s
+				description: s
+				inner: {
+					title: s
+				}
+			}
+		}
+	}
 	onboarding: {
 		complete_your_profile: s
 	}
@@ -204,6 +225,7 @@ export type I18nTemplate = {
 		Egyptian: s
 	}
 	linguistics: {
+		ipa: s
 		noun: s
 		gender: s
 		masculine: s

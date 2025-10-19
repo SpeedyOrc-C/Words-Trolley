@@ -28,6 +28,27 @@ const ZhCn: I18nTemplate = {
 	pasted: "已粘贴",
 	not_specified: "未指定",
 	wiktionary: "维基词典",
+	learning_resources: {
+		_: "学习资源",
+		egyptian: {
+			_: "埃及语",
+			alphabet: {
+				_: "字母表",
+				description: "附带国际音标与转写的单字符字母表。",
+				inner: {
+					title: "埃及语字母表",
+					letter: "字母"
+				}
+			},
+			typewriter: {
+				_: "打字机",
+				description: "输入圣书字的输入法。",
+				inner: {
+					title: "圣书字打字机"
+				}
+			}
+		}
+	},
 	onboarding: {
 		complete_your_profile: "完善您的个人资料",
 	},
@@ -203,6 +224,7 @@ const ZhCn: I18nTemplate = {
 		Egyptian: "埃及语",
 	},
 	linguistics: {
+		ipa: "国际音标",
 		noun: "名词",
 		gender: "阴阳性",
 		masculine: "阳性",

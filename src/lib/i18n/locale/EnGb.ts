@@ -27,10 +27,31 @@ const EnGb: I18nTemplate = {
 	paste: "Paste",
 	pasted: "Pasted",
 	not_specified: "Not specified",
+	wiktionary: "Wiktionary",
+	learning_resources: {
+		_: "Learning Resources",
+		egyptian: {
+			_: "Egyptian",
+			alphabet: {
+				_: "Alphabet",
+				description: "Table of uniliteral signs with IPA and transliteration.",
+				inner: {
+					title: "Egyptian Alphabet",
+					letter: "Letter"
+				}
+			},
+			typewriter: {
+				_: "Typewriter",
+				description: "IME for typing in Egyptian hieroglyphs.",
+				inner: {
+					title: "Egyptian Hieroglyphs Typewriter"
+				}
+			}
+		}
+	},
 	onboarding: {
 		complete_your_profile: "Complete your profile",
 	},
-	wiktionary: "Wiktionary",
 	my_profile: {
 		_: "My Profile",
 		name: "Name",
@@ -203,6 +224,7 @@ const EnGb: I18nTemplate = {
 		Egyptian: "Egyptian",
 	},
 	linguistics: {
+		ipa: "IPA",
 		noun: "Noun",
 		gender: "Gender",
 		masculine: "Masculine",

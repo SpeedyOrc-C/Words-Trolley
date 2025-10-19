@@ -13,6 +13,7 @@
 	import LogOut from "@lucide/svelte/icons/log-out"
 	import Bookmark from "@lucide/svelte/icons/bookmark"
 	import BookUser from "@lucide/svelte/icons/book-user"
+	import LibraryBig from "@lucide/svelte/icons/library"
 	import User from "@lucide/svelte/icons/user"
 	import NotByAiBadge from "$lib/components/not-by-ai/NotByAiBadge.svelte"
 
@@ -84,13 +85,17 @@
 
 	</ButtonGroup>
 
+	<Button class="w-full" variant="outline" size="lg" href="/tool" tabindex={0}>
+		<LibraryBig />
+		{$_.learning_resources._}
+	</Button>
+
 	{#if data.user && data.profile}
 		<Button class="w-full" href="/profile" size="lg" variant="outline" tabindex={0}>
 			<User/>
 			{$_.my_profile._}
 		</Button>
 	{/if}
-
 
 	<div class="w-full flex gap-4">
 

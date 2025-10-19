@@ -20,7 +20,11 @@
 	<title>{$_.egyptian.typewriter.title}</title>
 </svelte:head>
 
-<div class="mx-auto p-4 w-full xl:w-fit flex flex-col xl:flex-row gap-4">
+<header class="p-4 text-center text-2xl">
+	<h1>{$_.egyptian.typewriter.title}</h1>
+</header>
+
+<main class="mx-auto p-4 w-full xl:w-fit flex flex-col xl:flex-row gap-4">
 
 	<div class="xl:w-xs flex flex-col gap-4">
 
@@ -73,4 +77,4 @@
 		/>
 	</div>
 
-</div>
+</main>

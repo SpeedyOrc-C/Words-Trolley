@@ -113,7 +113,7 @@
 
 		{:else}
 
-			<Button href="/auth" size="lg" class="flex-1">
+			<Button href="/auth" size="lg" class="flex-1" tabindex={0}>
 				<LogIn />
 				{$_.login_and_signup}
 			</Button>

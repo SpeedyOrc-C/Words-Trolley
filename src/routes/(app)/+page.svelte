@@ -37,6 +37,7 @@
 <svelte:head>
 	<title>Words Trolley</title>
 	<meta name="google-site-verification" content="LgylSiIsanuhSU46lPG1N7luYA1a1b8Q0qcaoD8xdhM">
+	<meta name="msvalidate.01" content="6E969809D470884D99DD8C78AE56BBF7" />
 </svelte:head>
 
 <header class="my-4 text-center text-2xl">

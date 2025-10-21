@@ -30,6 +30,7 @@ const ZhCn: I18nTemplate = {
 	wiktionary: "维基词典",
 	learning_resources: {
 		_: "学习资源",
+		meta_description: "学习古埃及语象形文字（圣书字）的资源。",
 		egyptian: {
 			_: "埃及语",
 			alphabet: {
@@ -37,14 +38,16 @@ const ZhCn: I18nTemplate = {
 				description: "附带国际音标与转写的单字符字母表。",
 				inner: {
 					title: "埃及语字母表",
+					meta_description: "包含国际音标与转写的古埃及语单字符圣书字字母表。",
 					letter: "字母"
 				}
 			},
 			typewriter: {
 				_: "打字机",
-				description: "输入圣书字的输入法。",
+				description: "输入圣书字埃及文。",
 				inner: {
-					title: "圣书字打字机"
+					title: "埃及文打字机",
+					meta_description: "输入古埃及文圣书字（象形文字）。"
 				}
 			}
 		}

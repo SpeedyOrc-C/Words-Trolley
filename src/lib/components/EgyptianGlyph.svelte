@@ -19,18 +19,17 @@
 	const svgPath = $derived(`https://raw.githubusercontent.com/semiessessi/recoloured-tuxscribe-hieroglyphs/refs/heads/main/images/${gardiner}.svg`)
 </script>
 
-<div style="height: {glyphHeight * scale}px">
+<span style:height="{glyphHeight * scale}px">
 
 	{#if $settings.Egyptian.HieroglyphsFont === HieroglyphsFont.NewGardiner}
 
-		<div
-			class="w-fit glyph"
-			style="line-height: 100%"
+		<span
+			class="glyph"
 			style:font-size="{lineHeight * scale}px"
 			style:transform="translateY(calc(-100% + {glyphHeight * scale}px))"
 		>
 			{g}
-		</div>
+		</span>
 
 	{:else if $settings.Egyptian.HieroglyphsFont === HieroglyphsFont.SemiessessiColourful}
 
@@ -38,10 +37,14 @@
 
 	{/if}
 
-</div>
+</span>
 
-<style>
+<style lang="postcss">
+	@reference "tailwindcss";
+
 	.glyph {
+		@apply w-fit block;
+		line-height: 100%;
 		font-family: Font_Egyptian, sans-serif;
 	}
 

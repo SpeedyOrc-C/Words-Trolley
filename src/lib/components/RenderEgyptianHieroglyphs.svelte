@@ -53,28 +53,28 @@
 
 {#if struct === Structure.G}
 
-	<div class="g" style:height>
+	<span class="g" style:height>
 		<EgyptianGlyph g={arg} {fp} {lineHeight}/>
-	</div>
+	</span>
 
 {:else if struct === Structure.V}
 
 	{@const pessimisticHeights = arg.map(PessimisticHeight)}
 	{@const adjustedHeights = CutVerticalHeights(pessimisticHeights, fp)}
 
-	<div class="v" style:height>
+	<span class="v" style:height>
 		{#each arg as hie, i}
 			<Render hie={hie} fp={adjustedHeights[i]} {lineHeight}/>
 		{/each}
-	</div>
+	</span>
 
 {:else if struct === Structure.H}
 
-	<div class="h" style:height style:gap="{lineHeight * horizontalGap}px">
+	<span class="h" style:height style:gap="{lineHeight * horizontalGap}px">
 		{#each arg as hie}
 			<Render hie={hie} fp={fp} {lineHeight}/>
 		{/each}
-	</div>
+	</span>
 
 {:else if struct === Structure.L}
 
@@ -82,18 +82,18 @@
 
 	{#if t1 === Structure.G && t2 === Structure.G}
 		{#if a1 === "𓆓" && a2 === "𓋴"}
-			<div class="relative flex justify-between" style:height>
+			<span class="relative inline-flex justify-between" style:height>
 				<EgyptianGlyph g="𓆓" fp={fp * 0.7} {lineHeight}/>
-				<div class="absolute bottom-0 left-[50%] translate-x-[-50%]">
+				<span class="absolute bottom-0 left-[50%] translate-x-[-50%]">
 					<EgyptianGlyph g="𓋴" fp={fp * 0.7} {lineHeight}/>
-				</div>
-			</div>
+				</span>
+			</span>
 		{:else if a1 === "𓆓" && a2 === "𓂧"}
 			<div class="g" style:height>
 				<EgyptianGlyph g="𓆓" {fp} {lineHeight}/>
-				<div class="absolute left-0 translate-x-[20%] translate-y-[50%]">
+				<span class="absolute left-0 translate-x-[20%] translate-y-[50%]">
 					<EgyptianGlyph g="𓂧" fp={fp * 0.2} {lineHeight}/>
-				</div>
+				</span>
 			</div>
 		{/if}
 	{/if}
@@ -104,14 +104,14 @@
 	@reference "tailwindcss";
 
 	.g {
-		@apply flex items-center;
+		@apply inline-flex items-center;
 	}
 
 	.v {
-		@apply flex flex-col items-center justify-between;
+		@apply inline-flex flex-col items-center justify-between;
 	}
 
 	.h {
-		@apply flex items-center justify-around;
+		@apply inline-flex items-center justify-around;
 	}
 </style>

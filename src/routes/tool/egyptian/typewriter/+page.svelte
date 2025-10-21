@@ -18,6 +18,7 @@
 
 <svelte:head>
 	<title>{$_.egyptian.typewriter.title}</title>
+	<meta name="description" content="{$_.learning_resources.egyptian.typewriter.description}"/>
 </svelte:head>
 
 <header class="p-4 text-center text-2xl">

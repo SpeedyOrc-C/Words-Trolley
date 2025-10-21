@@ -31,6 +31,7 @@ export type I18nTemplate = {
 	wiktionary: s
 	learning_resources: {
 		_: s
+		meta_description: s
 		egyptian: {
 			_: s
 			alphabet: {
@@ -38,6 +39,7 @@ export type I18nTemplate = {
 				description: s
 				inner: {
 					title: s
+					meta_description: s
 					letter: s
 				}
 			}
@@ -46,6 +48,7 @@ export type I18nTemplate = {
 				description: s
 				inner: {
 					title: s
+					meta_description: s
 				}
 			}
 		}

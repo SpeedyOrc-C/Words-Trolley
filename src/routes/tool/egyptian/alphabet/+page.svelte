@@ -17,6 +17,7 @@
 
 <svelte:head>
 	<title>{t.title}</title>
+	<meta name="description" content={t.meta_description}/>
 </svelte:head>
 
 <header class="p-4 text-center text-3xl">
@@ -97,6 +98,10 @@
 	<div class="h-4"></div>
 
 	<section>
+		{#snippet P(p: string)}
+			<EgyptianText t={[g(p)]}/>
+		{/snippet}
+
 		{#if $language == Language.ZhCn}
 
 			<header class="text-xl font-bold">
@@ -105,21 +110,21 @@
 			<p>
 				/l/ 音用
 				<span class="text-nowrap">
-					<EgyptianText t={[g(Phoneme.n)]}/> /n/ 或
-					<EgyptianText t={[g(Phoneme.r)]}/> /r/ 表示，
+					{@render P(Phoneme.n)} /n/ 或
+					{@render P(Phoneme.r)} /r/ 表示，
 				</span>
 				大概是因为字母表所基于的方言把 /l/ 合并进了 /n/ 或 /r/。
 			</p>
 			<p>
 				在僧侣体（行书）中，
 				<span class="text-nowrap">
-					<EgyptianText t={[g(Phoneme.y)]}/> /j/ 和
-					<EgyptianText t={[g(Phoneme.w)]}/> /w/
+					{@render P(Phoneme.y)} /j/ 和
+					{@render P(Phoneme.w)} /w/
 				</span>
 				通常简写为
 				<span class="text-nowrap">
-					<EgyptianText t={[g("𓏭")]}/> 和
-					<EgyptianText t={[g("𓏲")]}/>
+					{@render P("𓏭")} 和
+					{@render P("𓏲")}
 				</span>
 				。
 			</p>

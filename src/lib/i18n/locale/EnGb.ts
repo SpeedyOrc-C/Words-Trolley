@@ -30,6 +30,7 @@ const EnGb: I18nTemplate = {
 	wiktionary: "Wiktionary",
 	learning_resources: {
 		_: "Learning Resources",
+		meta_description: "Resources for learning Ancient Egyptian and its hieroglyphs.",
 		egyptian: {
 			_: "Egyptian",
 			alphabet: {
@@ -37,14 +38,16 @@ const EnGb: I18nTemplate = {
 				description: "Table of uniliteral signs with IPA and transliteration.",
 				inner: {
 					title: "Egyptian Alphabet",
+					meta_description: "Table of Ancient Egyptian uniliteral hieroglyphs with IPA and transliteration.",
 					letter: "Letter"
 				}
 			},
 			typewriter: {
 				_: "Typewriter",
-				description: "IME for typing in Egyptian hieroglyphs.",
+				description: "Typing in Egyptian hieroglyphs.",
 				inner: {
-					title: "Egyptian Hieroglyphs Typewriter"
+					title: "Egyptian Typewriter",
+					meta_description: "Typing in Ancient Egyptian hieroglyphs."
 				}
 			}
 		}

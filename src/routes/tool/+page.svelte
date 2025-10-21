@@ -5,6 +5,7 @@
 
 <svelte:head>
    <title>{$_.learning_resources._}</title>
+   <meta name="description" content="{$_.learning_resources.meta_description}" />
 </svelte:head>
 
 <header class="text-center p-4 text-3xl">

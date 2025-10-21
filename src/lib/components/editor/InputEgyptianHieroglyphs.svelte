@@ -35,6 +35,7 @@
 	import Copy from "@lucide/svelte/icons/copy"
 	import ClipboardPaste from "@lucide/svelte/icons/clipboard-paste"
 	import Ellipsis from "@lucide/svelte/icons/ellipsis"
+	import {ToJSesh} from "$lib/word/egyptian/hieroglyphs/jsesh"
 
 	type OperationState = "idle" | "column" | "row"
 
@@ -327,6 +328,16 @@
 				<DM.Item onclick={PasteRawHieroglyphs}>
 					<ClipboardPaste/>
 					{$_.paste}
+				</DM.Item>
+				<DM.Separator/>
+				<DM.Group>
+					<DM.Label>
+						JSesh
+					</DM.Label>
+				</DM.Group>
+				<DM.Item onclick={() => navigator.clipboard.writeText(ToJSesh(value))} >
+					<Copy/>
+					{$_.copy}
 				</DM.Item>
 			</DM.Content>
 		</DM.Root>

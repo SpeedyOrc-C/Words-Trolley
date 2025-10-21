@@ -45,7 +45,8 @@ const XiaoheKmt: Record<string, string[]> = {
 	"N": ["𓁐", "𓃒"], // 女 牛
 	"M": ["𓆭", "𓃗", "𓃘"], // 木 马 驴
 
-	"RT": ["𓀋", "𓀆", "𓀇", "𓀈"] // 人 + 头
+	"RT": ["𓀋", "𓀆", "𓀇", "𓀈"], // 人 + 头
+	"RZ": ["𓀉"], // 人 + 坐
 }
 
 export function CandidatesFromXiaoheKmt(input: string): Hieroglyphs[]

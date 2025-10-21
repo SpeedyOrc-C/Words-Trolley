@@ -63,7 +63,7 @@
 	{oninput}
 	{placeholder}
 	spellcheck="false"
-	style="font-size: 1.25rem; {style}"
+	{style}
 	type="text"
 	value={initValue}
 />

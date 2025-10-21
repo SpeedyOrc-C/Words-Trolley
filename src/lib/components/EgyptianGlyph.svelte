@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {HieroglyphsFont} from "$lib/settings"
 	import {settings} from "$lib/settings/store"
+	import type Gardiner from "$lib/word/egyptian/gardiner"
 	import {Literal2Gardiner} from "$lib/word/egyptian/gardiner/gardiner-literal"
 	import {HeightOfGlyph} from "$lib/word/egyptian/glyph/height"
 
@@ -15,13 +16,22 @@
 			: 1
 	)
 
-	const gardiner = $derived(Literal2Gardiner[g])
+	function SemiessessiFromGardiner(gardiner: Gardiner): string
+	{
+		if (gardiner.startsWith("Aa"))
+			return `J${gardiner.slice(2)}`
+
+		return gardiner
+	}
+
+	const gardiner = $derived(SemiessessiFromGardiner(Literal2Gardiner[g]))
+
 	const svgPath = $derived(`https://raw.githubusercontent.com/semiessessi/recoloured-tuxscribe-hieroglyphs/refs/heads/main/images/${gardiner}.svg`)
 </script>
 
 <span style:height="{glyphHeight * scale}px">
 
-	{#if $settings.Egyptian.HieroglyphsFont === HieroglyphsFont.NewGardiner}
+	{#if $settings.Egyptian.HieroglyphsFont == HieroglyphsFont.NewGardiner}
 
 		<span
 			class="glyph"
@@ -31,7 +41,7 @@
 			{g}
 		</span>
 
-	{:else if $settings.Egyptian.HieroglyphsFont === HieroglyphsFont.SemiessessiColourful}
+	{:else if $settings.Egyptian.HieroglyphsFont == HieroglyphsFont.SemiessessiColourful}
 
 		<img src={svgPath} alt="Symbol {gardiner}"/>
 

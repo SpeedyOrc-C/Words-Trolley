@@ -22,7 +22,7 @@
 	import {Speak} from "$lib/speak"
 	import * as Card from "$lib/components/ui/card"
 	import * as RadioGroup from "$lib/components/ui/radio-group"
-	import * as DropdownMenu from "$lib/components/ui/dropdown-menu"
+	import * as DM from "$lib/components/ui/dropdown-menu"
 	import {ButtonGroup} from "$lib/components/ui/button-group"
 	import {} from "$lib/components/ui/dialog"
 
@@ -685,7 +685,7 @@
 
 						{:else if word.type === WordType.Egyptian}
 
-							<div class="flex flex-col gap-2">
+							<div class="inline-flex gap-2">
 								<Label for="e-trans-{i}">
 									{$_.linguistics.transliteration}
 								</Label>
@@ -693,6 +693,8 @@
 									bind:value={word.trans}
 									id="e-trans-{i}"
 									onchange={() => saved = false}
+									class="flex-1"
+									style="font-size: 1.25rem"
 								/>
 							</div>
 
@@ -712,184 +714,184 @@
 								{$_.editor.move_up}
 							</Button>
 
-							<DropdownMenu.Root>
+							<DM.Root>
 
-								<DropdownMenu.Trigger>
+								<DM.Trigger>
 									{#snippet child({props})}
 										<Button {...props} variant="outline">
 											<Ellipsis />
 											{$_.more}
 										</Button>
 									{/snippet}
-								</DropdownMenu.Trigger>
+								</DM.Trigger>
 
-								<DropdownMenu.Content>
+								<DM.Content>
 
-									<DropdownMenu.Item
+									<DM.Item
 										onclick={() => $Speak(word)}
 										disabled={!CanSpeak(word.type)}
 									>
 										<Speech />
 										{$_.learn.speak}
-									</DropdownMenu.Item>
+									</DM.Item>
 
-									<DropdownMenu.Sub>
+									<DM.Sub>
 
-										<DropdownMenu.SubTrigger>
+										<DM.SubTrigger>
 											<Languages/>
 											{$_.editor.word_type}
-										</DropdownMenu.SubTrigger>
+										</DM.SubTrigger>
 
-										<DropdownMenu.SubContent>
+										<DM.SubContent>
 
-											<DropdownMenu.Sub>
-												<DropdownMenu.SubTrigger>
+											<DM.Sub>
+												<DM.SubTrigger>
 													{#if word.type == WordType.English}
 														<Check/>
 													{/if}
 													{$_.WordType.English}
-												</DropdownMenu.SubTrigger>
-												<DropdownMenu.SubContent>
-													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.English, English.Region.GB)}>
+												</DM.SubTrigger>
+												<DM.SubContent>
+													<DM.Item onclick={() => ChangeWordType(i, WordType.English, English.Region.GB)}>
 														{#if word.type == WordType.English && word.region == English.Region.GB}
 															<Check/>
 														{/if}
 														{$_.english.region.gb}
-													</DropdownMenu.Item>
-													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.English, English.Region.US)}>
+													</DM.Item>
+													<DM.Item onclick={() => ChangeWordType(i, WordType.English, English.Region.US)}>
 														{#if word.type == WordType.English && word.region == English.Region.US}
 															<Check/>
 														{/if}
 														{$_.english.region.us}
-													</DropdownMenu.Item>
-												</DropdownMenu.SubContent>
-											</DropdownMenu.Sub>
+													</DM.Item>
+												</DM.SubContent>
+											</DM.Sub>
 
-											<DropdownMenu.Sub>
-												<DropdownMenu.SubTrigger>
+											<DM.Sub>
+												<DM.SubTrigger>
 													{#if word.type == WordType.Japanese}
 														<Check/>
 													{/if}
 													{$_.WordType.Japanese}
-												</DropdownMenu.SubTrigger>
-												<DropdownMenu.SubContent>
-													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.Japanese, Japanese.Category.Word)}>
+												</DM.SubTrigger>
+												<DM.SubContent>
+													<DM.Item onclick={() => ChangeWordType(i, WordType.Japanese, Japanese.Category.Word)}>
 														{#if word.type == WordType.Japanese && word.category == Japanese.Category.Word}
 															<Check/>
 														{/if}
 														{$_.editor.word}
-													</DropdownMenu.Item>
-													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.Japanese, Japanese.Category.Verb)}>
+													</DM.Item>
+													<DM.Item onclick={() => ChangeWordType(i, WordType.Japanese, Japanese.Category.Verb)}>
 														{#if word.type == WordType.Japanese && word.category == Japanese.Category.Verb}
 															<Check/>
 														{/if}
 														{$_.linguistics.verb}
-													</DropdownMenu.Item>
-												</DropdownMenu.SubContent>
-											</DropdownMenu.Sub>
+													</DM.Item>
+												</DM.SubContent>
+											</DM.Sub>
 
-											<DropdownMenu.Sub>
-												<DropdownMenu.SubTrigger>
+											<DM.Sub>
+												<DM.SubTrigger>
 													{#if word.type == WordType.Mandarin}
 														<Check/>
 													{/if}
 													{$_.WordType.Mandarin}
-												</DropdownMenu.SubTrigger>
-												<DropdownMenu.SubContent>
-													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.Mandarin, Mandarin.Region.PRC)}>
+												</DM.SubTrigger>
+												<DM.SubContent>
+													<DM.Item onclick={() => ChangeWordType(i, WordType.Mandarin, Mandarin.Region.PRC)}>
 														{#if word.type == WordType.Mandarin && word.region == Mandarin.Region.PRC}
 															<Check/>
 														{/if}
 														{$_.mandarin.region.prc}
-													</DropdownMenu.Item>
-													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.Mandarin, Mandarin.Region.ROC)}>
+													</DM.Item>
+													<DM.Item onclick={() => ChangeWordType(i, WordType.Mandarin, Mandarin.Region.ROC)}>
 														{#if word.type == WordType.Mandarin && word.region == Mandarin.Region.ROC}
 															<Check/>
 														{/if}
 														{$_.mandarin.region.roc}
-													</DropdownMenu.Item>
-												</DropdownMenu.SubContent>
-											</DropdownMenu.Sub>
+													</DM.Item>
+												</DM.SubContent>
+											</DM.Sub>
 
-											<DropdownMenu.Sub>
-												<DropdownMenu.SubTrigger>
+											<DM.Sub>
+												<DM.SubTrigger>
 													{#if word.type == WordType.French}
 														<Check/>
 													{/if}
 													{$_.WordType.French}
-												</DropdownMenu.SubTrigger>
-												<DropdownMenu.SubContent>
-													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.French, French.Category.Word)}>
+												</DM.SubTrigger>
+												<DM.SubContent>
+													<DM.Item onclick={() => ChangeWordType(i, WordType.French, French.Category.Word)}>
 														{#if word.type == WordType.French && word.category == French.Category.Word}
 															<Check/>
 														{/if}
 														{$_.editor.word}
-													</DropdownMenu.Item>
-													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.French, French.Category.Noun)}>
+													</DM.Item>
+													<DM.Item onclick={() => ChangeWordType(i, WordType.French, French.Category.Noun)}>
 														{#if word.type == WordType.French && word.category == French.Category.Noun}
 															<Check/>
 														{/if}
 														{$_.linguistics.noun}
-													</DropdownMenu.Item>
-												</DropdownMenu.SubContent>
-											</DropdownMenu.Sub>
+													</DM.Item>
+												</DM.SubContent>
+											</DM.Sub>
 
-											<DropdownMenu.Sub>
-												<DropdownMenu.SubTrigger>
+											<DM.Sub>
+												<DM.SubTrigger>
 													{#if word.type == WordType.German}
 														<Check/>
 													{/if}
 													{$_.WordType.German}
-												</DropdownMenu.SubTrigger>
-												<DropdownMenu.SubContent>
-													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.German, German.Category.Word)}>
+												</DM.SubTrigger>
+												<DM.SubContent>
+													<DM.Item onclick={() => ChangeWordType(i, WordType.German, German.Category.Word)}>
 														{#if word.type == WordType.German && word.category == German.Category.Word}
 															<Check/>
 														{/if}
 														{$_.editor.word}
-													</DropdownMenu.Item>
-													<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.German, German.Category.Noun)}>
+													</DM.Item>
+													<DM.Item onclick={() => ChangeWordType(i, WordType.German, German.Category.Noun)}>
 														{#if word.type == WordType.German && word.category == German.Category.Noun}
 															<Check/>
 														{/if}
 														{$_.linguistics.noun}
-													</DropdownMenu.Item>
-												</DropdownMenu.SubContent>
-											</DropdownMenu.Sub>
+													</DM.Item>
+												</DM.SubContent>
+											</DM.Sub>
 
-											<DropdownMenu.Separator/>
+											<DM.Separator/>
 
-											<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.Egyptian)}>
+											<DM.Item onclick={() => ChangeWordType(i, WordType.Egyptian)}>
 												{#if word.type == WordType.Egyptian}
 													<Check/>
 												{/if}
 												{$_.WordType.Egyptian}
-											</DropdownMenu.Item>
+											</DM.Item>
 
-											<DropdownMenu.Separator/>
+											<DM.Separator/>
 
-											<DropdownMenu.Item onclick={() => ChangeWordType(i, WordType.Simple)}>
+											<DM.Item onclick={() => ChangeWordType(i, WordType.Simple)}>
 												{#if word.type == WordType.Simple}
 													<Check/>
 												{/if}
 												{$_.WordType.Simple}
-											</DropdownMenu.Item>
+											</DM.Item>
 
-										</DropdownMenu.SubContent>
+										</DM.SubContent>
 
-									</DropdownMenu.Sub>
+									</DM.Sub>
 
-									<DropdownMenu.Item
+									<DM.Item
 										onclick={() => DeleteWord(i)}
 										variant="destructive"
 									>
 										<Trash2 />
 										{$_.delete}
-									</DropdownMenu.Item>
+									</DM.Item>
 
-								</DropdownMenu.Content>
+								</DM.Content>
 
-							</DropdownMenu.Root>
+							</DM.Root>
 
 							<Button
 								onclick={() => MoveDown(i)} disabled={i === words.length - 1}

@@ -16,6 +16,19 @@
 
    <section class="space-y-4">
 
+<!--
+Fake Egyptian Hieroglyphs websites:
+https://discoveringegypt.com/hieroglyphic-typewriter
+https://discoveringegypt.com/hieroglyphic-typewriter-chinese
+https://emojiuse.com/english-to-hieroglyphics
+https://lingojam.com/HieroglyphicsTranslator
+https://lingojam.com/EnglishtoEgyptianHieroglyphics
+https://www.fromcairo.com/hieroglyphics.htm
+https://www.lexilogos.com/keyboard/hieroglyph.htm
+https://www.mobilefish.com/services/hieroglyphs/hieroglyphs.php
+https://www.penn.museum/cgi/hieroglyphsreal.php
+-->
+
       <header>
          {$_.learning_resources.egyptian._}
       </header>

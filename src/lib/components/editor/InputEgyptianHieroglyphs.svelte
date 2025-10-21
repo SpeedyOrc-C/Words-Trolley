@@ -6,6 +6,7 @@
 	import {Button} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
 	import {ButtonGroup} from "$lib/components/ui/button-group"
+	import * as DM from "$lib/components/ui/dropdown-menu"
 
 	import {_} from "$lib/i18n/store"
 	import {preferredEgyptianTransliterationParserForEdit} from "$lib/settings/store/egyptian"
@@ -33,6 +34,7 @@
 	import Delete from "@lucide/svelte/icons/delete"
 	import Copy from "@lucide/svelte/icons/copy"
 	import ClipboardPaste from "@lucide/svelte/icons/clipboard-paste"
+	import Ellipsis from "@lucide/svelte/icons/ellipsis"
 
 	type OperationState = "idle" | "column" | "row"
 
@@ -304,29 +306,30 @@
 			onkeydown={OnImeKeyDown}
 			placeholder={$_.linguistics.transliteration}
 			spellcheck="false"
-			style="font-size: 1.25rem"
 		/>
 
-		<ButtonGroup>
-
-			<Button
-				disabled={value.length === 0}
-				onclick={() => navigator.clipboard.writeText(DumpHieroglyphs(value))}
-				size="icon" title={$_.copy}
-				variant="outline"
-			>
-				<Copy/>
-			</Button>
-
-			<Button
-				onclick={PasteRawHieroglyphs}
-				size="icon" title={$_.paste}
-				variant="outline"
-			>
-				<ClipboardPaste/>
-			</Button>
-
-		</ButtonGroup>
+		<DM.Root>
+			<DM.Trigger>
+				{#snippet child({props})}
+					<Button {...props} size="icon" variant="outline" title={$_.more}>
+						<Ellipsis />
+					</Button>
+				{/snippet}
+			</DM.Trigger>
+			<DM.Content>
+				<DM.Item
+					disabled={value.length === 0}
+					onclick={() => navigator.clipboard.writeText(DumpHieroglyphs(value))}
+				>
+					<Copy/>
+					{$_.copy}
+				</DM.Item>
+				<DM.Item onclick={PasteRawHieroglyphs}>
+					<ClipboardPaste/>
+					{$_.paste}
+				</DM.Item>
+			</DM.Content>
+		</DM.Root>
 
 		<ButtonGroup>
 

@@ -20,6 +20,7 @@
 <script lang="ts">
 	import {Button} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
+	import {ButtonGroup} from "$lib/components/ui/button-group"
 	import {_} from "$lib/i18n/store"
 	import {type Furigana, FuriganaTemplateFromWord} from "$lib/word/japanese"
 
@@ -107,32 +108,36 @@
 
 			<Input class="flex-1" bind:value={value[i][2]} onchange={() => onchange?.(value)}/>
 
-			<Button
-				size="icon" variant="outline"
-				onclick={() => MergeIntoAbove(i)}
-				disabled={i === 0}
-				title={$_.editor.furigana_editor.merge_into_above}
-			>
-				<ArrowUpToLine/>
-			</Button>
+			<ButtonGroup>
 
-			<Button
-				size="icon" variant="outline"
-				onclick={() => MergeIntoBelow(i)}
-				disabled={i === value.length - 1}
-				title={$_.editor.furigana_editor.merge_into_below}
-			>
-				<ArrowDownToLine/>
-			</Button>
+				<Button
+					size="icon" variant="outline"
+					onclick={() => MergeIntoAbove(i)}
+					disabled={i === 0}
+					title={$_.editor.furigana_editor.merge_into_above}
+				>
+					<ArrowUpToLine/>
+				</Button>
 
-			<Button
-				size="icon" variant="outline"
-				onclick={() => Split(i)}
-				disabled={length === 1}
-				title={$_.editor.furigana_editor.split}
-			>
-				<SeparatorHorizontal/>
-			</Button>
+				<Button
+					size="icon" variant="outline"
+					onclick={() => MergeIntoBelow(i)}
+					disabled={i === value.length - 1}
+					title={$_.editor.furigana_editor.merge_into_below}
+				>
+					<ArrowDownToLine/>
+				</Button>
+
+				<Button
+					size="icon" variant="outline"
+					onclick={() => Split(i)}
+					disabled={length === 1}
+					title={$_.editor.furigana_editor.split}
+				>
+					<SeparatorHorizontal/>
+				</Button>
+
+			</ButtonGroup>
 
 		</div>
 

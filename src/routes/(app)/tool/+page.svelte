@@ -12,9 +12,32 @@
    {$_.learning_resources._}
 </header>
 
-<main class="mx-auto p-4 w-full max-w-xl">
+<main class="mx-auto p-4 w-full max-w-xl space-y-8">
 
-   <section class="space-y-4">
+   <section>
+
+      <header>
+         日语
+      </header>
+
+      <Item.Root variant="outline">
+         {#snippet child({props})}
+            <a href="/tool/japanese/alphabet" {...props} tabindex={0}>
+               <Item.Content>
+                  <Item.Title>
+                     字母表
+                  </Item.Title>
+                  <Item.Description>
+                     附带罗马字的平假名与片假名表。
+                  </Item.Description>
+               </Item.Content>
+            </a>
+         {/snippet}
+      </Item.Root>
+
+   </section>
+
+   <section>
 
 <!--
 Fake Egyptian Hieroglyphs websites:
@@ -69,6 +92,10 @@ https://www.penn.museum/cgi/hieroglyphsreal.php
 
 <style lang="postcss">
    @reference "tailwindcss";
+
+   section {
+      @apply space-y-4;
+   }
 
    section > header {
       @apply text-2xl;

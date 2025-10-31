@@ -45,19 +45,19 @@
 				language.set(set.Language)
 		})
 
-		const newVoices = speechSynthesis.getVoices()
+		const speechSynthesis = window.speechSynthesis as SpeechSynthesis | undefined
 
-		if (newVoices.length > 0)
-			voices.set(newVoices)
+		if (speechSynthesis != undefined)
+		{
+			const newVoices = speechSynthesis.getVoices()
 
-		speechSynthesis.onvoiceschanged = () =>
-			voices.set(speechSynthesis.getVoices())
+			if (newVoices.length > 0)
+				voices.set(newVoices)
 
-		if (! dev)
-			console.info(
-				"Fancy a peep? Come to our repo!",
-				"https://github.com/SpeedyOrc-C/Words-Trolley",
-			)
+			speechSynthesis.onvoiceschanged = () =>
+				voices.set(speechSynthesis.getVoices())
+		}
+
 
 		return () =>
 		{

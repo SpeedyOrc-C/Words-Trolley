@@ -31,6 +31,17 @@ const ZhCn: I18nTemplate = {
 	learning_resources: {
 		_: "学习资源",
 		meta_description: "学习古埃及语象形文字（圣书字）的资源。",
+		japanese: {
+			_: "日语",
+			alphabet: {
+				_: "假名表",
+				description: "附带罗马字的平假名与片假名表。",
+				inner: {
+					title: "日语假名表",
+					meta_description: "附带罗马字的日语平假名与片假名表。",
+				}
+			}
+		},
 		egyptian: {
 			_: "埃及语",
 			alphabet: {

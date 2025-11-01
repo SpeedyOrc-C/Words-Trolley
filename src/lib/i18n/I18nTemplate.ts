@@ -32,6 +32,17 @@ export type I18nTemplate = {
 	learning_resources: {
 		_: s
 		meta_description: s
+		japanese: {
+			_: s
+			alphabet: {
+				_: s
+				description: s
+				inner: {
+					title: s
+					meta_description: s
+				}
+			}
+		}
 		egyptian: {
 			_: s
 			alphabet: {

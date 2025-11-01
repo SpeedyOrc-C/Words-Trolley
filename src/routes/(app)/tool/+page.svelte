@@ -17,7 +17,7 @@
    <section>
 
       <header>
-         日语
+         {$_.learning_resources.japanese._}
       </header>
 
       <Item.Root variant="outline">
@@ -25,10 +25,10 @@
             <a href="/tool/japanese/alphabet" {...props} tabindex={0}>
                <Item.Content>
                   <Item.Title>
-                     字母表
+                     {$_.learning_resources.japanese.alphabet._}
                   </Item.Title>
                   <Item.Description>
-                     附带罗马字的平假名与片假名表。
+                     {$_.learning_resources.japanese.alphabet.description}
                   </Item.Description>
                </Item.Content>
             </a>

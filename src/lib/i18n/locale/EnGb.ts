@@ -31,6 +31,17 @@ const EnGb: I18nTemplate = {
 	learning_resources: {
 		_: "Learning Resources",
 		meta_description: "Resources for learning Ancient Egyptian and its hieroglyphs.",
+		japanese: {
+			_: "Japanese",
+			alphabet: {
+				_: "Alphabet",
+				description: "Table of Hiragana and Katakana with Romaji.",
+				inner: {
+					title: "Japanese Alphabet",
+					meta_description: "Table of Japanese Hiragana and Katakana with Romaji.",
+				}
+			}
+		},
 		egyptian: {
 			_: "Egyptian",
 			alphabet: {

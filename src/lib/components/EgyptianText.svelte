@@ -19,6 +19,7 @@
 	bind:this={root}
 	class="inline-flex flex-wrap align-text-bottom"
 	style:gap="{lineHeight * 0.2}px"
+	lang="egy"
 >
 	{#each t as hie}
 		<RenderEgyptianHieroglyphs {hie} {lineHeight}/>

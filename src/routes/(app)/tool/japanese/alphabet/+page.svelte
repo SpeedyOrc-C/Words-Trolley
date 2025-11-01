@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {_, language} from "$lib/i18n/store"
 	import * as T from "$lib/components/ui/table"
+   import {Button} from "$lib/components/ui/button"
 
    const alphabet = [
       [
@@ -121,6 +122,8 @@
    ] as const
 
    const t = $derived($_.learning_resources.japanese.alphabet.inner)
+
+   let allowClickToSpeak = $state(false)
 </script>
 
 <svelte:head>
@@ -132,7 +135,7 @@
 	{t.title}
 </header>
 
-<main class="mx-auto p-4 w-full max-w-xl">
+<main class="mx-auto p-4 w-full max-w-2xl">
 
    <T.Root lang="ja">
 
@@ -142,18 +145,22 @@
                <T.Cell></T.Cell>
                {#each row as [hira, kata, romaji]}
                   <T.Cell>
-                     <span
-                        class="inline-flex flex-col items-center"
-                        class:opacity-30={hira == "ゐ" || hira == "ゑ"}
-                     >
-                        <span class="text-xl">
-                           {romaji}
+                     {#if allowClickToSpeak}
+
+                     {:else}
+                        <span
+                           class="inline-flex flex-col items-center"
+                           class:opacity-30={hira == "ゐ" || hira == "ゑ"}
+                        >
+                           <span class="sm:text-xl">
+                              {romaji}
+                           </span>
+                           <span class="text-xl sm:text-3xl">
+                              <span>{hira}</span>
+                              <span>{kata}</span>
+                           </span>
                         </span>
-                        <span class="text-3xl">
-                           <span>{hira}</span>
-                           <span>{kata}</span>
-                        </span>
-                     </span>
+                     {/if}
                   </T.Cell>
                {/each}
             </T.Row>
@@ -171,10 +178,10 @@
                {#each row as [hira, kata, romaji]}
                   <T.Cell>
                      <span class="inline-flex flex-col items-center">
-                        <span class="text-xl">
+                        <span class="sm:text-xl">
                            {romaji}
                         </span>
-                        <span class="text-3xl">
+                        <span class="text-xl sm:text-3xl">
                            <span>{hira}</span>
                            <span>{kata}</span>
                         </span>

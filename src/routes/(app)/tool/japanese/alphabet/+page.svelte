@@ -121,6 +121,67 @@
       ],
    ] as const
 
+   const alphabetWithDiphthongs = [
+      [
+         ["きゃ", "キャ", "kya"],
+         ["きゅ", "キュ", "kyu"],
+         ["きょ", "キョ", "kyo"],
+      ],
+      [
+         ["しゃ", "シャ", "sha"],
+         ["しゅ", "シュ", "shu"],
+         ["しょ", "ショ", "sho"],
+      ],
+      [
+         ["ちゃ", "チャ", "cha"],
+         ["ちゅ", "チュ", "chu"],
+         ["ちょ", "チョ", "cho"],
+      ],
+      [
+         ["にゃ", "ニャ", "nya"],
+         ["にゅ", "ニュ", "nyu"],
+         ["にょ", "ニョ", "nyo"],
+      ],
+      [
+         ["ひゃ", "ヒャ", "hya"],
+         ["ひゅ", "ヒュ", "hyu"],
+         ["ひょ", "ヒョ", "hyo"],
+      ],
+      [
+         ["みゃ", "ミャ", "mya"],
+         ["みゅ", "ミュ", "myu"],
+         ["みょ", "ミョ", "myo"],
+      ],
+      [
+         ["りゃ", "リャ", "rya"],
+         ["りゅ", "リュ", "ryu"],
+         ["りょ", "リョ", "ryo"],
+      ],
+   ] as const
+
+   const alphabetWithDiphthongsAndDiacritics = [
+      [
+         ["ぎゃ", "ギャ", "gya"],
+         ["ぎゅ", "ギュ", "gyu"],
+         ["ぎょ", "ギョ", "gyo"],
+      ],
+      [
+         ["じゃ", "ジャ", "ja"],
+         ["じゅ", "ジュ", "ju"],
+         ["じょ", "ジョ", "jo"],
+      ],
+      [
+         ["びゃ", "ビャ", "bya"],
+         ["びゅ", "ビュ", "byu"],
+         ["びょ", "ビョ", "byo"],
+      ],
+      [
+         ["ぴゃ", "ピャ", "pya"],
+         ["ぴゅ", "ピュ", "pyu"],
+         ["ぴょ", "ピョ", "pyo"],
+      ],
+   ] as const
+
    const t = $derived($_.learning_resources.japanese.alphabet.inner)
 
    let allowClickToSpeak = $state(false)
@@ -155,7 +216,7 @@
                            <span class="sm:text-xl">
                               {romaji}
                            </span>
-                           <span class="text-xl sm:text-3xl">
+                           <span class="inline-flex space-x-1 sm:space-x-2 text-xl sm:text-3xl">
                               <span>{hira}</span>
                               <span>{kata}</span>
                            </span>
@@ -181,7 +242,57 @@
                         <span class="sm:text-xl">
                            {romaji}
                         </span>
-                        <span class="text-xl sm:text-3xl">
+                        <span class="inline-flex space-x-1 sm:space-x-2 text-xl sm:text-3xl">
+                           <span>{hira}</span>
+                           <span>{kata}</span>
+                        </span>
+                     </span>
+                  </T.Cell>
+               {/each}
+            </T.Row>
+         {/each}
+      </T.Body>
+
+   </T.Root>
+
+   <T.Root lang="ja" class="mt-8">
+
+      <T.Body>
+         {#each alphabetWithDiphthongs as row}
+            <T.Row>
+               <T.Cell></T.Cell>
+               {#each row as [hira, kata, romaji]}
+                  <T.Cell>
+                     <span class="inline-flex flex-col items-center">
+                        <span class="sm:text-xl">
+                           {romaji}
+                        </span>
+                        <span class="inline-flex space-x-2 sm:space-x-4 text-xl sm:text-3xl">
+                           <span>{hira}</span>
+                           <span>{kata}</span>
+                        </span>
+                     </span>
+                  </T.Cell>
+               {/each}
+            </T.Row>
+         {/each}
+      </T.Body>
+
+   </T.Root>
+
+   <T.Root lang="ja" class="mt-8">
+
+      <T.Body>
+         {#each alphabetWithDiphthongsAndDiacritics as row}
+            <T.Row>
+               <T.Cell></T.Cell>
+               {#each row as [hira, kata, romaji]}
+                  <T.Cell>
+                     <span class="inline-flex flex-col items-center">
+                        <span class="sm:text-xl">
+                           {romaji}
+                        </span>
+                        <span class="inline-flex space-x-2 sm:space-x-4 text-xl sm:text-3xl">
                            <span>{hira}</span>
                            <span>{kata}</span>
                         </span>

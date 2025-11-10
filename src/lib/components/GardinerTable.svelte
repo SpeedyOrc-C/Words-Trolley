@@ -51,12 +51,13 @@
    <Card.Root>
       <Card.Content>
          <div class="inline-flex flex-wrap">
-            {#each selectedSymbolGroup as [_, symbol]}
+            {#each selectedSymbolGroup as [code, symbol]}
                <Button
                   size="icon-lg"
                   variant="ghost"
                   onclick={() => _OnClickSymbol(symbol)}
                   class="text-2xl"
+                  title={code}
                >
                   <EgyptianText t={[g(symbol)]} />
                </Button>

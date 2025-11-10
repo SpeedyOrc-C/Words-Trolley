@@ -18,7 +18,12 @@
    const selectedSymbolGroup = $derived(
       Object
          .entries(Gardiner2Literal)
-         .filter(([gardiner, _]) => gardiner.startsWith(selectedPrefix))
+         .filter(([gardiner, _]) =>
+         {
+            if (selectedPrefix == "A")
+               return gardiner.startsWith("A") && !gardiner.startsWith("Aa")
+            return gardiner.startsWith(selectedPrefix)
+         })
    )
 
    async function _OnClickSymbol(symbol: string)

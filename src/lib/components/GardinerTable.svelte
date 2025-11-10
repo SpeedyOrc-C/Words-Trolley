@@ -7,6 +7,8 @@
 </script>
 
 <script lang="ts">
+	import Separator from "./ui/separator/separator.svelte"
+
    const {
       OnClickSymbol
    }: {
@@ -33,37 +35,37 @@
    }
 </script>
 
-<div class="w-full flex flex-col space-y-2">
+<Card.Root class="w-full">
+   <Card.Content class="flex flex-col gap-2">
 
-   <div class="inline-flex flex-wrap gap-2">
-      {#each GardinerPrefixes as prefix}
-         <Button
-            size="icon-lg"
-            variant={prefix == selectedPrefix ? "outline" : "ghost"}
-            onclick={() => selectedPrefix = prefix}
-            class="text-xl"
-         >
-            {prefix}
-         </Button>
-      {/each}
-   </div>
+      <div class="inline-flex flex-wrap">
+         {#each GardinerPrefixes as prefix}
+            <Button
+               size="icon-lg"
+               variant={prefix == selectedPrefix ? "outline" : "ghost"}
+               onclick={() => selectedPrefix = prefix}
+               class="text-2xl"
+            >
+               {prefix}
+            </Button>
+         {/each}
+      </div>
 
-   <Card.Root>
-      <Card.Content>
-         <div class="inline-flex flex-wrap">
-            {#each selectedSymbolGroup as [code, symbol]}
-               <Button
-                  size="icon-lg"
-                  variant="ghost"
-                  onclick={() => _OnClickSymbol(symbol)}
-                  class="text-2xl"
-                  title={code}
-               >
-                  <EgyptianText t={[g(symbol)]} />
-               </Button>
-            {/each}
-         </div>
-      </Card.Content>
-   </Card.Root>
+      <Separator/>
 
-</div>
+      <div class="inline-flex flex-wrap">
+         {#each selectedSymbolGroup as [code, symbol]}
+            <Button
+               size="icon-lg"
+               variant="ghost"
+               onclick={() => _OnClickSymbol(symbol)}
+               class="text-2xl"
+               title={code}
+            >
+               <EgyptianText t={[g(symbol)]} />
+            </Button>
+         {/each}
+      </div>
+
+   </Card.Content>
+</Card.Root>

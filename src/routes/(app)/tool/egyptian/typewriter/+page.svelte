@@ -92,3 +92,5 @@
 	</div>
 
 </main>
+
+<div class="h-100 md:hidden"></div>

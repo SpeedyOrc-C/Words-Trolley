@@ -1076,3 +1076,11 @@ export const Gardiner2Literal: Record<Gardiner, string> = {
 
 export const Literal2Gardiner: Record<string, Gardiner> =
 	InverseRecord(Gardiner2Literal)
+
+export const GardinerPrefixes = [
+	"A", "B", "C", "D", "E", "F", "G",
+	"H", "I", "K", "L", "M", "N",
+	"O", "P", "Q", "R", "S", "T",
+	"U", "V", "W", "X", "Y", "Z",
+	"Aa"
+] as const

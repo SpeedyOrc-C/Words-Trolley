@@ -1,10 +1,13 @@
 <script lang="ts">
 	import InputEgyptianHieroglyphs from "$lib/components/editor/InputEgyptianHieroglyphs.svelte"
+	import GardinerTable from "$lib/components/GardinerTable.svelte"
 	import {Label} from "$lib/components/ui/label"
 	import {Slider} from "$lib/components/ui/slider"
 	import {Switch} from "$lib/components/ui/switch"
+	import {g} from "$lib/word/egyptian/hieroglyphs"
 
 	import {_} from "$lib/i18n/store"
+	import type {Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
 
 	let useCustomTextColour = $state(false)
 	let customTextColour = $state("#000000")
@@ -12,6 +15,7 @@
 	let hideInputBorder = $state(false)
 	let hideControls = $state(false)
 	let height = $state(48)
+	let InsertSymbolAtCursor: (symbol: Hieroglyphs) => void = $state(() => {})
 
 	const textColour = $derived(useCustomTextColour ? customTextColour : "inherit")
 </script>
@@ -68,14 +72,23 @@
 
 	</div>
 
-	<div class="xl:w-3xl">
+	<div class="xl:w-3xl flex flex-col space-y-4">
+
 		<InputEgyptianHieroglyphs
 			color={textColour}
 			{height}
 			{hideControls}
 			{hideCursor}
 			{hideInputBorder}
+			bind:InsertSymbolAtCursor
 		/>
+
+		{#if !hideControls}
+			<GardinerTable
+				OnClickSymbol={symbol => InsertSymbolAtCursor(g(symbol))}
+			/>
+		{/if}
+
 	</div>
 
 </main>

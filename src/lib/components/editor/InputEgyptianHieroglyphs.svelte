@@ -42,6 +42,7 @@
 	let {
 		value = $bindable([]),
 		onchange,
+		InsertSymbolAtCursor = $bindable(() => {}),
 		hideCursor = false,
 		hideInputBorder = false,
 		hideControls = false,
@@ -50,6 +51,7 @@
 	}: {
 		value?: Hieroglyphs[]
 		onchange?: (hie: Hieroglyphs[]) => void
+		InsertSymbolAtCursor?: (symbol: Hieroglyphs) => void
 		hideCursor?: boolean
 		hideInputBorder?: boolean
 		hideControls?: boolean
@@ -244,12 +246,17 @@
 			if (! Number.isNaN(digit) && digit > 0 && digit <= imeWords.length)
 			{
 				e.preventDefault()
-				Execute("insert", imeWords[digit - 1])
+				_InsertSymbolAtCursor(imeWords[digit - 1])
 				imeInput = ""
 				imeWords = []
 				imeInputError = false
 			}
 		}
+	}
+
+	function _InsertSymbolAtCursor(symbol: Hieroglyphs)
+	{
+		Execute("insert", symbol)
 	}
 
 	async function PasteRawHieroglyphs()
@@ -266,6 +273,8 @@
 		Execute("replace", value)
 		toast.success($_.pasted)
 	}
+
+	InsertSymbolAtCursor = _InsertSymbolAtCursor
 </script>
 
 <div class="flex flex-col gap-1">
@@ -284,10 +293,10 @@
 		{#each s.content as hie, i ([hie])}
 			<div class="relative" style:height="{height}px">
 				<RenderEgyptianHieroglyphs {hie} lineHeight={height}/>
-				{#if !hideCursor && i === 0 && 0 === s.cursor}
+				{#if !hideCursor && i == 0 && 0 == s.cursor}
 					<div class="cursor bg-accent-foreground left-0" class:hideCursor></div>
 				{/if}
-				{#if !hideCursor && i === s.cursor - 1}
+				{#if !hideCursor && i == s.cursor - 1}
 					<div class="cursor bg-accent-foreground translate-x-[200%] right-0" class:hideCursor></div>
 				{/if}
 			</div>
@@ -415,7 +424,7 @@
 
 					<Button
 						onclick={() => Execute("split")}
-						disabled={s.cursor === 0 || s.content[s.cursor - 1][0] === Structure.G}
+						disabled={s.cursor == 0 || s.content[s.cursor - 1][0] == Structure.G}
 						size="icon" variant="outline"
 						title={$_.editor.hieroglyphs_editor.ungroup}
 					>
@@ -423,16 +432,16 @@
 					</Button>
 
 					<Button
-						size="icon" variant={os === "row" ? "default" : "outline"}
-						onclick={() => os = os === "row" ? "idle" : "row"}
+						size="icon" variant={os == "row" ? "default" : "outline"}
+						onclick={() => os = os == "row" ? "idle" : "row"}
 						title={$_.editor.hieroglyphs_editor.join_horizontally}
 					>
 						<Columns2/>
 					</Button>
 
 					<Button
-						size="icon" variant={os === "column" ? "default" : "outline"}
-						onclick={() => os = os === "column" ? "idle" : "column"}
+						size="icon" variant={os == "column" ? "default" : "outline"}
+						onclick={() => os = os == "column" ? "idle" : "column"}
 						title={$_.editor.hieroglyphs_editor.join_vertically}
 					>
 						<Rows2/>
@@ -446,7 +455,7 @@
 							class="text-lg"
 							size="icon"
 							variant="outline"
-							disabled={os === "idle" || s.cursor < count}
+							disabled={os == "idle" || s.cursor < count}
 							onclick={() => OnStackButtonClick(count)}
 							title={$_.editor.hieroglyphs_editor[`join_${count}`]}
 						>

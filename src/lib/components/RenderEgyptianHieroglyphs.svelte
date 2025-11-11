@@ -1,6 +1,6 @@
 <script lang="ts" module>
 	import {HeightOfGlyph} from "$lib/word/egyptian/glyph/height"
-	import {type Hieroglyphs, Structure} from "$lib/word/egyptian/hieroglyphs"
+	import {type Hieroglyphs, Structure, h} from "$lib/word/egyptian/hieroglyphs"
 
 	const verticalGap = 0.05
 	const horizontalGap = 0.1
@@ -51,13 +51,13 @@
 	const [struct, arg] = $derived(hie)
 </script>
 
-{#if struct === Structure.G}
+{#if struct == Structure.G}
 
 	<span class="g" style:height>
 		<EgyptianGlyph g={arg} {fp} {lineHeight}/>
 	</span>
 
-{:else if struct === Structure.V}
+{:else if struct == Structure.V}
 
 	{@const pessimisticHeights = arg.map(PessimisticHeight)}
 	{@const adjustedHeights = CutVerticalHeights(pessimisticHeights, fp)}
@@ -68,7 +68,7 @@
 		{/each}
 	</span>
 
-{:else if struct === Structure.H}
+{:else if struct == Structure.H}
 
 	<span class="h" style:height style:gap="{lineHeight * horizontalGap}px">
 		{#each arg as hie}
@@ -76,26 +76,44 @@
 		{/each}
 	</span>
 
-{:else if struct === Structure.L}
+{:else if struct == Structure.L}
 
 	{@const [[t1, a1], [t2, a2]] = arg}
 
-	{#if t1 === Structure.G && t2 === Structure.G}
-		{#if a1 === "𓆓" && a2 === "𓋴"}
-			<span class="relative inline-flex justify-between" style:height>
-				<EgyptianGlyph g="𓆓" fp={fp * 0.7} {lineHeight}/>
-				<span class="absolute bottom-0 left-[50%] translate-x-[-50%]">
-					<EgyptianGlyph g="𓋴" fp={fp * 0.7} {lineHeight}/>
-				</span>
+	{#if t1 == Structure.G && t2 == Structure.G}
+
+		{#if a1 == "𓆓" && a2 == "𓋴"}
+
+			<span class="g" style:height>
+				<EgyptianGlyph g=𓆓𓐳𓋴 {fp} {lineHeight}/>
 			</span>
-		{:else if a1 === "𓆓" && a2 === "𓂧"}
-			<div class="g" style:height>
-				<EgyptianGlyph g="𓆓" {fp} {lineHeight}/>
-				<span class="absolute left-0 translate-x-[20%] translate-y-[50%]">
-					<EgyptianGlyph g="𓂧" fp={fp * 0.2} {lineHeight}/>
-				</span>
-			</div>
+
+		{:else if a1 == "𓆓" && a2 == "𓂧"}
+
+			<span class="g" style:height>
+				<EgyptianGlyph g=𓆓𓐳𓂧 {fp} {lineHeight}/>
+			</span>
+
+		{:else if a1 == "𓅱" && a2 == "𓏏"}
+
+			<span class="g" style:height>
+				<EgyptianGlyph g=𓅱𓐴𓏏 {fp} {lineHeight}/>
+			</span>
+
+		{:else if a1 == "𓏏" && a2 == "𓅱"}
+
+			<span class="g" style:height>
+				<EgyptianGlyph g=𓅱𓐳𓏏 {fp} {lineHeight}/>
+			</span>
+
+		{:else}
+
+			<span class="text-red-400">
+				<Render hie={h([t1, a1], [t2, a2])} {fp} {lineHeight}/>
+			</span>
+
 		{/if}
+
 	{/if}
 
 {/if}
@@ -104,7 +122,7 @@
 	@reference "tailwindcss";
 
 	.g {
-		@apply inline-flex items-center;
+		@apply inline-flex relative items-center;
 	}
 
 	.v {

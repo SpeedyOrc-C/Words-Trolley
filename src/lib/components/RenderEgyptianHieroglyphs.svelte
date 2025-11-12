@@ -70,7 +70,7 @@
 
 {:else if struct == Structure.H}
 
-	<span class="h" style:height style:gap="{lineHeight * horizontalGap}px">
+	<span class="h" style:height style:min-width="{lineHeight}px" style:gap="{lineHeight * horizontalGap}px">
 		{#each arg as hie}
 			<Render hie={hie} fp={fp} {lineHeight}/>
 		{/each}
@@ -130,6 +130,6 @@
 	}
 
 	.h {
-		@apply inline-flex items-center justify-around;
+		@apply inline-flex items-center justify-between;
 	}
 </style>

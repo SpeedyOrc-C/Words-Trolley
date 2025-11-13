@@ -35,6 +35,7 @@
 
 		<span
 			class="glyph"
+			title={gardiner}
 			style:font-size="{lineHeight * scale}px"
 			style:transform="translateY(calc(-100% + {glyphHeight * scale}px))"
 		>
@@ -43,7 +44,11 @@
 
 	{:else if $settings.Egyptian.HieroglyphsFont == HieroglyphsFont.SemiessessiColourful}
 
-		<img src={svgPath} alt="Symbol {gardiner}"/>
+		<img
+			src={svgPath}
+			alt="Symbol {gardiner}"
+			style:height="{glyphHeight * scale}px"
+		/>
 
 	{/if}
 
@@ -56,9 +61,5 @@
 		@apply w-fit block;
 		line-height: 100%;
 		font-family: Font_Egyptian, sans-serif;
-	}
-
-	img {
-		height: 100%;
 	}
 </style>

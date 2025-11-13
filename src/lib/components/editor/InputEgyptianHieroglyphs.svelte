@@ -280,26 +280,26 @@
 <div class="flex flex-col gap-1">
 
 	<div
-		class="p-2 flex flex-wrap rounded-md"
+		class="p-2 inline-flex flex-wrap rounded-md"
 		class:outline-1={!hideInputBorder}
 		style:color
 		style:gap="{height / 3}px"
 	>
 		{#if s.content.length === 0}
-			<div class="relative" style:height="{height}px">
-				<div class="cursor bg-accent-foreground left-0" class:hideCursor></div>
-			</div>
+			<span class="relative" style:height="{height}px">
+				<span class="cursor bg-accent-foreground left-0" class:hideCursor></span>
+			</span>
 		{/if}
 		{#each s.content as hie, i ([hie])}
-			<div class="relative" style:height="{height}px">
+			<span class="relative inline-flex" style:height="{height}px">
 				<RenderEgyptianHieroglyphs {hie} lineHeight={height}/>
 				{#if !hideCursor && i == 0 && 0 == s.cursor}
-					<div class="cursor bg-accent-foreground left-0" class:hideCursor></div>
+					<span class="cursor bg-accent-foreground left-0" class:hideCursor></span>
 				{/if}
 				{#if !hideCursor && i == s.cursor - 1}
-					<div class="cursor bg-accent-foreground translate-x-[200%] right-0" class:hideCursor></div>
+					<span class="cursor bg-accent-foreground translate-x-[200%] right-0" class:hideCursor></span>
 				{/if}
-			</div>
+			</span>
 		{/each}
 	</div>
 

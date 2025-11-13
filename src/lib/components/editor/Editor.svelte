@@ -464,6 +464,13 @@
 				word: UsesStringInput(word.type) ? word.word as string : "",
 			}
 			break
+		case WordType.Japanese:
+			words[i] = {
+				...structuredClone(blankWordFromTypeAndCategory.japanese[newType2 as Japanese.Category]),
+				meaning: word.meaning,
+				word: UsesStringInput(word.type) ? word.word as string : "",
+			}
+			break
 		}
 	}
 </script>

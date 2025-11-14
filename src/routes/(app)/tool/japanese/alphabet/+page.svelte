@@ -1,7 +1,6 @@
 <script lang="ts">
-	import {_, language} from "$lib/i18n/store"
+	import {_} from "$lib/i18n/store"
 	import * as T from "$lib/components/ui/table"
-   import {Button} from "$lib/components/ui/button"
 
    const alphabet = [
       [
@@ -206,22 +205,18 @@
                <T.Cell></T.Cell>
                {#each row as [hira, kata, romaji]}
                   <T.Cell>
-                     {#if allowClickToSpeak}
-
-                     {:else}
-                        <span
-                           class="inline-flex flex-col items-center"
-                           class:opacity-30={hira == "ゐ" || hira == "ゑ"}
-                        >
-                           <span class="sm:text-xl">
-                              {romaji}
-                           </span>
-                           <span class="inline-flex space-x-1 sm:space-x-2 text-xl sm:text-3xl">
-                              <span>{hira}</span>
-                              <span>{kata}</span>
-                           </span>
+                     <span
+                        class="inline-flex flex-col items-center"
+                        class:opacity-30={hira == "ゐ" || hira == "ゑ"}
+                     >
+                        <span class="sm:text-xl">
+                           {romaji}
                         </span>
-                     {/if}
+                        <span class="inline-flex space-x-1 sm:space-x-2 text-xl sm:text-3xl">
+                           <span>{hira}</span>
+                           <span>{kata}</span>
+                        </span>
+                     </span>
                   </T.Cell>
                {/each}
             </T.Row>

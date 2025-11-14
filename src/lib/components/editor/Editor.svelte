@@ -699,7 +699,7 @@
 								<InputEgyptianTransliteration
 									bind:value={word.trans}
 									id="e-trans-{i}"
-									onchange={() => saved = false}
+									oninput={() => saved = false}
 									class="flex-1"
 									style="font-size: 1.25rem"
 								/>

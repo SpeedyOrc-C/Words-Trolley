@@ -60,6 +60,14 @@ const ZhCn: I18nTemplate = {
 					title: "埃及文打字机",
 					meta_description: "输入古埃及文圣书字（象形文字）。"
 				}
+			},
+			transliteration_converter: {
+				_: "转写转换器",
+				description: "在不同的转写方案之间转换。",
+				inner: {
+					title: "埃及语转写转换器",
+					meta_description: "在不同的古埃及语转写方案之间进行转换的工具。"
+				}
 			}
 		}
 	},

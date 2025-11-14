@@ -62,6 +62,14 @@ export type I18nTemplate = {
 					meta_description: s
 				}
 			}
+			transliteration_converter: {
+				_: s
+				description: s
+				inner: {
+					title: s
+					meta_description: s
+				}
+			}
 		}
 	}
 	onboarding: {

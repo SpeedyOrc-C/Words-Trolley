@@ -1,32 +1,35 @@
 <script lang="ts">
-	import {
-		preferredSentenceTransliterationDumperForEdit as Dump,
-		preferredSentenceTransliterationParserForEdit as Parse,
-	} from "$lib/settings/store/egyptian"
 	import {Input} from "$lib/components/ui/input"
-	import type {SentenceTransliteration} from "$lib/word/egyptian/transliteration"
+	import {SentenceTransliterationDumperOf, SentenceTransliterationParserOf, type SentenceTransliteration} from "$lib/word/egyptian/transliteration"
+	import {EgyptianTransliteration} from "$lib/settings"
+	import {settings} from "$lib/settings/store"
 
 	let {
 		value = $bindable([]),
-		onchange: _onchange,
+		oninput: _oninput,
 		placeholder = "",
 		disabled = false,
 		autofocus = false,
 		id,
 		class: _class = "",
 		style = "",
+		scheme = $settings.Egyptian.TransliterationForEdit,
 	}: {
 		value?: SentenceTransliteration
-		onchange?: () => void
+		oninput?: () => void
 		placeholder?: string
 		disabled?: boolean
 		autofocus?: boolean
 		id?: string
 		class?: string
 		style?: string
+		scheme?: EgyptianTransliteration
 	} = $props()
 
-	const initValue = $derived($Dump(value))
+	const Dump = $derived(SentenceTransliterationDumperOf[scheme])
+	const Parse = $derived(SentenceTransliterationParserOf[scheme])
+
+	const initValue = $derived(Dump(value))
 
 	let input: HTMLInputElement | null = $state(null)
 	let error = $state(false)
@@ -36,7 +39,7 @@
 		if (! input)
 			return
 
-		const syllables = $Parse.eval(input.value.trim())
+		const syllables = Parse.eval(input.value.trim())
 
 		if (syllables instanceof Error)
 			error = true
@@ -44,8 +47,8 @@
 		{
 			error = false
 			value = syllables
-			if (_onchange != undefined)
-				_onchange()
+			if (_oninput != undefined)
+				_oninput()
 		}
 	}
 </script>

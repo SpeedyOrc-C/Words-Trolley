@@ -86,6 +86,21 @@ https://www.penn.museum/cgi/hieroglyphsreal.php
          {/snippet}
       </Item.Root>
 
+      <Item.Root variant="outline">
+         {#snippet child({props})}
+            <a href="/tool/egyptian/transliteration-converter" {...props} tabindex={0}>
+               <Item.Content>
+                  <Item.Title>
+                     {$_.learning_resources.egyptian.transliteration_converter._}
+                  </Item.Title>
+                  <Item.Description>
+                     {$_.learning_resources.egyptian.transliteration_converter.description}
+                  </Item.Description>
+               </Item.Content>
+            </a>
+         {/snippet}
+      </Item.Root>
+
    </section>
 
 </main>

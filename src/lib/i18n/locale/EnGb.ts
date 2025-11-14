@@ -60,6 +60,14 @@ const EnGb: I18nTemplate = {
 					title: "Egyptian Typewriter",
 					meta_description: "Typing in Ancient Egyptian hieroglyphs."
 				}
+			},
+			transliteration_converter: {
+				_: "Transliteration Converter",
+				description: "Convert between different transliteration schemes.",
+				inner: {
+					title: "Egyptian Transliteration Converter",
+					meta_description: "A tool for converting between different Ancient Egyptian transliteration schemes."
+				}
 			}
 		}
 	},

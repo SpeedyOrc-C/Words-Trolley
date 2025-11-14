@@ -80,6 +80,7 @@
 			{hideControls}
 			{hideCursor}
 			{hideInputBorder}
+			editing
 			bind:InsertSymbolAtCursor
 		/>
 

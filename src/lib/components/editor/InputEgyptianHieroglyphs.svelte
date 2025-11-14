@@ -42,6 +42,7 @@
 
 	let {
 		value = $bindable([]),
+		editing = $bindable(false),
 		onchange,
 		InsertSymbolAtCursor = $bindable(() => {}),
 		hideCursor = false,
@@ -51,6 +52,7 @@
 		height = 48,
 	}: {
 		value?: Hieroglyphs[]
+		editing?: boolean
 		onchange?: (hie: Hieroglyphs[]) => void
 		InsertSymbolAtCursor?: (symbol: Hieroglyphs) => void
 		hideCursor?: boolean
@@ -60,7 +62,6 @@
 		height?: number
 	} = $props()
 
-	let editing = $state(true)
 	let s: HieroglyphsEditorState = $state({cursor: value.length, content: value})
 	let os: OperationState = $state("idle")
 	let imeInput = $state("")

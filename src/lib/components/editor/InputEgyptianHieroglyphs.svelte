@@ -23,6 +23,7 @@
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import RenderEgyptianHieroglyphs from "$lib/components/RenderEgyptianHieroglyphs.svelte"
 	import {pHieroglyphs} from "$lib/word/egyptian/hieroglyphs/parser"
+	import {ToJSesh} from "$lib/word/egyptian/hieroglyphs/jsesh"
 	import {toast} from "svelte-sonner"
 
 	import Columns2 from "@lucide/svelte/icons/columns-2"
@@ -35,7 +36,7 @@
 	import Copy from "@lucide/svelte/icons/copy"
 	import ClipboardPaste from "@lucide/svelte/icons/clipboard-paste"
 	import Ellipsis from "@lucide/svelte/icons/ellipsis"
-	import {ToJSesh} from "$lib/word/egyptian/hieroglyphs/jsesh"
+	import Check from "@lucide/svelte/icons/check"
 
 	type OperationState = "idle" | "column" | "row"
 
@@ -59,6 +60,7 @@
 		height?: number
 	} = $props()
 
+	let editing = $state(true)
 	let s: HieroglyphsEditorState = $state({cursor: value.length, content: value})
 	let os: OperationState = $state("idle")
 	let imeInput = $state("")
@@ -90,7 +92,6 @@
 				return
 
 			value = s.content
-			onchange?.(s.content)
 		}
 		catch (e)
 		{}
@@ -202,6 +203,13 @@
 	{
 		const t = e.currentTarget
 
+		if (e.code == "Enter")
+		{
+			editing = false
+			onchange?.(s.content)
+			return
+		}
+
 		// Move the cursor to the left
 		if (e.code == "ArrowLeft" && t.selectionEnd == 0)
 		{
@@ -277,33 +285,66 @@
 	InsertSymbolAtCursor = _InsertSymbolAtCursor
 </script>
 
-<div class="flex flex-col gap-1">
+<div
+	class="flex flex-col gap-1"
+	style:--height-10="{height * 0.1}px"
+	style:--height="{height}px"
+>
 
-	<div
-		class="p-2 inline-flex flex-wrap rounded-md"
-		class:outline-1={!hideInputBorder}
-		style:color
-		style:gap="{height / 3}px"
-	>
-		{#if s.content.length === 0}
-			<span class="relative" style:height="{height}px">
-				<span class="cursor bg-accent-foreground left-0" class:hideCursor></span>
-			</span>
-		{/if}
-		{#each s.content as hie, i ([hie])}
-			<span class="relative inline-flex" style:height="{height}px">
-				<RenderEgyptianHieroglyphs {hie} lineHeight={height}/>
-				{#if !hideCursor && i == 0 && 0 == s.cursor}
-					<span class="cursor bg-accent-foreground left-0" class:hideCursor></span>
-				{/if}
-				{#if !hideCursor && i == s.cursor - 1}
-					<span class="cursor bg-accent-foreground translate-x-[200%] right-0" class:hideCursor></span>
-				{/if}
-			</span>
-		{/each}
-	</div>
+	{#if editing}
 
-	<div class="relative flex gap-1" class:hidden={hideControls}>
+		<div
+			class="p-2 inline-flex flex-wrap rounded-md"
+			class:outline-1={!hideInputBorder}
+			style:color
+			style:gap="{height * 0.1}px 0"
+		>
+			{#if s.content.length == 0}
+				<span class="relative" style:height="{height}px">
+					<span class="cursor left-0" class:hideCursor></span>
+				</span>
+			{/if}
+			{#each s.content as hie, i ([hie])}
+				<span class="word">
+					{#if i > 0}
+						<span class="word-sep">
+							<span></span>
+						</span>
+					{/if}
+					<RenderEgyptianHieroglyphs {hie} lineHeight={height}/>
+					{#if i == 0 && 0 == s.cursor}
+						<span class="cursor left-0" class:hideCursor></span>
+					{/if}
+					{#if i == s.cursor - 1}
+						<span class="cursor translate-x-[200%] right-0" class:hideCursor></span>
+					{/if}
+				</span>
+			{/each}
+		</div>
+
+	{:else}
+
+		<!-- TODO)) Magic number 0.1  -->
+		<div
+			class="inline-flex flex-wrap"
+			style:color
+			style:min-height="{height}px"
+			style:gap="{height * 0.1}px"
+			onclick={() => {editing = true}}
+			onkeydown={() => {editing = true}}
+			tabindex=0
+			role="textbox"
+		>
+			{#each s.content as hie ([hie])}
+				<span class="relative inline-flex" style:height="{height}px">
+					<RenderEgyptianHieroglyphs {hie} lineHeight={height}/>
+				</span>
+			{/each}
+		</div>
+
+	{/if}
+
+	<div class="relative flex gap-1" class:hidden={hideControls || !editing}>
 
 		<Input
 			aria-invalid={imeInputError}
@@ -317,6 +358,14 @@
 			placeholder={$_.linguistics.transliteration}
 			spellcheck="false"
 		/>
+
+		<Button
+			onclick={() => {editing = false; onchange?.(s.content)}}
+			size="icon"
+			type="submit"
+		>
+			<Check/>
+		</Button>
 
 		<DM.Root>
 			<DM.Trigger>
@@ -384,7 +433,7 @@
 
 	</div>
 
-	<div class="flex flex-wrap justify-between" class:hidden={hideControls}>
+	<div class="flex flex-wrap justify-between" class:hidden={hideControls || !editing}>
 
 		{#if imeWords.length > 0}
 
@@ -479,8 +528,24 @@
 		@apply w-fit flex items-center flex-wrap select-none;
 	}
 
+	.word {
+		@apply relative inline-flex items-center;
+		height: var(--height);
+	}
+
+	.word-sep {
+		@apply inline-flex items-center justify-around h-full;
+		width: var(--height-10);
+
+		& span {
+			@apply h-full bg-yellow-700/50 dark:bg-yellow-500/50;
+			width: 1px;
+		}
+	}
+
 	.cursor {
 		@apply absolute top-0 h-full w-0.5;
+		backdrop-filter: invert(100%);
 		animation: blink 1s step-start 0s infinite;
 
 		&.hideCursor {

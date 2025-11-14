@@ -18,7 +18,7 @@
 		case Structure.H:
 			return Math.max(...arg.map(PessimisticHeight))
 		case Structure.L:
-			// TODO: Make it more accurate
+			// TODO)) Make it more accurate
 			return PessimisticHeight(arg[0])
 		}
 	}
@@ -43,7 +43,12 @@
 	import EgyptianGlyph from "./EgyptianGlyph.svelte"
 	import Render from "./RenderEgyptianHieroglyphs.svelte"
 
-	const {fp = 1, hie, lineHeight}: { fp?: number, hie: Hieroglyphs, lineHeight: number } = $props()
+	const {fp = 1, hie, parent, lineHeight}: {
+		fp?: number,
+		hie: Hieroglyphs,
+		parent?: Hieroglyphs,
+		lineHeight: number,
+	} = $props()
 
 	const freeHeight = $derived(lineHeight * fp)
 	const height = $derived(`${freeHeight}px`)
@@ -63,14 +68,14 @@
 	{@const adjustedHeights = CutVerticalHeights(pessimisticHeights, fp)}
 
 	<span class="v" style:height>
-		{#each arg as hie, i}
-			<Render hie={hie} fp={adjustedHeights[i]} {lineHeight}/>
+		{#each arg as _hie, i}
+			<Render hie={_hie} fp={adjustedHeights[i]} {lineHeight} parent={hie}/>
 		{/each}
 	</span>
 
 {:else if struct == Structure.H}
 
-	<span class="h" style:height style:min-width="{lineHeight}px" style:gap="{lineHeight * horizontalGap}px">
+	<span class="h" style:height style:min-width="{lineHeight * (parent != undefined ? 0.9 : 0.6)}px" style:gap="{lineHeight * horizontalGap}px">
 		{#each arg as hie}
 			<Render hie={hie} fp={fp} {lineHeight}/>
 		{/each}
@@ -108,11 +113,21 @@
 
 		{:else}
 
-			<span class="text-red-400">
-				<Render hie={h([t1, a1], [t2, a2])} {fp} {lineHeight}/>
+			<span class="h text-red-400" style:height style:min-width="{lineHeight * (parent != undefined ? 0.9 : 0.6)}px" style:gap="{lineHeight * horizontalGap}px">
+				{#each arg as hie}
+					<Render hie={hie} fp={fp} {lineHeight}/>
+				{/each}
 			</span>
 
 		{/if}
+
+	{:else}
+
+		<span class="h text-red-400" style:color="text-red-500" style:height style:min-width="{lineHeight * (parent != undefined ? 0.9 : 0.6)}px" style:gap="{lineHeight * horizontalGap}px">
+			{#each arg as hie}
+				<Render hie={hie} fp={fp} {lineHeight}/>
+			{/each}
+		</span>
 
 	{/if}
 

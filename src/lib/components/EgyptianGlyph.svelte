@@ -24,8 +24,8 @@
 		return gardiner
 	}
 
-	const gardiner = $derived(SemiessessiFromGardiner(Literal2Gardiner[g]))
-
+	const _gardiner = $derived(Literal2Gardiner[g]) as Gardiner | undefined
+	const gardiner = $derived(_gardiner == undefined ? "xxx" : SemiessessiFromGardiner(_gardiner))
 	const svgPath = $derived(`https://raw.githubusercontent.com/semiessessi/recoloured-tuxscribe-hieroglyphs/refs/heads/main/images/${gardiner}.svg`)
 </script>
 

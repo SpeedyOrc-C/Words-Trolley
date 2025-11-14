@@ -1,6 +1,8 @@
 <script lang="ts">
+	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import * as Item from "$lib/components/ui/item"
    import {_} from "$lib/i18n/store"
+	import {g} from "$lib/word/egyptian/hieroglyphs"
 </script>
 
 <svelte:head>
@@ -23,6 +25,9 @@
       <Item.Root variant="outline">
          {#snippet child({props})}
             <a href="/tool/japanese/alphabet" {...props} tabindex={0}>
+               <Item.Media class="text-3xl" aria-hidden>
+                  あ
+               </Item.Media>
                <Item.Content>
                   <Item.Title>
                      {$_.learning_resources.japanese.alphabet._}
@@ -59,6 +64,9 @@ https://www.penn.museum/cgi/hieroglyphsreal.php
       <Item.Root variant="outline">
          {#snippet child({props})}
             <a href="/tool/egyptian/alphabet" {...props} tabindex={0}>
+               <Item.Media style="font-size: 28px" aria-hidden>
+                  <EgyptianText t={[g("𓄿")]}/>
+               </Item.Media>
                <Item.Content>
                   <Item.Title>
                      {$_.learning_resources.egyptian.alphabet._}
@@ -74,6 +82,9 @@ https://www.penn.museum/cgi/hieroglyphsreal.php
       <Item.Root variant="outline">
          {#snippet child({props})}
             <a href="/tool/egyptian/typewriter" {...props} tabindex={0}>
+               <Item.Media style="font-size: 28px" aria-hidden>
+                  <EgyptianText t={[g("𓏞")]}/>
+               </Item.Media>
                <Item.Content>
                   <Item.Title>
                      {$_.learning_resources.egyptian.typewriter._}
@@ -89,6 +100,9 @@ https://www.penn.museum/cgi/hieroglyphsreal.php
       <Item.Root variant="outline">
          {#snippet child({props})}
             <a href="/tool/egyptian/transliteration-converter" {...props} tabindex={0}>
+               <Item.Media class="font-egy-trans text-2xl">
+                  <span>A ꜣ</span>
+               </Item.Media>
                <Item.Content>
                   <Item.Title>
                      {$_.learning_resources.egyptian.transliteration_converter._}

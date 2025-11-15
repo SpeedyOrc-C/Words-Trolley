@@ -25,41 +25,43 @@
 	}
 
 	const _gardiner = $derived(Literal2Gardiner[g]) as Gardiner | undefined
-	const gardiner = $derived(_gardiner == undefined ? "xxx" : SemiessessiFromGardiner(_gardiner))
-	const svgPath = $derived(`https://raw.githubusercontent.com/semiessessi/recoloured-tuxscribe-hieroglyphs/refs/heads/main/images/${gardiner}.svg`)
+	const gardiner = $derived(_gardiner == undefined ? undefined : SemiessessiFromGardiner(_gardiner))
+	const svgPath = $derived(gardiner == undefined ? undefined : `https://raw.githubusercontent.com/semiessessi/recoloured-tuxscribe-hieroglyphs/refs/heads/main/images/${gardiner}.svg`)
 </script>
 
-<span style:height="{glyphHeight * scale}px">
 
-	{#if $settings.Egyptian.HieroglyphsFont == HieroglyphsFont.NewGardiner}
+{#if $settings.Egyptian.HieroglyphsFont == HieroglyphsFont.NewGardiner}
 
+	<span class=glyph style:height="{glyphHeight * scale}px">
 		<span
-			class="glyph"
 			title={gardiner}
 			style:font-size="{lineHeight * scale}px"
 			style:transform="translateY(calc(-100% + {glyphHeight * scale}px))"
 		>
 			{g}
 		</span>
+	</span>
 
-	{:else if $settings.Egyptian.HieroglyphsFont == HieroglyphsFont.SemiessessiColourful}
+{:else if $settings.Egyptian.HieroglyphsFont == HieroglyphsFont.SemiessessiColourful}
 
-		<img
-			src={svgPath}
-			alt="Symbol {gardiner}"
-			style:height="{glyphHeight * scale}px"
-		/>
+	<img
+		src={svgPath}
+		alt={gardiner}
+		style:height="{glyphHeight * scale}px"
+	/>
 
-	{/if}
-
-</span>
+{/if}
 
 <style lang="postcss">
 	@reference "tailwindcss";
 
 	.glyph {
-		@apply w-fit block;
-		line-height: 100%;
-		font-family: Font_Egyptian, sans-serif;
+		@apply inline-flex relative items-start;
+
+		& > span {
+			@apply w-fit;
+			line-height: 100%;
+			font-family: Font_Egyptian, sans-serif;
+		}
 	}
 </style>

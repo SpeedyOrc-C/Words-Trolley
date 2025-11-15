@@ -1,6 +1,6 @@
 <script lang="ts" module>
 	import {HeightOfGlyph} from "$lib/word/egyptian/glyph/height"
-	import {type Hieroglyphs, Structure, h} from "$lib/word/egyptian/hieroglyphs"
+	import {type Hieroglyphs, Structure} from "$lib/word/egyptian/hieroglyphs"
 
 	const verticalGap = 0.05
 	const horizontalGap = 0.1

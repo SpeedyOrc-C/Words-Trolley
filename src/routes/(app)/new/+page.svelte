@@ -2,8 +2,7 @@
 	import {goto} from "$app/navigation"
 	import {Button} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
-	import {Label} from "$lib/components/ui/label"
-	import * as Card from "$lib/components/ui/card"
+	import * as Field from "$lib/components/ui/field"
 	import {_} from "$lib/i18n/store"
 
 	import HouseIcon from "@lucide/svelte/icons/house"
@@ -49,27 +48,27 @@
 	</Button>
 </nav>
 
-<Card.Root class="m-auto mt-6 w-full max-w-sm">
+<main class="m-auto px-4 w-full max-w-sm">
 
-	<Card.Header>
-		<Card.Title>
-			{$_.new.create_a_new_word_set}
-		</Card.Title>
-	</Card.Header>
+	<form action="?/do" method="POST" {onsubmit}>
+		<Field.Group>
+			<Field.Set>
+				<Field.Legend>
+					{$_.new.create_a_new_word_set}
+				</Field.Legend>
+				<Field.Group>
+					<Field.Field>
+						<Field.Label for="name">{$_.name}</Field.Label>
+						<Input bind:value={name} id="name" name="name" type="text" required/>
+					</Field.Field>
+					<Field.Field>
+						<Button {disabled} type="submit">
+							{$_.new._}
+						</Button>
+					</Field.Field>
+				</Field.Group>
+			</Field.Set>
+		</Field.Group>
+	</form>
 
-	<Card.Content>
-		<form action="?/do" class="flex flex-col gap-6" method="POST" {onsubmit}>
-
-			<div class="flex flex-col gap-2">
-				<Label for="name">{$_.name}</Label>
-				<Input bind:value={name} id="name" name="name" required type="text" />
-			</div>
-
-			<Button {disabled} type="submit">
-				{$_.new._}
-			</Button>
-
-		</form>
-	</Card.Content>
-
-</Card.Root>
+</main>

@@ -5,10 +5,10 @@
 	import House from "@lucide/svelte/icons/house"
 	import Settings from "@lucide/svelte/icons/settings"
 	import {settingsOpened} from "$lib/settings/store"
-	import {Label} from "$lib/components/ui/label"
 	import {Input} from "$lib/components/ui/input"
 	import {ButtonGroup} from "$lib/components/ui/button-group"
 	import {toast} from "svelte-sonner"
+	import * as Field from "$lib/components/ui/field"
 
 	const {data} = $props()
 
@@ -55,22 +55,30 @@
 
 </nav>
 
-<header class="text-p-4 text-center text-2xl">
-	{$_.my_profile._}
-</header>
+<main class="m-auto px-4 w-full max-w-md">
 
-<main class="m-auto p-4 w-full max-w-md">
+	<Field.Group>
+		<Field.Set>
 
-	<form class="flex flex-col gap-2" onsubmit={PutName}>
-		<Label for="name">
-			{$_.my_profile.name}
-		</Label>
-	  	<ButtonGroup class="w-full">
-			<Input type="text" bind:value={name} id="name" required/>
-			<Button type="submit" disabled={loading} variant="outline">
-				{$_.my_profile.save._}
-			</Button>
-	  	</ButtonGroup>
-	</form>
+			<Field.Legend>
+				{$_.my_profile._}
+			</Field.Legend>
+
+			<form onsubmit={PutName}>
+				<Field.Field>
+					<Field.Label for="name">
+						{$_.my_profile.name}
+					</Field.Label>
+					<ButtonGroup>
+					 <Input type="text" bind:value={name} id="name" required/>
+					 <Button type="submit" disabled={loading} variant="outline">
+						 {$_.my_profile.save._}
+					 </Button>
+					</ButtonGroup>
+				</Field.Field>
+			</form>
+
+		</Field.Set>
+	</Field.Group>
 
 </main>

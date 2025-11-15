@@ -545,7 +545,7 @@
 	}
 
 	.cursor {
-		@apply absolute top-0 h-full w-0.5;
+		@apply absolute top-0 h-full w-0.5 rounded;
 		backdrop-filter: invert(100%);
 		animation: blink 1s step-start 0s infinite;
 

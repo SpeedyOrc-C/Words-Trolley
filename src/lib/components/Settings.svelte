@@ -88,11 +88,15 @@
 							<Select.Item value="auto">
 								{$_.settings.follows_your_system}
 							</Select.Item>
-							<Select.Item value={Language.ZhCn}>
+							<Select.Separator/>
+							<Select.Item value={Language.ZhCn} lang="zh-CN">
 								{_Language(Language.ZhCn)}
 							</Select.Item>
-							<Select.Item value={Language.EnGb}>
+							<Select.Item value={Language.EnGb} lang="en-GB">
 								{_Language(Language.EnGb)}
+							</Select.Item>
+							<Select.Item value={Language.JaJp} lang="ja-JP">
+								{_Language(Language.JaJp)}
 							</Select.Item>
 						</Select.Content>
 
@@ -382,7 +386,7 @@
 
 					<div class="flex flex-col gap-2">
 						{#each LivingLanguages as lang}
-							{@const names = $voices.filter(v => v.lang === lang).map(v => v.name)}
+							{@const names = $voices.filter(v => v.lang == lang).map(v => v.name)}
 							{@const value = newSettings.PreferredVoice[lang]}
 
 							<div class="flex flex-col gap-1">
@@ -391,13 +395,13 @@
 									<Checkbox
 										id="set-preferred-voice-{lang}"
 										checked={newSettings.PreferredVoice[lang] != null}
-										disabled={value == null && names.length === 0}
+										disabled={value == null && names.length == 0}
 										onCheckedChange={c => {
 										newSettings.PreferredVoice[lang] = c ? names[0] : null
 										UpdateSettings()
 									}}
 									/>
-									<Label class="pl-3" for="set-preferred-voice-{lang}">
+									<Label class="pl-3" for="set-preferred-voice-{lang}" {lang}>
 										{_Language(lang)}
 									</Label>
 								</div>

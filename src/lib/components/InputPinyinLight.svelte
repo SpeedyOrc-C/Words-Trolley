@@ -1,91 +1,74 @@
 <script lang="ts" module>
 	import {pPinyinWithToneNumber} from "$lib/word/mandarin/parser/pinyin-with-tone-number"
 	import {eof, space} from "crazy-parser"
-	import {many, some} from "crazy-parser/prefix"
-	import {Label} from "$lib/components/ui/label"
-	import {Input} from "$lib/components/ui/input"
+	import {some} from "crazy-parser/prefix"
 
-	const parser =
-		pPinyinWithToneNumber
-			.and(many(some(space).$_(pPinyinWithToneNumber)))._$(eof)
-			.map(x => [x[0], ...x[1]])
+	const parser = ParseSep(pPinyinWithToneNumber, some(space))._$(eof)
 </script>
 
 <script lang="ts">
-	import {type ISyllable, Pinyin, PinyinWithToneNumber} from "$lib/word/mandarin"
-	import {pinyinSyllablesOverrider} from "$lib/word/mandarin/MandarinInputOverrider"
+	import {type ISyllable, Pinyin, PinyinWithToneNumber, SyllablesEqual} from "$lib/word/mandarin"
+	import InputWithCustomKeyMapping from "./InputWithCustomKeyMapping.svelte"
+	import {ParseSep} from "$lib/utils"
 
 	let {
-		value = $bindable(),
+		value = $bindable([]),
 		onchange: _onchange = () => {},
-		placeholder = "",
+		id,
+		class: _class = ""
 	}: {
 		value: ISyllable[]
-		onchange: () => void
-		placeholder: string
+		onchange?: () => void
+		id?: string
+		class?: string
 	} = $props()
 
-	const initValue = value.map(Pinyin).join(" ")
-
-	let input: HTMLInputElement | null = $state(null)
+	let _value = $derived(value.map(Pinyin).join(" "))
 	let error = $state(false)
+
+	$effect(() => { value; error = false })
 
 	function onchange()
 	{
-		if (! input)
-			return
-
-		const syllables = parser.eval(input.value.trim().toLowerCase())
+		const syllables = parser.eval(_value.trim().toLowerCase())
 
 		if (syllables instanceof Error)
 			error = true
 		else
 		{
 			error = false
-			value = syllables
-			_onchange()
+			if (!SyllablesEqual(syllables, value))
+			{
+				value = syllables
+				_onchange()
+			}
 		}
 	}
 
 	function onfocusin()
 	{
-		if (! input)
-			return
-
 		if (! error)
-			input.value = value.map(PinyinWithToneNumber).join(" ")
+			_value = value.map(PinyinWithToneNumber).join(" ")
 	}
 
 	function onfocusout()
 	{
-		if (! input)
-			return
-
 		if (! error)
-			input.value = value.map(Pinyin).join(" ")
+			_value = value.map(Pinyin).join(" ")
 	}
 </script>
 
-<div class="flex flex-col gap-2">
-
-	<Label>{placeholder}</Label>
-
-	<Input
-		aria-invalid={error}
-		autocapitalize="off"
-		autocomplete="off"
-		autocorrect="off"
-		bind:ref={input}
-		class="input text-lg w-full"
-		{onchange}
-		{onfocusin}
-		{onfocusout}
-		onkeydown={pinyinSyllablesOverrider.OnKeyDown}
-		onkeyup={pinyinSyllablesOverrider.OnKeyUp}
-		{placeholder}
-		type="text"
-		value={initValue}
-		style="font-size: 1.25rem"
-	/>
-
-</div>
+<InputWithCustomKeyMapping
+	aria-invalid={error}
+	autocapitalize="off"
+	autocomplete="off"
+	autocorrect="off"
+	class="text-lg {_class}"
+	{id}
+	{onchange}
+	{onfocusin}
+	{onfocusout}
+	type="text"
+	bind:value={_value}
+	mapping={{"KeyV": "ü"}}
+/>

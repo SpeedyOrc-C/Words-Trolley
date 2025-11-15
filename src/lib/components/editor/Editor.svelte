@@ -674,19 +674,23 @@
 
 							{#if $settings.MandarinScript === MandarinScript.Pinyin}
 
-								<InputPinyinLight
-									bind:value={word.syllables}
-									onchange={() => saved = false}
-									placeholder={$_.linguistics.pinyin}
-								/>
+								<div class="flex flex-col gap-2">
+									<Label>{$_.linguistics.pinyin}</Label>
+									<InputPinyinLight
+										bind:value={word.syllables}
+										onchange={() => saved = false}
+									/>
+								</div>
 
 							{:else if $settings.MandarinScript === MandarinScript.Bopomofo}
 
-								<InputBopomofoLight
-									bind:value={word.syllables}
-									onchange={() => saved = false}
-									placeholder={$_.linguistics.bopomofo}
-								/>
+								<div class="flex flex-col gap-2">
+									<Label>{$_.linguistics.bopomofo}</Label>
+									<InputBopomofoLight
+										bind:value={word.syllables}
+										onchange={() => saved = false}
+									/>
+								</div>
 
 							{/if}
 

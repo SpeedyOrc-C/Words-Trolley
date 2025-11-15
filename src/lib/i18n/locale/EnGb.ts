@@ -30,7 +30,7 @@ const EnGb: I18nTemplate = {
 	wiktionary: "Wiktionary",
 	learning_resources: {
 		_: "Learning Resources",
-		meta_description: "Resources for learning Ancient Egyptian and its hieroglyphs.",
+		meta_description: "Resources for learning various languages.",
 		japanese: {
 			_: "Japanese",
 			alphabet: {
@@ -39,6 +39,17 @@ const EnGb: I18nTemplate = {
 				inner: {
 					title: "Japanese Alphabet",
 					meta_description: "Table of Japanese Hiragana and Katakana with Romaji.",
+				}
+			}
+		},
+		mandarin: {
+			_: "Mandarin",
+			spelling_converter: {
+				_: "Spelling Converter",
+				description: "Convert between Pinyin and Bopomofo.",
+				inner: {
+					title: "Mandarin Spelling Converter",
+					meta_description: "A tool for converting between Pinyin and Bopomofo for Mandarin Chinese."
 				}
 			}
 		},

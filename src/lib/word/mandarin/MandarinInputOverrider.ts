@@ -8,17 +8,17 @@ export interface MandarinInputOverrider
 {
 	Parse(raw: string): ISyllable | null
 
-	OnKeyDown(e: KeyboardEvent & { currentTarget: HTMLInputElement }): void
+	OnKeyDown(e: KeyboardEvent & {currentTarget: HTMLInputElement}): void
 
-	OnKeyUp(e: KeyboardEvent & { currentTarget: HTMLInputElement }): ShouldConfirm
+	OnKeyUp(e: KeyboardEvent & {currentTarget: HTMLInputElement}): ShouldConfirm
 }
 
-class PinyinOverrider implements MandarinInputOverrider
+export class PinyinOverrider implements MandarinInputOverrider
 {
 	constructor(
-		public readonly IsSingle: boolean = false
+		public readonly IsSingle: boolean = false,
 	)
-	{}
+	{ }
 
 	Parse(raw: string): ISyllable | null
 	{
@@ -33,7 +33,7 @@ class PinyinOverrider implements MandarinInputOverrider
 		return s
 	}
 
-	OnKeyDown(e: KeyboardEvent & { currentTarget: HTMLInputElement }): void
+	OnKeyDown(e: KeyboardEvent & {currentTarget: HTMLInputElement}): void
 	{
 		const {key, currentTarget: t} = e
 
@@ -59,7 +59,7 @@ class PinyinOverrider implements MandarinInputOverrider
 		}
 	}
 
-	OnKeyUp(e: KeyboardEvent & { currentTarget: HTMLInputElement }): ShouldConfirm
+	OnKeyUp(e: KeyboardEvent & {currentTarget: HTMLInputElement}): ShouldConfirm
 	{
 		const {currentTarget: t} = e
 
@@ -70,54 +70,56 @@ class PinyinOverrider implements MandarinInputOverrider
 	}
 }
 
-class BopomofoOverrider implements MandarinInputOverrider
+export class BopomofoOverrider implements MandarinInputOverrider
 {
-	static KeyMapping: Array<[string, string]> = [
-		["Digit1", "ㄅ"],
-		["KeyQ", "ㄆ"],
-		["KeyA", "ㄇ"],
-		["KeyZ", "ㄈ"],
-		["Digit2", "ㄉ"],
-		["KeyW", "ㄊ"],
-		["KeyS", "ㄋ"],
-		["KeyX", "ㄌ"],
-		["Digit3", "ˇ"],
-		["KeyE", "ㄍ"],
-		["KeyD", "ㄎ"],
-		["KeyC", "ㄏ"],
-		["Digit4", "ˋ"],
-		["KeyR", "ㄐ"],
-		["KeyF", "ㄑ"],
-		["KeyV", "ㄒ"],
-		["Digit5", "ㄓ"],
-		["KeyT", "ㄔ"],
-		["KeyG", "ㄕ"],
-		["KeyB", "ㄖ"],
-		["Digit6", "ˊ"],
-		["KeyY", "ㄗ"],
-		["KeyH", "ㄘ"],
-		["KeyN", "ㄙ"],
-		["Digit7", "˙"],
-		["KeyU", "ㄧ"],
-		["KeyJ", "ㄨ"],
-		["KeyM", "ㄩ"],
-		["Digit8", "ㄚ"],
-		["KeyI", "ㄛ"],
-		["KeyK", "ㄜ"],
-		["Comma", "ㄝ"],
-		["Digit9", "ㄞ"],
-		["KeyO", "ㄟ"],
-		["KeyL", "ㄠ"],
-		["Period", "ㄡ"],
-		["Digit0", "ㄢ"],
-		["KeyP", "ㄣ"],
-		["Semicolon", "ㄤ"],
-		["Slash", "ㄥ"],
-		["Minus", "ㄦ"],
-	]
+	public static readonly KeyMapping: Record<string, string> = {
+		"Digit1": "ㄅ",
+		"KeyQ": "ㄆ",
+		"KeyA": "ㄇ",
+		"KeyZ": "ㄈ",
+		"Digit2": "ㄉ",
+		"KeyW": "ㄊ",
+		"KeyS": "ㄋ",
+		"KeyX": "ㄌ",
+		"Digit3": "ˇ",
+		"KeyE": "ㄍ",
+		"KeyD": "ㄎ",
+		"KeyC": "ㄏ",
+		"Digit4": "ˋ",
+		"KeyR": "ㄐ",
+		"KeyF": "ㄑ",
+		"KeyV": "ㄒ",
+		"Digit5": "ㄓ",
+		"KeyT": "ㄔ",
+		"KeyG": "ㄕ",
+		"KeyB": "ㄖ",
+		"Digit6": "ˊ",
+		"KeyY": "ㄗ",
+		"KeyH": "ㄘ",
+		"KeyN": "ㄙ",
+		"Digit7": "˙",
+		"KeyU": "ㄧ",
+		"KeyJ": "ㄨ",
+		"KeyM": "ㄩ",
+		"Digit8": "ㄚ",
+		"KeyI": "ㄛ",
+		"KeyK": "ㄜ",
+		"Comma": "ㄝ",
+		"Digit9": "ㄞ",
+		"KeyO": "ㄟ",
+		"KeyL": "ㄠ",
+		"Period": "ㄡ",
+		"Digit0": "ㄢ",
+		"KeyP": "ㄣ",
+		"Semicolon": "ㄤ",
+		"Slash": "ㄥ",
+		"Minus": "ㄦ",
+	}
 
-	constructor(public readonly IsSingle: boolean = false)
-	{}
+	constructor(
+		public readonly IsSingle: boolean = false,
+	)
+	{ }
 
 	Parse(raw: string): ISyllable | null
 	{
@@ -129,27 +131,24 @@ class BopomofoOverrider implements MandarinInputOverrider
 		return s
 	}
 
-	OnKeyDown(e: KeyboardEvent & { currentTarget: HTMLInputElement }): void
+	OnKeyDown(e: KeyboardEvent & {currentTarget: HTMLInputElement}): void
 	{
 		if (e.metaKey || e.ctrlKey || e.altKey)
 			return
 
 		const {currentTarget: t} = e
 
-		for (const [key, bpmf] of BopomofoOverrider.KeyMapping)
-		{
-			if (e.code != key)
-				continue
+		const bpmf = BopomofoOverrider.KeyMapping[e.code] as string | undefined
 
-			e.preventDefault()
-
-			InsertChar(t, bpmf)
-
+		if (bpmf == undefined)
 			return
-		}
+
+		e.preventDefault()
+
+		InsertChar(t, bpmf)
 	}
 
-	OnKeyUp(e: KeyboardEvent & { currentTarget: HTMLInputElement }): ShouldConfirm
+	OnKeyUp(e: KeyboardEvent & {currentTarget: HTMLInputElement}): ShouldConfirm
 	{
 		const {currentTarget: t} = e
 
@@ -180,5 +179,3 @@ function InsertChar(t: HTMLInputElement, c: string)
 }
 
 export const pinyinSingleSyllableOverrider = new PinyinOverrider(true)
-export const pinyinSyllablesOverrider = new PinyinOverrider(false)
-export const bopomofoOverrider = new BopomofoOverrider()

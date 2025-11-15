@@ -43,6 +43,17 @@ export type I18nTemplate = {
 				}
 			}
 		}
+		mandarin: {
+			_: s
+			spelling_converter: {
+				_: s
+				description: s
+				inner: {
+					title: s
+					meta_description: s
+				}
+			}
+		}
 		egyptian: {
 			_: s
 			alphabet: {

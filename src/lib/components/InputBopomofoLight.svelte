@@ -1,80 +1,105 @@
 <script lang="ts" module>
 	import {pBopomofo} from "$lib/word/mandarin/parser/bopomofo"
 	import {eof, space} from "crazy-parser"
-	import {many, some} from "crazy-parser/prefix"
-	import {Label} from "$lib/components/ui/label"
-	import {Input} from "$lib/components/ui/input"
+	import {some} from "crazy-parser/prefix"
+	import {ParseSep} from "$lib/utils"
 
-	const parser =
-		pBopomofo
-			.and(many(some(space).$_(pBopomofo)))._$(eof)
-			.map(x => [x[0], ...x[1]])
+	const parser = ParseSep(pBopomofo, some(space))._$(eof)
+
+	const mapping: Record<string, string> = {
+		"Digit1": "ㄅ",
+		"KeyQ": "ㄆ",
+		"KeyA": "ㄇ",
+		"KeyZ": "ㄈ",
+		"Digit2": "ㄉ",
+		"KeyW": "ㄊ",
+		"KeyS": "ㄋ",
+		"KeyX": "ㄌ",
+		"Digit3": "ˇ",
+		"KeyE": "ㄍ",
+		"KeyD": "ㄎ",
+		"KeyC": "ㄏ",
+		"Digit4": "ˋ",
+		"KeyR": "ㄐ",
+		"KeyF": "ㄑ",
+		"KeyV": "ㄒ",
+		"Digit5": "ㄓ",
+		"KeyT": "ㄔ",
+		"KeyG": "ㄕ",
+		"KeyB": "ㄖ",
+		"Digit6": "ˊ",
+		"KeyY": "ㄗ",
+		"KeyH": "ㄘ",
+		"KeyN": "ㄙ",
+		"Digit7": "˙",
+		"KeyU": "ㄧ",
+		"KeyJ": "ㄨ",
+		"KeyM": "ㄩ",
+		"Digit8": "ㄚ",
+		"KeyI": "ㄛ",
+		"KeyK": "ㄜ",
+		"Comma": "ㄝ",
+		"Digit9": "ㄞ",
+		"KeyO": "ㄟ",
+		"KeyL": "ㄠ",
+		"Period": "ㄡ",
+		"Digit0": "ㄢ",
+		"KeyP": "ㄣ",
+		"Semicolon": "ㄤ",
+		"Slash": "ㄥ",
+		"Minus": "ㄦ",
+	}
 </script>
 
 <script lang="ts">
-	import {Bopomofo, type ISyllable} from "$lib/word/mandarin"
-	import {bopomofoOverrider} from "$lib/word/mandarin/MandarinInputOverrider"
+	import {Bopomofo, SyllablesEqual, type ISyllable} from "$lib/word/mandarin"
+	import {Input} from "$lib/components/ui/input"
+	import InputWithCustomKeyMapping from "./InputWithCustomKeyMapping.svelte"
 
 	let {
-		value = $bindable(),
+		value = $bindable([]),
 		onchange: _onchange = () => {},
-		placeholder = "",
+		id,
+		class: _class = "",
 	}: {
 		value: ISyllable[]
-		onchange: () => void
-		placeholder: string
+		onchange?: () => void
+		id?: string
+		class?: string
 	} = $props()
 
-	const initValue = value.map(Bopomofo).join(" ")
-
-	let input: HTMLInputElement | null = $state(null)
+	let _value = $derived(value.map(Bopomofo).join(" "))
 	let error = $state(false)
+
+	$effect(() => { value; error = false })
 
 	function onchange()
 	{
-		if (! input)
-			return
-
-		const syllables = parser.eval(input.value.trim().toLowerCase())
+		const syllables = parser.eval(_value.trim().toLowerCase())
 
 		if (syllables instanceof Error)
 			error = true
 		else
 		{
 			error = false
-			value = syllables
-			_onchange()
+			if (!SyllablesEqual(syllables, value))
+			{
+				value = syllables
+				_onchange()
+			}
 		}
-	}
-
-	function onfocusout()
-	{
-		if (! input)
-			return
-
-		if (! error)
-			input.value = value.map(Bopomofo).join(" ")
 	}
 </script>
 
-<div class="flex flex-col gap-2">
-
-	<Label>{placeholder}</Label>
-
-	<Input
-		bind:ref={input}
-		autocapitalize="off"
-		autocomplete="off"
-		autocorrect="off"
-		value={initValue}
-		class="input text-lg w-full"
-		aria-invalid={error}
-		{onchange}
-		onkeydown={bopomofoOverrider.OnKeyDown}
-		{onfocusout}
-		{placeholder}
-		type="text"
-		style="font-size: 1.25rem"
-	/>
-
-</div>
+<InputWithCustomKeyMapping
+	aria-invalid={error}
+	autocapitalize="off"
+	autocomplete="off"
+	autocorrect="off"
+	bind:value={_value}
+	{id}
+	class="text-lg {_class}"
+	{onchange}
+	type="text"
+	{mapping}
+/>

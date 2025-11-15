@@ -1,4 +1,4 @@
-import {type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
+import {g, h, v, type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
 import {WordType} from "$lib/word/types"
 import type {SentenceTransliteration} from "$lib/word/egyptian/transliteration"
 
@@ -41,3 +41,5 @@ export type Word = {
 	word: Hieroglyphs[]
 	trans: SentenceTransliteration
 }
+
+export const ExampleWord = [h(v(g("𓂋"), g("𓏤"), g("𓈖")), h(g("𓆎"), g("𓅓"), v(g("𓏏"), g("𓊖"))))] as const

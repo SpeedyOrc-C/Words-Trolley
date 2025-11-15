@@ -30,7 +30,7 @@ export const JaJp: I18nTemplate = {
 	wiktionary: "Wiktionary",
 	learning_resources: {
 		_: "学習リソース",
-		meta_description: "古代エジプト語のヒエログリフ（聖刻文字）を学ぶためのリソース。",
+		meta_description: "さまざまな言語を学ぶためのリソース。",
 		japanese: {
 			_: "日本語",
 			alphabet: {
@@ -42,6 +42,17 @@ export const JaJp: I18nTemplate = {
 				}
 			}
 		},
+      mandarin: {
+         _: "現代中国語",
+         spelling_converter: {
+            _: "翻字変換",
+            description: "拼音と注音の間で変換します。",
+            inner: {
+               title: "現代中国語翻字変換",
+               meta_description: "現代中国語の拼音と注音の間で変換するツール。"
+            }
+         }
+      },
 		egyptian: {
 			_: "エジプト語",
 			alphabet: {
@@ -62,11 +73,11 @@ export const JaJp: I18nTemplate = {
 				}
 			},
 			transliteration_converter: {
-				_: "翻字コンバーター",
+				_: "翻字変換",
 				description: "さまざまな翻字方式の間で変換します。",
 				inner: {
-					title: "エジプト語翻字コンバーター",
-					meta_description: "異なる古代エジプト語の翻字方式の間で変換するツールです。"
+					title: "エジプト語翻字変換",
+					meta_description: "異なる古代エジプト語の翻字方式の間で変換するツール。"
 				}
 			}
 		}

@@ -3,7 +3,7 @@
 	import {onMount} from "svelte"
 	import RenderEgyptianHieroglyphs from "./RenderEgyptianHieroglyphs.svelte"
 
-	const {t}: { t: Hieroglyphs[] } = $props()
+	const {t}: { t: readonly Hieroglyphs[] } = $props()
 
 	let lineHeight = $state(16)
 

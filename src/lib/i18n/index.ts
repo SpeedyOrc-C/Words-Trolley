@@ -30,6 +30,10 @@ export function AutoDetectLanguage(lang: string)
 	case "zh-TW":
 		language.set(Language.ZhCn)
 		break
+	case "ja":
+	case "ja-JP":
+		language.set(Language.JaJp)
+		break
 	default:
 		language.set(Language.EnGb)
 	}

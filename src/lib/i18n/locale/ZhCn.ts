@@ -30,7 +30,7 @@ const ZhCn: I18nTemplate = {
 	wiktionary: "维基词典",
 	learning_resources: {
 		_: "学习资源",
-		meta_description: "学习古埃及语象形文字（圣书字）的资源。",
+		meta_description: "学习各种语言的资源。",
 		japanese: {
 			_: "日语",
 			alphabet: {
@@ -39,6 +39,17 @@ const ZhCn: I18nTemplate = {
 				inner: {
 					title: "日语假名表",
 					meta_description: "附带罗马字的日语平假名与片假名表。",
+				}
+			}
+		},
+		mandarin: {
+			_: "现代汉语",
+			spelling_converter: {
+				_: "拼读转换器",
+				description: "在拼音和注音之间转换。",
+				inner: {
+					title: "现代汉语拼读转换器",
+					meta_description: "在现代汉语的拼音和注音之间转换的工具。"
 				}
 			}
 		},

@@ -7,7 +7,7 @@
 	import {LivingLanguages} from "$lib/i18n"
 	import * as Dialog from "$lib/components/ui/dialog"
 	import * as Select from "$lib/components/ui/select"
-	import * as RadioGroup from "$lib/components/ui/radio-group"
+	import {Switch} from "$lib/components/ui/switch"
 	import {Label} from "$lib/components/ui/label"
 	import {settings} from "$lib/settings/store"
 	import {egyptianTransliterationSampleTextForRead, egyptianTransliterationSampleTextForEdit} from "$lib/settings/store/egyptian"
@@ -16,7 +16,7 @@
 	import {voices} from "$lib/speak"
 	import {Checkbox} from "$lib/components/ui/checkbox"
 	import {g, v, h} from "$lib/word/egyptian/hieroglyphs"
-	import Settings from "@lucide/svelte/icons/settings";
+	import Settings from "@lucide/svelte/icons/settings"
 
 	let {open = $bindable(false)}: { open: boolean } = $props()
 	let newSettings = $state($settings)
@@ -54,11 +54,48 @@
 			return $_.settings.follows_your_system
 		}
 	}
+
+	function _EgyptianTransliteration(t: EgyptianTransliteration)
+	{
+		switch (t)
+		{
+		case EgyptianTransliteration.ManuelDeCodage:
+			return "Manuel de Codage"
+		case EgyptianTransliteration.Chen:
+			return "陈"
+		case EgyptianTransliteration.Wiktionary:
+			return $_.wiktionary
+		case EgyptianTransliteration.Egyptology:
+			return $_.egyptian.transliteration.gardiner
+		}
+	}
+
+	function _MandarinScript(s: MandarinScript)
+	{
+		switch (s)
+		{
+		case MandarinScript.Pinyin:
+			return $_.linguistics.pinyin
+		case MandarinScript.Bopomofo:
+			return $_.linguistics.bopomofo
+		}
+	}
+
+	function _HieroglyphsFont(f: HieroglyphsFont)
+	{
+		switch (f)
+		{
+		case HieroglyphsFont.NewGardiner:
+			return $_.settings.hieroglyphs_style.sans_serif
+		case HieroglyphsFont.SemiessessiColourful:
+			return $_.settings.hieroglyphs_style.colourful
+		}
+	}
 </script>
 
 <Dialog.Root bind:open>
 
-	<Dialog.Content class="max-h-1/1 overflow-y-auto">
+	<Dialog.Content class="max-h-1/1 max-w-1/1 overflow-y-auto p-3 sm:p-6 bg-gray-100 dark:bg-background">
 
 		<Dialog.Header>
 			<Dialog.Title class="flex items-center gap-2">
@@ -75,32 +112,37 @@
 
 				<article>
 
-					<header>{$_.settings.ui_language}</header>
+					<section>
 
-					<Select.Root bind:value={newSettings.Language} type="single">
+						<div class="flex justify-between gap-2 flex-wrap">
+							<Label>{$_.settings.ui_language}</Label>
 
-						<Select.Trigger>
-							<Languages/>
-							{_Language(newSettings.Language)}
-						</Select.Trigger>
+							<Select.Root bind:value={newSettings.Language} type="single">
 
-						<Select.Content>
-							<Select.Item value="auto">
-								{$_.settings.follows_your_system}
-							</Select.Item>
-							<Select.Separator/>
-							<Select.Item value={Language.ZhCn} lang="zh-CN">
-								{_Language(Language.ZhCn)}
-							</Select.Item>
-							<Select.Item value={Language.EnGb} lang="en-GB">
-								{_Language(Language.EnGb)}
-							</Select.Item>
-							<Select.Item value={Language.JaJp} lang="ja-JP">
-								{_Language(Language.JaJp)}
-							</Select.Item>
-						</Select.Content>
+								<Select.Trigger>
+									<Languages/>
+									{_Language(newSettings.Language)}
+								</Select.Trigger>
 
-					</Select.Root>
+								<Select.Content>
+									<Select.Item value="auto">
+										{$_.settings.follows_your_system}
+									</Select.Item>
+									<Select.Separator/>
+									<Select.Item value={Language.ZhCn} lang="zh-CN">
+										{_Language(Language.ZhCn)}
+									</Select.Item>
+									<Select.Item value={Language.EnGb} lang="en-GB">
+										{_Language(Language.EnGb)}
+									</Select.Item>
+									<Select.Item value={Language.JaJp} lang="ja-JP">
+										{_Language(Language.JaJp)}
+									</Select.Item>
+								</Select.Content>
+
+							</Select.Root>
+						</div>
+					</section>
 
 				</article>
 
@@ -108,35 +150,29 @@
 
 					<header>{$_.settings.learning._}</header>
 
-					<div class="flex flex-col gap-2">
+					<section class="flex flex-col gap-2">
 
-						<div class="flex items-center">
-							<Checkbox
+						<div class="flex items-center justify-between gap-2">
+							<Label for="set-show-meaning-and-word-at-the-same-time">
+								{$_.settings.learning.show_meaning_and_word_at_the_same_time}
+							</Label>
+							<Switch
 								bind:checked={newSettings.Learning.ShowMeaningAndWordAtTheSameTime}
 								id="set-show-meaning-and-word-at-the-same-time"
 							/>
-							<Label
-								class="pl-3"
-								for="set-show-meaning-and-word-at-the-same-time"
-							>
-								{$_.settings.learning.show_meaning_and_word_at_the_same_time}
-							</Label>
 						</div>
 
-						<div class="flex items-center">
-							<Checkbox
+						<div class="flex items-center justify-between gap-2">
+							<Label for="set-show-pronunciation-above-words">
+								{$_.settings.learning.show_pronunciation}
+							</Label>
+							<Switch
 								bind:checked={newSettings.Learning.ShowPronunciation}
 								id="set-show-pronunciation-above-words"
 							/>
-							<Label
-								class="pl-3"
-								for="set-show-pronunciation-above-words"
-							>
-								{$_.settings.learning.show_pronunciation}
-							</Label>
 						</div>
 
-					</div>
+					</section>
 
 				</article>
 
@@ -146,15 +182,17 @@
 						{$_.settings.editor._}
 					</header>
 
-					<div class="flex items-center">
-						<Checkbox
-							bind:checked={newSettings.Editor.Autosave}
-							id="set-autosave"
-						/>
-						<Label class="pl-3" for="set-autosave">
-							{$_.settings.editor.autosave}
-						</Label>
-					</div>
+					<section>
+						<div class="flex items-center justify-between gap-2">
+							<Label for="set-autosave">
+								{$_.settings.editor.autosave}
+							</Label>
+							<Switch
+								bind:checked={newSettings.Editor.Autosave}
+								id="set-autosave"
+							/>
+						</div>
+					</section>
 
 				</article>
 
@@ -170,36 +208,28 @@
 
 					<header>{$_.settings.mandarin.spelling_scheme}</header>
 
-					<RadioGroup.Root
-						bind:value={newSettings.MandarinScript}
-						class="flex gap-4"
-					>
+					<section>
+						<Select.Root bind:value={newSettings.MandarinScript} type="single">
 
-						<div class="flex items-center">
-							<RadioGroup.Item
-								id="set-mandarin-script-pinyin"
-								value={MandarinScript.Pinyin}
-							/>
-							<Label class="pl-2" for="set-mandarin-script-pinyin">
-								{$_.linguistics.pinyin}
-							</Label>
+							<Select.Trigger>
+								{_MandarinScript(newSettings.MandarinScript)}
+							</Select.Trigger>
+
+							<Select.Content>
+								<Select.Item value={MandarinScript.Pinyin}>
+									{$_.linguistics.pinyin}
+								</Select.Item>
+								<Select.Item value={MandarinScript.Bopomofo}>
+									{$_.linguistics.bopomofo}
+								</Select.Item>
+							</Select.Content>
+
+						</Select.Root>
+
+						<div class="text-2xl text-center">
+							{$mandarinSpellingSampleText}
 						</div>
-
-						<div class="flex items-center">
-							<RadioGroup.Item
-								id="set-mandarin-script-bopomofo"
-								value={MandarinScript.Bopomofo}
-							/>
-							<Label class="pl-2" for="set-mandarin-script-bopomofo">
-								{$_.linguistics.bopomofo}
-							</Label>
-						</div>
-
-					</RadioGroup.Root>
-
-					<div class="text-2xl text-center">
-						{$mandarinSpellingSampleText}
-					</div>
+					</section>
 
 				</article>
 
@@ -217,58 +247,40 @@
 						{$_.settings.egyptian.transliteration_for_read}
 					</header>
 
-					<RadioGroup.Root
-						bind:value={newSettings.Egyptian.TransliterationForRead}
-						class="flex gap-4 flex-wrap"
-					>
+					<section>
 
-						<div class="flex items-center">
-							<RadioGroup.Item
-								id="set-egyptian-transliteration-for-read-mdc"
-								value={EgyptianTransliteration.ManuelDeCodage}
-							/>
-							<Label class="pl-2" for="set-egyptian-transliteration-for-read-mdc">
-								<abbr title="Manuel de Codage">
-									MdC
-								</abbr>
-							</Label>
+						<Select.Root bind:value={newSettings.Egyptian.TransliterationForRead} type="single">
+
+							<Select.Trigger>
+								{_EgyptianTransliteration(newSettings.Egyptian.TransliterationForRead)}
+							</Select.Trigger>
+
+							<Select.Content>
+								<Select.Item value={EgyptianTransliteration.Egyptology}>
+									{_EgyptianTransliteration(EgyptianTransliteration.Egyptology)}
+								</Select.Item>
+								<Select.Item value={EgyptianTransliteration.Wiktionary}>
+									{_EgyptianTransliteration(EgyptianTransliteration.Wiktionary)}
+								</Select.Item>
+								<Select.Separator/>
+								<Select.Group>
+									<Select.Label>ASCII</Select.Label>
+									<Select.Item value={EgyptianTransliteration.ManuelDeCodage}>
+										{_EgyptianTransliteration(EgyptianTransliteration.ManuelDeCodage)}
+									</Select.Item>
+									<Select.Item value={EgyptianTransliteration.Chen}>
+										{_EgyptianTransliteration(EgyptianTransliteration.Chen)}
+									</Select.Item>
+								</Select.Group>
+							</Select.Content>
+
+						</Select.Root>
+
+						<div class="text-2xl text-center font-egy-trans">
+							{$egyptianTransliterationSampleTextForRead}
 						</div>
 
-						<div class="flex items-center">
-							<RadioGroup.Item
-								id="set-egyptian-transliteration-for-read-chen"
-								value={EgyptianTransliteration.Chen}
-							/>
-							<Label class="pl-2" for="set-egyptian-transliteration-for-read-chen">
-								陈
-							</Label>
-						</div>
-
-						<div class="flex items-center">
-							<RadioGroup.Item
-								id="set-egyptian-transliteration-for-read-wiktionary"
-								value={EgyptianTransliteration.Wiktionary}
-							/>
-							<Label class="pl-2" for="set-egyptian-transliteration-for-read-wiktionary">
-								{$_.wiktionary}
-							</Label>
-						</div>
-
-						<div class="flex items-center">
-							<RadioGroup.Item
-								id="set-egyptian-transliteration-for-read-egyptology"
-								value={EgyptianTransliteration.Egyptology}
-							/>
-							<Label class="pl-2" for="set-egyptian-transliteration-for-read-egyptology">
-								{$_.egyptian.transliteration.gardiner}
-							</Label>
-						</div>
-
-					</RadioGroup.Root>
-
-					<div class="text-2xl text-center font-egy-trans">
-						{$egyptianTransliterationSampleTextForRead}
-					</div>
+					</section>
 
 				</article>
 
@@ -278,58 +290,39 @@
 						{$_.settings.egyptian.transliteration_for_edit}
 					</header>
 
-					<RadioGroup.Root
-						bind:value={newSettings.Egyptian.TransliterationForEdit}
-						class="flex gap-4 flex-wrap"
-					>
+					<section>
 
-						<div class="flex items-center">
-							<RadioGroup.Item
-								id="set-egyptian-transliteration-for-edit-mdc"
-								value={EgyptianTransliteration.ManuelDeCodage}
-							/>
-							<Label class="pl-2" for="set-egyptian-transliteration-for-edit-mdc">
-								<abbr title="Manuel de Codage">
-									MdC
-								</abbr>
-							</Label>
+						<Select.Root bind:value={newSettings.Egyptian.TransliterationForEdit} type="single">
+
+							<Select.Trigger>
+								{_EgyptianTransliteration(newSettings.Egyptian.TransliterationForEdit)}
+							</Select.Trigger>
+
+							<Select.Content>
+								<Select.Group>
+									<Select.Label>ASCII</Select.Label>
+									<Select.Item value={EgyptianTransliteration.ManuelDeCodage}>
+										{_EgyptianTransliteration(EgyptianTransliteration.ManuelDeCodage)}
+									</Select.Item>
+									<Select.Item value={EgyptianTransliteration.Chen}>
+										{_EgyptianTransliteration(EgyptianTransliteration.Chen)}
+									</Select.Item>
+								</Select.Group>
+								<Select.Separator/>
+								<Select.Item value={EgyptianTransliteration.Egyptology}>
+									{_EgyptianTransliteration(EgyptianTransliteration.Egyptology)}
+								</Select.Item>
+								<Select.Item value={EgyptianTransliteration.Wiktionary}>
+									{_EgyptianTransliteration(EgyptianTransliteration.Wiktionary)}
+								</Select.Item>
+							</Select.Content>
+
+						</Select.Root>
+
+						<div class="text-2xl text-center font-egy-trans">
+							{$egyptianTransliterationSampleTextForEdit}
 						</div>
-
-						<div class="flex items-center">
-							<RadioGroup.Item
-								id="set-egyptian-transliteration-for-edit-chen"
-								value={EgyptianTransliteration.Chen}
-							/>
-							<Label class="pl-2" for="set-egyptian-transliteration-for-edit-chen">
-								陈
-							</Label>
-						</div>
-
-						<div class="flex items-center">
-							<RadioGroup.Item
-								id="set-egyptian-transliteration-for-edit-wiktionary"
-								value={EgyptianTransliteration.Wiktionary}
-							/>
-							<Label class="pl-2" for="set-egyptian-transliteration-for-edit-wiktionary">
-								{$_.wiktionary}
-							</Label>
-						</div>
-
-						<div class="flex items-center">
-							<RadioGroup.Item
-								id="set-egyptian-transliteration-for-edit-egyptology"
-								value={EgyptianTransliteration.Egyptology}
-							/>
-							<Label class="pl-2" for="set-egyptian-transliteration-for-edit-egyptology">
-								{$_.egyptian.transliteration.gardiner}
-							</Label>
-						</div>
-
-					</RadioGroup.Root>
-
-					<div class="text-2xl text-center font-egy-trans">
-						{$egyptianTransliterationSampleTextForEdit}
-					</div>
+					</section>
 
 				</article>
 
@@ -337,36 +330,30 @@
 
 					<header>{$_.settings.hieroglyphs_style._}</header>
 
-					<RadioGroup.Root
-						bind:value={newSettings.Egyptian.HieroglyphsFont}
-						class="flex gap-4 flex-wrap"
-					>
+					<section>
 
-						<div class="flex items-center">
-							<RadioGroup.Item
-								id="set-hieroglyphs-new-gardiner"
-								value={HieroglyphsFont.NewGardiner}
-							/>
-							<Label class="pl-2" for="set-hieroglyphs-new-gardiner">
-								{$_.settings.hieroglyphs_style.sans_serif}
-							</Label>
+						<Select.Root bind:value={newSettings.Egyptian.HieroglyphsFont} type="single">
+
+							<Select.Trigger>
+								{_HieroglyphsFont(newSettings.Egyptian.HieroglyphsFont)}
+							</Select.Trigger>
+
+							<Select.Content>
+								<Select.Item value={HieroglyphsFont.NewGardiner}>
+									{$_.settings.hieroglyphs_style.sans_serif}
+								</Select.Item>
+								<Select.Item value={HieroglyphsFont.SemiessessiColourful}>
+									{$_.settings.hieroglyphs_style.colourful}
+								</Select.Item>
+							</Select.Content>
+
+						</Select.Root>
+
+						<div class="text-center" style="font-size: 2.5rem">
+							<EgyptianText t={[h(v(g("𓂋"), g("𓏤"), g("𓈖")), h(g("𓆎"), g("𓅓"), v(g("𓏏"), g("𓊖"))))]}/>
 						</div>
 
-						<div class="flex items-center">
-							<RadioGroup.Item
-								id="set-hieroglyphs-semiessessi-colourful"
-								value={HieroglyphsFont.SemiessessiColourful}
-							/>
-							<Label class="pl-2" for="set-hieroglyphs-semiessessi-colourful">
-								{$_.settings.hieroglyphs_style.colourful}
-							</Label>
-						</div>
-
-					</RadioGroup.Root>
-
-					<div class="text-center" style="font-size: 2.5rem">
-						<EgyptianText t={[h(v(g("𓂋"), g("𓏤"), g("𓈖")), h(g("𓆎"), g("𓅓"), v(g("𓏏"), g("𓊖"))))]}/>
-					</div>
+					</section>
 
 				</article>
 
@@ -380,54 +367,58 @@
 
 					<header>{$_.settings.customise_voices._}</header>
 
-					<p class="text-sm text-foreground/50">
-						{$_.settings.customise_voices.tip}
-					</p>
+					<section>
 
-					<div class="flex flex-col gap-2">
-						{#each LivingLanguages as lang}
-							{@const names = $voices.filter(v => v.lang == lang).map(v => v.name)}
-							{@const value = newSettings.PreferredVoice[lang]}
+						<p class="text-sm text-foreground/50">
+							{$_.settings.customise_voices.tip}
+						</p>
 
-							<div class="flex flex-col gap-1">
+						<div class="flex flex-col gap-2">
+							{#each LivingLanguages as lang}
+								{@const names = $voices.filter(v => v.lang == lang).map(v => v.name)}
+								{@const value = newSettings.PreferredVoice[lang]}
 
-								<div class="flex items-center">
-									<Checkbox
-										id="set-preferred-voice-{lang}"
-										checked={newSettings.PreferredVoice[lang] != null}
-										disabled={value == null && names.length == 0}
-										onCheckedChange={c => {
-										newSettings.PreferredVoice[lang] = c ? names[0] : null
-										UpdateSettings()
-									}}
-									/>
-									<Label class="pl-3" for="set-preferred-voice-{lang}" {lang}>
-										{_Language(lang)}
-									</Label>
+								<div class="flex flex-col gap-1">
+
+									<div class="flex items-center">
+										<Checkbox
+											id="set-preferred-voice-{lang}"
+											checked={newSettings.PreferredVoice[lang] != null}
+											disabled={value == null && names.length == 0}
+											onCheckedChange={c => {
+											newSettings.PreferredVoice[lang] = c ? names[0] : null
+											UpdateSettings()
+										}}
+										/>
+										<Label class="pl-3" for="set-preferred-voice-{lang}" {lang}>
+											{_Language(lang)}
+										</Label>
+									</div>
+
+									{#if value != null}
+										<Select.Root {value} type="single" onValueChange={v => {
+											newSettings.PreferredVoice[lang] = v
+											UpdateSettings()
+										}}>
+
+											<Select.Trigger>{value}</Select.Trigger>
+
+											<Select.Content>
+												{#each new Set([...names, value]) as name}
+													<Select.Item value={name}>
+														{name}
+													</Select.Item>
+												{/each}
+											</Select.Content>
+
+										</Select.Root>
+									{/if}
+
 								</div>
+							{/each}
+						</div>
 
-								{#if value != null}
-									<Select.Root {value} type="single" onValueChange={v => {
-										newSettings.PreferredVoice[lang] = v
-										UpdateSettings()
-									}}>
-
-										<Select.Trigger>{value}</Select.Trigger>
-
-										<Select.Content>
-											{#each new Set([...names, value]) as name}
-												<Select.Item value={name}>
-													{name}
-												</Select.Item>
-											{/each}
-										</Select.Content>
-
-									</Select.Root>
-								{/if}
-
-							</div>
-						{/each}
-					</div>
+					</section>
 
 				</article>
 
@@ -442,10 +433,6 @@
 <style lang="postcss">
 	@reference "tailwindcss";
 
-	main > section > header {
-		@apply font-bold;
-	}
-
 	main {
 		@apply flex flex-col gap-4;
 
@@ -453,18 +440,18 @@
 			@apply flex flex-col gap-2;
 
 			& > header {
-				@apply text-xl font-bold;
-
-				background: var(--background);
+				@apply ml-3 text-lg font-bold;
 			}
 
 			& > article {
 
 				& > header {
-					@apply font-bold;
+					@apply ml-3 mb-1 text-sm uppercase;
 				}
 
-				@apply flex flex-col gap-2;
+				& > section {
+					@apply p-3 bg-white dark:bg-white/8 shadow rounded-lg flex flex-col gap-2;
+				}
 			}
 		}
 	}

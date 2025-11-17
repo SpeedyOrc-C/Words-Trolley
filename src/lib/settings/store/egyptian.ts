@@ -1,5 +1,6 @@
 import {settings} from "$lib/settings/store"
-import {Phoneme} from "$lib/word/egyptian"
+import {Equal} from "$lib/utils"
+import {Phoneme, PhonemeEqual_FuzzySs, PhonemeStringEqual_FuzzySs} from "$lib/word/egyptian"
 import
 {
 	Punctuation,
@@ -51,3 +52,20 @@ export const preferredSentenceTransliterationDumperForEdit =
 
 export const egyptianTransliterationSampleTextForEdit =
 	derived(preferredSentenceTransliterationDumperForEdit, f => f(sampleText))
+
+export const egyptianSoundChanger = derived(settings, s =>
+{
+	const z2s = s.Egyptian.FuzzySZ
+
+	if (!z2s)
+		return (p: Phoneme | Punctuation) => p
+
+	return (p: Phoneme | Punctuation) =>
+	{
+		if (p === Phoneme.z)
+			return Phoneme.s
+		return p
+	}
+})
+
+export const preferredPhonemeEqual = derived(settings, s => s.Egyptian.FuzzySZ ? PhonemeEqual_FuzzySs : Equal)

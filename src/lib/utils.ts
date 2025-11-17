@@ -74,6 +74,11 @@ export function ParseSep<A>(parseItem: Parser<A>, parseSep: Parser<unknown>): Pa
 		)
 }
 
+export function Equal<A>(a: A, b: A): boolean
+{
+	return a === b
+}
+
 export function trace<A>(a: A): A
 {
 	console.log(a)

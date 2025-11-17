@@ -142,7 +142,7 @@
       <Item.Root variant="outline">
          {#snippet child({props})}
             <a href="/tool/egyptian/transliteration-converter" {...props} tabindex={0}>
-               <Item.Media class="font-egy-trans text-2xl">
+               <Item.Media class="text-2xl">
                   <span>A ꜣ</span>
                </Item.Media>
                <Item.Content>

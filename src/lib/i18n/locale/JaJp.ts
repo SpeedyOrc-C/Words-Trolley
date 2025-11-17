@@ -114,6 +114,7 @@ export const JaJp: I18nTemplate = {
 			_: "エジプト語",
 			transliteration_scheme: {
 				_: "翻字方式",
+				fuzzy_sz: "音変化：/z/ を /s/ に",
 				when_read: "閲覧時",
 				when_edit: "編集時",
 			},
@@ -267,7 +268,7 @@ export const JaJp: I18nTemplate = {
 		neutral: "中性",
 		verb: "動詞",
 		verb_group: "動詞グループ",
-		pinyin: "ピンイン",
+		pinyin: "拼音",
 		bopomofo: "注音符号",
 		transliteration: "翻字",
 		abbr: {
@@ -296,6 +297,8 @@ export const JaJp: I18nTemplate = {
 		egyptology: "エジプト学",
 		transliteration: {
 			gardiner: "ガーディナー式",
+			chen: "陳式",
+			mdc: "Manuel de Codage 式",
 		},
 		typewriter: {
 			title: "ヒエログリフタイプライター",

@@ -26,7 +26,7 @@
 
          <Field.Field>
             <Field.Label for=mdc>
-               Manuel de Codage
+               {$_.egyptian.transliteration.mdc}
             </Field.Label>
             <InputEgyptianTransliteration class="text-xl" id=mdc
                bind:value scheme={EgyptianTransliteration.ManuelDeCodage}
@@ -35,7 +35,7 @@
 
          <Field.Field>
             <Field.Label for=chen>
-               陈
+               {$_.egyptian.transliteration.chen}
             </Field.Label>
             <InputEgyptianTransliteration class="text-xl" id=chen
                bind:value scheme={EgyptianTransliteration.Chen}

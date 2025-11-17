@@ -37,6 +37,7 @@
 	import ClipboardPaste from "@lucide/svelte/icons/clipboard-paste"
 	import Ellipsis from "@lucide/svelte/icons/ellipsis"
 	import Check from "@lucide/svelte/icons/check"
+	import {settings} from "$lib/settings/store"
 
 	type OperationState = "idle" | "column" | "row"
 
@@ -196,7 +197,7 @@
 		else
 		{
 			imeInputError = false
-			imeWords = CandidatesFromPhonemes(newImeInput)
+			imeWords = CandidatesFromPhonemes(newImeInput, $settings.Egyptian.FuzzySZ)
 		}
 	}
 
@@ -295,7 +296,7 @@
 	{#if editing}
 
 		<div
-			class="p-2 inline-flex flex-wrap rounded-md"
+			class="p-2 inline-flex flex-wrap rounded-md overflow-clip"
 			class:outline-1={!hideInputBorder}
 			style:color
 			style:gap="{height * 0.1}px 0"
@@ -327,7 +328,7 @@
 
 		<!-- TODO)) Magic number 0.1  -->
 		<div
-			class="inline-flex flex-wrap"
+			class="inline-flex flex-wrap overflow-hidden"
 			style:color
 			style:min-height="{height}px"
 			style:gap="{height * 0.1}px"

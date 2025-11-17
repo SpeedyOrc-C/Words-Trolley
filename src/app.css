@@ -117,7 +117,8 @@
     }
 
     body {
-        @apply bg-background text-foreground font-serif;
+        @apply bg-background text-foreground;
+        font-family: -apple-system-ui-serif, ui-serif, CharisW, serif;
     }
 }
 
@@ -178,8 +179,4 @@
     font-weight: 700;
     font-style: italic;
     src: url(/font/Charis-BoldItalic.woff2);
-}
-
-.font-egy-trans {
-    font-family: -apple-system-ui-serif, ui-serif, CharisW, serif;
 }

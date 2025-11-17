@@ -62,7 +62,7 @@
 						<T.Cell class="text-3xl text-center">
 							<EgyptianText t={[g(phoneme)]}/>
 						</T.Cell>
-						<T.Cell class="text-3xl text-center font-egy-trans">
+						<T.Cell class="text-3xl text-center">
 							{Phoneme2Egyptology[phoneme]}
 						</T.Cell>
 					</T.Row>
@@ -84,7 +84,7 @@
 						<T.Cell class="text-3xl text-center">
 							<EgyptianText t={[g(phoneme)]}/>
 						</T.Cell>
-						<T.Cell class="text-3xl text-center font-egy-trans">
+						<T.Cell class="text-3xl text-center">
 							{Phoneme2Egyptology[phoneme]}
 						</T.Cell>
 					</T.Row>

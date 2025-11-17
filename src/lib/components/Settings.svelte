@@ -10,13 +10,15 @@
 	import {Switch} from "$lib/components/ui/switch"
 	import {Label} from "$lib/components/ui/label"
 	import {settings} from "$lib/settings/store"
-	import {egyptianTransliterationSampleTextForRead, egyptianTransliterationSampleTextForEdit} from "$lib/settings/store/egyptian"
+	import {egyptianTransliterationSampleTextForRead, egyptianTransliterationSampleTextForEdit, preferredSentenceTransliterationDumperForRead, egyptianSoundChanger} from "$lib/settings/store/egyptian"
 	import {mandarinSpellingSampleText} from "$lib/settings/store/mandarin"
 	import Languages from "@lucide/svelte/icons/languages"
 	import {voices} from "$lib/speak"
 	import {Checkbox} from "$lib/components/ui/checkbox"
 	import {g, v, h} from "$lib/word/egyptian/hieroglyphs"
 	import Settings from "@lucide/svelte/icons/settings"
+	import {Phoneme} from "$lib/word/egyptian"
+	import SettingSubList from "./ui/setting/SettingSubList.svelte"
 
 	let {open = $bindable(false)}: { open: boolean } = $props()
 	let newSettings = $state($settings)
@@ -60,9 +62,9 @@
 		switch (t)
 		{
 		case EgyptianTransliteration.ManuelDeCodage:
-			return "Manuel de Codage"
+			return $_.egyptian.transliteration.mdc
 		case EgyptianTransliteration.Chen:
-			return "陈"
+			return $_.egyptian.transliteration.chen
 		case EgyptianTransliteration.Wiktionary:
 			return $_.wiktionary
 		case EgyptianTransliteration.Egyptology:
@@ -112,7 +114,7 @@
 
 				<article>
 
-					<section>
+					<SettingSubList>
 
 						<div class="flex justify-between gap-2 flex-wrap">
 							<Label>{$_.settings.ui_language}</Label>
@@ -142,7 +144,7 @@
 
 							</Select.Root>
 						</div>
-					</section>
+					</SettingSubList>
 
 				</article>
 
@@ -150,7 +152,7 @@
 
 					<header>{$_.settings.learning._}</header>
 
-					<section class="flex flex-col gap-2">
+					<SettingSubList>
 
 						<div class="flex items-center justify-between gap-2">
 							<Label for="set-show-meaning-and-word-at-the-same-time">
@@ -174,7 +176,7 @@
 							/>
 						</div>
 
-					</section>
+					</SettingSubList>
 
 				</article>
 
@@ -184,7 +186,7 @@
 						{$_.settings.editor._}
 					</header>
 
-					<section>
+					<SettingSubList>
 						<div class="flex items-center justify-between gap-2">
 							<Label for="set-autosave">
 								{$_.settings.editor.autosave}
@@ -194,7 +196,7 @@
 								id="set-autosave"
 							/>
 						</div>
-					</section>
+					</SettingSubList>
 
 				</article>
 
@@ -208,7 +210,7 @@
 
 				<article>
 
-					<section>
+					<SettingSubList>
 
 						<div class="flex justify-between gap-2">
 							<Label>{$_.settings.mandarin.spelling_scheme}</Label>
@@ -234,7 +236,7 @@
 							{$mandarinSpellingSampleText}
 						</div>
 
-					</section>
+					</SettingSubList>
 
 				</article>
 
@@ -248,7 +250,7 @@
 
 				<article>
 
-					<section>
+					<SettingSubList>
 
 						<div class="flex justify-between gap-2">
 							<Label>{$_.settings.hieroglyphs_style._}</Label>
@@ -275,7 +277,7 @@
 							<EgyptianText t={[h(v(g("𓂋"), g("𓏤"), g("𓈖")), h(g("𓆎"), g("𓅓"), v(g("𓏏"), g("𓊖"))))]}/>
 						</div>
 
-					</section>
+					</SettingSubList>
 
 				</article>
 
@@ -285,7 +287,41 @@
 						{$_.settings.egyptian.transliteration_scheme._}
 					</header>
 
-					<section>
+					<SettingSubList>
+
+						<div class="flex justify-between gap-2">
+							<Label for="set-fuzzy-sz">{$_.settings.egyptian.transliteration_scheme.fuzzy_sz}</Label>
+							<Switch bind:checked={newSettings.Egyptian.FuzzySZ} id="set-fuzzy-sz" />
+						</div>
+
+						<div class="inline-flex justify-evenly gap-4">
+							<span class="flex gap-2 items-center">
+								<span style:font-size="2rem">
+									<EgyptianText t={[v(g("𓊃"), h(g("𓀀"), g("𓏤")))]}/>
+								</span>
+								<span class="text-2xl">
+									{$preferredSentenceTransliterationDumperForRead([Phoneme.z].map($egyptianSoundChanger))}
+								</span>
+							</span>
+							<span class="flex gap-2 items-center">
+								<span style:font-size="2rem">
+									<EgyptianText t={[g("𓅭")]}/>
+								</span>
+								<span class="text-2xl">
+									{$preferredSentenceTransliterationDumperForRead([Phoneme.z, Phoneme.a].map($egyptianSoundChanger))}
+								</span>
+							</span>
+							<span class="flex gap-2 items-center">
+								<span style:font-size="2rem">
+									<EgyptianText t={[g("𓏞")]}/>
+								</span>
+								<span class="text-2xl">
+									{$preferredSentenceTransliterationDumperForRead([Phoneme.z, Phoneme.S].map($egyptianSoundChanger))}
+								</span>
+							</span>
+						</div>
+
+						<Separator/>
 
 						<div class="flex justify-between gap-2">
 							<Label>{$_.settings.egyptian.transliteration_scheme.when_read}</Label>
@@ -318,7 +354,7 @@
 							</Select.Root>
 						</div>
 
-						<div class="text-2xl text-center font-egy-trans">
+						<div class="text-2xl text-center">
 							{$egyptianTransliterationSampleTextForRead}
 						</div>
 
@@ -356,11 +392,11 @@
 						</div>
 
 
-						<div class="text-2xl text-center font-egy-trans">
+						<div class="text-2xl text-center">
 							{$egyptianTransliterationSampleTextForEdit}
 						</div>
 
-					</section>
+					</SettingSubList>
 
 				</article>
 
@@ -374,7 +410,7 @@
 
 					<header>{$_.settings.customise_voices._}</header>
 
-					<section>
+					<SettingSubList>
 
 						<p class="text-sm text-foreground/50">
 							{$_.settings.customise_voices.tip}
@@ -425,7 +461,7 @@
 							{/each}
 						</div>
 
-					</section>
+					</SettingSubList>
 
 				</article>
 
@@ -441,6 +477,7 @@
 
 <style lang="postcss">
 	@reference "tailwindcss";
+	@import "../../../app.css";
 
 	main {
 		@apply flex flex-col gap-4;
@@ -456,10 +493,6 @@
 
 				& > header {
 					@apply ml-3 mb-1 text-sm uppercase;
-				}
-
-				& > section {
-					@apply p-3 bg-white dark:bg-white/8 shadow rounded-lg flex flex-col gap-2;
 				}
 			}
 		}

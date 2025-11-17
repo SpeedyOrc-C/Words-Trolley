@@ -114,6 +114,7 @@ const EnGb: I18nTemplate = {
 			_: "Egyptian",
 			transliteration_scheme: {
 				_: "Transliteration Scheme",
+				fuzzy_sz: "Sound change: /z/ becomes /s/",
 				when_read: "When reading",
 				when_edit: "When editing",
 			},
@@ -296,6 +297,8 @@ const EnGb: I18nTemplate = {
 		egyptology: "Egyptology",
 		transliteration: {
 			gardiner: "Gardiner",
+			chen: "Chen",
+			mdc: "Manuel de Codage",
 		},
 		typewriter: {
 			title: "Egyptian Hieroglyphs Typewriter",

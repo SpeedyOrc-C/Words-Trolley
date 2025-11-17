@@ -60,7 +60,7 @@
 	autocorrect="off"
 	{autofocus}
 	bind:ref={input}
-	class="font-egy-trans {_class}"
+	class={_class}
 	{disabled}
 	{id}
 	{oninput}

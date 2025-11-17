@@ -11,7 +11,7 @@
 		showMeaningWhileLearning,
 		showPronunciation,
 	} from "$lib/settings/store"
-	import {preferredSentenceTransliterationDumperForRead} from "$lib/settings/store/egyptian"
+	import {egyptianSoundChanger, preferredSentenceTransliterationDumperForRead} from "$lib/settings/store/egyptian"
 	import {French, German} from "$lib/word"
 	import {BopomofoStrict, type ISyllable, Pinyin} from "$lib/word/mandarin"
 	import {MandarinScript} from "$lib/settings"
@@ -201,8 +201,8 @@
 
 				<div class="flex flex-col items-center gap-4" lang="egy">
 					{#if $showPronunciation}
-						<div class="font-egy-trans text-3xl">
-							{$preferredSentenceTransliterationDumperForRead(word.trans)}
+						<div class="text-3xl">
+							{$preferredSentenceTransliterationDumperForRead(word.trans.map($egyptianSoundChanger))}
 						</div>
 					{/if}
 					<div class="text-5xl">

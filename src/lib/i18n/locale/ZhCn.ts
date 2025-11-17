@@ -114,6 +114,7 @@ const ZhCn: I18nTemplate = {
 			_: "埃及语",
 			transliteration_scheme: {
 				_: "转写方案",
+				fuzzy_sz: "音变：/z/ 归入 /s/",
 				when_read: "阅读时",
 				when_edit: "编辑时",
 			},
@@ -295,7 +296,9 @@ const ZhCn: I18nTemplate = {
 		identity: "音形如一",
 		egyptology: "埃及学",
 		transliteration: {
-			gardiner: "高德纳",
+			gardiner: "高德纳（Gardiner）",
+			chen: "陈",
+			mdc: "编码手册（MdC）",
 		},
 		typewriter: {
 			title: "圣书字打字机",

@@ -18,6 +18,7 @@ export interface ISettings
 		HieroglyphsFont: HieroglyphsFont
 		TransliterationForRead: EgyptianTransliteration
 		TransliterationForEdit: EgyptianTransliteration
+		FuzzySZ: boolean
 	}
 	PreferredVoice: Record<LivingLanguage, string | null>
 }
@@ -56,6 +57,7 @@ export const defaultSettings: ISettings = {
 		HieroglyphsFont: HieroglyphsFont.NewGardiner,
 		TransliterationForRead: EgyptianTransliteration.Egyptology,
 		TransliterationForEdit: EgyptianTransliteration.ManuelDeCodage,
+		FuzzySZ: false,
 	},
 	PreferredVoice: {
 		[Language.ZhCn]: null,
@@ -180,6 +182,13 @@ export function ParseSettings(x: unknown): ISettings
 		}
 		else
 			WarnCannotFind("Egyptian.TransliterationForEdit")
+
+		if ("FuzzySZ" in y && typeof y.FuzzySZ == "boolean")
+		{
+			settings.Egyptian.FuzzySZ = y.FuzzySZ
+		}
+		else
+			WarnCannotFind("Egyptian.FuzzySZ")
 	}
 	else
 		WarnCannotFind("Egyptian")

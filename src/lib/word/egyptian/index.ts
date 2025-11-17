@@ -1,6 +1,6 @@
 import {g, h, v, type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
 import {WordType} from "$lib/word/types"
-import type {SentenceTransliteration} from "$lib/word/egyptian/transliteration"
+import type {Punctuation, SentenceTransliteration} from "$lib/word/egyptian/transliteration"
 
 export enum Phoneme
 {
@@ -31,9 +31,23 @@ export enum Phoneme
 	j = "𓆓",
 }
 
-export function PhonemeEqual_BlurrySZ(a: string, b: string): boolean
+export function PhonemeStringEqual_FuzzySs(a: string, b: string): boolean
 {
 	return a.replaceAll(Phoneme.z, Phoneme.s) == b.replaceAll(Phoneme.z, Phoneme.s)
+}
+
+export function PhonemeEqual_FuzzySs(a: Phoneme | Punctuation, b: Phoneme | Punctuation): boolean
+{
+	if (a == b)
+		return true
+
+	if (a == Phoneme.s && b == Phoneme.z)
+		return true
+
+	if (a == Phoneme.z && b == Phoneme.s)
+		return true
+
+	return false
 }
 
 export type Word = {

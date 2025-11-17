@@ -115,6 +115,7 @@ export type I18nTemplate = {
 			_: s
 			transliteration_scheme: {
 				_: s
+				fuzzy_sz: s
 				when_read: s
 				when_edit: s
 			}
@@ -297,6 +298,8 @@ export type I18nTemplate = {
 		egyptology: s
 		transliteration: {
 			gardiner: s
+			chen: s
+			mdc: s
 		}
 		typewriter: {
 			title: s

@@ -2,6 +2,7 @@ import type {SupabaseClient} from "@supabase/supabase-js"
 import type {Database, Json} from "./database.types"
 import type {Language} from "./i18n/Language"
 import type {Word} from "./word"
+import {ValidateWords} from "./word/validate"
 
 export class Service
 {
@@ -121,7 +122,15 @@ class WordSet
          .eq("id", id)
          .single()
 
-      return error ?? data
+      if (error != null)
+         return error
+
+      const words = ValidateWords(data.words)
+
+      if (words instanceof TypeError)
+         return words
+
+      return {...data, words}
    }
 
    async Put(id: string, words: Word[])

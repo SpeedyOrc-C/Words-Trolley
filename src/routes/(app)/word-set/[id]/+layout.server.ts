@@ -1,31 +1,31 @@
-import {ValidateWords} from "$lib/word/validate"
 import {error} from "@sveltejs/kit"
 
-export async function load({locals: {service}, params: {id}, depends})
+export async function load({locals: {service}, params: {id}, depends, setHeaders})
 {
 	depends("supabase:db:sets")
 
 	const word_set = await service.WordSet.Get(id)
 
+	if (word_set instanceof TypeError)
+		error(409, `Cannot load until this erroneous word set is fixed. ${word_set.message}`)
+
 	if (word_set instanceof Error)
 		error(404)
 
-	const words = ValidateWords(word_set.words)
-
-	if (words instanceof TypeError)
-		error(409, `Cannot load until this erroneous word set is fixed. ${words.message}`)
-
 	const saved = await service.Save.Get(id)
 
+	setHeaders({
+		"cache-control": "private, max-age=3600, must-revalidate",
+	})
+
 	if (word_set.creator == null)
-		return {saved, word_set: {...word_set, words}}
+		return {saved, word_set}
 
 	const creator_profile = await service.Creator.Get(word_set.creator)
 
-
 	return {
 		saved,
-		word_set: {...word_set, words},
+		word_set,
 		creator_profile: creator_profile instanceof Error ? null : creator_profile
 	}
 }

@@ -96,11 +96,11 @@ const ZhCn: I18nTemplate = {
 	settings: {
 		_: "设置",
 		follows_your_system: "跟随系统",
-		ui_language: "界面语言",
+		ui_language: "语言",
 		learning: {
 			_: "学习",
-			show_meaning_and_word_at_the_same_time: "学习时同时显示单词及其意思",
-			show_pronunciation: "学习时显示发音",
+			show_meaning_in_the_front: "在正面显示单词意思",
+			show_pronunciation: "显示单词发音",
 		},
 		editor: {
 			_: "编辑器",
@@ -112,8 +112,11 @@ const ZhCn: I18nTemplate = {
 		},
 		egyptian: {
 			_: "埃及语",
-			transliteration_for_read: "阅读时的转写方案",
-			transliteration_for_edit: "编辑时的转写方案",
+			transliteration_scheme: {
+				_: "转写方案",
+				when_read: "阅读时",
+				when_edit: "编辑时",
+			},
 			hieroglyphs_font: "圣书字字体",
 		},
 		hieroglyphs_style: {
@@ -228,7 +231,6 @@ const ZhCn: I18nTemplate = {
 			extra_options: "额外选项",
 		},
 		hieroglyphs_editor: {
-			ime_buffer: "输入缓冲区",
 			move_cursor_left: "左移光标",
 			move_cursor_right: "右移光标",
 			backspace: "退格",

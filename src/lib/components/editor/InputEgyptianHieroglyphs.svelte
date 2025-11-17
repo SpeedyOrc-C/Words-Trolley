@@ -353,7 +353,6 @@
 			autocomplete="off"
 			autocorrect="off"
 			bind:value={imeInput}
-			name={$_.editor.hieroglyphs_editor.ime_buffer}
 			oninput={OnImeInput}
 			onkeydown={OnImeKeyDown}
 			placeholder={$_.linguistics.transliteration}

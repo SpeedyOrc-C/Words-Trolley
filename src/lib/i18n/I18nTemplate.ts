@@ -99,7 +99,7 @@ export type I18nTemplate = {
 		follows_your_system: s
 		learning: {
 			_: s
-			show_meaning_and_word_at_the_same_time: s
+			show_meaning_in_the_front: s
 			show_pronunciation: s
 		}
 		editor: {
@@ -113,8 +113,11 @@ export type I18nTemplate = {
 		ui_language: s
 		egyptian: {
 			_: s
-			transliteration_for_read: s
-			transliteration_for_edit: s
+			transliteration_scheme: {
+				_: s
+				when_read: s
+				when_edit: s
+			}
 			hieroglyphs_font: s
 		}
 		hieroglyphs_style: {
@@ -229,7 +232,6 @@ export type I18nTemplate = {
 			extra_options: s
 		}
 		hieroglyphs_editor: {
-			ime_buffer: s
 			move_cursor_left: s
 			move_cursor_right: s
 			backspace: s

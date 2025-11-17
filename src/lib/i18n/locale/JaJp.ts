@@ -96,11 +96,11 @@ export const JaJp: I18nTemplate = {
 	settings: {
 		_: "設定",
 		follows_your_system: "システム設定に従う",
-		ui_language: "UI 言語",
+		ui_language: "言語",
 		learning: {
 			_: "学習",
-			show_meaning_and_word_at_the_same_time: "学習時に単語と意味を同時に表示",
-			show_pronunciation: "学習時に発音を表示",
+			show_meaning_in_the_front: "正面に単語の意味を表示",
+			show_pronunciation: "単語の発音を表示",
 		},
 		editor: {
 			_: "エディター",
@@ -112,8 +112,11 @@ export const JaJp: I18nTemplate = {
 		},
 		egyptian: {
 			_: "エジプト語",
-			transliteration_for_read: "閲覧時の翻字方式",
-			transliteration_for_edit: "編集時の翻字方式",
+			transliteration_scheme: {
+				_: "翻字方式",
+				when_read: "閲覧時",
+				when_edit: "編集時",
+			},
 			hieroglyphs_font: "ヒエログリフのフォント",
 		},
 		hieroglyphs_style: {
@@ -228,7 +231,6 @@ export const JaJp: I18nTemplate = {
 			extra_options: "追加オプション",
 		},
 		hieroglyphs_editor: {
-			ime_buffer: "入力バッファ",
 			move_cursor_left: "カーソルを左へ",
 			move_cursor_right: "カーソルを右へ",
 			backspace: "バックスペース",

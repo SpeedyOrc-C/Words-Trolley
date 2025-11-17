@@ -154,13 +154,15 @@
 
 						<div class="flex items-center justify-between gap-2">
 							<Label for="set-show-meaning-and-word-at-the-same-time">
-								{$_.settings.learning.show_meaning_and_word_at_the_same_time}
+								{$_.settings.learning.show_meaning_in_the_front}
 							</Label>
 							<Switch
 								bind:checked={newSettings.Learning.ShowMeaningAndWordAtTheSameTime}
 								id="set-show-meaning-and-word-at-the-same-time"
 							/>
 						</div>
+
+						<Separator/>
 
 						<div class="flex items-center justify-between gap-2">
 							<Label for="set-show-pronunciation-above-words">
@@ -206,29 +208,32 @@
 
 				<article>
 
-					<header>{$_.settings.mandarin.spelling_scheme}</header>
-
 					<section>
-						<Select.Root bind:value={newSettings.MandarinScript} type="single">
 
-							<Select.Trigger>
-								{_MandarinScript(newSettings.MandarinScript)}
-							</Select.Trigger>
+						<div class="flex justify-between gap-2">
+							<Label>{$_.settings.mandarin.spelling_scheme}</Label>
+							<Select.Root bind:value={newSettings.MandarinScript} type="single">
 
-							<Select.Content>
-								<Select.Item value={MandarinScript.Pinyin}>
-									{$_.linguistics.pinyin}
-								</Select.Item>
-								<Select.Item value={MandarinScript.Bopomofo}>
-									{$_.linguistics.bopomofo}
-								</Select.Item>
-							</Select.Content>
+								<Select.Trigger>
+									{_MandarinScript(newSettings.MandarinScript)}
+								</Select.Trigger>
 
-						</Select.Root>
+								<Select.Content>
+									<Select.Item value={MandarinScript.Pinyin}>
+										{$_.linguistics.pinyin}
+									</Select.Item>
+									<Select.Item value={MandarinScript.Bopomofo}>
+										{$_.linguistics.bopomofo}
+									</Select.Item>
+								</Select.Content>
+
+							</Select.Root>
+						</div>
 
 						<div class="text-2xl text-center">
 							{$mandarinSpellingSampleText}
 						</div>
+
 					</section>
 
 				</article>
@@ -243,114 +248,116 @@
 
 				<article>
 
+					<section>
+
+						<div class="flex justify-between gap-2">
+							<Label>{$_.settings.hieroglyphs_style._}</Label>
+
+							<Select.Root bind:value={newSettings.Egyptian.HieroglyphsFont} type="single">
+
+								<Select.Trigger>
+									{_HieroglyphsFont(newSettings.Egyptian.HieroglyphsFont)}
+								</Select.Trigger>
+
+								<Select.Content>
+									<Select.Item value={HieroglyphsFont.NewGardiner}>
+										{$_.settings.hieroglyphs_style.sans_serif}
+									</Select.Item>
+									<Select.Item value={HieroglyphsFont.SemiessessiColourful}>
+										{$_.settings.hieroglyphs_style.colourful}
+									</Select.Item>
+								</Select.Content>
+
+							</Select.Root>
+						</div>
+
+						<div class="text-center" style="font-size: 2.5rem">
+							<EgyptianText t={[h(v(g("𓂋"), g("𓏤"), g("𓈖")), h(g("𓆎"), g("𓅓"), v(g("𓏏"), g("𓊖"))))]}/>
+						</div>
+
+					</section>
+
+				</article>
+
+				<article>
+
 					<header>
-						{$_.settings.egyptian.transliteration_for_read}
+						{$_.settings.egyptian.transliteration_scheme._}
 					</header>
 
 					<section>
 
-						<Select.Root bind:value={newSettings.Egyptian.TransliterationForRead} type="single">
+						<div class="flex justify-between gap-2">
+							<Label>{$_.settings.egyptian.transliteration_scheme.when_read}</Label>
 
-							<Select.Trigger>
-								{_EgyptianTransliteration(newSettings.Egyptian.TransliterationForRead)}
-							</Select.Trigger>
+							<Select.Root bind:value={newSettings.Egyptian.TransliterationForRead} type="single">
 
-							<Select.Content>
-								<Select.Item value={EgyptianTransliteration.Egyptology}>
-									{_EgyptianTransliteration(EgyptianTransliteration.Egyptology)}
-								</Select.Item>
-								<Select.Item value={EgyptianTransliteration.Wiktionary}>
-									{_EgyptianTransliteration(EgyptianTransliteration.Wiktionary)}
-								</Select.Item>
-								<Select.Separator/>
-								<Select.Group>
-									<Select.Label>ASCII</Select.Label>
-									<Select.Item value={EgyptianTransliteration.ManuelDeCodage}>
-										{_EgyptianTransliteration(EgyptianTransliteration.ManuelDeCodage)}
+								<Select.Trigger>
+									{_EgyptianTransliteration(newSettings.Egyptian.TransliterationForRead)}
+								</Select.Trigger>
+
+								<Select.Content>
+									<Select.Item value={EgyptianTransliteration.Egyptology}>
+										{_EgyptianTransliteration(EgyptianTransliteration.Egyptology)}
 									</Select.Item>
-									<Select.Item value={EgyptianTransliteration.Chen}>
-										{_EgyptianTransliteration(EgyptianTransliteration.Chen)}
+									<Select.Item value={EgyptianTransliteration.Wiktionary}>
+										{_EgyptianTransliteration(EgyptianTransliteration.Wiktionary)}
 									</Select.Item>
-								</Select.Group>
-							</Select.Content>
+									<Select.Separator/>
+									<Select.Group>
+										<Select.Label>ASCII</Select.Label>
+										<Select.Item value={EgyptianTransliteration.ManuelDeCodage}>
+											{_EgyptianTransliteration(EgyptianTransliteration.ManuelDeCodage)}
+										</Select.Item>
+										<Select.Item value={EgyptianTransliteration.Chen}>
+											{_EgyptianTransliteration(EgyptianTransliteration.Chen)}
+										</Select.Item>
+									</Select.Group>
+								</Select.Content>
 
-						</Select.Root>
+							</Select.Root>
+						</div>
 
 						<div class="text-2xl text-center font-egy-trans">
 							{$egyptianTransliterationSampleTextForRead}
 						</div>
 
-					</section>
+						<Separator/>
 
-				</article>
+						<div class="flex justify-between gap-2">
+							<Label>{$_.settings.egyptian.transliteration_scheme.when_edit}</Label>
 
-				<article>
+							<Select.Root bind:value={newSettings.Egyptian.TransliterationForEdit} type="single">
 
-					<header>
-						{$_.settings.egyptian.transliteration_for_edit}
-					</header>
+								<Select.Trigger>
+									{_EgyptianTransliteration(newSettings.Egyptian.TransliterationForEdit)}
+								</Select.Trigger>
 
-					<section>
-
-						<Select.Root bind:value={newSettings.Egyptian.TransliterationForEdit} type="single">
-
-							<Select.Trigger>
-								{_EgyptianTransliteration(newSettings.Egyptian.TransliterationForEdit)}
-							</Select.Trigger>
-
-							<Select.Content>
-								<Select.Group>
-									<Select.Label>ASCII</Select.Label>
-									<Select.Item value={EgyptianTransliteration.ManuelDeCodage}>
-										{_EgyptianTransliteration(EgyptianTransliteration.ManuelDeCodage)}
+								<Select.Content>
+									<Select.Group>
+										<Select.Label>ASCII</Select.Label>
+										<Select.Item value={EgyptianTransliteration.ManuelDeCodage}>
+											{_EgyptianTransliteration(EgyptianTransliteration.ManuelDeCodage)}
+										</Select.Item>
+										<Select.Item value={EgyptianTransliteration.Chen}>
+											{_EgyptianTransliteration(EgyptianTransliteration.Chen)}
+										</Select.Item>
+									</Select.Group>
+									<Select.Separator/>
+									<Select.Item value={EgyptianTransliteration.Egyptology}>
+										{_EgyptianTransliteration(EgyptianTransliteration.Egyptology)}
 									</Select.Item>
-									<Select.Item value={EgyptianTransliteration.Chen}>
-										{_EgyptianTransliteration(EgyptianTransliteration.Chen)}
+									<Select.Item value={EgyptianTransliteration.Wiktionary}>
+										{_EgyptianTransliteration(EgyptianTransliteration.Wiktionary)}
 									</Select.Item>
-								</Select.Group>
-								<Select.Separator/>
-								<Select.Item value={EgyptianTransliteration.Egyptology}>
-									{_EgyptianTransliteration(EgyptianTransliteration.Egyptology)}
-								</Select.Item>
-								<Select.Item value={EgyptianTransliteration.Wiktionary}>
-									{_EgyptianTransliteration(EgyptianTransliteration.Wiktionary)}
-								</Select.Item>
-							</Select.Content>
+								</Select.Content>
 
-						</Select.Root>
+							</Select.Root>
+						</div>
+
 
 						<div class="text-2xl text-center font-egy-trans">
 							{$egyptianTransliterationSampleTextForEdit}
-						</div>
-					</section>
-
-				</article>
-
-				<article>
-
-					<header>{$_.settings.hieroglyphs_style._}</header>
-
-					<section>
-
-						<Select.Root bind:value={newSettings.Egyptian.HieroglyphsFont} type="single">
-
-							<Select.Trigger>
-								{_HieroglyphsFont(newSettings.Egyptian.HieroglyphsFont)}
-							</Select.Trigger>
-
-							<Select.Content>
-								<Select.Item value={HieroglyphsFont.NewGardiner}>
-									{$_.settings.hieroglyphs_style.sans_serif}
-								</Select.Item>
-								<Select.Item value={HieroglyphsFont.SemiessessiColourful}>
-									{$_.settings.hieroglyphs_style.colourful}
-								</Select.Item>
-							</Select.Content>
-
-						</Select.Root>
-
-						<div class="text-center" style="font-size: 2.5rem">
-							<EgyptianText t={[h(v(g("𓂋"), g("𓏤"), g("𓈖")), h(g("𓆎"), g("𓅓"), v(g("𓏏"), g("𓊖"))))]}/>
 						</div>
 
 					</section>
@@ -426,6 +433,8 @@
 
 		</main>
 
+		<div class="h-4"></div>
+
 	</Dialog.Content>
 
 </Dialog.Root>
@@ -437,7 +446,7 @@
 		@apply flex flex-col gap-4;
 
 		& > section {
-			@apply flex flex-col gap-2;
+			@apply flex flex-col gap-4;
 
 			& > header {
 				@apply ml-3 text-lg font-bold;

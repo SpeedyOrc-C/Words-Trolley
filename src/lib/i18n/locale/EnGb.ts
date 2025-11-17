@@ -96,11 +96,11 @@ const EnGb: I18nTemplate = {
 	settings: {
 		_: "Settings",
 		follows_your_system: "Follows your system",
-		ui_language: "UI Language",
+		ui_language: "Language",
 		learning: {
 			_: "Learning",
-			show_meaning_and_word_at_the_same_time: "Show word and its meaning at the same time",
-			show_pronunciation: "Show pronunciation while learning",
+			show_meaning_in_the_front: "Show word’s meaning in the front",
+			show_pronunciation: "Show word’s pronunciation",
 		},
 		editor: {
 			_: "Editor",
@@ -112,8 +112,11 @@ const EnGb: I18nTemplate = {
 		},
 		egyptian: {
 			_: "Egyptian",
-			transliteration_for_read: "Transliteration Scheme for Reading",
-			transliteration_for_edit: "Transliteration Scheme for Editing",
+			transliteration_scheme: {
+				_: "Transliteration Scheme",
+				when_read: "When reading",
+				when_edit: "When editing",
+			},
 			hieroglyphs_font: "Hieroglyphs Font",
 		},
 		hieroglyphs_style: {
@@ -228,7 +231,6 @@ const EnGb: I18nTemplate = {
 			extra_options: "Extra options",
 		},
 		hieroglyphs_editor: {
-			ime_buffer: "IME Buffer",
 			move_cursor_left: "Move cursor left",
 			move_cursor_right: "Move cursor right",
 			backspace: "Backspace",

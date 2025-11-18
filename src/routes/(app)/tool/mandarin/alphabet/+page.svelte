@@ -46,7 +46,7 @@
    {t.inner.title}
 </header>
 
-<main class="mx-auto p-4 w-full">
+<main class="mx-auto p-4 max-w-4xl w-full">
 
    <div class="flex justify-around print:hidden">
       <Label>

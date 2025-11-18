@@ -477,7 +477,6 @@
 
 <style lang="postcss">
 	@reference "tailwindcss";
-	@import "../../../app.css";
 
 	main {
 		@apply flex flex-col gap-4;

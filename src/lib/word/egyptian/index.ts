@@ -56,4 +56,4 @@ export type Word = {
 	trans: SentenceTransliteration
 }
 
-export const ExampleWord = [h(v(g("𓂋"), g("𓏤"), g("𓈖")), h(g("𓆎"), g("𓅓"), v(g("𓏏"), g("𓊖"))))] as const
+export const ExampleWord = [v(g("𓂋"), g("𓏤"), g("𓈖")), h(g("𓆎"), g("𓅓"), v(g("𓏏"), g("𓊖")))] as const

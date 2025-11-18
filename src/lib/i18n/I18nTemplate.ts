@@ -45,6 +45,18 @@ export type I18nTemplate = {
 		}
 		mandarin: {
 			_: s
+			alphabet: {
+				_: s
+				description: s
+				inner: {
+					title: s
+					meta_description: s
+					initial: s
+					final: s
+					atomic: s
+					use_single_layer_ag: s
+				}
+			}
 			spelling_converter: {
 				_: s
 				description: s

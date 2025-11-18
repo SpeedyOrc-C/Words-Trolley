@@ -44,6 +44,18 @@ export const JaJp: I18nTemplate = {
 		},
       mandarin: {
          _: "現代中国語",
+			alphabet: {
+				_: "アルファベット",
+				description: "拼音の声母・韻母・声調・整体読み音節の表。",
+				inner: {
+					title: "現代中国語アルファベット",
+					meta_description: "現代中国語の拼音の声母・韻母・声調・整体読み音節の表。",
+					initial: "声母",
+					final: "韻母",
+					atomic: "整体読み音節",
+					use_single_layer_ag: "一層構造の a・g フォントを使う",
+				}
+			},
          spelling_converter: {
             _: "翻字変換",
             description: "拼音と注音の間で変換します。",

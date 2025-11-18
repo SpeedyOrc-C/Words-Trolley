@@ -61,6 +61,24 @@
 
       <Item.Root variant="outline">
          {#snippet child({props})}
+            <a href="/tool/mandarin/alphabet" {...props} tabindex={0}>
+               <Item.Media class="text-2xl">
+                  hàn
+               </Item.Media>
+               <Item.Content>
+                  <Item.Title>
+                     {$_.learning_resources.mandarin.alphabet._}
+                  </Item.Title>
+                  <Item.Description>
+                     {$_.learning_resources.mandarin.alphabet.description}
+                  </Item.Description>
+               </Item.Content>
+            </a>
+         {/snippet}
+      </Item.Root>
+
+      <Item.Root variant="outline">
+         {#snippet child({props})}
             <a href="/tool/mandarin/spelling-converter" {...props} tabindex={0}>
                <Item.Media class="text-2xl" aria-hidden>
                   aㄚ
@@ -86,6 +104,7 @@
       https://discoveringegypt.com/hieroglyphic-typewriter
       https://discoveringegypt.com/hieroglyphic-typewriter-chinese
       https://emojiuse.com/english-to-hieroglyphics
+      https://github.com/AndriiVal/hieroglyphic-name
       https://lingojam.com/HieroglyphicsTranslator
       https://lingojam.com/EnglishtoEgyptianHieroglyphics
       https://www.fromcairo.com/hieroglyphics.htm

@@ -44,6 +44,18 @@ const ZhCn: I18nTemplate = {
 		},
 		mandarin: {
 			_: "现代汉语",
+			alphabet: {
+				_: "拼音表",
+				description: "声母、韵母、声调与整体认读音节表。",
+				inner: {
+					title: "现代汉语拼音表",
+					meta_description: "现代汉语的声母、韵母、声调与整体认读音节表。",
+					initial: "声母",
+					final: "韵母",
+					atomic: "整体认读音节",
+					use_single_layer_ag: "使用单层 a 与 g 字体",
+				}
+			},
 			spelling_converter: {
 				_: "拼读转换器",
 				description: "在拼音和注音之间转换。",
@@ -296,9 +308,9 @@ const ZhCn: I18nTemplate = {
 		identity: "音形如一",
 		egyptology: "埃及学",
 		transliteration: {
-			gardiner: "高德纳（Gardiner）",
+			gardiner: "高德纳",
 			chen: "陈",
-			mdc: "编码手册（MdC）",
+			mdc: "Manuel de Codage",
 		},
 		typewriter: {
 			title: "圣书字打字机",

@@ -127,6 +127,14 @@
     src: url("/font/GardinerNeue.otf") format("opentype");
 }
 
+.font-pinyin {
+    font-family: CharisW, serif;
+
+    &.single-ag {
+        font-feature-settings: "ss01" on;
+    }
+}
+
 /* Charis Font */
 
 @font-face {

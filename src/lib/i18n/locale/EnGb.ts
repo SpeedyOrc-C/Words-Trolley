@@ -44,6 +44,18 @@ const EnGb: I18nTemplate = {
 		},
 		mandarin: {
 			_: "Mandarin",
+			alphabet: {
+				_: "Alphabet",
+				description: "Table of Pinyin initials, finals, tones, and whole syllables.",
+				inner: {
+					title: "Mandarin Alphabet",
+					meta_description: "Table of Mandarin Pinyin initials, finals, tones, and whole syllables.",
+					initial: "Initials",
+					final: "Finals",
+					atomic: "Whole syllables",
+					use_single_layer_ag: "Use single-storey a and g",
+				}
+			},
 			spelling_converter: {
 				_: "Spelling Converter",
 				description: "Convert between Pinyin and Bopomofo.",

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import "../app.css"
-	import {dev} from "$app/environment"
 	import {AutoDetectLanguage} from "$lib/i18n"
 	import {language} from "$lib/i18n/store"
 	import {ParseSettings} from "$lib/settings"
@@ -58,7 +57,6 @@
 				voices.set(speechSynthesis.getVoices())
 		}
 
-
 		return () =>
 		{
 			f1()
@@ -83,6 +81,12 @@
 </script>
 
 <svelte:window {onkeydown} {onlanguagechange}/>
+
+<svelte:head>
+	<meta name="google-site-verification" content="LgylSiIsanuhSU46lPG1N7luYA1a1b8Q0qcaoD8xdhM">
+	<meta name="msvalidate.01" content="6E969809D470884D99DD8C78AE56BBF7">
+	<link rel="manifest" href="/manifest.json">
+</svelte:head>
 
 <Settings bind:open={$settingsOpened}/>
 <Toaster position="bottom-right" richColors/>

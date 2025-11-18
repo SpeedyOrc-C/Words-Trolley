@@ -1,0 +1,12 @@
+{
+   "name": "Words Trolley",
+   "start_url": "/",
+   "display": "minimal-ui",
+   "icon": [
+      {
+         "src": "favicon.png",
+         "type": "image/png",
+         "sizes": "128x128"
+      }
+   ]
+}

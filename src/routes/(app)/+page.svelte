@@ -36,13 +36,11 @@
 
 <svelte:head>
 	<title>Words Trolley</title>
-	<meta name="google-site-verification" content="LgylSiIsanuhSU46lPG1N7luYA1a1b8Q0qcaoD8xdhM">
-	<meta name="msvalidate.01" content="6E969809D470884D99DD8C78AE56BBF7">
 </svelte:head>
 
 <header class="my-4 text-center text-2xl">
 
-	{#if data.user}
+	{#if data.user && navigator.onLine}
 
 		{$_.home.welcome_back}
 		<br>
@@ -60,12 +58,12 @@
 
 	<ButtonGroup orientation="vertical" class="w-full">
 
-		<Button href="/search" variant="outline" size="lg" tabindex={0}>
+		<Button disabled={! navigator.onLine} href="/search" variant="outline" size="lg" tabindex={0}>
 			<Search />
 			{$_.search}
 		</Button>
 
-		{#if data.user}
+		{#if data.user && navigator.onLine}
 
 			<Button href="/new" size="lg" variant="outline" tabindex={0}>
 				<Plus/>
@@ -92,7 +90,7 @@
 	</Button>
 
 	{#if data.user && data.profile}
-		<Button class="w-full" href="/profile" size="lg" variant="outline" tabindex={0}>
+		<Button disabled={! navigator.onLine} class="w-full" href="/profile" size="lg" variant="outline" tabindex={0}>
 			<User/>
 			{$_.my_profile._}
 		</Button>
@@ -107,14 +105,14 @@
 
 		{#if data.user}
 
-			<Button disabled={loading} onclick={SignOut} size="lg" variant="secondary" class="flex-1">
+			<Button disabled={loading || ! navigator.onLine} onclick={SignOut} size="lg" variant="secondary" class="flex-1">
 				<LogOut />
 				{$_.logout}
 			</Button>
 
 		{:else}
 
-			<Button href="/auth" size="lg" class="flex-1" tabindex={0}>
+			<Button disabled={! navigator.onLine} href="/auth" size="lg" class="flex-1" tabindex={0}>
 				<LogIn />
 				{$_.login_and_signup}
 			</Button>

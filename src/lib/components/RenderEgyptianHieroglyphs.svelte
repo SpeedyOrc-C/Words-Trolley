@@ -4,7 +4,6 @@
 
 	const verticalGap = 0.05
 	const horizontalGap = 0.1
-	const squashThreshold = 0.2
 
 	function PessimisticHeight([structure, arg]: Hieroglyphs): number
 	{
@@ -31,11 +30,11 @@
 		if (excess <= 0)
 			return heights
 
-		const cuttableHeights = heights.filter(h => h > squashThreshold)
+		const cuttableHeights = heights//.filter(h => h > squashThreshold)
 		const cuttableTotal = cuttableHeights.reduce((a, b) => a + b, 0)
 		const cuttableScale = 1 - excess / cuttableTotal
 
-		return heights.map(h => h > squashThreshold ? h * cuttableScale : h)
+		return heights.map(h => h * cuttableScale)
 	}
 </script>
 

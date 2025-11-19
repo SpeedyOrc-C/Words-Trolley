@@ -328,7 +328,7 @@
 
 		<!-- TODO)) Magic number 0.1  -->
 		<div
-			class="inline-flex flex-wrap overflow-hidden"
+			class="inline-flex flex-wrap overflow-hidden p-px"
 			style:color
 			style:min-height="{height}px"
 			style:gap="{height * 0.1}px"

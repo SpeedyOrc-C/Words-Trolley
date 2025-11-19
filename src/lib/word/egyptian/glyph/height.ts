@@ -1,5 +1,3 @@
-import Glyph from "$lib/word/egyptian/glyph"
-
 const UnicodeHeight: Record<number, number> = {
 	0x27E6: 1000,
 	0x27E7: 1000,

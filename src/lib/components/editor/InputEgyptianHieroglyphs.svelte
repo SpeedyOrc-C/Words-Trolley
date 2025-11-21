@@ -264,6 +264,14 @@
 		}
 	}
 
+	function OnClickImeWord(hie: Hieroglyphs)
+	{
+		Execute("insert", hie)
+		imeInput = ""
+		imeWords = []
+		imeInputError = false
+	}
+
 	function _InsertSymbolAtCursor(symbol: Hieroglyphs)
 	{
 		Execute("insert", symbol)
@@ -441,7 +449,7 @@
 			<div class="flex flex-wrap gap-1">
 				{#each imeWords as hie, i (hie)}
 					<Button
-						onclick={() => Execute("insert", hie)}
+						onclick={() => OnClickImeWord(hie)}
 						variant="ghost"
 						class="inline-flex items-center gap-4"
 					>

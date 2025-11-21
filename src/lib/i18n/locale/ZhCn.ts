@@ -92,7 +92,18 @@ const ZhCn: I18nTemplate = {
 					meta_description: "在不同的古埃及语转写方案之间进行转换的工具。"
 				}
 			}
-		}
+		},
+		tibetan: {
+			_: "藏语",
+			alphabet: {
+				_: "字母表",
+				description: "附带威利转写的字母表。",
+				inner: {
+					title: "藏语字母表",
+					meta_description: "附带威利转写的藏语字母表。",
+				}
+			}
+		},
 	},
 	onboarding: {
 		complete_your_profile: "完善您的个人资料",
@@ -283,6 +294,8 @@ const ZhCn: I18nTemplate = {
 		pinyin: "拼音",
 		bopomofo: "注音符号",
 		transliteration: "转写",
+		consonant: "辅音",
+		vowel: "元音",
 		abbr: {
 			masculine: "阳",
 			feminine: "阴",

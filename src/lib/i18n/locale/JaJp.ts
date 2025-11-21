@@ -30,7 +30,7 @@ export const JaJp: I18nTemplate = {
 	wiktionary: "Wiktionary",
 	learning_resources: {
 		_: "学習リソース",
-		meta_description: "さまざまな言語を学ぶためのリソース。",
+		meta_description: "様々な言語を学ぶためのリソース。",
 		japanese: {
 			_: "日本語",
 			alphabet: {
@@ -86,13 +86,24 @@ export const JaJp: I18nTemplate = {
 			},
 			transliteration_converter: {
 				_: "翻字変換",
-				description: "さまざまな翻字方式の間で変換します。",
+				description: "様々な翻字方式の間で変換します。",
 				inner: {
 					title: "エジプト語翻字変換",
-					meta_description: "異なる古代エジプト語の翻字方式の間で変換するツール。"
+					meta_description: "古代エジプト語の様々な翻字方式の間で変換するツール。"
 				}
 			}
-		}
+		},
+		tibetan: {
+			_: "チベット語",
+			alphabet: {
+				_: "アルファベット",
+				description: "ウィリー翻字付きのチベット文字表。",
+				inner: {
+					title: "チベット語アルファベット",
+					meta_description: "ウィリー翻字付きのチベット文字表。",
+				}
+			}
+		},
 	},
 	onboarding: {
 		complete_your_profile: "プロフィールを完成させましょう",
@@ -283,6 +294,8 @@ export const JaJp: I18nTemplate = {
 		pinyin: "拼音",
 		bopomofo: "注音符号",
 		transliteration: "翻字",
+		consonant: "子音",
+		vowel: "母音",
 		abbr: {
 			masculine: "男",
 			feminine: "女",

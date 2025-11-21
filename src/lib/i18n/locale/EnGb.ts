@@ -92,7 +92,18 @@ const EnGb: I18nTemplate = {
 					meta_description: "A tool for converting between different Ancient Egyptian transliteration schemes."
 				}
 			}
-		}
+		},
+		tibetan: {
+			_: "Tibetan",
+			alphabet: {
+				_: "Alphabet",
+				description: "Table of the Tibetan alphabet with Wylie transliteration.",
+				inner: {
+					title: "Tibetan Alphabet",
+					meta_description: "Table of the Tibetan alphabet with Wylie transliteration.",
+				}
+			}
+		},
 	},
 	onboarding: {
 		complete_your_profile: "Complete your profile",
@@ -283,6 +294,8 @@ const EnGb: I18nTemplate = {
 		pinyin: "Pinyin",
 		bopomofo: "Bopomofo",
 		transliteration: "Transliteration",
+		consonant: "Consonant",
+		vowel: "Vowel",
 		abbr: {
 			masculine: "m.",
 			feminine: "f.",

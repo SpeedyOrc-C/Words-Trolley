@@ -94,6 +94,17 @@ export type I18nTemplate = {
 				}
 			}
 		}
+		tibetan: {
+			_: s
+			alphabet: {
+				_: s
+				description: s
+				inner: {
+					title: s
+					meta_description: s
+				}
+			}
+		}
 	}
 	onboarding: {
 		complete_your_profile: s
@@ -284,6 +295,8 @@ export type I18nTemplate = {
 		pinyin: s
 		bopomofo: s
 		transliteration: s
+		consonant: s
+		vowel: s
 		abbr: {
 			masculine: s
 			feminine: s

@@ -178,6 +178,37 @@
 
    </section>
 
+   <section>
+
+      <header>
+         <span>
+            {$_.learning_resources.tibetan._}
+         </span>
+         <span class="text-muted-foreground" lang="bo">
+            བོད་སྐད
+         </span>
+      </header>
+
+      <Item.Root variant="outline">
+         {#snippet child({props})}
+            <a href="/tool/tibetan/alphabet" {...props} tabindex={0}>
+               <Item.Media class="text-3xl" aria-hidden>
+                  ཨ
+               </Item.Media>
+               <Item.Content>
+                  <Item.Title>
+                     {$_.learning_resources.tibetan.alphabet._}
+                  </Item.Title>
+                  <Item.Description>
+                     {$_.learning_resources.tibetan.alphabet.description}
+                  </Item.Description>
+               </Item.Content>
+            </a>
+         {/snippet}
+      </Item.Root>
+
+   </section>
+
 </main>
 
 <style lang="postcss">

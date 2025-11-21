@@ -25,6 +25,8 @@
 
 {@render children()}
 
+<div class="h-4"></div>
+
 <style>
    @media print {
       nav {

@@ -108,18 +108,18 @@
 				注意
 			</header>
 			<p>
-				/l/ 音用
+				<span class="phoneme">l</span> 音用
 				<span class="text-nowrap">
-					{@render P(Phoneme.n)} /n/ 或
-					{@render P(Phoneme.r)} /r/ 表示，
+					{@render P(Phoneme.n)} <span class="phoneme">n</span> 或
+					{@render P(Phoneme.r)} <span class="phoneme">r</span> 表示，
 				</span>
-				大概是因为字母表所基于的方言把 /l/ 合并进了 /n/ 或 /r/。
+				大概是因为字母表所基于的方言把 <span class="phoneme">l</span> 合并进了 <span class="phoneme">n</span> 或 <span class="phoneme">r</span>。
 			</p>
 			<p>
 				在僧侣体（行书）中，
 				<span class="text-nowrap">
-					{@render P(Phoneme.y)} /j/ 和
-					{@render P(Phoneme.w)} /w/
+					{@render P(Phoneme.y)} <span class="phoneme">j</span> 和
+					{@render P(Phoneme.w)} <span class="phoneme">w</span>
 				</span>
 				通常简写为
 				<span class="text-nowrap">
@@ -129,55 +129,55 @@
 				。
 			</p>
 			<p>
-				如果 /j/ 音在词首，或在重读元音后面，则会写作
+				如果 <span class="phoneme">j</span> 音在词首，或在重读元音后面，则会写作
 				<EgyptianText t={[g(Phoneme.i)]}/>。
 			</p>
 			<p>
-				如果 /j/ 音在重读元音前面，则会写作
+				如果 <span class="phoneme">j</span> 音在重读元音前面，则会写作
 				<EgyptianText t={[g(Phoneme.y)]}/>。
 			</p>
 			<p>
 				在中古埃及语中，
-				<EgyptianText t={[g(Phoneme.z)]}/> /z/
-				的发音变成了 /s/，因此
+				<EgyptianText t={[g(Phoneme.z)]}/> <span class="phoneme">z</span>
+				的发音变成了 <span class="phoneme">s</span>，因此
 				<span class="text-nowrap">
 					<EgyptianText t={[g(Phoneme.s)]}/> 和
 					<EgyptianText t={[g(Phoneme.z)]}/>
 				</span>
 				可以互换使用。
 				<EgyptianText t={[g(Phoneme.i)]}/>
-				的发音也变成了 /ʔ/。
+				的发音也变成了 <span class="phoneme">ʔ</span>。
 			</p>
 			<p>
 				在晚期埃及语中，除了
-				<EgyptianText t={[g(Phoneme.i)]}/> /j/
+				<EgyptianText t={[g(Phoneme.i)]}/> <span class="phoneme">j</span>
 				，还有
 				<span class="text-nowrap">
-					<EgyptianText t={[g(Phoneme.t)]}/> /t/、
-					<EgyptianText t={[g(Phoneme.r)]}/> /r/、和
-					<EgyptianText t={[g(Phoneme.w)]}/> /w/
+					<EgyptianText t={[g(Phoneme.t)]}/> <span class="phoneme">t</span>、
+					<EgyptianText t={[g(Phoneme.r)]}/> <span class="phoneme">r</span>、和
+					<EgyptianText t={[g(Phoneme.w)]}/> <span class="phoneme">w</span>
 				</span>
-				在重读元音后面都变成了 /ʔ/。
+				在重读元音后面都变成了 <span class="phoneme">ʔ</span>。
 				<span class="text-nowrap">
-					<EgyptianText t={[g(Phoneme.c)]}/> /c/ 和
-					<EgyptianText t={[g(Phoneme.j)]}/> /ɟ/
+					<EgyptianText t={[g(Phoneme.c)]}/> <span class="phoneme">c</span> 和
+					<EgyptianText t={[g(Phoneme.j)]}/> <span class="phoneme">ɟ</span>
 				</span>
 				经常被合并到
 				<span class="text-nowrap">
-					<EgyptianText t={[g(Phoneme.t)]}/> /t/ 和
-					<EgyptianText t={[g(Phoneme.d)]}/> /d/
+					<EgyptianText t={[g(Phoneme.t)]}/> <span class="phoneme">t</span> 和
+					<EgyptianText t={[g(Phoneme.d)]}/> <span class="phoneme">d</span>
 				</span>
 				中。
 				<span class="text-nowrap">
-					<EgyptianText t={[g(Phoneme.d)]}/> /d/、
-					<EgyptianText t={[g(Phoneme.j)]}/> /ɟ/、和
-					<EgyptianText t={[g(Phoneme.g)]}/> /g/
+					<EgyptianText t={[g(Phoneme.d)]}/> <span class="phoneme">d</span>、
+					<EgyptianText t={[g(Phoneme.j)]}/> <span class="phoneme">ɟ</span>、和
+					<EgyptianText t={[g(Phoneme.g)]}/> <span class="phoneme">g</span>
 				</span>
 				逐渐被合并到
 				<span class="text-nowrap">
-					<EgyptianText t={[g(Phoneme.t)]}/> /t/、
-					<EgyptianText t={[g(Phoneme.c)]}/> /c/、和
-					<EgyptianText t={[g(Phoneme.k)]}/> /k/
+					<EgyptianText t={[g(Phoneme.t)]}/> <span class="phoneme">t</span>、
+					<EgyptianText t={[g(Phoneme.c)]}/> <span class="phoneme">c</span>、和
+					<EgyptianText t={[g(Phoneme.k)]}/> <span class="phoneme">k</span>
 				</span>
 				中。
 			</p>
@@ -187,19 +187,19 @@
 				Note
 			</header>
 			<p>
-				Sound /l/ is written as either
+				Sound <span class="phoneme">l</span> is written as either
 				<span class="text-nowrap">
-					<EgyptianText t={[g(Phoneme.n)]}/> /n/ or
-					<EgyptianText t={[g(Phoneme.r)]}/> /r/,
+					<EgyptianText t={[g(Phoneme.n)]}/> <span class="phoneme">n</span> or
+					<EgyptianText t={[g(Phoneme.r)]}/> <span class="phoneme">r</span>,
 				</span>
 				probably because the alphabet was created based on a dialect
-				whose /l/ was merged into /n/ or /r/.
+				whose <span class="phoneme">l</span> was merged into <span class="phoneme">n</span> or <span class="phoneme">r</span>.
 			</p>
 			<p>
 				In hieratic script,
 				<span class="text-nowrap">
-					<EgyptianText t={[g(Phoneme.y)]}/> /j/ and
-					<EgyptianText t={[g(Phoneme.w)]}/> /w/
+					<EgyptianText t={[g(Phoneme.y)]}/> <span class="phoneme">j</span> and
+					<EgyptianText t={[g(Phoneme.w)]}/> <span class="phoneme">w</span>
 				</span>
 				are usually abbreviated as
 				<span class="text-nowrap">
@@ -209,55 +209,55 @@
 				respectively.
 			</p>
 			<p>
-				<EgyptianText t={[g(Phoneme.i)]}/> will be written if the /j/ sound
+				<EgyptianText t={[g(Phoneme.i)]}/> will be written if the <span class="phoneme">j</span> sound
 				is at the beginning of a word, or it’s after a stressed vowel.
 			</p>
 			<p>
-				<EgyptianText t={[g(Phoneme.y)]}/> will be written if the /j/ sound
+				<EgyptianText t={[g(Phoneme.y)]}/> will be written if the <span class="phoneme">j</span> sound
 				is before a stressed vowel.
 			</p>
 			<p>
 				In Middle Egyptian, pronunciation of
-				<EgyptianText t={[g(Phoneme.z)]}/> /z/
-				became /s/, so that
+				<EgyptianText t={[g(Phoneme.z)]}/> <span class="phoneme">z</span>
+				became <span class="phoneme">s</span>, so that
 				<span class="text-nowrap">
 					<EgyptianText t={[g(Phoneme.s)]}/> and
 					<EgyptianText t={[g(Phoneme.z)]}/>
 				</span>
 				can be used interchangeably. Pronunciation of
 				<EgyptianText t={[g(Phoneme.i)]}/>
-				became /ʔ/ as well.
+				became <span class="phoneme">ʔ</span> as well.
 			</p>
 			<p>
 				In Late Egyptian, not only
-				<EgyptianText t={[g(Phoneme.i)]}/> /j/
+				<EgyptianText t={[g(Phoneme.i)]}/> <span class="phoneme">j</span>
 				but also
 				<span class="text-nowrap">
-					<EgyptianText t={[g(Phoneme.t)]}/> /t/,
-					<EgyptianText t={[g(Phoneme.r)]}/> /r/, and
-					<EgyptianText t={[g(Phoneme.w)]}/> /w/
+					<EgyptianText t={[g(Phoneme.t)]}/> <span class="phoneme">t</span>,
+					<EgyptianText t={[g(Phoneme.r)]}/> <span class="phoneme">r</span>, and
+					<EgyptianText t={[g(Phoneme.w)]}/> <span class="phoneme">w</span>
 				</span>
-				became pronounced as /ʔ/ after a stressed vowel.
+				became pronounced as <span class="phoneme">ʔ</span> after a stressed vowel.
 				<span class="text-nowrap">
-					<EgyptianText t={[g(Phoneme.c)]}/> /c/ and
-					<EgyptianText t={[g(Phoneme.j)]}/> /ɟ/
+					<EgyptianText t={[g(Phoneme.c)]}/> <span class="phoneme">c</span> and
+					<EgyptianText t={[g(Phoneme.j)]}/> <span class="phoneme">ɟ</span>
 				</span>
 				were often merged into
 				<span class="text-nowrap">
-					<EgyptianText t={[g(Phoneme.t)]}/> /t/ and
-					<EgyptianText t={[g(Phoneme.d)]}/> /d/
+					<EgyptianText t={[g(Phoneme.t)]}/> <span class="phoneme">t</span> and
+					<EgyptianText t={[g(Phoneme.d)]}/> <span class="phoneme">d</span>
 				</span>
 				respectively.
 				<span class="text-nowrap">
-					<EgyptianText t={[g(Phoneme.d)]}/> /d/,
-					<EgyptianText t={[g(Phoneme.j)]}/> /ɟ/, and
-					<EgyptianText t={[g(Phoneme.g)]}/> /g/
+					<EgyptianText t={[g(Phoneme.d)]}/> <span class="phoneme">d</span>,
+					<EgyptianText t={[g(Phoneme.j)]}/> <span class="phoneme">ɟ</span>, and
+					<EgyptianText t={[g(Phoneme.g)]}/> <span class="phoneme">g</span>
 				</span>
 				were gradually being merged into
 				<span class="text-nowrap">
-					<EgyptianText t={[g(Phoneme.t)]}/> /t/,
-					<EgyptianText t={[g(Phoneme.c)]}/> /c/, and
-					<EgyptianText t={[g(Phoneme.k)]}/> /k/
+					<EgyptianText t={[g(Phoneme.t)]}/> <span class="phoneme">t</span>,
+					<EgyptianText t={[g(Phoneme.c)]}/> <span class="phoneme">c</span>, and
+					<EgyptianText t={[g(Phoneme.k)]}/> <span class="phoneme">k</span>
 				</span>
 				respectively.
 			</p>
@@ -272,5 +272,11 @@
 
 	p {
 		@apply my-3;
+	}
+
+	.phoneme {
+		&::before, &::after {
+			content: "/";
+		}
 	}
 </style>

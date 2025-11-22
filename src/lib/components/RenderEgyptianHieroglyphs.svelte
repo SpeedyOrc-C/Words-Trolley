@@ -5,19 +5,26 @@
 
 	const verticalGap = 0.05
 	const horizontalGap = 0.1
+	const cartoucheStrokeSize = 0.05
+	const cartoucheVerticalPadding = 0.1
+	const cartoucheHorizontalPadding = 0.3
+	const cartoucheOverallVerticalSize = cartoucheStrokeSize + cartoucheVerticalPadding
+	const cartoucheOverallHorizontalSize = cartoucheStrokeSize + cartoucheHorizontalPadding
 
 	function PessimisticHeight([structure, arg]: Hieroglyphs): number
 	{
 		switch (structure)
 		{
-		case Structure.G:
+		case Structure.Glyph:
 			return HeightOfGlyph(arg)
-		case Structure.V:
+		case Structure.Vertical:
 			return arg.map(PessimisticHeight).reduce((a, b) => a + b, 0)
 				+ verticalGap * (arg.length - 1)
-		case Structure.H:
+		case Structure.Horizontal:
 			return Math.max(...arg.map(PessimisticHeight))
-		case Structure.L:
+		case Structure.Cartouche:
+			return 1
+		case Structure.Ligature:
 			// TODO)) Make it more accurate
 			return PessimisticHeight(arg[0])
 		}
@@ -27,14 +34,16 @@
 	{
 		switch (structure)
 		{
-		case Structure.G:
+		case Structure.Glyph:
 			return WidthOfGlyph(arg)
-		case Structure.V:
+		case Structure.Vertical:
 			return Math.max(...arg.map(PessimisticWidth))
-		case Structure.H:
+		case Structure.Horizontal:
 			return arg.map(PessimisticWidth).reduce((a, b) => a + b, 0)
 				+ horizontalGap * (arg.length - 1)
-		case Structure.L:
+		case Structure.Cartouche:
+			return PessimisticWidth(arg) + cartoucheOverallHorizontalSize * 2
+		case Structure.Ligature:
 			// TODO)) Make it more accurate
 			return PessimisticWidth(arg[0])
 		}
@@ -72,13 +81,13 @@
 	const [struct, arg] = $derived(hie)
 </script>
 
-{#if struct == Structure.G}
+{#if struct == Structure.Glyph}
 
 	<span class="g" style:height>
 		<EgyptianGlyph g={arg} {fp} {lineHeight}/>
 	</span>
 
-{:else if struct == Structure.V}
+{:else if struct == Structure.Vertical}
 
 	{@const pessimisticHeights = arg.map(PessimisticHeight)}
 	{@const pessimisticWidth = Math.max(...arg.map(PessimisticWidth))}
@@ -91,7 +100,7 @@
 		{/each}
 	</span>
 
-{:else if struct == Structure.H}
+{:else if struct == Structure.Horizontal}
 
 	{@const minWidth = parentWidth == undefined ? 0 : lineHeight * parentWidth}
 	{@const gap = lineHeight * horizontalGap}
@@ -102,7 +111,7 @@
 		{/each}
 	</span>
 
-{:else if struct == Structure.L}
+{:else if struct == Structure.Ligature}
 
 	{@const [[t1, a1], [t2, a2]] = arg}
 
@@ -115,7 +124,7 @@
 		</span>
 	{/snippet}
 
-	{#if t1 == Structure.G && t2 == Structure.G}
+	{#if t1 == Structure.Glyph && t2 == Structure.Glyph}
 
 		{#if a1 == "𓆓" && a2 == "𓋴"}
 
@@ -149,6 +158,20 @@
 		{@render IncorrectLigature()}
 	{/if}
 
+{:else if struct == Structure.Cartouche}
+
+	{@const borderWidth = lineHeight * fp * cartoucheStrokeSize}
+	{@const padding = `${(lineHeight * fp * cartoucheVerticalPadding)}px ${(lineHeight * fp * cartoucheHorizontalPadding)}px`}
+
+	<span
+		class="c border-foreground"
+		style:border-width="{borderWidth}px"
+		style:--border-width="{borderWidth}px"
+		style:padding
+	>
+		<Render hie={arg} {fp} lineHeight={lineHeight * (1 - cartoucheOverallVerticalSize * 2)}/>
+	</span>
+
 {/if}
 
 <style lang="postcss">
@@ -156,6 +179,19 @@
 
 	.g {
 		@apply inline-flex relative items-center;
+	}
+
+	.c {
+		@apply inline-flex relative items-center;
+		border-radius: 100vh;
+		&::after {
+			@apply absolute right-0 rounded;
+			background-color: var(--color-foreground);
+			width: var(--border-width);
+			height: calc(100% + var(--border-width));
+			transform: translateX(100%);
+			content: " ";
+		}
 	}
 
 	.v {

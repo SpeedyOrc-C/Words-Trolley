@@ -26,7 +26,7 @@
 	import {CandidatesFromNumber} from "$lib/word/egyptian/dictionary/numbers"
 	import {CandidatesFromXiaoheKmt} from "$lib/word/egyptian/dictionary/xiaohe-kmt"
 	import {
-		type Hieroglyphs, g, Structure,
+		type Hieroglyphs, g, h, v, c,
 		type HieroglyphsEditorState,
 		type EgyptianEditCmd, DumpHieroglyphs,
 		EgyptianEditCmdKind,
@@ -41,7 +41,6 @@
 
 	import Columns2 from "@lucide/svelte/icons/columns-2"
 	import Rows2 from "@lucide/svelte/icons/rows-2"
-	import Split from "@lucide/svelte/icons/split"
 	import Blend from "@lucide/svelte/icons/blend"
 	import ArrowLeft from "@lucide/svelte/icons/arrow-left"
 	import ArrowRight from "@lucide/svelte/icons/arrow-right"
@@ -51,6 +50,8 @@
 	import Ellipsis from "@lucide/svelte/icons/ellipsis"
 	import Check from "@lucide/svelte/icons/check"
 	import {settings} from "$lib/settings/store"
+
+	const nameLabel: Hieroglyphs[] = [c(h(v(g("𓂋"), g("𓈖")), g("𓀀")))]
 
 	let {
 		value = $bindable([]),
@@ -106,6 +107,18 @@
 					imeInputError = false
 					return
 				}
+
+		if (imeInput.startsWith(")"))
+		{
+			if (imeInput == ")|")
+			{
+				Execute(EgyptianEditCmdKind.Cartouche)
+				imeInput = ""
+				imeInputError = false
+				return
+			}
+			return
+		}
 
 		// Overlap 2 glyphs
 		if (imeInput == "&")
@@ -459,6 +472,15 @@
 			<div class="flex gap-1">
 
 				<ButtonGroup>
+
+					<Button
+						onclick={() => Execute(EgyptianEditCmdKind.Cartouche)}
+						disabled={s.cursor == 0}
+						variant="outline"
+					>
+						<EgyptianText t={nameLabel}/>
+						<Kbd.Root>)|</Kbd.Root>
+					</Button>
 
 					<Button
 						onclick={() => Execute(EgyptianEditCmdKind.Overlap)}

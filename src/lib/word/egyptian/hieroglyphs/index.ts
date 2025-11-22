@@ -2,45 +2,50 @@ import {array, asum, eq, sequence, str, type Validator} from "crazy-parser/json/
 
 export enum Structure
 {
-	G = "G",
-	V = "V",
-	H = "H",
-	L = "L",
+	Glyph = "G",
+	Vertical = "V",
+	Horizontal = "H",
+	Ligature = "L",
+	Cartouche = "C",
 }
 
 export type Hieroglyphs
-	= [Structure.G, string]
-	| [Structure.V, Hieroglyphs[]]
-	| [Structure.H, Hieroglyphs[]]
-	| [Structure.L, [Hieroglyphs, Hieroglyphs]]
+	= [Structure.Glyph, string]
+	| [Structure.Vertical, Hieroglyphs[]]
+	| [Structure.Horizontal, Hieroglyphs[]]
+	| [Structure.Ligature, [Hieroglyphs, Hieroglyphs]]
+	| [Structure.Cartouche, Hieroglyphs]
 
 const lazy = <T>(f: () => Validator<T>) => (input: unknown) => f()(input)
 
 const _Validate: () => Validator<Hieroglyphs> = () => asum(
-	sequence(eq(Structure.G as const), str),
-	sequence(eq(Structure.V as const), array(lazy(_Validate))),
-	sequence(eq(Structure.H as const), array(lazy(_Validate))),
-	sequence(eq(Structure.L as const), sequence(lazy(_Validate), lazy(_Validate))),
+	sequence(eq(Structure.Glyph as const), str),
+	sequence(eq(Structure.Vertical as const), array(lazy(_Validate))),
+	sequence(eq(Structure.Horizontal as const), array(lazy(_Validate))),
+	sequence(eq(Structure.Ligature as const), sequence(lazy(_Validate), lazy(_Validate))),
 )
 
 export const Validate = _Validate()
 
-export const g = (g: string): Hieroglyphs => [Structure.G, g]
-export const v = (...v: Hieroglyphs[]): Hieroglyphs => [Structure.V, v]
-export const h = (...h: Hieroglyphs[]): Hieroglyphs => [Structure.H, h]
-export const l = (a: Hieroglyphs, b: Hieroglyphs): Hieroglyphs => [Structure.L, [a, b]]
+export const g = (g: string): Hieroglyphs => [Structure.Glyph, g]
+export const v = (...v: Hieroglyphs[]): Hieroglyphs => [Structure.Vertical, v]
+export const h = (...h: Hieroglyphs[]): Hieroglyphs => [Structure.Horizontal, h]
+export const l = (a: Hieroglyphs, b: Hieroglyphs): Hieroglyphs => [Structure.Ligature, [a, b]]
+export const c = (hie: Hieroglyphs): Hieroglyphs => [Structure.Cartouche, hie]
 
 export function Split(hie: Hieroglyphs): Hieroglyphs[]
 {
 	switch (hie[0])
 	{
-	case Structure.G:
+	case Structure.Glyph:
 		return [hie]
-	case Structure.V:
-	case Structure.H:
+	case Structure.Vertical:
+	case Structure.Horizontal:
 		return hie[1]
-	case Structure.L:
+	case Structure.Ligature:
 		return [hie[1][0], hie[1][1]]
+	case Structure.Cartouche:
+		return [hie[1]]
 	}
 }
 
@@ -54,6 +59,7 @@ export enum EgyptianEditCmdKind
 	Column,
 	Row,
 	Overlap,
+	Cartouche,
 	Split,
 	Jump,
 	Left,
@@ -67,6 +73,7 @@ export type EgyptianEditCmd
 	= [EgyptianEditCmdKind.Column]
 	| [EgyptianEditCmdKind.Row]
 	| [EgyptianEditCmdKind.Overlap]
+	| [EgyptianEditCmdKind.Cartouche]
 	| [EgyptianEditCmdKind.Split]
 	| [EgyptianEditCmdKind.Jump, number]
 	| [EgyptianEditCmdKind.Left]
@@ -102,7 +109,7 @@ export function ExecuteHieroglyphsEditCommand
 		const middle = content.slice(cursor - 2, cursor)
 		const right = content.slice(cursor)
 
-		const newMiddle = middle[1][0] == Structure.V
+		const newMiddle = middle[1][0] == Structure.Vertical
 			? v(middle[0], ...middle[1][1])
 			: v(middle[0], middle[1])
 
@@ -120,7 +127,7 @@ export function ExecuteHieroglyphsEditCommand
 		const middle = content.slice(cursor - 2, cursor)
 		const right = content.slice(cursor)
 
-		const newMiddle = middle[1][0] == Structure.H
+		const newMiddle = middle[1][0] == Structure.Horizontal
 			? h(middle[0], ...middle[1][1])
 			: h(middle[0], middle[1])
 
@@ -143,9 +150,23 @@ export function ExecuteHieroglyphsEditCommand
 			content: [...left, l(middle[0], middle[1]), ...right]
 		}
 	}
+	case EgyptianEditCmdKind.Cartouche:
+	{
+		if (cursor == 0)
+			throw "No character to enclose."
+
+		const hie = content[cursor - 1]
+		const left = content.slice(0, cursor - 1)
+		const right = content.slice(cursor)
+
+		return {
+			cursor: cursor,
+			content: [...left, c(hie), ...right]
+		}
+	}
 	case EgyptianEditCmdKind.Split:
 	{
-		if (cursor === 0)
+		if (cursor == 0)
 			throw "No character to split."
 
 		const hie = content[cursor - 1]
@@ -196,7 +217,7 @@ export function ExecuteHieroglyphsEditCommand
 		const left = content.slice(0, cursor - 1)
 		const right = content.slice(cursor)
 
-		if (content[cursor - 1][0] == Structure.G)
+		if (content[cursor - 1][0] == Structure.Glyph)
 		{
 			return {
 				cursor: cursor - 1,
@@ -237,14 +258,16 @@ function DumpHieroglyphsItem([type, arg]: Hieroglyphs): string
 {
 	switch (type)
 	{
-	case Structure.G:
+	case Structure.Glyph:
 		return arg
-	case Structure.V:
+	case Structure.Vertical:
 		return `V${arg.length}${arg.map(DumpHieroglyphsItem).join("")}`
-	case Structure.H:
+	case Structure.Horizontal:
 		return `H${arg.length}${arg.map(DumpHieroglyphsItem).join("")}`
-	case Structure.L:
+	case Structure.Ligature:
 		return `L${DumpHieroglyphsItem(arg[0])}${DumpHieroglyphsItem(arg[1])}`
+	case Structure.Cartouche:
+		return `C${DumpHieroglyphsItem(arg)}`
 	}
 }
 

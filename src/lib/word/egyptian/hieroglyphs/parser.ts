@@ -1,4 +1,4 @@
-import {h, v, l, g, type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
+import {h, v, l, g, c, type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
 import {asum, char, digit, eof, lazy, one, type Parser} from "crazy-parser"
 import {many} from "crazy-parser/prefix"
 
@@ -10,6 +10,7 @@ const pItem: Parser<Hieroglyphs> = lazy(() =>
 		pVerticalStack,
 		pLigature,
 		pGlyph,
+		pCartouche,
 	)
 )
 
@@ -26,7 +27,10 @@ const pVerticalStack: Parser<Hieroglyphs> =
 	char("V").$_(pStackCount).bind(c => pItem.x(c).map(xs => v(...xs)))
 
 const pLigature: Parser<Hieroglyphs> =
-	char("L").$_(pItem.x(2).map(([a, b]) => l(a, b)))
+	char("L").$_(pItem.x(2).map((ab => l(...ab))))
+
+const pCartouche: Parser<Hieroglyphs> =
+	char("C").$_(pItem).map(c)
 
 export const pHieroglyphs: Parser<Hieroglyphs[]> =
 	many(pItem.try())._$(eof)

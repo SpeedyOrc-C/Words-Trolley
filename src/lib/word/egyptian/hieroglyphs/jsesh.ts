@@ -33,13 +33,15 @@ function ToJsesh_(h: Hieroglyphs): string
 
    switch (type)
    {
-      case Structure.G:
+      case Structure.Glyph:
          return Literal2Gardiner[arg]
-      case Structure.H:
+      case Structure.Horizontal:
          return `(${Intersperse(arg.map(ToJsesh_), "*").join("")})`
-      case Structure.V:
+      case Structure.Vertical:
          return `(${Intersperse(arg.map(ToJsesh_), ":").join("")})`
-      case Structure.L:
+      case Structure.Ligature:
          return `(${ToJsesh_(arg[0])}&${ToJsesh_(arg[1])})`
+      case Structure.Cartouche:
+         return `<-${ToJsesh_(arg)}->`
    }
 }

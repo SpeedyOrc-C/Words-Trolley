@@ -36,7 +36,18 @@
 	import Check from "@lucide/svelte/icons/check"
 	import {settings} from "$lib/settings/store"
 
-	type OperationState = "idle" | "column" | "row"
+	const QuickSymbols: Record<string, string> = {
+		"1": "𓏤",
+		"2": "𓏭",
+		"3": "𓏥",
+		"4": "𓏲",
+		"5": "𓂜",
+		"6": "𓏛",
+		"7": "𓏜",
+		"8": "𓀭",
+		"9": "𓁐",
+		"0": "𓀀",
+	}
 
 	let {
 		value = $bindable([]),
@@ -82,14 +93,16 @@
 
 	function OnImeInput()
 	{
-		// Insert the identity determinative: 𓏤
-		if (imeInput == "|")
-		{
-			Execute(EgyptianEditCmdKind.Insert, g("𓏤"))
-			imeInput = ""
-			imeInputError = false
-			return
-		}
+		if (imeInput.length == 1)
+			for (const quickSymbol in QuickSymbols)
+				if (imeInput == quickSymbol)
+				{
+					_InsertSymbolAtCursor(g(QuickSymbols[quickSymbol]))
+					imeInput = ""
+					imeWords = []
+					imeInputError = false
+					return
+				}
 
 		// Overlap 2 glyphs
 		if (imeInput == "&")

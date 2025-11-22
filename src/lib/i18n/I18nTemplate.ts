@@ -321,6 +321,7 @@ export type I18nTemplate = {
 		transliteration: {
 			gardiner: s
 			chen: s
+			chen_no_cap: s
 			mdc: s
 		}
 		typewriter: {

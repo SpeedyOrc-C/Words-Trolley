@@ -65,6 +65,8 @@
 			return $_.egyptian.transliteration.mdc
 		case EgyptianTransliteration.Chen:
 			return $_.egyptian.transliteration.chen
+		case EgyptianTransliteration.ChenNoCap:
+			return $_.egyptian.transliteration.chen_no_cap
 		case EgyptianTransliteration.Wiktionary:
 			return $_.wiktionary
 		case EgyptianTransliteration.Egyptology:
@@ -348,6 +350,9 @@
 										<Select.Item value={EgyptianTransliteration.Chen}>
 											{_EgyptianTransliteration(EgyptianTransliteration.Chen)}
 										</Select.Item>
+										<Select.Item value={EgyptianTransliteration.ChenNoCap}>
+											{_EgyptianTransliteration(EgyptianTransliteration.ChenNoCap)}
+										</Select.Item>
 									</Select.Group>
 								</Select.Content>
 
@@ -377,6 +382,9 @@
 										</Select.Item>
 										<Select.Item value={EgyptianTransliteration.Chen}>
 											{_EgyptianTransliteration(EgyptianTransliteration.Chen)}
+										</Select.Item>
+										<Select.Item value={EgyptianTransliteration.ChenNoCap}>
+											{_EgyptianTransliteration(EgyptianTransliteration.ChenNoCap)}
 										</Select.Item>
 									</Select.Group>
 									<Select.Separator/>

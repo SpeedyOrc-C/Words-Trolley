@@ -320,6 +320,7 @@ export const JaJp: I18nTemplate = {
 		transliteration: {
 			gardiner: "ガーディナー式",
 			chen: "陳式",
+			chen_no_cap: "小陳式",
 			mdc: "Manuel de Codage 式",
 		},
 		typewriter: {

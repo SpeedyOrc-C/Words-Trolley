@@ -320,6 +320,7 @@ const ZhCn: I18nTemplate = {
 		transliteration: {
 			gardiner: "高德纳",
 			chen: "陈",
+			chen_no_cap: "小陈",
 			mdc: "Manuel de Codage",
 		},
 		typewriter: {

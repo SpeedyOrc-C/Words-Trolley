@@ -320,6 +320,7 @@ const EnGb: I18nTemplate = {
 		transliteration: {
 			gardiner: "Gardiner",
 			chen: "Chen",
+			chen_no_cap: "Chen No Cap.",
 			mdc: "Manuel de Codage",
 		},
 		typewriter: {

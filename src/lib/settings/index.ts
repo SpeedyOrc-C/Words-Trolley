@@ -34,6 +34,7 @@ export enum EgyptianTransliteration
 	Egyptology = "egyptology",
 	ManuelDeCodage = "mdc",
 	Chen = "chen",
+	ChenNoCap = "chen-no-cap",
 	Wiktionary = "wiktionary",
 }
 

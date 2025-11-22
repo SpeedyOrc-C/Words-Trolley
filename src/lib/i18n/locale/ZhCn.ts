@@ -331,6 +331,9 @@ const ZhCn: I18nTemplate = {
 			hide_cursor: "隐藏光标",
 			hide_input_border: "隐藏输入边框",
 			hide_controls: "隐藏控件",
+			number_shortcut: "数字快捷键",
+			number: "数字",
+			glyph: "字符",
 		},
 	},
 	stack: {

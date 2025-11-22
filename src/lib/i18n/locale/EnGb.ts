@@ -331,6 +331,9 @@ const EnGb: I18nTemplate = {
 			hide_cursor: "Hide cursor",
 			hide_input_border: "Hide input border",
 			hide_controls: "Hide controls",
+			number_shortcut: "Number Shortcut",
+			number: "Number",
+			glyph: "Glyph",
 		},
 	},
 	stack: {

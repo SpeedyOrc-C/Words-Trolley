@@ -4,10 +4,13 @@
 	import {Label} from "$lib/components/ui/label"
 	import {Slider} from "$lib/components/ui/slider"
 	import {Switch} from "$lib/components/ui/switch"
+	import * as T from "$lib/components/ui/table"
+	import {QuickSymbols} from "$lib/components/editor/InputEgyptianHieroglyphs.svelte"
 	import {g} from "$lib/word/egyptian/hieroglyphs"
 
 	import {_} from "$lib/i18n/store"
 	import type {Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
+	import EgyptianText from "$lib/components/EgyptianText.svelte"
 
 	let useCustomTextColour = $state(false)
 	let customTextColour = $state("#000000")
@@ -30,6 +33,40 @@
 </header>
 
 <main class="mx-auto p-4 w-full xl:w-fit flex flex-col xl:flex-row gap-4">
+
+	{#snippet ShortcutTable()}
+		{#if !hideControls}
+			<T.Root class="caption-top max-w-sm text-center">
+
+				<T.Caption>{$_.egyptian.typewriter.number_shortcut}</T.Caption>
+
+				<T.Header>
+					<T.Row>
+						<T.Head class="text-center">
+							{$_.egyptian.typewriter.number}
+						</T.Head>
+						<T.Head class="text-center">
+							{$_.egyptian.typewriter.glyph}
+						</T.Head>
+					</T.Row>
+				</T.Header>
+
+				<T.Body>
+					{#each ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"] as key}
+						<T.Row>
+							<T.Cell class="text-2xl">
+								{key}
+							</T.Cell>
+							<T.Cell class="text-3xl">
+								<EgyptianText t={[g(QuickSymbols[key])]} />
+							</T.Cell>
+						</T.Row>
+					{/each}
+				</T.Body>
+
+			</T.Root>
+		{/if}
+	{/snippet}
 
 	<div class="xl:w-xs flex flex-col gap-4">
 
@@ -70,6 +107,10 @@
 			</Label>
 		</div>
 
+		<div class="hidden xl:block">
+			{@render ShortcutTable()}
+		</div>
+
 	</div>
 
 	<div class="xl:w-3xl flex flex-col space-y-4">
@@ -89,6 +130,10 @@
 				OnClickSymbol={symbol => InsertSymbolAtCursor(g(symbol))}
 			/>
 		{/if}
+
+		<div class="xl:hidden">
+			{@render ShortcutTable()}
+		</div>
 
 	</div>
 

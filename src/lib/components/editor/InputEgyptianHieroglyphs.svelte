@@ -1,8 +1,24 @@
+<script lang="ts" module>
+	export const QuickSymbols: Record<string, string> = {
+		"1": "𓏤",
+		"2": "𓏭",
+		"3": "𓏥",
+		"4": "𓏲",
+		"5": "𓂜",
+		"6": "𓏛",
+		"7": "𓏜",
+		"8": "𓀭",
+		"9": "𓁐",
+		"0": "𓀀",
+	}
+</script>
+
 <script lang="ts">
 	import {Button} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
 	import {ButtonGroup} from "$lib/components/ui/button-group"
 	import * as DM from "$lib/components/ui/dropdown-menu"
+	import * as Kbd from "$lib/components/ui/kbd"
 
 	import {_} from "$lib/i18n/store"
 	import {preferredEgyptianTransliterationParserForEdit} from "$lib/settings/store/egyptian"
@@ -35,19 +51,6 @@
 	import Ellipsis from "@lucide/svelte/icons/ellipsis"
 	import Check from "@lucide/svelte/icons/check"
 	import {settings} from "$lib/settings/store"
-
-	const QuickSymbols: Record<string, string> = {
-		"1": "𓏤",
-		"2": "𓏭",
-		"3": "𓏥",
-		"4": "𓏲",
-		"5": "𓂜",
-		"6": "𓏛",
-		"7": "𓏜",
-		"8": "𓀭",
-		"9": "𓁐",
-		"0": "𓀀",
-	}
 
 	let {
 		value = $bindable([]),
@@ -455,42 +458,33 @@
 
 			<div class="flex gap-1">
 
-				<Button
-					onclick={() => Execute(EgyptianEditCmdKind.Split)}
-					disabled={s.cursor == 0 || s.content[s.cursor - 1][0] == Structure.G}
-					size="icon" variant="outline"
-					title={$_.editor.hieroglyphs_editor.ungroup}
-				>
-					<Split/>
-				</Button>
-
 				<ButtonGroup>
 
 					<Button
 						onclick={() => Execute(EgyptianEditCmdKind.Overlap)}
 						disabled={s.cursor < 2}
-						size="icon" variant="outline"
+						variant="outline"
 						title={$_.editor.hieroglyphs_editor.make_ligature}
 					>
-						<Blend/>
+						<Blend/><Kbd.Root>&amp;</Kbd.Root>
 					</Button>
 
 					<Button
 						onclick={() => Execute(EgyptianEditCmdKind.Row)}
 						disabled={s.cursor < 2}
-						size="icon" variant={"outline"}
+						variant={"outline"}
 						title={$_.editor.hieroglyphs_editor.join_horizontally}
 					>
-						<Columns2/>
+						<Columns2/><Kbd.Root>-</Kbd.Root>
 					</Button>
 
 					<Button
 						onclick={() => Execute(EgyptianEditCmdKind.Column)}
 						disabled={s.cursor < 2}
-						size="icon" variant={"outline"}
+						variant={"outline"}
 						title={$_.editor.hieroglyphs_editor.join_vertically}
 					>
-						<Rows2/>
+						<Rows2/><Kbd.Root>=</Kbd.Root>
 					</Button>
 
 				</ButtonGroup>

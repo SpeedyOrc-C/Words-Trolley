@@ -332,6 +332,9 @@ export type I18nTemplate = {
 			hide_cursor: s
 			hide_input_border: s
 			hide_controls: s
+			number_shortcut: s
+			number: s
+			glyph: s
 		}
 	}
 	stack: {

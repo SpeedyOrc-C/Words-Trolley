@@ -17,7 +17,7 @@
 
 <span
 	bind:this={root}
-	class="inline-flex flex-wrap align-text-bottom overflow-hidden"
+	class="p-px inline-flex flex-wrap align-text-bottom overflow-hidden"
 	style:gap="{lineHeight * 0.2}px"
 	lang="egy"
 >

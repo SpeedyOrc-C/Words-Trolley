@@ -262,9 +262,6 @@ const ZhCn: I18nTemplate = {
 			ungroup: "取消组合",
 			join_horizontally: "横向连接",
 			join_vertically: "纵向连接",
-			join_2: "连接两个字",
-			join_3: "连接三个字",
-			join_4: "连接四个字",
 			syntax_error: "语法错误",
 		},
 		furigana_editor: {

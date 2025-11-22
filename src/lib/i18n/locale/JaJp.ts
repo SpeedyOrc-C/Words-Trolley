@@ -262,9 +262,6 @@ export const JaJp: I18nTemplate = {
 			ungroup: "グループ解除",
 			join_horizontally: "横に結合",
 			join_vertically: "縦に結合",
-			join_2: "2 文字を結合",
-			join_3: "3 文字を結合",
-			join_4: "4 文字を結合",
 			syntax_error: "構文エラー",
 		},
 		furigana_editor: {

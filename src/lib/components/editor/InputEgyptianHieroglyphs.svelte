@@ -1,7 +1,3 @@
-<script lang="ts" module>
-	const joinCounts = [2, 3, 4] as const
-</script>
-
 <script lang="ts">
 	import {Button} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
@@ -16,7 +12,8 @@
 	import {
 		type Hieroglyphs, g, Structure,
 		type HieroglyphsEditorState,
-		type HieroglyphsEditCommand, DumpHieroglyphs,
+		type EgyptianEditCmd, DumpHieroglyphs,
+		EgyptianEditCmdKind,
 		ExecuteHieroglyphsEditCommand,
 		HieroglyphsEditCommandNoSideEffect
 	} from "$lib/word/egyptian/hieroglyphs"
@@ -64,27 +61,11 @@
 	} = $props()
 
 	let s: HieroglyphsEditorState = $state({cursor: value.length, content: value})
-	let os: OperationState = $state("idle")
 	let imeInput = $state("")
 	let imeInputError = $state(false)
 	let imeWords: Hieroglyphs[] = $state([])
 
-	function OnStackButtonClick(count: number)
-	{
-		switch (os)
-		{
-		case "column":
-			Execute("column", count)
-			os = "idle"
-			break
-		case "row":
-			Execute("row", count)
-			os = "idle"
-			break
-		}
-	}
-
-	function Execute(...command: HieroglyphsEditCommand)
+	function Execute(...command: EgyptianEditCmd)
 	{
 		try
 		{
@@ -104,7 +85,7 @@
 		// Insert the identity determinative: 𓏤
 		if (imeInput == "|")
 		{
-			Execute("insert", g("𓏤"))
+			Execute(EgyptianEditCmdKind.Insert, g("𓏤"))
 			imeInput = ""
 			imeInputError = false
 			return
@@ -113,53 +94,45 @@
 		// Overlap 2 glyphs
 		if (imeInput == "&")
 		{
-			Execute("overlap")
+			Execute(EgyptianEditCmdKind.Overlap)
 			imeInput = ""
 			imeInputError = false
 			return
 		}
 
-		// Join glyphs horizontally
-		if (imeInput.startsWith("-"))
+		if (imeInput == "-")
 		{
-			if (imeInput.length == 2)
-			{
-				const count = parseInt(imeInput[1])
-
-				if (! Number.isNaN(count))
-				{
-					Execute("row", count)
-					imeInput = ""
-					imeInputError = false
-				}
-				else
-					imeInputError = true
-			}
-			else
-				imeInputError = false
-
+			Execute(EgyptianEditCmdKind.Row)
+			imeInput = ""
+			imeInputError = false
 			return
 		}
 
-		// Join glyphs vertically
-		if (imeInput.startsWith("="))
+		if (imeInput == "=")
 		{
-			if (imeInput.length == 2)
-			{
-				const count = parseInt(imeInput[1])
+			Execute(EgyptianEditCmdKind.Column)
+			imeInput = ""
+			imeInputError = false
+			return
+		}
 
-				if (! Number.isNaN(count))
-				{
-					Execute("column", count)
-					imeInput = ""
-					imeInputError = false
-				}
-				else
-					imeInputError = true
-			}
-			else
-				imeInputError = false
+		if (imeInput.endsWith("-") && imeWords.length > 0)
+		{
+			Execute(EgyptianEditCmdKind.Insert, imeWords[0])
+			Execute(EgyptianEditCmdKind.Row)
+			imeInput = ""
+			imeWords = []
+			imeInputError = false
+			return
+		}
 
+		if (imeInput.endsWith("=") && imeWords.length > 0)
+		{
+			Execute(EgyptianEditCmdKind.Insert, imeWords[0])
+			Execute(EgyptianEditCmdKind.Column)
+			imeInput = ""
+			imeWords = []
+			imeInputError = false
 			return
 		}
 
@@ -216,7 +189,7 @@
 		if (e.code == "ArrowLeft" && t.selectionEnd == 0)
 		{
 			e.preventDefault()
-			Execute("left")
+			Execute(EgyptianEditCmdKind.Left)
 			return
 		}
 
@@ -224,7 +197,7 @@
 		if (e.code == "ArrowRight" && t.selectionStart == t.value.length)
 		{
 			e.preventDefault()
-			Execute("right")
+			Execute(EgyptianEditCmdKind.Right)
 			return
 		}
 
@@ -232,7 +205,7 @@
 		if (e.code == "Backspace" && t.value.length == 0)
 		{
 			e.preventDefault()
-			Execute("backspace")
+			Execute(EgyptianEditCmdKind.Backspace)
 			return
 		}
 
@@ -241,7 +214,7 @@
 		{
 			e.preventDefault()
 
-			Execute("insert", imeWords[0])
+			Execute(EgyptianEditCmdKind.Insert, imeWords[0])
 			imeInput = ""
 			imeWords = []
 			imeInputError = false
@@ -266,7 +239,7 @@
 
 	function OnClickImeWord(hie: Hieroglyphs)
 	{
-		Execute("insert", hie)
+		Execute(EgyptianEditCmdKind.Insert, hie)
 		imeInput = ""
 		imeWords = []
 		imeInputError = false
@@ -274,7 +247,7 @@
 
 	function _InsertSymbolAtCursor(symbol: Hieroglyphs)
 	{
-		Execute("insert", symbol)
+		Execute(EgyptianEditCmdKind.Insert, symbol)
 	}
 
 	async function PasteRawHieroglyphs()
@@ -288,7 +261,7 @@
 			return
 		}
 
-		Execute("replace", value)
+		Execute(EgyptianEditCmdKind.Replace, value)
 		toast.success($_.pasted)
 	}
 
@@ -413,7 +386,7 @@
 
 			<Button
 				disabled={s.cursor === 0}
-				onclick={() => Execute("left")}
+				onclick={() => Execute(EgyptianEditCmdKind.Left)}
 				size="icon" title={$_.editor.hieroglyphs_editor.move_cursor_left}
 				variant="outline"
 			>
@@ -422,7 +395,7 @@
 
 			<Button
 				disabled={s.cursor === 0}
-				onclick={() => Execute("backspace")}
+				onclick={() => Execute(EgyptianEditCmdKind.Backspace)}
 				size="icon" title={$_.editor.hieroglyphs_editor.backspace}
 				variant="outline"
 			>
@@ -431,7 +404,7 @@
 
 			<Button
 				disabled={s.cursor === s.content.length}
-				onclick={() => Execute("right")}
+				onclick={() => Execute(EgyptianEditCmdKind.Right)}
 				size="icon" title={$_.editor.hieroglyphs_editor.move_cursor_right}
 				variant="outline"
 			>
@@ -469,10 +442,19 @@
 
 			<div class="flex gap-1">
 
+				<Button
+					onclick={() => Execute(EgyptianEditCmdKind.Split)}
+					disabled={s.cursor == 0 || s.content[s.cursor - 1][0] == Structure.G}
+					size="icon" variant="outline"
+					title={$_.editor.hieroglyphs_editor.ungroup}
+				>
+					<Split/>
+				</Button>
+
 				<ButtonGroup>
 
 					<Button
-						onclick={() => Execute("overlap")}
+						onclick={() => Execute(EgyptianEditCmdKind.Overlap)}
 						disabled={s.cursor < 2}
 						size="icon" variant="outline"
 						title={$_.editor.hieroglyphs_editor.make_ligature}
@@ -481,45 +463,23 @@
 					</Button>
 
 					<Button
-						onclick={() => Execute("split")}
-						disabled={s.cursor == 0 || s.content[s.cursor - 1][0] == Structure.G}
-						size="icon" variant="outline"
-						title={$_.editor.hieroglyphs_editor.ungroup}
-					>
-						<Split/>
-					</Button>
-
-					<Button
-						size="icon" variant={os == "row" ? "default" : "outline"}
-						onclick={() => os = os == "row" ? "idle" : "row"}
+						onclick={() => Execute(EgyptianEditCmdKind.Row)}
+						disabled={s.cursor < 2}
+						size="icon" variant={"outline"}
 						title={$_.editor.hieroglyphs_editor.join_horizontally}
 					>
 						<Columns2/>
 					</Button>
 
 					<Button
-						size="icon" variant={os == "column" ? "default" : "outline"}
-						onclick={() => os = os == "column" ? "idle" : "column"}
+						onclick={() => Execute(EgyptianEditCmdKind.Column)}
+						disabled={s.cursor < 2}
+						size="icon" variant={"outline"}
 						title={$_.editor.hieroglyphs_editor.join_vertically}
 					>
 						<Rows2/>
 					</Button>
 
-				</ButtonGroup>
-
-				<ButtonGroup>
-					{#each joinCounts as count}
-						<Button
-							class="text-lg"
-							size="icon"
-							variant="outline"
-							disabled={os == "idle" || s.cursor < count}
-							onclick={() => OnStackButtonClick(count)}
-							title={$_.editor.hieroglyphs_editor[`join_${count}`]}
-						>
-							{count}
-						</Button>
-					{/each}
 				</ButtonGroup>
 
 			</div>

@@ -263,9 +263,6 @@ export type I18nTemplate = {
 			ungroup: s
 			join_horizontally: s
 			join_vertically: s
-			join_2: s
-			join_3: s
-			join_4: s
 			syntax_error: s
 		}
 		furigana_editor: {

@@ -262,9 +262,6 @@ const EnGb: I18nTemplate = {
 			ungroup: "Ungroup",
 			join_horizontally: "Join horizontally",
 			join_vertically: "Join vertically",
-			join_2: "Join two glyphs",
-			join_3: "Join three glyphs",
-			join_4: "Join four glyphs",
 			syntax_error: "Syntax error",
 		},
 		furigana_editor: {

@@ -49,65 +49,87 @@ export type HieroglyphsEditorState = {
 	content: Hieroglyphs[]
 }
 
-export type HieroglyphsEditCommand
-	= ["column", number]
-	| ["row", number]
-	| ["overlap"]
-	| ["split"]
-	| ["jump", number]
-	| ["left"]
-	| ["right"]
-	| ["backspace"]
-	| ["insert", Hieroglyphs]
-	| ["replace", Hieroglyphs[]]
+export enum EgyptianEditCmdKind
+{
+	Column,
+	Row,
+	Overlap,
+	Split,
+	Jump,
+	Left,
+	Right,
+	Backspace,
+	Insert,
+	Replace,
+}
 
-export function HieroglyphsEditCommandNoSideEffect(command: HieroglyphsEditCommand): boolean
+export type EgyptianEditCmd
+	= [EgyptianEditCmdKind.Column]
+	| [EgyptianEditCmdKind.Row]
+	| [EgyptianEditCmdKind.Overlap]
+	| [EgyptianEditCmdKind.Split]
+	| [EgyptianEditCmdKind.Jump, number]
+	| [EgyptianEditCmdKind.Left]
+	| [EgyptianEditCmdKind.Right]
+	| [EgyptianEditCmdKind.Backspace]
+	| [EgyptianEditCmdKind.Insert, Hieroglyphs]
+	| [EgyptianEditCmdKind.Replace, Hieroglyphs[]]
+
+export function HieroglyphsEditCommandNoSideEffect(command: EgyptianEditCmd): boolean
 {
 	const [type] = command
-	return type === "jump" || type === "left" || type === "right"
+	return type === EgyptianEditCmdKind.Jump || type === EgyptianEditCmdKind.Left || type === EgyptianEditCmdKind.Right
 }
 
 export function ExecuteHieroglyphsEditCommand
 (
 	state: HieroglyphsEditorState,
-	command: HieroglyphsEditCommand,
+	command: EgyptianEditCmd,
 ): HieroglyphsEditorState
 {
 	const {cursor, content} = state
 	const {length} = content
-	const [type, arg] = command
+	const [kind, arg] = command
 
-	switch (type)
+	switch (kind)
 	{
-	case "column":
+	case EgyptianEditCmdKind.Column:
 	{
-		if (cursor < arg)
+		if (cursor < 2)
 			throw "Not enough characters."
 
-		const left = content.slice(0, cursor - arg)
-		const middle = content.slice(cursor - arg, cursor)
+		const left = content.slice(0, cursor - 2)
+		const middle = content.slice(cursor - 2, cursor)
 		const right = content.slice(cursor)
 
+		const newMiddle = middle[1][0] == Structure.V
+			? v(middle[0], ...middle[1][1])
+			: v(middle[0], middle[1])
+
 		return {
-			cursor: cursor - arg + 1,
-			content: [...left, v(...middle), ...right]
+			cursor: cursor - 1,
+			content: [...left, newMiddle, ...right]
 		}
 	}
-	case "row":
+	case EgyptianEditCmdKind.Row:
 	{
-		if (cursor < arg)
+		if (cursor < 2)
 			throw "Not enough characters."
 
-		const left = content.slice(0, cursor - arg)
-		const middle = content.slice(cursor - arg, cursor)
+		const left = content.slice(0, cursor - 2)
+		const middle = content.slice(cursor - 2, cursor)
 		const right = content.slice(cursor)
 
+		const newMiddle = middle[1][0] == Structure.H
+			? h(middle[0], ...middle[1][1])
+			: h(middle[0], middle[1])
+
 		return {
-			cursor: cursor - arg + 1,
-			content: [...left, h(...middle), ...right]
+			cursor: cursor - 1,
+			content: [...left, newMiddle, ...right]
 		}
 	}
-	case "overlap":
+	case EgyptianEditCmdKind.Overlap:
 	{
 		if (cursor < 2)
 			throw "Not enough characters."
@@ -121,7 +143,7 @@ export function ExecuteHieroglyphsEditCommand
 			content: [...left, l(middle[0], middle[1]), ...right]
 		}
 	}
-	case "split":
+	case EgyptianEditCmdKind.Split:
 	{
 		if (cursor === 0)
 			throw "No character to split."
@@ -136,7 +158,7 @@ export function ExecuteHieroglyphsEditCommand
 			content: [...left, ...split, ...right]
 		}
 	}
-	case "jump":
+	case EgyptianEditCmdKind.Jump:
 	{
 		if (arg < 0 || arg > content.length)
 			throw "Out of range."
@@ -146,7 +168,7 @@ export function ExecuteHieroglyphsEditCommand
 			content,
 		}
 	}
-	case "left":
+	case EgyptianEditCmdKind.Left:
 	{
 		if (cursor == 0)
 			throw "Already at the beginning."
@@ -156,7 +178,7 @@ export function ExecuteHieroglyphsEditCommand
 			content,
 		}
 	}
-	case "right":
+	case EgyptianEditCmdKind.Right:
 	{
 		if (cursor == length)
 			throw "Already at the end."
@@ -166,7 +188,7 @@ export function ExecuteHieroglyphsEditCommand
 			content,
 		}
 	}
-	case "backspace":
+	case EgyptianEditCmdKind.Backspace:
 	{
 		if (cursor == 0)
 			throw "No character to delete."
@@ -191,7 +213,7 @@ export function ExecuteHieroglyphsEditCommand
 			}
 		}
 	}
-	case "insert":
+	case EgyptianEditCmdKind.Insert:
 	{
 		const left = content.slice(0, cursor)
 		const right = content.slice(cursor)
@@ -201,7 +223,7 @@ export function ExecuteHieroglyphsEditCommand
 			content: [...left, arg, ...right]
 		}
 	}
-	case "replace":
+	case EgyptianEditCmdKind.Replace:
 	{
 		return {
 			cursor: arg.length,

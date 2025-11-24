@@ -8,6 +8,7 @@ const EnGb: I18nTemplate = {
 	login_and_signup: "Log in / Sign up",
 	logout: "Log out",
 	search: "Search",
+	help: "Help",
 	email: "Email",
 	password: "Password",
 	submit: "Submit",

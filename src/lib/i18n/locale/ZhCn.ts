@@ -8,6 +8,7 @@ const ZhCn: I18nTemplate = {
 	login_and_signup: "登录 / 注册",
 	logout: "登出",
 	search: "搜索",
+	help: "帮助",
 	email: "邮箱",
 	password: "密码",
 	submit: "提交",

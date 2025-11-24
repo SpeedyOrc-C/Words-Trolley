@@ -102,16 +102,26 @@
 <!--
 Fake Egyptian Hieroglyphs websites:
 http://www.touregypt.net/ename
+https://anythingtranslate.com/translators/ancient-egyptian-hieroglyphs-translator
+https://caseconverter.tools/hieroglyphics-translator
+https://c.r74n.com/converter/hieroglyphs
 https://discoveringegypt.com/hieroglyphic-typewriter
 https://discoveringegypt.com/hieroglyphic-typewriter-chinese
 https://emojiuse.com/english-to-hieroglyphics
+https://engdic.org/hieroglyphics-translator
+https://eztouregypt.com/hieroglyphics-translator
+https://funtranslations.com/hieroglyphics
 https://github.com/AndriiVal/hieroglyphic-name
+https://guardians.net/egypt/hieroglyphs/hiero-translator.htm
+https://hieroglyphicstranslator.net
 https://lingojam.com/HieroglyphicsTranslator
 https://lingojam.com/EnglishtoEgyptianHieroglyphics
+https://shakespearean-translator.com/hieroglyphics
 https://www.fromcairo.com/hieroglyphics.htm
 https://www.lexilogos.com/keyboard/hieroglyph.htm
 https://www.mobilefish.com/services/hieroglyphs/hieroglyphs.php
 https://www.penn.museum/cgi/hieroglyphsreal.php
+https://www.transmonkey.ai/hieroglyphics-translator
 -->
 
       <header>

@@ -1,4 +1,9 @@
 https://words-trolley.speedyorc-chen.site
 https://words-trolley.speedyorc-chen.site/tool
-https://words-trolley.speedyorc-chen.site/tool/egyptian/typewriter
 https://words-trolley.speedyorc-chen.site/tool/egyptian/alphabet
+https://words-trolley.speedyorc-chen.site/tool/egyptian/transliteration-converter
+https://words-trolley.speedyorc-chen.site/tool/egyptian/typewriter
+https://words-trolley.speedyorc-chen.site/tool/japanese/alphabet
+https://words-trolley.speedyorc-chen.site/tool/mandarin/alphabet
+https://words-trolley.speedyorc-chen.site/tool/mandarin/spelling-converter
+https://words-trolley.speedyorc-chen.site/tool/tibetan/alphabet

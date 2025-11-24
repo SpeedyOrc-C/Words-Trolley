@@ -8,6 +8,7 @@ export const JaJp: I18nTemplate = {
 	login_and_signup: "ログイン / 新規登録",
 	logout: "ログアウト",
 	search: "検索",
+	help: "ヘルプ",
 	email: "メールアドレス",
 	password: "パスワード",
 	submit: "送信",

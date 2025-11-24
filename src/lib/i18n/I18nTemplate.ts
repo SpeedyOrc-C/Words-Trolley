@@ -9,6 +9,7 @@ export type I18nTemplate = {
 	login_and_signup: s
 	logout: s
 	search: s
+	help: s
 	email: s
 	password: s
 	submit: s

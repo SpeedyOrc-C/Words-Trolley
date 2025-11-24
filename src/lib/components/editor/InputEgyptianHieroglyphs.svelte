@@ -343,7 +343,7 @@
 			style:min-height="{height}px"
 			style:gap="{height * 0.1}px"
 			onclick={() => {editing = true}}
-			onkeydown={() => {editing = true}}
+			onkeydown={e => { if (e.code == "Enter" || e.code == "Space") editing = true}}
 			tabindex=0
 			role="textbox"
 		>

@@ -18,6 +18,8 @@ const sampleText = [
 	Punctuation.Space,
 	Phoneme.d, Phoneme.j,
 	Punctuation.Space,
+	Phoneme.s, Phoneme.S,
+	Punctuation.Space,
 	Phoneme.k, Phoneme.q,
 	Punctuation.Space,
 	Phoneme.h, Phoneme.H, Phoneme.x, Phoneme.C,

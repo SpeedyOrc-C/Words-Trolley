@@ -1,6 +1,7 @@
 <script lang="ts">
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import * as Item from "$lib/components/ui/item"
+   import * as A from "$lib/components/ui/accordion"
    import {_} from "$lib/i18n/store"
 	import {ExampleWord} from "$lib/word/egyptian"
 	import {g} from "$lib/word/egyptian/hieroglyphs"
@@ -186,6 +187,89 @@ https://www.transmonkey.ai/hieroglyphics-translator
             </a>
          {/snippet}
       </Item.Root>
+
+      <A.Root type="multiple">
+         <A.Item>
+            <A.Trigger>
+               {$_.learning_resources.egyptian.other_input_methods._}
+            </A.Trigger>
+            <A.Content class="flex flex-col space-y-3">
+
+               <Item.Group>
+
+                  <Item.Root size="sm">
+                     {#snippet child({props})}
+                        <a href="https://jsesh.qenherkhopeshef.org" target="_blank" tabindex={0} {...props}>
+                           <Item.Content>
+                              <Item.Title lang="en-GB">
+                                 JSesh
+                              </Item.Title>
+                           </Item.Content>
+                        </a>
+                     {/snippet}
+                  </Item.Root>
+
+                  <Item.Separator/>
+
+                  <Item.Root size="sm">
+                     {#snippet child({props})}
+                        <a href="https://projetrosette.info" target="_blank" tabindex={0} {...props}>
+                           <Item.Content>
+                              <Item.Title lang="fr-FR">
+                                 Projet Rosette
+                              </Item.Title>
+                           </Item.Content>
+                        </a>
+                     {/snippet}
+                  </Item.Root>
+
+                  <Item.Separator/>
+
+                  <Item.Root size="sm">
+                     {#snippet child({props})}
+                        <a href="https://somiyagawa.github.io/SINUHE-the-Hierotyper/" target="_blank" tabindex={0} {...props}>
+                           <Item.Content>
+                              <Item.Title lang="en-GB">
+                                 SINUHE the Hierotyper
+                              </Item.Title>
+                           </Item.Content>
+                        </a>
+                     {/snippet}
+                  </Item.Root>
+
+                  <Item.Separator/>
+
+                  <Item.Root size="sm">
+                     {#snippet child({props})}
+                        <a href="https://hieroglyphica.com" target="_blank" tabindex={0} {...props}>
+                           <Item.Content>
+                              <Item.Title lang="en-GB">
+                                 Hieroglyphica
+                              </Item.Title>
+                           </Item.Content>
+                        </a>
+                     {/snippet}
+                  </Item.Root>
+
+                  <Item.Separator/>
+
+                  <Item.Root size="sm">
+                     {#snippet child({props})}
+                        <a href="https://www.orientverlag.ch/VisualGlyph-for-PC" target="_blank" tabindex={0} {...props}>
+                           <Item.Content>
+                              <Item.Title lang="en-GB">
+                                 VisualGlyph+
+                              </Item.Title>
+                           </Item.Content>
+                        </a>
+                     {/snippet}
+                  </Item.Root>
+
+               </Item.Group>
+
+            </A.Content>
+         </A.Item>
+      </A.Root>
 
    </section>
 

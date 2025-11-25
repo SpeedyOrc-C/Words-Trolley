@@ -94,6 +94,9 @@ export type I18nTemplate = {
 					meta_description: s
 				}
 			}
+			other_input_methods: {
+				_: s
+			}
 		}
 		tibetan: {
 			_: s

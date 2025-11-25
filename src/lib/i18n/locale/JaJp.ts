@@ -92,7 +92,10 @@ export const JaJp: I18nTemplate = {
 					title: "エジプト語翻字変換",
 					meta_description: "古代エジプト語の様々な翻字方式の間で変換するツール。"
 				}
-			}
+			},
+			other_input_methods: {
+				_: "その他の入力方法"
+			},
 		},
 		tibetan: {
 			_: "チベット語",

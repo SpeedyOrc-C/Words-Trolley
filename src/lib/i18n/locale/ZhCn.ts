@@ -92,7 +92,10 @@ const ZhCn: I18nTemplate = {
 					title: "埃及语转写转换器",
 					meta_description: "在不同的古埃及语转写方案之间进行转换的工具。"
 				}
-			}
+			},
+			other_input_methods: {
+				_: "其他输入法"
+			},
 		},
 		tibetan: {
 			_: "藏语",

@@ -92,7 +92,10 @@ const EnGb: I18nTemplate = {
 					title: "Egyptian Transliteration Converter",
 					meta_description: "A tool for converting between different Ancient Egyptian transliteration schemes."
 				}
-			}
+			},
+			other_input_methods: {
+				_: "Other input methods"
+			},
 		},
 		tibetan: {
 			_: "Tibetan",

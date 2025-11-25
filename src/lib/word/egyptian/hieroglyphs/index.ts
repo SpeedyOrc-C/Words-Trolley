@@ -109,9 +109,18 @@ export function ExecuteHieroglyphsEditCommand
 		const middle = content.slice(cursor - 2, cursor)
 		const right = content.slice(cursor)
 
-		const newMiddle = middle[1][0] == Structure.Vertical
-			? v(middle[0], ...middle[1][1])
-			: v(middle[0], middle[1])
+		let newMiddle: Hieroglyphs
+
+		if (middle[0][0] == Structure.Vertical)
+			if (middle[1][0] == Structure.Vertical)
+				newMiddle = v(...middle[0][1], ...middle[1][1])
+			else
+				newMiddle = v(...middle[0][1], middle[1])
+		else
+			if (middle[1][0] == Structure.Vertical)
+				newMiddle = v(middle[0], ...middle[1][1])
+			else
+				newMiddle = v(middle[0], middle[1])
 
 		return {
 			cursor: cursor - 1,
@@ -127,9 +136,18 @@ export function ExecuteHieroglyphsEditCommand
 		const middle = content.slice(cursor - 2, cursor)
 		const right = content.slice(cursor)
 
-		const newMiddle = middle[1][0] == Structure.Horizontal
-			? h(middle[0], ...middle[1][1])
-			: h(middle[0], middle[1])
+		let newMiddle: Hieroglyphs
+
+		if (middle[0][0] == Structure.Horizontal)
+			if (middle[1][0] == Structure.Horizontal)
+				newMiddle = h(...middle[0][1], ...middle[1][1])
+			else
+				newMiddle = h(...middle[0][1], middle[1])
+		else
+			if (middle[1][0] == Structure.Horizontal)
+				newMiddle = h(middle[0], ...middle[1][1])
+			else
+				newMiddle = h(middle[0], middle[1])
 
 		return {
 			cursor: cursor - 1,

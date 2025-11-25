@@ -5199,11 +5199,17 @@ const UnicodeWidth: Record<number, number> = {
 
 export function WidthOfGlyph(glyph: string)
 {
-   if (glyph == "𓆓𓐳𓂧" || glyph == "𓆓𓐳𓋴")
+   if (glyph == "𓆓𓂧" || glyph == "𓆓𓋴")
       return WidthOfGlyph("𓆓")
 
-   if (glyph == "𓅱𓐳𓏏" || glyph == "𓅱𓐴𓏏")
+   if (glyph == "𓅱𓏏" || glyph == "𓏏𓅱")
       return WidthOfGlyph("𓅱")
+
+	if (glyph == "𓅭𓇳")
+		return WidthOfGlyph("𓅭")
+
+	if (glyph == "𓅐𓏏")
+		return WidthOfGlyph("𓅐")
 
    const code = glyph.codePointAt(0)
 

@@ -11,6 +11,13 @@
 	const cartoucheOverallVerticalSize = cartoucheStrokeSize + cartoucheVerticalPadding
 	const cartoucheOverallHorizontalSize = cartoucheStrokeSize + cartoucheHorizontalPadding
 
+	const allowedLigatures = new Set([
+		"𓆓𓋴", "𓆓𓂧",
+		"𓅱𓏏", "𓏏𓅱",
+		"𓅐𓏏",
+		"𓅭𓇳",
+	])
+
 	function PessimisticHeight([structure, arg]: Hieroglyphs): number
 	{
 		switch (structure)
@@ -25,8 +32,7 @@
 		case Structure.Cartouche:
 			return 1
 		case Structure.Ligature:
-			// TODO)) Make it more accurate
-			return PessimisticHeight(arg[0])
+			return HeightOfGlyph(arg[0][0] + arg[0][1])
 		}
 	}
 
@@ -44,8 +50,7 @@
 		case Structure.Cartouche:
 			return PessimisticWidth(arg) + cartoucheOverallHorizontalSize * 2
 		case Structure.Ligature:
-			// TODO)) Make it more accurate
-			return PessimisticWidth(arg[0])
+			return WidthOfGlyph(arg[0][0] + arg[0][1])
 		}
 	}
 
@@ -126,30 +131,12 @@
 
 	{#if t1 == Structure.Glyph && t2 == Structure.Glyph}
 
-		{#if a1 == "𓆓" && a2 == "𓋴"}
+		{@const pair = a1 + a2}
 
+		{#if allowedLigatures.has(pair)}
 			<span class="g" style:height>
-				<EgyptianGlyph g=𓆓𓐳𓋴 {fp} {lineHeight}/>
+				<EgyptianGlyph g={pair} {fp} {lineHeight}/>
 			</span>
-
-		{:else if a1 == "𓆓" && a2 == "𓂧"}
-
-			<span class="g" style:height>
-				<EgyptianGlyph g=𓆓𓐳𓂧 {fp} {lineHeight}/>
-			</span>
-
-		{:else if a1 == "𓅱" && a2 == "𓏏"}
-
-			<span class="g" style:height>
-				<EgyptianGlyph g=𓅱𓐴𓏏 {fp} {lineHeight}/>
-			</span>
-
-		{:else if a1 == "𓏏" && a2 == "𓅱"}
-
-			<span class="g" style:height>
-				<EgyptianGlyph g=𓅱𓐳𓏏 {fp} {lineHeight}/>
-			</span>
-
 		{:else}
 			{@render IncorrectLigature()}
 		{/if}

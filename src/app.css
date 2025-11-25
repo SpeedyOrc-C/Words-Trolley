@@ -125,6 +125,7 @@
 @font-face {
     font-family: Font_Egyptian;
     src: url("/font/GardinerNeue.otf") format("opentype");
+    font-feature-settings: "rlig" on;
 }
 
 .font-pinyin {

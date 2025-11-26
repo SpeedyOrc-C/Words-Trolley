@@ -4,17 +4,27 @@
 	import type Gardiner from "$lib/word/egyptian/gardiner"
 	import {Literal2Gardiner} from "$lib/word/egyptian/gardiner/gardiner-literal"
 	import {HeightOfGlyph} from "$lib/word/egyptian/glyph/height"
+	import {WidthOfGlyph} from "$lib/word/egyptian/glyph/width"
 
-	const {fp = 1, g, lineHeight}: { fp?: number, g: string, lineHeight: number } = $props()
-	const freeHeight = $derived(lineHeight * fp)
-	const glyphProportion = $derived(HeightOfGlyph(g))
-	const glyphHeight = $derived(lineHeight * glyphProportion)
+	const {
+		g,
+		fpx = Number.MAX_SAFE_INTEGER,
+		fpy = 1,
+		lineHeight,
+	}: {
+		g: string,
+		fpx?: number,
+		fpy?: number,
+		lineHeight: number,
+	} = $props()
 
-	const scale = $derived(
-		glyphHeight > freeHeight
-			? freeHeight / glyphHeight
-			: 1
-	)
+	const freeHeight = $derived(lineHeight * fpy)
+	const glyphHeight = $derived(lineHeight * HeightOfGlyph(g))
+	const freeWidth = $derived(lineHeight * fpx)
+	const glyphWidth = $derived(lineHeight * WidthOfGlyph(g))
+	const scaleX = $derived(glyphWidth > freeWidth ? freeWidth / glyphWidth : 1)
+	const scaleY = $derived(glyphHeight > freeHeight ? freeHeight / glyphHeight : 1)
+	const scale = $derived(Math.min(scaleX, scaleY))
 
 	function SemiessessiFromGardiner(gardiner: Gardiner): string
 	{

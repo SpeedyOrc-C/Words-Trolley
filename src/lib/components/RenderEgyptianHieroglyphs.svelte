@@ -32,7 +32,9 @@
 		case Structure.Cartouche:
 			return 1
 		case Structure.Ligature:
-			return HeightOfGlyph(arg[0][0] + arg[0][1])
+			if (arg[0][0] == Structure.Glyph && arg[1][0] == Structure.Glyph)
+				return HeightOfGlyph(arg[0][1] + arg[1][1])
+			throw PessimisticHeight(arg[0])
 		}
 	}
 
@@ -50,20 +52,23 @@
 		case Structure.Cartouche:
 			return PessimisticWidth(arg) + cartoucheOverallHorizontalSize * 2
 		case Structure.Ligature:
-			return WidthOfGlyph(arg[0][0] + arg[0][1])
+			if (arg[0][0] == Structure.Glyph && arg[1][0] == Structure.Glyph)
+				return WidthOfGlyph(arg[0][1] + arg[1][1])
+			throw PessimisticWidth(arg[0])
 		}
 	}
 
-	function CutVerticalHeights(heights: number[], max: number): number
+	function ScaleSegments(xs: number[], max: number, gap: number): number
 	{
-		const totalHeight = heights.reduce((a, b) => a + b, 0) + verticalGap * (heights.length - 1)
-		const excess = totalHeight - max
+		const xsSum = xs.reduce((a, b) => a + b, 0)
+
+		const sum = xsSum + gap * (xs.length - 1)
+		const excess = sum - max
 
 		if (excess <= 0)
 			return 1
 
-		const total = heights.reduce((a, b) => a + b, 0)
-		const scale = 1 - excess / total
+		const scale = 1 - excess / xsSum
 
 		return scale
 	}
@@ -73,15 +78,23 @@
 	import EgyptianGlyph from "./EgyptianGlyph.svelte"
 	import Render from "./RenderEgyptianHieroglyphs.svelte"
 
-	const {fp = 1, hie, parentWidth, lineHeight}: {
-		fp?: number,
+
+	const {
+		hie,
+		fpx = Number.MAX_SAFE_INTEGER,
+		fpy = 1,
+		parentWidth,
+		lineHeight,
+	}: {
 		hie: Hieroglyphs,
+		fpx?: number,
+		fpy?: number,
 		parentWidth?: number,
 		lineHeight: number,
 	} = $props()
 
-	const freeHeight = $derived(lineHeight * fp)
-	const height = $derived(`${freeHeight}px`)
+	const heightPx = $derived(lineHeight * fpy)
+	const height = $derived(`${heightPx}px`)
 
 	const [struct, arg] = $derived(hie)
 </script>
@@ -89,30 +102,33 @@
 {#if struct == Structure.Glyph}
 
 	<span class="g" style:height>
-		<EgyptianGlyph g={arg} {fp} {lineHeight}/>
+		<EgyptianGlyph g={arg} {fpx} {fpy} {lineHeight}/>
 	</span>
 
 {:else if struct == Structure.Vertical}
 
 	{@const pessimisticHeights = arg.map(PessimisticHeight)}
 	{@const pessimisticWidth = Math.max(...arg.map(PessimisticWidth))}
-	{@const scale = CutVerticalHeights(pessimisticHeights, fp)}
+	{@const scale = ScaleSegments(pessimisticHeights, fpy, verticalGap)}
 	{@const adjustedHeights = pessimisticHeights.map(h => h * scale)}
 
 	<span class="v" style:height>
-		{#each arg as _hie, i}
-			<Render hie={_hie} fp={adjustedHeights[i]} {lineHeight} parentWidth={scale * pessimisticWidth}/>
+		{#each arg as hie, i}
+			<Render {hie} fpx={1.2} fpy={adjustedHeights[i]} {lineHeight} parentWidth={scale * Math.min(1, pessimisticWidth)}/>
 		{/each}
 	</span>
 
 {:else if struct == Structure.Horizontal}
 
+	{@const pessimisticWidths = arg.map(PessimisticWidth)}
+	{@const scale = ScaleSegments(pessimisticWidths, fpx, horizontalGap)}
+	{@const adjustedWidths = pessimisticWidths.map(w => w * scale)}
 	{@const minWidth = parentWidth == undefined ? 0 : lineHeight * parentWidth}
 	{@const gap = lineHeight * horizontalGap}
 
-	<span class="h" style:height style:min-width="{minWidth}px" style:gap="{gap}px">
-		{#each arg as hie}
-			<Render hie={hie} fp={fp} {lineHeight}/>
+	<span class="h" style:height="{heightPx * scale}px" style:min-width="{minWidth}px" style:gap="{gap}px">
+		{#each arg as hie, i}
+			<Render {hie} fpx={adjustedWidths[i]} fpy={fpy * scale} {lineHeight}/>
 		{/each}
 	</span>
 
@@ -124,7 +140,7 @@
 		{@const gap = lineHeight * horizontalGap}
 		<span class="h text-red-400" style:height style:gap="{gap}px">
 			{#each arg as hie}
-				<Render hie={hie} fp={fp} {lineHeight}/>
+				<Render hie={hie} {fpx} {fpy} {lineHeight}/>
 			{/each}
 		</span>
 	{/snippet}
@@ -135,7 +151,7 @@
 
 		{#if allowedLigatures.has(pair)}
 			<span class="g" style:height>
-				<EgyptianGlyph g={pair} {fp} {lineHeight}/>
+				<EgyptianGlyph g={pair} {fpx} {fpy} {lineHeight}/>
 			</span>
 		{:else}
 			{@render IncorrectLigature()}
@@ -147,8 +163,8 @@
 
 {:else if struct == Structure.Cartouche}
 
-	{@const borderWidth = lineHeight * fp * cartoucheStrokeSize}
-	{@const padding = `${(lineHeight * fp * cartoucheVerticalPadding)}px ${(lineHeight * fp * cartoucheHorizontalPadding)}px`}
+	{@const borderWidth = lineHeight * fpy * cartoucheStrokeSize}
+	{@const padding = `${(lineHeight * fpy * cartoucheVerticalPadding)}px ${(lineHeight * fpy * cartoucheHorizontalPadding)}px`}
 
 	<span
 		class="c border-foreground"
@@ -156,7 +172,7 @@
 		style:--border-width="{borderWidth}px"
 		style:padding
 	>
-		<Render hie={arg} {fp} lineHeight={lineHeight * (1 - cartoucheOverallVerticalSize * 2)}/>
+		<Render hie={arg} {fpx} {fpy} lineHeight={lineHeight * (1 - cartoucheOverallVerticalSize * 2)}/>
 	</span>
 
 {/if}

@@ -264,6 +264,7 @@ const ZhCn: I18nTemplate = {
 			backspace: "退格",
 			make_ligature: "创建连字",
 			ungroup: "取消组合",
+			add_cartouche: "添加王名框",
 			join_horizontally: "横向连接",
 			join_vertically: "纵向连接",
 			syntax_error: "语法错误",

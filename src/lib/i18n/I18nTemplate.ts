@@ -265,6 +265,7 @@ export type I18nTemplate = {
 			backspace: s
 			make_ligature: s
 			ungroup: s
+			add_cartouche: s
 			join_horizontally: s
 			join_vertically: s
 			syntax_error: s

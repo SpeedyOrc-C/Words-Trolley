@@ -264,6 +264,7 @@ export const JaJp: I18nTemplate = {
 			backspace: "バックスペース",
 			make_ligature: "合字を作成",
 			ungroup: "グループ解除",
+			add_cartouche: "カルトゥーシュを付ける",
 			join_horizontally: "横に結合",
 			join_vertically: "縦に結合",
 			syntax_error: "構文エラー",

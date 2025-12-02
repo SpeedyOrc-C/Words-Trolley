@@ -264,6 +264,7 @@ const EnGb: I18nTemplate = {
 			backspace: "Backspace",
 			make_ligature: "Make ligature",
 			ungroup: "Ungroup",
+			add_cartouche: "Add cartouche",
 			join_horizontally: "Join horizontally",
 			join_vertically: "Join vertically",
 			syntax_error: "Syntax error",

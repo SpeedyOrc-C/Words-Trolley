@@ -14,9 +14,10 @@
 </script>
 
 <script lang="ts">
-	import {Button} from "$lib/components/ui/button"
+	import {Button, buttonVariants} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
 	import {ButtonGroup} from "$lib/components/ui/button-group"
+	import * as TT from "$lib/components/ui/tooltip"
 	import * as DM from "$lib/components/ui/dropdown-menu"
 	import * as Kbd from "$lib/components/ui/kbd"
 
@@ -472,9 +473,7 @@
 						variant="ghost"
 						class="inline-flex items-center"
 					>
-						<code>
-							{i + 1}
-						</code>
+						<code class="text-orange-700 dark:text-orange-300">{i + 1}</code>
 						<span class="text-xl egyptian">
 							<EgyptianText t={[hie.Word]}/>
 						</span>
@@ -495,41 +494,73 @@
 
 				<ButtonGroup>
 
-					<Button
-						onclick={() => Execute(EgyptianEditCmdKind.Cartouche)}
-						disabled={s.cursor == 0}
-						variant="outline"
-					>
-						<EgyptianText t={nameLabel}/>
-						<Kbd.Root>)|</Kbd.Root>
-					</Button>
+					<TT.Provider>
+						<TT.Root>
+							<TT.Trigger
+								onclick={() => Execute(EgyptianEditCmdKind.Cartouche)}
+								disabled={s.cursor == 0}
+								title={$_.editor.hieroglyphs_editor.add_cartouche}
+								class={buttonVariants({variant: "outline"})}
+							>
+								<EgyptianText t={nameLabel}/>
+								<Kbd.Root>)|</Kbd.Root>
+							</TT.Trigger>
+							<TT.Content>
+								{$_.editor.hieroglyphs_editor.add_cartouche}
+							</TT.Content>
+						</TT.Root>
+					</TT.Provider>
 
-					<Button
-						onclick={() => Execute(EgyptianEditCmdKind.Overlap)}
-						disabled={s.cursor < 2}
-						variant="outline"
-						title={$_.editor.hieroglyphs_editor.make_ligature}
-					>
-						<Blend/><Kbd.Root>&amp;</Kbd.Root>
-					</Button>
+					<TT.Provider>
+						<TT.Root>
+							<TT.Trigger
+								onclick={() => Execute(EgyptianEditCmdKind.Overlap)}
+								disabled={s.cursor < 2}
+								title={$_.editor.hieroglyphs_editor.make_ligature}
+								class={buttonVariants({variant: "outline"})}
+							>
+								<Blend/>
+								<Kbd.Root>&amp;</Kbd.Root>
+							</TT.Trigger>
+							<TT.Content>
+								{$_.editor.hieroglyphs_editor.make_ligature}
+							</TT.Content>
+						</TT.Root>
+					</TT.Provider>
 
-					<Button
-						onclick={() => Execute(EgyptianEditCmdKind.Row)}
-						disabled={s.cursor < 2}
-						variant={"outline"}
-						title={$_.editor.hieroglyphs_editor.join_horizontally}
-					>
-						<Columns2/><Kbd.Root>-</Kbd.Root>
-					</Button>
+					<TT.Provider>
+						<TT.Root>
+							<TT.Trigger
+								onclick={() => Execute(EgyptianEditCmdKind.Row)}
+								disabled={s.cursor < 2}
+								title={$_.editor.hieroglyphs_editor.join_horizontally}
+								class={buttonVariants({variant: "outline"})}
+							>
+								<Columns2/>
+								<Kbd.Root>-</Kbd.Root>
+							</TT.Trigger>
+							<TT.Content>
+								{$_.editor.hieroglyphs_editor.join_horizontally}
+							</TT.Content>
+						</TT.Root>
+					</TT.Provider>
 
-					<Button
-						onclick={() => Execute(EgyptianEditCmdKind.Column)}
-						disabled={s.cursor < 2}
-						variant={"outline"}
-						title={$_.editor.hieroglyphs_editor.join_vertically}
-					>
-						<Rows2/><Kbd.Root>=</Kbd.Root>
-					</Button>
+					<TT.Provider>
+						<TT.Root>
+							<TT.Trigger
+								onclick={() => Execute(EgyptianEditCmdKind.Column)}
+								disabled={s.cursor < 2}
+								title={$_.editor.hieroglyphs_editor.join_vertically}
+								class={buttonVariants({variant: "outline"})}
+							>
+								<Rows2/>
+								<Kbd.Root>=</Kbd.Root>
+							</TT.Trigger>
+							<TT.Content>
+								{$_.editor.hieroglyphs_editor.join_vertically}
+							</TT.Content>
+						</TT.Root>
+					</TT.Provider>
 
 				</ButtonGroup>
 

@@ -120,7 +120,14 @@
 			return
 		}
 
-		// Overlap 2 glyphs
+		if (imeInput == ";")
+		{
+			Execute(EgyptianEditCmdKind.DuplicateLast)
+			imeInput = ""
+			imeInputError = false
+			return
+		}
+
 		if (imeInput == "&")
 		{
 			Execute(EgyptianEditCmdKind.Overlap)
@@ -141,6 +148,16 @@
 		{
 			Execute(EgyptianEditCmdKind.Column)
 			imeInput = ""
+			imeInputError = false
+			return
+		}
+
+		if (imeInput.endsWith(";") && imeWords.length > 0)
+		{
+			Execute(EgyptianEditCmdKind.Insert, imeWords[0])
+			Execute(EgyptianEditCmdKind.DuplicateLast)
+			imeInput = ""
+			imeWords = []
 			imeInputError = false
 			return
 		}

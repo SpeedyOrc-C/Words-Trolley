@@ -61,6 +61,7 @@ export enum EgyptianEditCmdKind
 	Overlap,
 	Cartouche,
 	Split,
+	DuplicateLast,
 	Jump,
 	Left,
 	Right,
@@ -75,6 +76,7 @@ export type EgyptianEditCmd
 	| [EgyptianEditCmdKind.Overlap]
 	| [EgyptianEditCmdKind.Cartouche]
 	| [EgyptianEditCmdKind.Split]
+	| [EgyptianEditCmdKind.DuplicateLast]
 	| [EgyptianEditCmdKind.Jump, number]
 	| [EgyptianEditCmdKind.Left]
 	| [EgyptianEditCmdKind.Right]
@@ -195,6 +197,20 @@ export function ExecuteHieroglyphsEditCommand
 		return {
 			cursor: cursor + split.length - 1,
 			content: [...left, ...split, ...right]
+		}
+	}
+	case EgyptianEditCmdKind.DuplicateLast:
+	{
+		if (cursor == 0)
+			throw "No character to duplicate."
+
+		const hie = content[cursor - 1]
+		const left = content.slice(0, cursor)
+		const right = content.slice(cursor)
+
+		return {
+			cursor: cursor + 1,
+			content: [...left, hie, ...right]
 		}
 	}
 	case EgyptianEditCmdKind.Jump:

@@ -18,6 +18,8 @@
 		"𓅭𓇳",
 	])
 
+	//H2𓆳V2𓏏𓊗V2𓎆𓏽V2𓐍𓂋H2𓍛V2𓏤𓈖H2V2𓇓𓏏V2𓆤𓏏CH3𓇳𓆣𓂓H2𓋹𓆖H2𓇋V2𓄪𓐍H2𓊹𓏏H3𓇋𓍘𓇌V2𓆓𓂧𓆑H2𓇋𓅱V2H2𓄙𓅓𓈖H3𓎿V2𓊃𓏏𓀁V2𓐍𓂋H2𓇓V2𓏏𓈖H2𓋴𓉼V2H2𓄣𓏤𓂋H4𓇋V2𓏏𓆑𓀀V3𓏤𓏤𓏤H2V2𓆣𓂋𓅱H2V3𓂋𓄂𓏏𓀀H2𓇋𓅱H2V3𓋭𓈖𓈖𓀀H2𓍛V2𓏤𓆑H3V2𓐍𓏏𓅓𓋩𓉼𓅓𓎛𓎿V4𓊃𓏠𓈖𓈓𓃂H2𓏇𓇋H2𓀻𓋴𓇓V3𓏏𓈖𓎟
+
 	function PessimisticHeight([structure, arg]: Hieroglyphs): number
 	{
 		switch (structure)
@@ -78,6 +80,7 @@
 	import EgyptianGlyph from "./EgyptianGlyph.svelte"
 	import Render from "./RenderEgyptianHieroglyphs.svelte"
 
+	// [ERROR] V3𓏠𓈖H3𓏌𓏌𓏌𓋴V2𓈖H2𓃀𓇋𓏜V3H2𓐍𓏏𓏛𓏥
 
 	const {
 		hie,

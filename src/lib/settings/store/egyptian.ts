@@ -1,6 +1,6 @@
 import {settings} from "$lib/settings/store"
 import {Equal} from "$lib/utils"
-import {Phoneme, PhonemeEqual_FuzzySs, PhonemeStringEqual_FuzzySs} from "$lib/word/egyptian"
+import {Phoneme, PhonemeEqual_FuzzySs} from "$lib/word/egyptian"
 import
 {
 	Punctuation,

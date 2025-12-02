@@ -31,11 +31,6 @@ export enum Phoneme
 	j = "𓆓",
 }
 
-export function PhonemeStringEqual_FuzzySs(a: string, b: string): boolean
-{
-	return a.replaceAll(Phoneme.z, Phoneme.s) == b.replaceAll(Phoneme.z, Phoneme.s)
-}
-
 export function PhonemeEqual_FuzzySs(a: Phoneme | Punctuation, b: Phoneme | Punctuation): boolean
 {
 	if (a == b)

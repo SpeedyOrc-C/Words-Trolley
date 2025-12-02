@@ -1,4 +1,5 @@
 import {g, v, h, type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
+import type {EgyptianWordCandidate} from "."
 
 function FromPower0(d: number): string
 {
@@ -108,7 +109,7 @@ function FromPower3(d: number): string
 	}
 }
 
-export function CandidatesFromNumber(x: number): Hieroglyphs[]
+export function CandidatesFromNumber(x: number): EgyptianWordCandidate[]
 {
 	if (x <= 0 || x >= 10000)
 		return []
@@ -132,9 +133,9 @@ export function CandidatesFromNumber(x: number): Hieroglyphs[]
 		result.push(g(FromPower0(d0)))
 
 	if (result.length == 1)
-		return result
+		return result.map(v => ({Word: v}))
 	if (result.length == 2)
-		return [v(...result)]
+		return [{Word: v(...result)}]
 	else
-		return [h(...result)]
+		return [{Word: h(...result)}]
 }

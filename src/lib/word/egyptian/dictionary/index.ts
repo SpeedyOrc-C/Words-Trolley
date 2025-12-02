@@ -7,6 +7,11 @@ import {g, type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
 
 type EgyptianDictionary = Map<Phoneme, [Hieroglyphs[], null | EgyptianDictionary]>
 
+export type EgyptianWordCandidate = {
+	Word: Hieroglyphs
+	Tail?: Phoneme[]
+}
+
 const EgyptianDictionary: EgyptianDictionary = new Map()
 
 function AppendToDictionary(d: EgyptianDictionary, pronunciation: Phoneme[], word: Hieroglyphs)
@@ -63,22 +68,52 @@ for (const [k, v] of LetterMore)
 for (const [k, v] of Important)
 	AppendToDictionary(EgyptianDictionary, [...v as any], k)
 
-function CollectRestWords(d: EgyptianDictionary): Hieroglyphs[]
+function CollectTailWords(d: EgyptianDictionary, input: Phoneme[], fuzzySz = false): EgyptianWordCandidate[]
 {
-	const words: Hieroglyphs[] = []
-
-	for (const [_, [ws, subDict]] of d)
+	if (input.length > 0)
 	{
-		words.push(...ws)
+		const [firstPhoneme, ...restPhonemes] = input
 
-		if (subDict != null)
-			words.push(...CollectRestWords(subDict))
+		const entry = d.get(firstPhoneme)
+
+		if (entry == undefined)
+			return []
+
+		const [_, subDict] = entry
+
+		if (subDict == null)
+			return []
+
+		return CollectTailWords(subDict, restPhonemes, fuzzySz)
 	}
 
-	return words
+	const candidates: EgyptianWordCandidate[] = []
+
+	for (const [phoneme, [words, subDict]] of d)
+	{
+		for (const w of words)
+		{
+			candidates.push({Word: w, Tail: [phoneme]})
+		}
+
+		if (subDict != null)
+		{
+			candidates.push(...CollectTailWords(subDict, [], fuzzySz).map(sc => ({
+				Word: sc.Word,
+				Tail: [phoneme, ...sc.Tail!],
+			})))
+		}
+	}
+
+	return candidates
 }
 
-function AppendToCandidates(candidates: Hieroglyphs[], d: EgyptianDictionary, input: Phoneme[], fuzzySz = false)
+function AppendToCandidates(
+	candidates: EgyptianWordCandidate[],
+	d: EgyptianDictionary,
+	input: Phoneme[],
+	fuzzySz = false,
+)
 {
 	if (input.length == 0)
 		return
@@ -96,11 +131,7 @@ function AppendToCandidates(candidates: Hieroglyphs[], d: EgyptianDictionary, in
 	{
 		if (words.length > 0)
 		{
-			candidates.push(...words)
-		}
-		else if (subDict != null)
-		{
-			candidates.push(...CollectRestWords(subDict))
+			candidates.push(...words.map(w => ({Word: w})))
 		}
 	}
 	else if (subDict != null)
@@ -112,9 +143,13 @@ function AppendToCandidates(candidates: Hieroglyphs[], d: EgyptianDictionary, in
 		AppendToCandidates(candidates, d, [Phoneme.z, ...restPhonemes], fuzzySz)
 }
 
-export function CandidatesFromPhonemes(phonemes: Phoneme[], fuzzySz = false): Hieroglyphs[]
+export function CandidatesFromPhonemes(phonemes: Phoneme[], fuzzySz = false): EgyptianWordCandidate[]
 {
-	const candidates: Hieroglyphs[] = []
+	const candidates: EgyptianWordCandidate[] = []
+
 	AppendToCandidates(candidates, EgyptianDictionary, phonemes, fuzzySz)
+	if (phonemes.length >= 2)
+		candidates.push(...CollectTailWords(EgyptianDictionary, phonemes, fuzzySz))
+
 	return candidates
 }

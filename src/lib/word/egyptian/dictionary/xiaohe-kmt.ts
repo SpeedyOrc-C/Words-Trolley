@@ -13,7 +13,8 @@ Original Xiaohe Yinxing scheme: https://flypy.cc/help/#/zg
 “小鹤音形”原始方案见：https://flypy.cc/help/#/zg
 */
 
-import {g, type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
+import {g} from "$lib/word/egyptian/hieroglyphs"
+import type {EgyptianWordCandidate} from "."
 
 const XiaoheKmt: Record<string, string[]> = {
 	"Q": ["𓂸", "𓄛", "𓃢", "𓃠"], // 且 犬 猫
@@ -52,12 +53,12 @@ const XiaoheKmt: Record<string, string[]> = {
 	"RG": ["𓀜", "𓀘"], // 人 + 棍
 }
 
-export function CandidatesFromXiaoheKmt(input: string): Hieroglyphs[]
+export function CandidatesFromXiaoheKmt(input: string): EgyptianWordCandidate[]
 {
 	const candidates = XiaoheKmt[input.toUpperCase()]
 
 	if (candidates == undefined)
 		return []
 
-	return candidates.map(g)
+	return candidates.map(g).map(w => ({Word: w}))
 }

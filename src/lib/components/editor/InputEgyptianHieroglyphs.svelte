@@ -21,8 +21,8 @@
 	import * as Kbd from "$lib/components/ui/kbd"
 
 	import {_} from "$lib/i18n/store"
-	import {preferredEgyptianTransliterationParserForEdit} from "$lib/settings/store/egyptian"
-	import {CandidatesFromPhonemes} from "$lib/word/egyptian/dictionary"
+	import {preferredEgyptianTransliterationParserForEdit, preferredSentenceTransliterationDumperForEdit} from "$lib/settings/store/egyptian"
+	import {CandidatesFromPhonemes, type EgyptianWordCandidate} from "$lib/word/egyptian/dictionary"
 	import {CandidatesFromNumber} from "$lib/word/egyptian/dictionary/numbers"
 	import {CandidatesFromXiaoheKmt} from "$lib/word/egyptian/dictionary/xiaohe-kmt"
 	import {
@@ -78,7 +78,7 @@
 	let s: HieroglyphsEditorState = $state({cursor: value.length, content: value})
 	let imeInput = $state("")
 	let imeInputError = $state(false)
-	let imeWords: Hieroglyphs[] = $state([])
+	let imeWords: EgyptianWordCandidate[] = $state([])
 
 	function Execute(...command: EgyptianEditCmd)
 	{
@@ -154,7 +154,7 @@
 
 		if (imeInput.endsWith(";") && imeWords.length > 0)
 		{
-			Execute(EgyptianEditCmdKind.Insert, imeWords[0])
+			Execute(EgyptianEditCmdKind.Insert, imeWords[0].Word)
 			Execute(EgyptianEditCmdKind.DuplicateLast)
 			imeInput = ""
 			imeWords = []
@@ -164,7 +164,7 @@
 
 		if (imeInput.endsWith("-") && imeWords.length > 0)
 		{
-			Execute(EgyptianEditCmdKind.Insert, imeWords[0])
+			Execute(EgyptianEditCmdKind.Insert, imeWords[0].Word)
 			Execute(EgyptianEditCmdKind.Row)
 			imeInput = ""
 			imeWords = []
@@ -174,7 +174,7 @@
 
 		if (imeInput.endsWith("=") && imeWords.length > 0)
 		{
-			Execute(EgyptianEditCmdKind.Insert, imeWords[0])
+			Execute(EgyptianEditCmdKind.Insert, imeWords[0].Word)
 			Execute(EgyptianEditCmdKind.Column)
 			imeInput = ""
 			imeWords = []
@@ -260,7 +260,7 @@
 		{
 			e.preventDefault()
 
-			Execute(EgyptianEditCmdKind.Insert, imeWords[0])
+			Execute(EgyptianEditCmdKind.Insert, imeWords[0].Word)
 			imeInput = ""
 			imeWords = []
 			imeInputError = false
@@ -275,7 +275,7 @@
 			if (! Number.isNaN(digit) && digit > 0 && digit <= imeWords.length)
 			{
 				e.preventDefault()
-				_InsertSymbolAtCursor(imeWords[digit - 1])
+				_InsertSymbolAtCursor(imeWords[digit - 1].Word)
 				imeInput = ""
 				imeWords = []
 				imeInputError = false
@@ -465,19 +465,24 @@
 
 		{#if imeWords.length > 0}
 
-			<div class="flex flex-wrap gap-1">
+			<div class="flex flex-wrap">
 				{#each imeWords as hie, i (hie)}
 					<Button
-						onclick={() => OnClickImeWord(hie)}
+						onclick={() => OnClickImeWord(hie.Word)}
 						variant="ghost"
-						class="inline-flex items-center gap-4"
+						class="inline-flex items-center"
 					>
 						<code>
 							{i + 1}
 						</code>
 						<span class="text-xl egyptian">
-							<EgyptianText t={[hie]}/>
+							<EgyptianText t={[hie.Word]}/>
 						</span>
+						{#if hie.Tail != undefined}
+							<span class="text-foreground/50">
+								{$preferredSentenceTransliterationDumperForEdit(hie.Tail)}
+							</span>
+						{/if}
 					</Button>
 				{/each}
 			</div>

@@ -18,7 +18,7 @@
 <span
 	bind:this={root}
 	class="p-px inline-flex flex-wrap align-text-bottom overflow-hidden"
-	style:gap="{lineHeight * 0.2}px"
+	style:gap="{lineHeight * 0.1}px"
 	lang="egy"
 >
 	{#each t as hie}

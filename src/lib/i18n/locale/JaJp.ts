@@ -27,6 +27,7 @@ export const JaJp: I18nTemplate = {
 	copied: "コピーしました",
 	paste: "貼り付け",
 	pasted: "貼り付けました",
+	print: "プリント",
 	not_specified: "未指定",
 	wiktionary: "Wiktionary",
 	learning_resources: {
@@ -340,6 +341,10 @@ export const JaJp: I18nTemplate = {
 			number: "数字",
 			glyph: "文字",
 		},
+		rte: {
+			title: "エジプト語リッチテキストエディター",
+			enable_ime: "IME を有効に",
+		}
 	},
 	stack: {
 		vertical: "上下",

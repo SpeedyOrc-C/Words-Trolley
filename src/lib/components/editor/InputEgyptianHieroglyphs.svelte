@@ -1,18 +1,3 @@
-<script lang="ts" module>
-	export const QuickSymbols: Record<string, string> = {
-		"1": "𓏤",
-		"2": "𓏭",
-		"3": "𓏥",
-		"4": "𓏲",
-		"5": "𓂜",
-		"6": "𓏛",
-		"7": "𓏜",
-		"8": "𓀭",
-		"9": "𓁐",
-		"0": "𓀀",
-	}
-</script>
-
 <script lang="ts">
 	import {Button, buttonVariants} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
@@ -51,6 +36,7 @@
 	import Ellipsis from "@lucide/svelte/icons/ellipsis"
 	import Check from "@lucide/svelte/icons/check"
 	import {settings} from "$lib/settings/store"
+	import {QuickSymbols} from "$lib/word/egyptian/IME"
 
 	const nameLabel: Hieroglyphs[] = [c(h(v(g("𓂋"), g("𓈖")), g("𓀀")))]
 

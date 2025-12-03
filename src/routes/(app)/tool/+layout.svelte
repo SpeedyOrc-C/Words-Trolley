@@ -25,7 +25,7 @@
 
 {@render children()}
 
-<div class="h-4"></div>
+<div class="h-4 print:hidden"></div>
 
 <style>
    @media print {

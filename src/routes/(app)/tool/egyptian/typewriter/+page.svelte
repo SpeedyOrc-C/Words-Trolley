@@ -5,7 +5,7 @@
 	import {Slider} from "$lib/components/ui/slider"
 	import {Switch} from "$lib/components/ui/switch"
 	import * as T from "$lib/components/ui/table"
-	import {QuickSymbols} from "$lib/components/editor/InputEgyptianHieroglyphs.svelte"
+	import {QuickSymbols} from "$lib/word/egyptian/IME"
 	import {g} from "$lib/word/egyptian/hieroglyphs"
 
 	import {_} from "$lib/i18n/store"

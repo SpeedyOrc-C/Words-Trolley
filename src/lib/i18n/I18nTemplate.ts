@@ -28,6 +28,7 @@ export type I18nTemplate = {
 	copied: s
 	paste: s
 	pasted: s
+	print: s
 	not_specified: s
 	wiktionary: s
 	learning_resources: {
@@ -340,6 +341,10 @@ export type I18nTemplate = {
 			number_shortcut: s
 			number: s
 			glyph: s
+		}
+		rte: {
+			title: s
+			enable_ime: s
 		}
 	}
 	stack: {

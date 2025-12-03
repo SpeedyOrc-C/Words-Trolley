@@ -340,6 +340,10 @@ const EnGb: I18nTemplate = {
 			number: "Number",
 			glyph: "Glyph",
 		},
+		rte: {
+			title: "Egyptian RTE",
+			enable_ime: "Enable IME",
+		},
 	},
 	stack: {
 		vertical: "Vertical",

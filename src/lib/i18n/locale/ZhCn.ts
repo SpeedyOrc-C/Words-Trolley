@@ -27,6 +27,7 @@ const ZhCn: I18nTemplate = {
 	copied: "已复制",
 	paste: "粘贴",
 	pasted: "已粘贴",
+	print: "打印",
 	not_specified: "未指定",
 	wiktionary: "维基词典",
 	learning_resources: {
@@ -339,6 +340,10 @@ const ZhCn: I18nTemplate = {
 			number_shortcut: "数字快捷键",
 			number: "数字",
 			glyph: "字符",
+		},
+		rte: {
+			title: "埃及文富文本编辑器",
+			enable_ime: "启用输入法",
 		},
 	},
 	stack: {

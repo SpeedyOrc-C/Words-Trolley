@@ -111,22 +111,9 @@ export function ExecuteHieroglyphsEditCommand
 		const middle = content.slice(cursor - 2, cursor)
 		const right = content.slice(cursor)
 
-		let newMiddle: Hieroglyphs
-
-		if (middle[0][0] == Structure.Vertical)
-			if (middle[1][0] == Structure.Vertical)
-				newMiddle = v(...middle[0][1], ...middle[1][1])
-			else
-				newMiddle = v(...middle[0][1], middle[1])
-		else
-			if (middle[1][0] == Structure.Vertical)
-				newMiddle = v(middle[0], ...middle[1][1])
-			else
-				newMiddle = v(middle[0], middle[1])
-
 		return {
 			cursor: cursor - 1,
-			content: [...left, newMiddle, ...right]
+			content: [...left, JoinVertically(middle[0], middle[1]), ...right]
 		}
 	}
 	case EgyptianEditCmdKind.Row:
@@ -138,22 +125,9 @@ export function ExecuteHieroglyphsEditCommand
 		const middle = content.slice(cursor - 2, cursor)
 		const right = content.slice(cursor)
 
-		let newMiddle: Hieroglyphs
-
-		if (middle[0][0] == Structure.Horizontal)
-			if (middle[1][0] == Structure.Horizontal)
-				newMiddle = h(...middle[0][1], ...middle[1][1])
-			else
-				newMiddle = h(...middle[0][1], middle[1])
-		else
-			if (middle[1][0] == Structure.Horizontal)
-				newMiddle = h(middle[0], ...middle[1][1])
-			else
-				newMiddle = h(middle[0], middle[1])
-
 		return {
 			cursor: cursor - 1,
-			content: [...left, newMiddle, ...right]
+			content: [...left, JoinHorizontally(middle[0], middle[1]), ...right]
 		}
 	}
 	case EgyptianEditCmdKind.Overlap:
@@ -285,6 +259,50 @@ export function ExecuteHieroglyphsEditCommand
 			content: arg,
 		}
 	}
+	}
+}
+
+export function JoinVertically(a: Hieroglyphs, b: Hieroglyphs): Hieroglyphs
+{
+	if (a[0] == Structure.Vertical)
+		if (b[0] == Structure.Vertical)
+			return v(...a[1], ...b[1])
+		else
+			return v(...a[1], b)
+	else
+		if (b[0] == Structure.Vertical)
+			return v(a, ...b[1])
+		else
+			return v(a, b)
+}
+
+export function JoinHorizontally(a: Hieroglyphs, b: Hieroglyphs): Hieroglyphs
+{
+	if (a[0] == Structure.Horizontal)
+		if (b[0] == Structure.Horizontal)
+			return h(...a[1], ...b[1])
+		else
+			return h(...a[1], b)
+	else
+		if (b[0] == Structure.Horizontal)
+			return h(a, ...b[1])
+		else
+			return h(a, b)
+
+}
+
+export function Ungroup(x: Hieroglyphs): Hieroglyphs[]
+{
+	switch (x[0])
+	{
+	case Structure.Vertical:
+	case Structure.Horizontal:
+	case Structure.Ligature:
+		return x[1]
+	case Structure.Glyph:
+		throw "Cannot ungroup a glyph."
+	default:
+		return [x]
 	}
 }
 

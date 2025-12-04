@@ -27,6 +27,7 @@ const EnGb: I18nTemplate = {
 	copied: "Copied",
 	paste: "Paste",
 	pasted: "Pasted",
+	print: "Print",
 	not_specified: "Not specified",
 	wiktionary: "Wiktionary",
 	learning_resources: {

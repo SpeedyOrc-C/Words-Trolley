@@ -1,9 +1,9 @@
 <script lang="ts">
    import {QuillEgyptianText} from "$lib/word/egyptian/RTE"
    import Quill from "quill"
-	import { g, type HieroglyphsEditorState, ExecuteHieroglyphsEditCommand, EgyptianEditCmdKind } from "$lib/word/egyptian/hieroglyphs"
+	import { g, JoinVertically, JoinHorizontally, Ungroup, Structure } from "$lib/word/egyptian/hieroglyphs"
 	import {onMount} from "svelte"
-	import {preferredEgyptianTransliterationParserForEdit, preferredSentenceTransliterationDumperForEdit, preferredSentenceTransliterationParserForEdit} from "$lib/settings/store/egyptian"
+	import {preferredEgyptianTransliterationParserForEdit, preferredSentenceTransliterationDumperForEdit} from "$lib/settings/store/egyptian"
 	import {CandidatesFromPhonemes} from "$lib/word/egyptian/dictionary"
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import {QuickSymbols} from "$lib/word/egyptian/IME"
@@ -21,9 +21,8 @@
    let boundsHeight = $state(0)
 
    let keyboardBuffer: string[] = $state([])
-   let s: HieroglyphsEditorState = $state({cursor: 0, content: []})
 
-   const keyboardBufferEmpty = $derived(keyboardBuffer.length == 0 && s.content.length == 0)
+   const keyboardBufferEmpty = $derived(keyboardBuffer.length == 0)
 
    const phonemeBuffer = $derived($preferredEgyptianTransliterationParserForEdit.eval(keyboardBuffer.join("")))
 
@@ -98,7 +97,7 @@
                   imeEnter: {
                      key: "Enter",
                      collapsed: true,
-                     handler: ImeEnter
+                     handler: ImeEnterKeyDown
                   },
                }
             }
@@ -153,7 +152,9 @@
 
       if (keyboardBuffer.length == 0)
       {
-         s = ExecuteHieroglyphsEditCommand(s, [EgyptianEditCmdKind.Insert, g(QuickSymbols[number.toString()])])
+         const symbol = g(QuickSymbols[number.toString()])
+         quill.insertEmbed(quill.getSelection()!.index, QuillEgyptianText.blotName, symbol)
+         quill.setSelection(quill.getSelection()!.index + 1)
          return false
       }
 
@@ -162,7 +163,8 @@
 
       const candidate = candidates[number - 1]
 
-      s = ExecuteHieroglyphsEditCommand(s, [EgyptianEditCmdKind.Insert, candidate.Word])
+      quill.insertEmbed(quill.getSelection()!.index, QuillEgyptianText.blotName, candidate.Word)
+      quill.setSelection(quill.getSelection()!.index + 1)
 
       keyboardBuffer = []
 
@@ -174,21 +176,46 @@
       if (!imeEnabled)
          return true
 
-      if (candidates.length > 0)
+      const range = quill.getSelection(true)
+
+      if (range.index >= 2 && keyboardBuffer.length == 0)
       {
-         const candidate = candidates[0]
+         const [blot1] = quill.getLeaf(range.index - 1)
+         const [blot2] = quill.getLeaf(range.index)
 
-         s = ExecuteHieroglyphsEditCommand(s, [EgyptianEditCmdKind.Insert, candidate.Word])
-         s = ExecuteHieroglyphsEditCommand(s, [EgyptianEditCmdKind.Column])
+         if (!(blot1 instanceof QuillEgyptianText))
+            return true
 
-         keyboardBuffer = []
+         if (!(blot2 instanceof QuillEgyptianText))
+            return true
+
+         const text1 = blot1.value()
+         const text2 = blot2.value()
+         const newText = JoinVertically(text1, text2)
+
+         quill.deleteText(range.index - 2, 2)
+         quill.insertEmbed(range.index - 2, QuillEgyptianText.blotName, newText)
+         quill.setSelection(range.index - 1)
 
          return false
       }
 
-      if (s.content.length >= 2)
+      if (range.index >= 1 && candidates.length > 0)
       {
-         s = ExecuteHieroglyphsEditCommand(s, [EgyptianEditCmdKind.Column])
+         const [blot] = quill.getLeaf(range.index)
+
+         if (!(blot instanceof QuillEgyptianText))
+            return true
+
+         const text = blot.value()
+         const newText = JoinVertically(text, candidates[0].Word)
+
+         quill.deleteText(range.index - 1, 1)
+         quill.insertEmbed(range.index - 1, QuillEgyptianText.blotName, newText)
+         quill.setSelection(range.index)
+
+         keyboardBuffer = []
+
          return false
       }
 
@@ -200,21 +227,46 @@
       if (!imeEnabled)
          return true
 
-      if (candidates.length > 0)
+      const range = quill.getSelection(true)
+
+      if (range.index >= 2 && keyboardBuffer.length == 0)
       {
-         const candidate = candidates[0]
+         const [blot1] = quill.getLeaf(range.index - 1)
+         const [blot2] = quill.getLeaf(range.index)
 
-         s = ExecuteHieroglyphsEditCommand(s, [EgyptianEditCmdKind.Insert, candidate.Word])
-         s = ExecuteHieroglyphsEditCommand(s, [EgyptianEditCmdKind.Row])
+         if (!(blot1 instanceof QuillEgyptianText))
+            return true
 
-         keyboardBuffer = []
+         if (!(blot2 instanceof QuillEgyptianText))
+            return true
+
+         const text1 = blot1.value()
+         const text2 = blot2.value()
+         const newText = JoinHorizontally(text1, text2)
+
+         quill.deleteText(range.index - 2, 2)
+         quill.insertEmbed(range.index - 2, QuillEgyptianText.blotName, newText)
+         quill.setSelection(range.index - 1)
 
          return false
       }
 
-      if (s.content.length >= 2)
+      if (range.index >= 1 && candidates.length > 0)
       {
-         s = ExecuteHieroglyphsEditCommand(s, [EgyptianEditCmdKind.Row])
+         const [blot] = quill.getLeaf(range.index)
+
+         if (!(blot instanceof QuillEgyptianText))
+            return true
+
+         const text = blot.value()
+         const newText = JoinHorizontally(text, candidates[0].Word)
+
+         quill.deleteText(range.index - 1, 1)
+         quill.insertEmbed(range.index - 1, QuillEgyptianText.blotName, newText)
+         quill.setSelection(range.index)
+
+         keyboardBuffer = []
+
          return false
       }
 
@@ -226,41 +278,34 @@
       if (!imeEnabled)
          return true
 
-      if (!keyboardBufferEmpty)
+      if (keyboardBuffer.length > 0)
       {
-         if (keyboardBuffer.length > 0)
-            keyboardBuffer.pop()
-         else if (s.content.length > 0)
-            s = ExecuteHieroglyphsEditCommand(s, [EgyptianEditCmdKind.Backspace])
-
+         keyboardBuffer.pop()
          return false
       }
 
-      return true
-   }
+      const range = quill.getSelection(true)
 
-   function ImeEnter()
-   {
-      if (!imeEnabled)
-         return true
-
-      if (s.content.length > 0)
+      if (range.index >= 1)
       {
-         quill.insertEmbed(quill.getSelection()!.index, QuillEgyptianText.blotName, s.content)
-         quill.setSelection(quill.getSelection()!.index + 1)
-         keyboardBuffer = []
-         s = {cursor: 0, content: []}
+         const [blot] = quill.getLeaf(range.index)
 
-         return false
-      }
-      else if (candidates.length > 0)
-      {
-         const candidate = candidates[0]
+         if (!(blot instanceof QuillEgyptianText))
+            return true
 
-         quill.insertEmbed(quill.getSelection()!.index, QuillEgyptianText.blotName, [candidate.Word])
-         quill.setSelection(quill.getSelection()!.index + 1)
-         keyboardBuffer = []
-         s = {cursor: 0, content: []}
+         const x = blot.value()
+
+         if (x[0] == Structure.Glyph)
+            return true
+
+         const xs = Ungroup(blot.value())
+
+         quill.deleteText(range.index - 1, 1)
+
+         for (const x of xs.reverse())
+            quill.insertEmbed(range.index - 1, QuillEgyptianText.blotName, x)
+
+         quill.setSelection(range.index - 1 + xs.length)
 
          return false
       }
@@ -279,7 +324,18 @@
       if (candidates.length > 0)
          return ImeNumberKeyDown(1)
 
-      return ImeEnter()
+      return true
+   }
+
+   function ImeEnterKeyDown()
+   {
+      if (!imeEnabled)
+         return true
+
+      if (candidates.length > 0)
+         return ImeNumberKeyDown(1)
+
+      return true
    }
 </script>
 
@@ -303,26 +359,19 @@
 {#if !keyboardBufferEmpty}
    <div
       id="ime-popup"
-      class="absolute mt-1 py-1 px-2 border-2 border-accent rounded shadowxl bg-card flex flex-col space-y-2"
+      class="absolute mt-1 py-1 px-2 border-2 border-foreground/20 rounded shadow-lg bg-card flex flex-col"
       class:text-red-500={phonemeBuffer instanceof Error}
       style="top: {popupTop}px; left: {popupLeft}px;"
    >
 
-      <div class="inline-flex space-x-2">
-         {#if s.content.length > 0}
-            <EgyptianText t={s.content} />
-         {/if}
-         <span>
-            {keyboardBuffer.join("")}
-         </span>
+      <div>
+         {keyboardBuffer.join("")}
       </div>
 
       <div class="flex flex-col">
          {#each candidates as candidate, index}
             <div class="inline-flex space-x-2">
-               <span>
-                  {index + 1}.
-               </span>
+               <span>{index + 1}.</span>
                <EgyptianText t={[candidate.Word]} />
                {#if candidate.Tail != undefined}
                   <span class="text-foreground/50">

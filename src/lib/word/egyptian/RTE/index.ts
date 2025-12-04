@@ -11,22 +11,22 @@ export class QuillEgyptianText extends Embed
    static tagName = "span"
    static DataAttribute = "data-egyptian-text"
 
-   static create(value: Hieroglyphs[])
+   static create(value: Hieroglyphs)
    {
       const node = super.create() as HTMLSpanElement
       node.setAttribute(QuillEgyptianText.DataAttribute, JSON.stringify(value))
-      mount(EgyptianText, {target: node, props: {t: value}})
+      mount(EgyptianText, {target: node, props: {t: [value]}})
       return node
    }
 
-   static value(node: HTMLSpanElement): Hieroglyphs[]
+   static value(node: HTMLSpanElement): Hieroglyphs
    {
       return JSON.parse(node.getAttribute(QuillEgyptianText.DataAttribute)!)
    }
 
-   deleteAt(index: number, length: number): void
+   value()
    {
-      this.remove()
+      return QuillEgyptianText.value(this.domNode as HTMLSpanElement)
    }
 }
 

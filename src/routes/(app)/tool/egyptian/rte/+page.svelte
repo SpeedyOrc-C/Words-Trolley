@@ -11,6 +11,7 @@
 	import Switch from "$lib/components/ui/switch/switch.svelte"
 	import Label from "$lib/components/ui/label/label.svelte"
 	import Button from "$lib/components/ui/button/button.svelte"
+	import {CandidatesFromXiaoheKmt} from "$lib/word/egyptian/dictionary/xiaohe-kmt"
 
    let quill: Quill
    let editor: HTMLDivElement | undefined = $state(undefined)
@@ -28,6 +29,13 @@
 
    const candidates = $derived.by(() =>
    {
+      if (keyboardBuffer[0] == "o")
+      {
+         const determinativeSearchString = keyboardBuffer.join("").substring(1)
+
+         return CandidatesFromXiaoheKmt(determinativeSearchString)
+      }
+
       if (phonemeBuffer instanceof Error)
          return []
 
@@ -360,7 +368,7 @@
    <div
       id="ime-popup"
       class="absolute mt-1 py-1 px-2 border-2 border-foreground/20 rounded shadow-lg bg-card flex flex-col"
-      class:text-red-500={phonemeBuffer instanceof Error}
+      class:text-red-500={phonemeBuffer instanceof Error && keyboardBuffer[0] != "o"}
       style="top: {popupTop}px; left: {popupLeft}px;"
    >
 

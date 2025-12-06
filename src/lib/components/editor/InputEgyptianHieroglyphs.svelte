@@ -115,7 +115,7 @@
 			return
 		}
 
-		if (imeInput == "&")
+		if (imeInput == "\\")
 		{
 			Execute(EgyptianEditCmdKind.Overlap)
 			imeInput = ""
@@ -135,6 +135,36 @@
 		{
 			Execute(EgyptianEditCmdKind.Column)
 			imeInput = ""
+			imeInputError = false
+			return
+		}
+
+		if (imeInput == "[" && s.cursor > 0)
+		{
+			Execute(EgyptianEditCmdKind.DuplicateLast)
+			Execute(EgyptianEditCmdKind.Row)
+			imeInput = ""
+			imeWords = []
+			imeInputError = false
+			return
+		}
+
+		if (imeInput == "]" && s.cursor > 0)
+		{
+			Execute(EgyptianEditCmdKind.DuplicateLast)
+			Execute(EgyptianEditCmdKind.Column)
+			imeInput = ""
+			imeWords = []
+			imeInputError = false
+			return
+		}
+
+		if (imeInput.endsWith("\\") && imeWords.length > 0)
+		{
+			Execute(EgyptianEditCmdKind.Insert, imeWords[0].Word)
+			Execute(EgyptianEditCmdKind.Overlap)
+			imeInput = ""
+			imeWords = []
 			imeInputError = false
 			return
 		}
@@ -506,7 +536,7 @@
 								class={buttonVariants({variant: "outline"})}
 							>
 								<Blend/>
-								<Kbd.Root>&amp;</Kbd.Root>
+								<Kbd.Root>\</Kbd.Root>
 							</TT.Trigger>
 							<TT.Content>
 								{$_.editor.hieroglyphs_editor.make_ligature}

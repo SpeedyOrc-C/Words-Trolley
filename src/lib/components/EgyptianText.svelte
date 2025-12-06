@@ -2,8 +2,12 @@
 	import type {Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
 	import {onMount} from "svelte"
 	import RenderEgyptianHieroglyphs from "./RenderEgyptianHieroglyphs.svelte"
+	import type {Readable} from "svelte/store"
 
-	const {t}: { t: readonly Hieroglyphs[] } = $props()
+	const {t, updateSignal}: {
+		t: readonly Hieroglyphs[]
+		updateSignal?: Readable<unknown>
+	} = $props()
 
 	let lineHeight = $state(16)
 
@@ -11,7 +15,17 @@
 
 	onMount(() =>
 	{
-		lineHeight = parseFloat(getComputedStyle(root).fontSize) * 1.2
+		lineHeight = parseFloat(getComputedStyle(root).fontSize)
+
+		const unsubscribeUpdateSignal = updateSignal?.subscribe(() =>
+		{
+			lineHeight = parseFloat(getComputedStyle(root).fontSize)
+		})
+
+		return () =>
+		{
+			unsubscribeUpdateSignal?.()
+		}
 	})
 </script>
 

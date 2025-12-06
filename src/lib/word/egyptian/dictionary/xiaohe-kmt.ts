@@ -16,11 +16,11 @@ Original Xiaohe Yinxing scheme: https://flypy.cc/help/#/zg
 import {g} from "$lib/word/egyptian/hieroglyphs"
 import type {EgyptianWordCandidate} from "."
 
-const XiaoheKmt: Record<string, string[]> = {
+export const XiaoheKmt: Record<string, string[]> = {
 	"Q": ["𓂸", "𓄛", "𓃢", "𓃠"], // 且 犬 猫
 	"W": ["𓀯"], // 王
 	"E": ["𓈉", "𓅪"], // 山 恶 # “山”字像大写字母 E
-	"R": ["𓀀", "𓄹"], // 人 肉
+	"R": ["𓄹"], // 肉
 	"T": ["𓈘", "𓈇"], // 田 土
 	"Y": ["𓃜", "𓃞"], // 羊
 	"U": ["𓈒", "𓈓"], // 石 沙 (sh)
@@ -43,7 +43,7 @@ const XiaoheKmt: Record<string, string[]> = {
 	"C": ["𓆰"], // 草
 	"V": ["𓊛", "𓊝", "𓊜"], // 舟 (zh)
 	"B": ["𓏐", "𓏑", "𓏒"], // 包
-	"N": ["𓁐", "𓃒"], // 女 牛
+	"N": ["𓃒"], // 牛
 	"M": ["𓆭", "𓃗", "𓃘"], // 木 马 驴
 
 	"TL": ["𓇰", "𓇱"], // 天 + 力

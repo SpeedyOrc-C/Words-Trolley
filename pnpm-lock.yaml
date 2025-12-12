@@ -18,8 +18,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       crazy-parser:
-        specifier: ^1.4.0
-        version: 1.4.0
+        specifier: ^1.5.0
+        version: 1.5.0
       mode-watcher:
         specifier: ^1.1.0
         version: 1.1.0(svelte@5.43.6)
@@ -1164,8 +1164,8 @@ packages:
   crazy-i18n@1.0.0:
     resolution: {integrity: sha512-/vQ5RODFr3KymEEhljaFqUs3ki9UCdgiIM6s2xw1PeSwdPD7edI/9jkzK4biGQGublEZqfDAamCDDyIM0yB8jQ==}
 
-  crazy-parser@1.4.0:
-    resolution: {integrity: sha512-p2bN3cQjVxqSh91lKdONfU+RqsyrA+br3+yGoxV9NCj4/pS57qefbveiv/BLs+S2AErL4s/KHaHVa+GvKQ1t/Q==}
+  crazy-parser@1.5.0:
+    resolution: {integrity: sha512-0FjfvI7HFRQ0oh3gG/iwzabLdn7Gpd0k9jFTz3SPXKuXlxn9VgNBPi4O9r76WDe6EXM2JS2F/YtNLdFXbFIDgQ==}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -3557,7 +3557,7 @@ snapshots:
     dependencies:
       ts-toolbelt: 9.6.0
 
-  crazy-parser@1.4.0: {}
+  crazy-parser@1.5.0: {}
 
   cross-spawn@7.0.6:
     dependencies:

@@ -54,7 +54,7 @@
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.81.1",
     "crazy-i18n": "^1.0.0",
-    "crazy-parser": "^1.4.0",
+    "crazy-parser": "^1.5.0",
     "mode-watcher": "^1.1.0",
     "quill": "^2.0.3"
   },

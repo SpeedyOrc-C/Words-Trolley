@@ -27,12 +27,24 @@
 			{
 				const rawJsonStoredSettings = JSON.parse(rawStringStoredSettings)
 
-				settings.set(ParseSettings(rawJsonStoredSettings))
+				const storedSettings = ParseSettings(rawJsonStoredSettings)
+
+				if (storedSettings instanceof TypeError)
+				{
+					console.error(
+						"Settings in localStorage has invalid format, now use default.",
+						rawJsonStoredSettings
+					)
+				}
+				else
+				{
+					settings.set(storedSettings)
+				}
 			}
 			catch
 			{
 				console.error(
-					"Broken settings in localStorage, now use default.",
+					"Settings in localStorage is not a valid JSON, now use default.",
 					rawStringStoredSettings
 				)
 			}
@@ -84,16 +96,16 @@
 	}
 </script>
 
-<svelte:window {onkeydown} {onlanguagechange}/>
+<svelte:window {onkeydown} {onlanguagechange} />
 
 <svelte:head>
-	<meta name="google-site-verification" content="LgylSiIsanuhSU46lPG1N7luYA1a1b8Q0qcaoD8xdhM">
-	<meta name="msvalidate.01" content="6E969809D470884D99DD8C78AE56BBF7">
-	<link rel="manifest" href="/manifest.json">
+	<meta content="LgylSiIsanuhSU46lPG1N7luYA1a1b8Q0qcaoD8xdhM" name="google-site-verification">
+	<meta content="6E969809D470884D99DD8C78AE56BBF7" name="msvalidate.01">
+	<link href="/manifest.json" rel="manifest">
 </svelte:head>
 
-<Settings bind:open={$settingsOpened}/>
-<Toaster position="bottom-right" richColors/>
-<ModeWatcher/>
+<Settings bind:open={$settingsOpened} />
+<Toaster position="bottom-right" richColors />
+<ModeWatcher />
 
 {@render children()}

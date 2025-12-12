@@ -68,6 +68,10 @@
 	.glyph {
 		@apply inline-flex relative items-start;
 
+		:global(*[dir="rtl"]) & {
+			transform: scaleX(-1);
+		}
+
 		& > span {
 			@apply w-fit;
 			line-height: 100%;

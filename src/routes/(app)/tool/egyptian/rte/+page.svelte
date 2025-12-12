@@ -12,6 +12,10 @@
 	import Label from "$lib/components/ui/label/label.svelte"
 	import Button from "$lib/components/ui/button/button.svelte"
 	import {CandidatesFromXiaoheKmt} from "$lib/word/egyptian/dictionary/xiaohe-kmt"
+   import ButtonGroup from "$lib/components/ui/button-group/button-group.svelte"
+   import * as NS from "$lib/components/ui/native-select"
+   import Bold from "@lucide/svelte/icons/bold"
+   import Italic from "@lucide/svelte/icons/italic"
 
    let quill: Quill
    let editor: HTMLDivElement | undefined = $state(undefined)
@@ -80,6 +84,9 @@
    {
       quill = new Quill("#editor", {
          modules: {
+            toolbar: {
+               container: "#toolbar"
+            },
             keyboard: {
                bindings: {
                   imeBackspace: {
@@ -351,17 +358,36 @@
    <title>{$_.egyptian.rte.title}</title>
 </svelte:head>
 
-<div class="m-4 print:hidden flex items-center space-x-4">
+<div id="toolbar" class="m-4 flex flex-wrap gap-4 print:hidden">
+
    <Button onclick={() => window.print()} variant="outline">
       {$_.print}
    </Button>
+
    <Label>
       {$_?.egyptian.rte.enable_ime}
       <Switch bind:checked={imeEnabled}/>
    </Label>
+
+   <NS.Root class="ql-size" onchange={() => QuillEgyptianText.updateSignal.set({})}>
+      <NS.Option value="small">Small</NS.Option>
+      <NS.Option selected>Normal</NS.Option>
+      <NS.Option value="large">Big</NS.Option>
+      <NS.Option value="huge">Huge</NS.Option>
+   </NS.Root>
+
+   <ButtonGroup>
+      <Button class="ql-bold" variant="outline" size="icon">
+         <Bold/>
+      </Button>
+      <Button class="ql-italic" variant="outline" size="icon">
+         <Italic />
+      </Button>
+   </ButtonGroup>
+
 </div>
 
-<div id="editor" class="text-xl" bind:this={editor}>
+<div id="editor" bind:this={editor}>
 </div>
 
 {#if !keyboardBufferEmpty}
@@ -411,5 +437,17 @@
 
    :global(.ql-editor) {
       outline: none;
+   }
+
+   :global(.ql-size-small) {
+      font-size: 0.7em;
+   }
+
+   :global(.ql-size-large) {
+      font-size: 1.5em;
+   }
+
+   :global(.ql-size-huge) {
+      font-size: 2.2em;
    }
 </style>

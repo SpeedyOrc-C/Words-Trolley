@@ -19,6 +19,7 @@
 		className
 	)}
 	{...restProps}
+	dir="auto"
 >
 	<SwitchPrimitive.Thumb
 		data-slot="switch-thumb"

@@ -365,6 +365,7 @@ const ZhCn: I18nTemplate = {
 		[Language.JaJp]: "日语",
 		[Language.FrFr]: "法语（法国）",
 		[Language.DeDe]: "德语（德国）",
+		[Language.Ar]: "阿拉伯语",
 		[Language.Egy]: "埃及语",
 	},
 	not_by_ai: {

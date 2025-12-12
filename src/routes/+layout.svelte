@@ -1,7 +1,7 @@
 <script lang="ts">
 	import "../app.css"
 	import {AutoDetectLanguage} from "$lib/i18n"
-	import {language} from "$lib/i18n/store"
+	import {dir, language} from "$lib/i18n/store"
 	import {ParseSettings} from "$lib/settings"
 	import {settings, settingsOpened} from "$lib/settings/store"
 	import {ModeWatcher} from "mode-watcher"
@@ -14,8 +14,11 @@
 
 	$effect.pre(() =>
 	{
-		const f1 = language
-			.subscribe(lang => document.documentElement.lang = lang)
+		const unsubscribeLanguage = language
+			.subscribe(language => document.documentElement.lang = language)
+
+		const unsubscribeDir = dir
+			.subscribe(dir => document.documentElement.dir = dir)
 
 		const rawStringStoredSettings = localStorage.getItem(SettingsKey)
 
@@ -34,7 +37,7 @@
 				)
 			}
 
-		const f2 = settings.subscribe(set =>
+		const unsubscribeSettings = settings.subscribe(set =>
 		{
 			localStorage.setItem(SettingsKey, JSON.stringify(set))
 
@@ -59,8 +62,9 @@
 
 		return () =>
 		{
-			f1()
-			f2()
+			unsubscribeLanguage()
+			unsubscribeSettings()
+			unsubscribeDir()
 		}
 	})
 

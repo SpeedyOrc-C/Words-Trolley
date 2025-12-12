@@ -1,7 +1,6 @@
 <script lang="ts">
-	import EgyptianGlyph from "$lib/components/EgyptianGlyph.svelte"
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
-	import {preferredEgyptianTransliterationDumperForRead, preferredEgyptianTransliterationParserForRead} from "$lib/settings/store/egyptian"
+	import {preferredEgyptianTransliterationDumperForRead} from "$lib/settings/store/egyptian"
 	import {g} from "$lib/word/egyptian/hieroglyphs"
 	import {QuickSymbols} from "$lib/word/egyptian/IME"
 
@@ -57,6 +56,10 @@
 		["M", "𓅓", [["𓆭"], ["𓃗", "𓃘"]]],
 	] as const
 </script>
+
+<header class="m-4 text-center text-3xl">
+	Words Trolley 埃及文方案布局图
+</header>
 
 <main class="m-4 inline-block">
 

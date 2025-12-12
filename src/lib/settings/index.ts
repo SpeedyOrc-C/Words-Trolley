@@ -68,6 +68,7 @@ export const defaultSettings: ISettings = {
 		[Language.JaJp]: null,
 		[Language.FrFr]: null,
 		[Language.DeDe]: null,
+		[Language.Ar]: null,
 	}
 }
 

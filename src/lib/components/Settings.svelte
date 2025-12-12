@@ -52,6 +52,8 @@
 			return "Français (France)"
 		case Language.DeDe:
 			return "Deutsch (Deutschland)"
+		case Language.Ar:
+			return "العربية"
 		case "auto":
 			return $_.settings.follows_your_system
 		}
@@ -141,6 +143,9 @@
 									</Select.Item>
 									<Select.Item value={Language.JaJp} lang="ja-JP">
 										{_Language(Language.JaJp)}
+									</Select.Item>
+									<Select.Item value={Language.Ar} lang="ar">
+										{_Language(Language.Ar)}
 									</Select.Item>
 								</Select.Content>
 
@@ -431,7 +436,7 @@
 
 								<div class="flex flex-col gap-1">
 
-									<div class="flex items-center">
+									<div class="flex gap-3 items-center">
 										<Checkbox
 											id="set-preferred-voice-{lang}"
 											checked={newSettings.PreferredVoice[lang] != null}
@@ -441,7 +446,7 @@
 											UpdateSettings()
 										}}
 										/>
-										<Label class="pl-3" for="set-preferred-voice-{lang}" {lang}>
+										<Label for="set-preferred-voice-{lang}" {lang}>
 											{_Language(lang)}
 										</Label>
 									</div>

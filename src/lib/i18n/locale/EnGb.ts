@@ -365,6 +365,7 @@ const EnGb: I18nTemplate = {
 		[Language.JaJp]: "Japanese",
 		[Language.FrFr]: "French (France)",
 		[Language.DeDe]: "German (Germany)",
+		[Language.Ar]: "Arabic",
 		[Language.Egy]: "Egyptian",
 	},
 	not_by_ai: {

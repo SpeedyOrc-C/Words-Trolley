@@ -365,6 +365,7 @@ export const JaJp: I18nTemplate = {
 		[Language.JaJp]: "日本語",
 		[Language.FrFr]: "フランス語（フランス）",
 		[Language.DeDe]: "ドイツ語（ドイツ）",
+		[Language.Ar]: "アラビア語",
 		[Language.Egy]: "エジプト語",
 	},
 	not_by_ai: {

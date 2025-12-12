@@ -9,6 +9,7 @@ export type LivingLanguage
 	| Language.JaJp
 	| Language.FrFr
 	| Language.DeDe
+	| Language.Ar
 
 export const LivingLanguages = [
 	Language.ZhCn,
@@ -18,6 +19,7 @@ export const LivingLanguages = [
 	Language.JaJp,
 	Language.FrFr,
 	Language.DeDe,
+	Language.Ar,
 ] as const
 
 export function AutoDetectLanguage(lang: string)

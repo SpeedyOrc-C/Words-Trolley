@@ -330,6 +330,6 @@ https://www.transmonkey.ai/hieroglyphics-translator
    }
 
    section > header {
-      @apply inline-flex justify-between w-full text-2xl;
+      @apply inline-flex items-center justify-between w-full text-2xl;
    }
 </style>

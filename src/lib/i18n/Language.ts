@@ -9,6 +9,7 @@ export enum Language
 	JaJp = "ja-JP",
 	FrFr = "fr-FR",
 	DeDe = "de-DE",
+	Ar = "ar",
 	Egy = "egy",
 }
 

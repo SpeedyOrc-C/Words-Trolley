@@ -13,6 +13,7 @@
 	const {data} = $props()
 
 	let name = $state(data.profile.name)
+	let email = $state(data.user.email)
 
 	let loading = $state(false)
 
@@ -32,7 +33,7 @@
 			return
 		}
 
-		invalidate("supabase:auth")
+		await invalidate("supabase:auth")
 		toast.success($_.my_profile.save.win)
 	}
 </script>
@@ -70,10 +71,21 @@
 						{$_.my_profile.name}
 					</Field.Label>
 					<ButtonGroup>
-					 <Input type="text" bind:value={name} id="name" required/>
-					 <Button type="submit" disabled={loading} variant="outline">
-						 {$_.my_profile.save._}
-					 </Button>
+						<Input bind:value={name} id="name" required type="text" />
+						<Button disabled={loading} type="submit">
+							{$_.my_profile.save._}
+						</Button>
+					</ButtonGroup>
+				</Field.Field>
+			</form>
+
+			<form>
+				<Field.Field>
+					<Field.Label for="email">
+						{$_.email}
+					</Field.Label>
+					<ButtonGroup>
+						<Input bind:value={email} id="email" disabled type="email" />
 					</ButtonGroup>
 				</Field.Field>
 			</form>

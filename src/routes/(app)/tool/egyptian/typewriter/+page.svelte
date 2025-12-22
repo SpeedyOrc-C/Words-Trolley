@@ -25,7 +25,7 @@
 
 <svelte:head>
 	<title>{$_.egyptian.typewriter.title}</title>
-	<meta name="description" content="{$_.learning_resources.egyptian.typewriter.description}"/>
+	<meta name="description" content="{$_.learning_resources.egyptian.typewriter.inner.meta_description}"/>
 </svelte:head>
 
 <header class="p-4 text-center text-3xl">
@@ -76,33 +76,33 @@
 			<code>{height}</code>
 		</div>
 
-		<div class="flex items-center">
+		<div class="flex gap-4 items-center">
 			<div class="flex items-center gap-2">
 				<Switch bind:checked={useCustomTextColour} title={$_.egyptian.typewriter.enable_custom_text_colour}/>
 				<input bind:value={customTextColour} class="h-9 w-12 outline-1" id="text-colour" type="color">
 			</div>
-			<Label class="pl-4" for="text-colour">
+			<Label for="text-colour">
 				{$_.egyptian.typewriter.custom_text_colour}
 			</Label>
 		</div>
 
-		<div class="flex items-center">
+		<div class="flex gap-4 items-center">
 			<Switch bind:checked={hideCursor} id="hide-cursor"/>
-			<Label class="pl-4" for="hide-cursor">
+			<Label for="hide-cursor">
 				{$_.egyptian.typewriter.hide_cursor}
 			</Label>
 		</div>
 
-		<div class="flex items-center">
+		<div class="flex gap-4 items-center">
 			<Switch bind:checked={hideInputBorder} id="hide-input-border"/>
-			<Label class="pl-4" for="hide-input-border">
+			<Label for="hide-input-border">
 				{$_.egyptian.typewriter.hide_input_border}
 			</Label>
 		</div>
 
-		<div class="flex items-center">
+		<div class="flex gap-4 items-center">
 			<Switch bind:checked={hideControls} id="hide-controls"/>
-			<Label class="pl-4" for="hide-controls">
+			<Label for="hide-controls">
 				{$_.egyptian.typewriter.hide_controls}
 			</Label>
 		</div>

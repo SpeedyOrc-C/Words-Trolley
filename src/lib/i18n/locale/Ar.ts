@@ -4,14 +4,27 @@ import {Language} from "$lib/i18n/Language"
 const Ar: I18nTemplate = {
    return: "عودة",
 	learning_resources: {
+		_: "مصادر التعلّم",
 		japanese: {
 			_: "اللغة اليابانية",
+			alphabet: {
+				_: "الأبجدية",
+			},
 		},
 		mandarin: {
 			_: "اللغة الصينية القياسية",
+			alphabet: {
+				_: "الأبجدية",
+			},
 		},
 		egyptian: {
 			_: "اللغة المصرية",
+			alphabet: {
+				_: "الأبجدية",
+			},
+			typewriter: {
+				_: "آلة كاتبة",
+			},
 		},
 		tibetan: {
 			_: "اللغات التبتية"
@@ -19,6 +32,11 @@ const Ar: I18nTemplate = {
 	},
    settings: {
       _: "الإعدادات",
+		egyptian: {
+			transliteration_scheme: {
+				_: "مخطط نقحرة",
+			},
+		},
    },
    home: {
       _: "الصفحة الرئيسية",

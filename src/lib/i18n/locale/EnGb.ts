@@ -37,7 +37,6 @@ const EnGb: I18nTemplate = {
 			_: "Japanese",
 			alphabet: {
 				_: "Alphabet",
-				description: "Table of Hiragana and Katakana with Romaji.",
 				inner: {
 					title: "Japanese Alphabet",
 					meta_description: "Table of Japanese Hiragana and Katakana with Romaji.",
@@ -48,7 +47,6 @@ const EnGb: I18nTemplate = {
 			_: "Mandarin",
 			alphabet: {
 				_: "Alphabet",
-				description: "Table of Pinyin initials, finals, tones, and whole syllables.",
 				inner: {
 					title: "Mandarin Alphabet",
 					meta_description: "Table of Mandarin Pinyin initials, finals, tones, and whole syllables.",
@@ -71,7 +69,6 @@ const EnGb: I18nTemplate = {
 			_: "Egyptian",
 			alphabet: {
 				_: "Alphabet",
-				description: "Table of uniliteral signs with IPA and transliteration.",
 				inner: {
 					title: "Egyptian Alphabet",
 					meta_description: "Table of Ancient Egyptian uniliteral hieroglyphs with IPA and transliteration.",
@@ -80,7 +77,6 @@ const EnGb: I18nTemplate = {
 			},
 			typewriter: {
 				_: "Typewriter",
-				description: "Typing in Egyptian hieroglyphs.",
 				inner: {
 					title: "Egyptian Typewriter",
 					meta_description: "Typing in Ancient Egyptian hieroglyphs."
@@ -102,7 +98,6 @@ const EnGb: I18nTemplate = {
 			_: "Tibetan",
 			alphabet: {
 				_: "Alphabet",
-				description: "Table of the Tibetan alphabet with Wylie transliteration.",
 				inner: {
 					title: "Tibetan Alphabet",
 					meta_description: "Table of the Tibetan alphabet with Wylie transliteration.",

@@ -37,7 +37,6 @@ export const JaJp: I18nTemplate = {
 			_: "日本語",
 			alphabet: {
 				_: "かな表",
-				description: "ローマ字付きのひらがな・カタカナ表。",
 				inner: {
 					title: "日本語かな表",
 					meta_description: "ローマ字付きの日本語ひらがな・カタカナ表。",
@@ -48,7 +47,6 @@ export const JaJp: I18nTemplate = {
          _: "現代中国語",
 			alphabet: {
 				_: "アルファベット",
-				description: "拼音の声母・韻母・声調・整体読み音節の表。",
 				inner: {
 					title: "現代中国語アルファベット",
 					meta_description: "現代中国語の拼音の声母・韻母・声調・整体読み音節の表。",
@@ -71,7 +69,6 @@ export const JaJp: I18nTemplate = {
 			_: "エジプト語",
 			alphabet: {
 				_: "アルファベット",
-				description: "IPA と翻字付きの単一文字アルファベット。",
 				inner: {
 					title: "エジプト語アルファベット",
 					meta_description: "IPA と翻字を含む、古代エジプト語の単一文字ヒエログリフのアルファベット。",
@@ -80,7 +77,6 @@ export const JaJp: I18nTemplate = {
 			},
 			typewriter: {
 				_: "タイプライター",
-				description: "ヒエログリフのエジプト語を入力します。",
 				inner: {
 					title: "エジプト語タイプライター",
 					meta_description: "古代エジプト語ヒエログリフ（象形文字）を入力します。"
@@ -102,7 +98,6 @@ export const JaJp: I18nTemplate = {
 			_: "チベット語",
 			alphabet: {
 				_: "アルファベット",
-				description: "ウィリー翻字付きのチベット文字表。",
 				inner: {
 					title: "チベット語アルファベット",
 					meta_description: "ウィリー翻字付きのチベット文字表。",

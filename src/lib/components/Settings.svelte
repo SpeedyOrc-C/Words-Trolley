@@ -6,7 +6,7 @@
 	import {EgyptianTransliteration, HieroglyphsFont, type ISettings, MandarinScript} from "$lib/settings"
 	import {LivingLanguages} from "$lib/i18n"
 	import * as Dialog from "$lib/components/ui/dialog"
-	import * as Select from "$lib/components/ui/select"
+	import * as NS from "$lib/components/ui/native-select"
 	import {Switch} from "$lib/components/ui/switch"
 	import {Label} from "$lib/components/ui/label"
 	import {settings} from "$lib/settings/store"
@@ -121,35 +121,28 @@
 					<SettingSubList>
 
 						<div class="flex justify-between gap-2 flex-wrap">
-							<Label>{$_.settings.ui_language}</Label>
+							<Label for="language">
+								<Languages/>
+								{$_.settings.ui_language}
+							</Label>
 
-							<Select.Root bind:value={newSettings.Language} type="single">
-
-								<Select.Trigger>
-									<Languages/>
-									{_Language(newSettings.Language)}
-								</Select.Trigger>
-
-								<Select.Content>
-									<Select.Item value="auto">
-										{$_.settings.follows_your_system}
-									</Select.Item>
-									<Select.Separator/>
-									<Select.Item value={Language.ZhCn} lang="zh-CN">
-										{_Language(Language.ZhCn)}
-									</Select.Item>
-									<Select.Item value={Language.EnGb} lang="en-GB">
-										{_Language(Language.EnGb)}
-									</Select.Item>
-									<Select.Item value={Language.JaJp} lang="ja-JP">
-										{_Language(Language.JaJp)}
-									</Select.Item>
-									<Select.Item value={Language.Ar} lang="ar">
-										{_Language(Language.Ar)}
-									</Select.Item>
-								</Select.Content>
-
-							</Select.Root>
+							<NS.Root id="language" bind:value={newSettings.Language}>
+								<NS.Option value="auto">
+									{$_.settings.follows_your_system}
+								</NS.Option>
+								<NS.Option value={Language.ZhCn} lang="zh-CN">
+									{_Language(Language.ZhCn)}
+								</NS.Option>
+								<NS.Option value={Language.EnGb} lang="en-GB">
+									{_Language(Language.EnGb)}
+								</NS.Option>
+								<NS.Option value={Language.JaJp} lang="ja-JP">
+									{_Language(Language.JaJp)}
+								</NS.Option>
+								<NS.Option value={Language.Ar} lang="ar">
+									{_Language(Language.Ar)}
+								</NS.Option>
+							</NS.Root>
 						</div>
 					</SettingSubList>
 
@@ -220,23 +213,17 @@
 					<SettingSubList>
 
 						<div class="flex justify-between gap-2">
-							<Label>{$_.settings.mandarin.spelling_scheme}</Label>
-							<Select.Root bind:value={newSettings.MandarinScript} type="single">
-
-								<Select.Trigger>
-									{_MandarinScript(newSettings.MandarinScript)}
-								</Select.Trigger>
-
-								<Select.Content>
-									<Select.Item value={MandarinScript.Pinyin}>
-										{$_.linguistics.pinyin}
-									</Select.Item>
-									<Select.Item value={MandarinScript.Bopomofo}>
-										{$_.linguistics.bopomofo}
-									</Select.Item>
-								</Select.Content>
-
-							</Select.Root>
+							<Label for="mandarin-spelling-scheme">
+								{$_.settings.mandarin.spelling_scheme}
+							</Label>
+							<NS.Root bind:value={newSettings.MandarinScript} id="mandarin-spelling-scheme">
+								<NS.Option value={MandarinScript.Pinyin}>
+									{$_.linguistics.pinyin}
+								</NS.Option>
+								<NS.Option value={MandarinScript.Bopomofo}>
+									{$_.linguistics.bopomofo}
+								</NS.Option>
+							</NS.Root>
 						</div>
 
 						<div class="text-2xl text-center">
@@ -260,24 +247,18 @@
 					<SettingSubList>
 
 						<div class="flex justify-between gap-2">
-							<Label>{$_.settings.hieroglyphs_style._}</Label>
+							<Label for="hieroglyphs-style">
+								{$_.settings.hieroglyphs_style._}
+							</Label>
 
-							<Select.Root bind:value={newSettings.Egyptian.HieroglyphsFont} type="single">
-
-								<Select.Trigger>
-									{_HieroglyphsFont(newSettings.Egyptian.HieroglyphsFont)}
-								</Select.Trigger>
-
-								<Select.Content>
-									<Select.Item value={HieroglyphsFont.NewGardiner}>
-										{$_.settings.hieroglyphs_style.sans_serif}
-									</Select.Item>
-									<Select.Item value={HieroglyphsFont.SemiessessiColourful}>
-										{$_.settings.hieroglyphs_style.colourful}
-									</Select.Item>
-								</Select.Content>
-
-							</Select.Root>
+							<NS.Root id="hieroglyphs-style" bind:value={newSettings.Egyptian.HieroglyphsFont}>
+								<NS.Option value={HieroglyphsFont.NewGardiner}>
+									{$_.settings.hieroglyphs_style.sans_serif}
+								</NS.Option>
+								<NS.Option value={HieroglyphsFont.SemiessessiColourful}>
+									{$_.settings.hieroglyphs_style.colourful}
+								</NS.Option>
+							</NS.Root>
 						</div>
 
 						<div class="text-center" style="font-size: 2.5rem">
@@ -331,37 +312,29 @@
 						<Separator/>
 
 						<div class="flex justify-between gap-2">
-							<Label>{$_.settings.egyptian.transliteration_scheme.when_read}</Label>
+							<Label for="egyptian-transliteration-scheme-for-read">
+								{$_.settings.egyptian.transliteration_scheme.when_read}
+							</Label>
 
-							<Select.Root bind:value={newSettings.Egyptian.TransliterationForRead} type="single">
-
-								<Select.Trigger>
-									{_EgyptianTransliteration(newSettings.Egyptian.TransliterationForRead)}
-								</Select.Trigger>
-
-								<Select.Content>
-									<Select.Item value={EgyptianTransliteration.Egyptology}>
-										{_EgyptianTransliteration(EgyptianTransliteration.Egyptology)}
-									</Select.Item>
-									<Select.Item value={EgyptianTransliteration.Wiktionary}>
-										{_EgyptianTransliteration(EgyptianTransliteration.Wiktionary)}
-									</Select.Item>
-									<Select.Separator/>
-									<Select.Group>
-										<Select.Label>ASCII</Select.Label>
-										<Select.Item value={EgyptianTransliteration.ManuelDeCodage}>
-											{_EgyptianTransliteration(EgyptianTransliteration.ManuelDeCodage)}
-										</Select.Item>
-										<Select.Item value={EgyptianTransliteration.Chen}>
-											{_EgyptianTransliteration(EgyptianTransliteration.Chen)}
-										</Select.Item>
-										<Select.Item value={EgyptianTransliteration.ChenNoCap}>
-											{_EgyptianTransliteration(EgyptianTransliteration.ChenNoCap)}
-										</Select.Item>
-									</Select.Group>
-								</Select.Content>
-
-							</Select.Root>
+							<NS.Root bind:value={newSettings.Egyptian.TransliterationForRead} id="egyptian-transliteration-scheme-for-read">
+								<NS.Option value={EgyptianTransliteration.Egyptology}>
+									{_EgyptianTransliteration(EgyptianTransliteration.Egyptology)}
+								</NS.Option>
+								<NS.Option value={EgyptianTransliteration.Wiktionary}>
+									{_EgyptianTransliteration(EgyptianTransliteration.Wiktionary)}
+								</NS.Option>
+								<NS.OptGroup label="ASCII">
+									<NS.Option value={EgyptianTransliteration.ManuelDeCodage}>
+										{_EgyptianTransliteration(EgyptianTransliteration.ManuelDeCodage)}
+									</NS.Option>
+									<NS.Option value={EgyptianTransliteration.Chen}>
+										{_EgyptianTransliteration(EgyptianTransliteration.Chen)}
+									</NS.Option>
+									<NS.Option value={EgyptianTransliteration.ChenNoCap}>
+										{_EgyptianTransliteration(EgyptianTransliteration.ChenNoCap)}
+									</NS.Option>
+								</NS.OptGroup>
+							</NS.Root>
 						</div>
 
 						<div class="text-2xl text-center">
@@ -371,39 +344,30 @@
 						<Separator/>
 
 						<div class="flex justify-between gap-2">
-							<Label>{$_.settings.egyptian.transliteration_scheme.when_edit}</Label>
+							<Label for="egyptian-transliteration-scheme-for-edit">
+								{$_.settings.egyptian.transliteration_scheme.when_edit}
+							</Label>
 
-							<Select.Root bind:value={newSettings.Egyptian.TransliterationForEdit} type="single">
-
-								<Select.Trigger>
-									{_EgyptianTransliteration(newSettings.Egyptian.TransliterationForEdit)}
-								</Select.Trigger>
-
-								<Select.Content>
-									<Select.Group>
-										<Select.Label>ASCII</Select.Label>
-										<Select.Item value={EgyptianTransliteration.ManuelDeCodage}>
-											{_EgyptianTransliteration(EgyptianTransliteration.ManuelDeCodage)}
-										</Select.Item>
-										<Select.Item value={EgyptianTransliteration.Chen}>
-											{_EgyptianTransliteration(EgyptianTransliteration.Chen)}
-										</Select.Item>
-										<Select.Item value={EgyptianTransliteration.ChenNoCap}>
-											{_EgyptianTransliteration(EgyptianTransliteration.ChenNoCap)}
-										</Select.Item>
-									</Select.Group>
-									<Select.Separator/>
-									<Select.Item value={EgyptianTransliteration.Egyptology}>
-										{_EgyptianTransliteration(EgyptianTransliteration.Egyptology)}
-									</Select.Item>
-									<Select.Item value={EgyptianTransliteration.Wiktionary}>
-										{_EgyptianTransliteration(EgyptianTransliteration.Wiktionary)}
-									</Select.Item>
-								</Select.Content>
-
-							</Select.Root>
+							<NS.Root bind:value={newSettings.Egyptian.TransliterationForEdit} id="egyptian-transliteration-scheme-for-edit">
+								<NS.OptGroup label="ASCII">
+									<NS.Option value={EgyptianTransliteration.ManuelDeCodage}>
+										{_EgyptianTransliteration(EgyptianTransliteration.ManuelDeCodage)}
+									</NS.Option>
+									<NS.Option value={EgyptianTransliteration.Chen}>
+										{_EgyptianTransliteration(EgyptianTransliteration.Chen)}
+									</NS.Option>
+									<NS.Option value={EgyptianTransliteration.ChenNoCap}>
+										{_EgyptianTransliteration(EgyptianTransliteration.ChenNoCap)}
+									</NS.Option>
+								</NS.OptGroup>
+								<NS.Option value={EgyptianTransliteration.Egyptology}>
+									{_EgyptianTransliteration(EgyptianTransliteration.Egyptology)}
+								</NS.Option>
+								<NS.Option value={EgyptianTransliteration.Wiktionary}>
+									{_EgyptianTransliteration(EgyptianTransliteration.Wiktionary)}
+								</NS.Option>
+							</NS.Root>
 						</div>
-
 
 						<div class="text-2xl text-center">
 							{$egyptianTransliterationSampleTextForEdit}
@@ -452,22 +416,14 @@
 									</div>
 
 									{#if value != null}
-										<Select.Root {value} type="single" onValueChange={v => {
-											newSettings.PreferredVoice[lang] = v
+										<NS.Root {value} onchange={e => {
+											newSettings.PreferredVoice[lang] = e.currentTarget.value
 											UpdateSettings()
 										}}>
-
-											<Select.Trigger>{value}</Select.Trigger>
-
-											<Select.Content>
-												{#each new Set([...names, value]) as name}
-													<Select.Item value={name}>
-														{name}
-													</Select.Item>
-												{/each}
-											</Select.Content>
-
-										</Select.Root>
+											{#each new Set([...names, value]) as name}
+												<NS.Option value={name}>{name}</NS.Option>
+											{/each}
+										</NS.Root>
 									{/if}
 
 								</div>

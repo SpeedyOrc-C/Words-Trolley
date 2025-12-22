@@ -37,7 +37,6 @@ const ZhCn: I18nTemplate = {
 			_: "日语",
 			alphabet: {
 				_: "假名表",
-				description: "附带罗马字的平假名与片假名表。",
 				inner: {
 					title: "日语假名表",
 					meta_description: "附带罗马字的日语平假名与片假名表。",
@@ -48,7 +47,6 @@ const ZhCn: I18nTemplate = {
 			_: "现代汉语",
 			alphabet: {
 				_: "拼音表",
-				description: "声母、韵母、声调与整体认读音节表。",
 				inner: {
 					title: "现代汉语拼音表",
 					meta_description: "现代汉语的声母、韵母、声调与整体认读音节表。",
@@ -71,7 +69,6 @@ const ZhCn: I18nTemplate = {
 			_: "埃及语",
 			alphabet: {
 				_: "字母表",
-				description: "附带国际音标与转写的单字符字母表。",
 				inner: {
 					title: "埃及语字母表",
 					meta_description: "包含国际音标与转写的古埃及语单字符圣书字字母表。",
@@ -80,7 +77,6 @@ const ZhCn: I18nTemplate = {
 			},
 			typewriter: {
 				_: "打字机",
-				description: "输入圣书字埃及文。",
 				inner: {
 					title: "埃及文打字机",
 					meta_description: "输入古埃及文圣书字（象形文字）。"
@@ -102,7 +98,6 @@ const ZhCn: I18nTemplate = {
 			_: "藏语",
 			alphabet: {
 				_: "字母表",
-				description: "附带威利转写的字母表。",
 				inner: {
 					title: "藏语字母表",
 					meta_description: "附带威利转写的藏语字母表。",

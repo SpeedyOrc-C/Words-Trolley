@@ -118,11 +118,14 @@
 
 	body {
 		@apply bg-background text-foreground;
-		font-family: -apple-system-ui-serif, ui-serif, CharisW, serif;
+	}
 
-		*[lang="ar"] {
-			font-family: NotoNaskhArabic, -apple-system-ui-serif, ui-serif, CharisW, serif;
-		}
+	*[lang="ar"] {
+		font-family: NotoNaskhArabic, -apple-system-ui-serif, ui-serif, CharisW, serif;
+	}
+
+	*[lang="zh-CN"], *[lang="en-GB"], *[lang="ja-JP"] {
+		font-family: -apple-system-ui-serif, ui-serif, CharisW, serif;
 	}
 }
 
@@ -205,7 +208,8 @@
 		transform: scaleX(-1);
 
 		&.lucide-search,
-		&.lucide-languages {
+		&.lucide-languages,
+		&.lucide-check {
 			transform: unset;
 		}
 	}

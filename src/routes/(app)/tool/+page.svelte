@@ -32,16 +32,13 @@
       <Item.Root variant="outline">
          {#snippet child({props})}
             <a href="/tool/japanese/alphabet" {...props} tabindex={0}>
-               <Item.Media class="text-3xl" aria-hidden>
+               <Item.Media class="text-3xl" aria-hidden lang="ja-JP">
                   あ
                </Item.Media>
                <Item.Content>
                   <Item.Title>
                      {$_.learning_resources.japanese.alphabet._}
                   </Item.Title>
-                  <Item.Description>
-                     {$_.learning_resources.japanese.alphabet.description}
-                  </Item.Description>
                </Item.Content>
             </a>
          {/snippet}
@@ -63,16 +60,13 @@
       <Item.Root variant="outline">
          {#snippet child({props})}
             <a href="/tool/mandarin/alphabet" {...props} tabindex={0}>
-               <Item.Media class="text-2xl">
+               <Item.Media class="text-2xl" aria-hidden>
                   hàn
                </Item.Media>
                <Item.Content>
                   <Item.Title>
                      {$_.learning_resources.mandarin.alphabet._}
                   </Item.Title>
-                  <Item.Description>
-                     {$_.learning_resources.mandarin.alphabet.description}
-                  </Item.Description>
                </Item.Content>
             </a>
          {/snippet}
@@ -144,9 +138,6 @@ https://www.transmonkey.ai/hieroglyphics-translator
                   <Item.Title>
                      {$_.learning_resources.egyptian.alphabet._}
                   </Item.Title>
-                  <Item.Description>
-                     {$_.learning_resources.egyptian.alphabet.description}
-                  </Item.Description>
                </Item.Content>
             </a>
          {/snippet}
@@ -162,9 +153,6 @@ https://www.transmonkey.ai/hieroglyphics-translator
                   <Item.Title>
                      {$_.learning_resources.egyptian.typewriter._}
                   </Item.Title>
-                  <Item.Description>
-                     {$_.learning_resources.egyptian.typewriter.description}
-                  </Item.Description>
                </Item.Content>
             </a>
          {/snippet}
@@ -189,7 +177,7 @@ https://www.transmonkey.ai/hieroglyphics-translator
       <Item.Root variant="outline">
          {#snippet child({props})}
             <a href="/tool/egyptian/transliteration-converter" {...props} tabindex={0}>
-               <Item.Media class="text-2xl">
+               <Item.Media class="text-2xl" aria-hidden>
                   <span>A ꜣ</span>
                </Item.Media>
                <Item.Content>
@@ -217,7 +205,7 @@ https://www.transmonkey.ai/hieroglyphics-translator
                      {#snippet child({props})}
                         <a href="https://jsesh.qenherkhopeshef.org" target="_blank" tabindex={0} {...props}>
                            <Item.Content>
-                              <Item.Title lang="en-GB">
+                              <Item.Title lang="en-GB" dir="ltr">
                                  JSesh
                               </Item.Title>
                            </Item.Content>
@@ -231,7 +219,7 @@ https://www.transmonkey.ai/hieroglyphics-translator
                      {#snippet child({props})}
                         <a href="https://projetrosette.info" target="_blank" tabindex={0} {...props}>
                            <Item.Content>
-                              <Item.Title lang="fr-FR">
+                              <Item.Title lang="fr-FR" dir="ltr">
                                  Projet Rosette
                               </Item.Title>
                            </Item.Content>
@@ -245,7 +233,7 @@ https://www.transmonkey.ai/hieroglyphics-translator
                      {#snippet child({props})}
                         <a href="https://somiyagawa.github.io/SINUHE-the-Hierotyper/" target="_blank" tabindex={0} {...props}>
                            <Item.Content>
-                              <Item.Title lang="en-GB">
+                              <Item.Title lang="en-GB" dir="ltr">
                                  SINUHE the Hierotyper
                               </Item.Title>
                            </Item.Content>
@@ -259,7 +247,7 @@ https://www.transmonkey.ai/hieroglyphics-translator
                      {#snippet child({props})}
                         <a href="https://hieroglyphica.com" target="_blank" tabindex={0} {...props}>
                            <Item.Content>
-                              <Item.Title lang="en-GB">
+                              <Item.Title lang="en-GB" dir="ltr">
                                  Hieroglyphica
                               </Item.Title>
                            </Item.Content>
@@ -273,7 +261,7 @@ https://www.transmonkey.ai/hieroglyphics-translator
                      {#snippet child({props})}
                         <a href="https://www.orientverlag.ch/VisualGlyph-for-PC" target="_blank" tabindex={0} {...props}>
                            <Item.Content>
-                              <Item.Title lang="en-GB">
+                              <Item.Title lang="en-GB" dir="ltr">
                                  VisualGlyph+
                               </Item.Title>
                            </Item.Content>
@@ -303,16 +291,13 @@ https://www.transmonkey.ai/hieroglyphics-translator
       <Item.Root variant="outline">
          {#snippet child({props})}
             <a href="/tool/tibetan/alphabet" {...props} tabindex={0}>
-               <Item.Media class="text-3xl" aria-hidden>
+               <Item.Media class="text-3xl" aria-hidden lang="bo">
                   ཨ
                </Item.Media>
                <Item.Content>
                   <Item.Title>
                      {$_.learning_resources.tibetan.alphabet._}
                   </Item.Title>
-                  <Item.Description>
-                     {$_.learning_resources.tibetan.alphabet.description}
-                  </Item.Description>
                </Item.Content>
             </a>
          {/snippet}

@@ -38,7 +38,6 @@ export type I18nTemplate = {
 			_: s
 			alphabet: {
 				_: s
-				description: s
 				inner: {
 					title: s
 					meta_description: s
@@ -49,7 +48,6 @@ export type I18nTemplate = {
 			_: s
 			alphabet: {
 				_: s
-				description: s
 				inner: {
 					title: s
 					meta_description: s
@@ -72,7 +70,6 @@ export type I18nTemplate = {
 			_: s
 			alphabet: {
 				_: s
-				description: s
 				inner: {
 					title: s
 					meta_description: s
@@ -81,7 +78,6 @@ export type I18nTemplate = {
 			}
 			typewriter: {
 				_: s
-				description: s
 				inner: {
 					title: s
 					meta_description: s
@@ -103,7 +99,6 @@ export type I18nTemplate = {
 			_: s
 			alphabet: {
 				_: s
-				description: s
 				inner: {
 					title: s
 					meta_description: s

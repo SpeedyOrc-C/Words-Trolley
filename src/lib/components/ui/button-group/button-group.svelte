@@ -45,7 +45,7 @@
 
 <style lang="postcss">
 	@reference "tailwindcss";
-	div {
+	div[data-orientation="horizontal"] {
 		:global(*[dir="rtl"]) & {
 			@apply [&>*:not(:first-child)]:rounded-r-none [&>*:not(:first-child)]:border-r-0 [&>*:not(:last-child)]:rounded-l-none;
 		}

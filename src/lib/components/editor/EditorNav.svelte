@@ -48,6 +48,7 @@
 	import Ban from "@lucide/svelte/icons/ban"
 	import Check from "@lucide/svelte/icons/check"
 	import ScanEye from "@lucide/svelte/icons/scan-eye"
+	import Languages from "@lucide/svelte/icons/languages"
 
 	let {
 		OpenSettings,
@@ -132,6 +133,7 @@
 				<M.Sub>
 
 					<M.SubTrigger disabled={changingMainLanguage || ! online}>
+						<Languages/>
 						{$_.set.main_language}
 					</M.SubTrigger>
 

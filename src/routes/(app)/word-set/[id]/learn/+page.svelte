@@ -201,7 +201,7 @@
 
 				<div class="flex flex-col items-center gap-4" lang="egy">
 					{#if $showPronunciation}
-						<div class="text-3xl">
+						<div class="select-all text-3xl font-egy-trans">
 							{$preferredSentenceTransliterationDumperForRead(word.trans.map($egyptianSoundChanger))}
 						</div>
 					{/if}

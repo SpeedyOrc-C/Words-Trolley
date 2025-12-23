@@ -297,16 +297,14 @@
 					</TableCell>
 
 					{#if allEgyptian && word.type == WordType.Egyptian}
-						<TableCell class="italic">
+						<TableCell class="font-egy-trans">
 							{$preferredSentenceTransliterationDumperForRead(word.trans)}
 						</TableCell>
 					{/if}
 
 					{#if allMandarin && word.type == WordType.Mandarin}
 						<TableCell>
-							<span class:italic={$settings.MandarinScript == MandarinScript.Pinyin}>
-								{word.syllables.map($preferredMandarinDumper).join(" ")}
-							</span>
+							{word.syllables.map($preferredMandarinDumper).join(" ")}
 						</TableCell>
 					{/if}
 

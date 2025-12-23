@@ -143,6 +143,10 @@
 	}
 }
 
+.font-egy-trans {
+	font-family: CharisW, serif;
+}
+
 @font-face {
 	font-family: NotoNaskhArabic;
 	src: url(/font/NotoNaskhArabic.ttf);

@@ -419,7 +419,7 @@
 {/if}
 
 <style lang="postcss">
-   @import "tailwindcss";
+   @reference "tailwindcss";
 
    #editor {
       @apply p-4 outline-1 bg-white text-black;

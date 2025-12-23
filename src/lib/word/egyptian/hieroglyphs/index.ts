@@ -31,7 +31,7 @@ const _Validate: () => Validator<Hieroglyphs> = () => asum(
 
 export const Validate = _Validate()
 
-export const g = (g: string): Hieroglyphs => [Structure.Glyph, g]
+export const g = (g: string): HieroglyphsGlyph => [Structure.Glyph, g]
 export const v = (...v: Hieroglyphs[]): Hieroglyphs => [Structure.Vertical, v]
 export const h = (...h: Hieroglyphs[]): Hieroglyphs => [Structure.Horizontal, h]
 export const l = (...l: HieroglyphsGlyph[]): Hieroglyphs => [Structure.Ligature, l]
@@ -345,7 +345,7 @@ function DumpHieroglyphsItem([type, arg]: Hieroglyphs): string
 	case Structure.Horizontal:
 		return `H${arg.length}${arg.map(DumpHieroglyphsItem).join("")}`
 	case Structure.Ligature:
-		return `L${DumpHieroglyphsItem(arg[0])}${DumpHieroglyphsItem(arg[1])}`
+		return `L${arg.length}${arg.map(DumpHieroglyphsItem).join("")}`
 	case Structure.Cartouche:
 		return `C${DumpHieroglyphsItem(arg)}`
 	}

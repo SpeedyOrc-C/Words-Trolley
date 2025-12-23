@@ -30,7 +30,6 @@ export const JaJp: I18nTemplate = {
 	print: "プリント",
 	not_specified: "未指定",
 	wiktionary: "Wiktionary",
-	word_count: n => `単語数：${n}`,
 	learning_resources: {
 		_: "学習リソース",
 		meta_description: "様々な言語を学ぶためのリソース。",
@@ -175,9 +174,11 @@ export const JaJp: I18nTemplate = {
 		creator_label: name => `作成者：${name}`,
 		creator_profile_missing: "作成者のプロフィールが存在しません",
 		main_language: "主要言語",
-		main_language_missing: "単語セットの元の言語情報が存在しません",
+		main_language_label: lang => `主要言語：${lang}`,
+		main_language_missing: "単語セットの主要言語が存在しません",
 		save: "保存",
 		unsave: "保存を解除",
+		word_count_label: n => `単語数：${n}`,
 	},
 	creator: {
 		title: name => `${name} の単語セット`,

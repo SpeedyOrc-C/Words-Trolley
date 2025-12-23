@@ -4,7 +4,7 @@
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import {Button} from "$lib/components/ui/button"
 	import {_} from "$lib/i18n/store"
-	import {settingsOpened} from "$lib/settings/store"
+	import {settings, settingsOpened} from "$lib/settings/store"
 	import {
 		DropdownMenu,
 		DropdownMenuTrigger,
@@ -35,6 +35,8 @@
 	import Bookmark from "@lucide/svelte/icons/bookmark"
 	import BookmarkX from "@lucide/svelte/icons/bookmark-x"
 	import {preferredSentenceTransliterationDumperForRead, preferredSentenceTransliterationParserForRead} from "$lib/settings/store/egyptian"
+	import {preferredMandarinDumper} from "$lib/settings/store/mandarin"
+	import {MandarinScript} from "$lib/settings"
 
 	const {data} = $props()
 
@@ -49,6 +51,11 @@
 	const allEgyptian = $derived(
 		word_set.words.length > 0 &&
 		word_set.words.every(word => word.type == WordType.Egyptian)
+	)
+
+	const allMandarin = $derived(
+		word_set.words.length > 0 &&
+		word_set.words.every(word => word.type == WordType.Mandarin)
 	)
 
 	let saving = $state(false)
@@ -258,11 +265,19 @@
 				<TableHead class="text-muted-foreground">
 					{$_.editor.word}
 				</TableHead>
+
 				{#if allEgyptian}
 					<TableHead class="text-muted-foreground">
 						{$_.linguistics.transliteration}
 					</TableHead>
 				{/if}
+
+				{#if allMandarin}
+					<TableHead class="text-muted-foreground">
+						{$settings.MandarinScript == MandarinScript.Pinyin ? $_.linguistics.pinyin : $_.linguistics.bopomofo}
+					</TableHead>
+				{/if}
+
 				<TableHead class="text-muted-foreground">
 					{$_.editor.meaning}
 				</TableHead>
@@ -272,22 +287,29 @@
 		<TableBody>
 			{#each word_set.words as word}
 				<TableRow>
-					<TableCell>
+
+					<TableCell lang={LangFromWord(word)}>
 						{#if word.type == WordType.Egyptian}
 							<EgyptianText t={word.word} wrap={false} />
 						{:else}
-							<span lang={LangFromWord(word)}>
-								{word.word}
-							</span>
+							{word.word}
 						{/if}
 					</TableCell>
+
 					{#if allEgyptian && word.type == WordType.Egyptian}
-						<TableCell>
-							<i>
-								{$preferredSentenceTransliterationDumperForRead(word.trans)}
-							</i>
+						<TableCell class="italic">
+							{$preferredSentenceTransliterationDumperForRead(word.trans)}
 						</TableCell>
 					{/if}
+
+					{#if allMandarin && word.type == WordType.Mandarin}
+						<TableCell>
+							<span class:italic={$settings.MandarinScript == MandarinScript.Pinyin}>
+								{word.syllables.map($preferredMandarinDumper).join(" ")}
+							</span>
+						</TableCell>
+					{/if}
+
 					<TableCell>
 						{word.meaning}
 					</TableCell>

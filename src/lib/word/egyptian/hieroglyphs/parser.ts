@@ -27,7 +27,7 @@ const pVerticalStack: Parser<Hieroglyphs> =
 	char("V").$_(pStackCount).bind(c => pItem.x(c).map(xs => v(...xs)))
 
 const pLigature: Parser<Hieroglyphs> =
-	char("L").$_(pItem.x(2).map((ab => l(...ab))))
+	char("L").$_(pStackCount).bind(c => pGlyph.x(c).map(xs => l(...xs)))
 
 const pCartouche: Parser<Hieroglyphs> =
 	char("C").$_(pItem).map(c)

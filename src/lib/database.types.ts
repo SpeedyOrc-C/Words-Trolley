@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "12.2.3 (519615d)"
+    PostgrestVersion: "13.0.5"
   }
   public: {
     Tables: {
@@ -110,6 +110,7 @@ export type Database = {
         | "fr-FR"
         | "de-DE"
         | "egy"
+        | "ar"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -246,6 +247,7 @@ export const Constants = {
         "fr-FR",
         "de-DE",
         "egy",
+        "ar",
       ],
     },
   },

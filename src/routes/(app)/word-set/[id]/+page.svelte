@@ -34,14 +34,21 @@
 	import Trash2 from "@lucide/svelte/icons/trash-2"
 	import Bookmark from "@lucide/svelte/icons/bookmark"
 	import BookmarkX from "@lucide/svelte/icons/bookmark-x"
+	import {preferredSentenceTransliterationDumperForRead, preferredSentenceTransliterationParserForRead} from "$lib/settings/store/egyptian"
 
 	const {data} = $props()
+
 	const {saved: _saved, word_set, creator_profile, service} = $derived(data)
 
 	const isMine = $derived(
 		data.user != null &&
 		creator_profile != null &&
 		data.user.id == creator_profile.id
+	)
+
+	const allEgyptian = $derived(
+		word_set.words.length > 0 &&
+		word_set.words.every(word => word.type == WordType.Egyptian)
 	)
 
 	let saving = $state(false)
@@ -251,6 +258,11 @@
 				<TableHead class="text-muted-foreground">
 					{$_.editor.word}
 				</TableHead>
+				{#if allEgyptian}
+					<TableHead class="text-muted-foreground">
+						{$_.linguistics.transliteration}
+					</TableHead>
+				{/if}
 				<TableHead class="text-muted-foreground">
 					{$_.editor.meaning}
 				</TableHead>
@@ -261,7 +273,7 @@
 			{#each word_set.words as word}
 				<TableRow>
 					<TableCell>
-						{#if word.type === WordType.Egyptian}
+						{#if word.type == WordType.Egyptian}
 							<EgyptianText t={word.word} wrap={false} />
 						{:else}
 							<span lang={LangFromWord(word)}>
@@ -269,6 +281,13 @@
 							</span>
 						{/if}
 					</TableCell>
+					{#if allEgyptian && word.type == WordType.Egyptian}
+						<TableCell>
+							<i>
+								{$preferredSentenceTransliterationDumperForRead(word.trans)}
+							</i>
+						</TableCell>
+					{/if}
 					<TableCell>
 						{word.meaning}
 					</TableCell>

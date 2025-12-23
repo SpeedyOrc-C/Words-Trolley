@@ -97,6 +97,7 @@
 
 	const heightPx = $derived(lineHeight * fpy)
 	const height = $derived(`${heightPx}px`)
+	const gap = $derived(`${lineHeight * horizontalGap}px`)
 
 	const [struct, arg] = $derived(hie)
 </script>
@@ -126,9 +127,8 @@
 	{@const scale = ScaleSegments(pessimisticWidths, fpx, horizontalGap)}
 	{@const adjustedWidths = pessimisticWidths.map(w => w * scale)}
 	{@const minWidth = parentWidth == undefined ? 0 : lineHeight * parentWidth}
-	{@const gap = lineHeight * horizontalGap}
 
-	<span class="h" style:height="{heightPx * scale}px" style:min-width="{minWidth}px" style:gap="{gap}px">
+	<span class="h" style:height="{heightPx * scale}px" style:min-width="{minWidth}px" style:gap>
 		{#each arg as hie, i}
 			<Render {hie} fpx={adjustedWidths[i]} fpy={fpy * scale} {lineHeight}/>
 		{/each}
@@ -137,8 +137,7 @@
 {:else if struct == Structure.Ligature}
 
 	{#snippet IncorrectLigature()}
-		{@const gap = lineHeight * horizontalGap}
-		<span class="h text-red-400" style:height style:gap="{gap}px">
+		<span class="h text-red-400" style:height style:gap>
 			{#each arg as hie}
 				<Render hie={hie} {fpx} {fpy} {lineHeight}/>
 			{/each}

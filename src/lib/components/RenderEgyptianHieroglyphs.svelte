@@ -12,13 +12,14 @@
 	const cartoucheOverallHorizontalSize = cartoucheStrokeSize + cartoucheHorizontalPadding
 
 	const allowedLigatures = new Set([
+		"𓅧𓈎",
 		"𓆓𓋴", "𓆓𓂧",
-		"𓅱𓏏", "𓏏𓅱",
+		"𓅱𓏏", "𓏏𓅱", "𓏏𓅱𓏏",
 		"𓅐𓏏",
 		"𓅭𓇳",
 	])
 
-	//H2𓆳V2𓏏𓊗V2𓎆𓏽V2𓐍𓂋H2𓍛V2𓏤𓈖H2V2𓇓𓏏V2𓆤𓏏CH3𓇳𓆣𓂓H2𓋹𓆖H2𓇋V2𓄪𓐍H2𓊹𓏏H3𓇋𓍘𓇌V2𓆓𓂧𓆑H2𓇋𓅱V2H2𓄙𓅓𓈖H3𓎿V2𓊃𓏏𓀁V2𓐍𓂋H2𓇓V2𓏏𓈖H2𓋴𓉼V2H2𓄣𓏤𓂋H4𓇋V2𓏏𓆑𓀀V3𓏤𓏤𓏤H2V2𓆣𓂋𓅱H2V3𓂋𓄂𓏏𓀀H2𓇋𓅱H2V3𓋭𓈖𓈖𓀀H2𓍛V2𓏤𓆑H3V2𓐍𓏏𓅓𓋩𓉼𓅓𓎛𓎿V4𓊃𓏠𓈖𓈓𓃂H2𓏇𓇋H2𓀻𓋴𓇓V3𓏏𓈖𓎟
+	//H2𓆳V2𓏏𓊗V2𓎆𓏽V2𓐍𓂋H2𓍛V2𓏤𓈖H2V2𓇓𓏏V2𓆤𓏏CH3𓇳𓆣𓂓H2𓋹𓆖H2𓇋V2𓄪𓐍H2𓊹𓏏H3𓇋𓍘𓇌L𓆓𓂧𓆑H2𓇋𓅱V2H2𓄙𓅓𓈖H3𓎿V2𓊃𓏏𓀁V2𓐍𓂋H2𓇓V2𓏏𓈖H2𓋴𓉼V2H2𓄣𓏤𓂋H4𓇋V2𓏏𓆑𓀀V3𓏤𓏤𓏤H2V2𓆣𓂋𓅱H2V3𓂋𓄂𓏏𓀀H2𓇋𓅱H2V3𓋭𓈖𓈖𓀀H2𓍛V2𓏤𓆑H3V2𓐍𓏏𓅓𓋩𓉼𓅓𓎛𓎿V4𓊃𓏠𓈖𓈓𓃂H2𓏇𓇋H2𓀻𓋴𓇓V3𓏏𓈖𓎟
 
 	function PessimisticHeight([structure, arg]: Hieroglyphs): number
 	{
@@ -137,8 +138,6 @@
 
 {:else if struct == Structure.Ligature}
 
-	{@const [[t1, a1], [t2, a2]] = arg}
-
 	{#snippet IncorrectLigature()}
 		{@const gap = lineHeight * horizontalGap}
 		<span class="h text-red-400" style:height style:gap="{gap}px">
@@ -148,18 +147,12 @@
 		</span>
 	{/snippet}
 
-	{#if t1 == Structure.Glyph && t2 == Structure.Glyph}
+	{@const ligature = arg.map(([_, g]) => g).join("")}
 
-		{@const pair = a1 + a2}
-
-		{#if allowedLigatures.has(pair)}
-			<span class="g" style:height>
-				<EgyptianGlyph g={pair} {fpx} {fpy} {lineHeight}/>
-			</span>
-		{:else}
-			{@render IncorrectLigature()}
-		{/if}
-
+	{#if allowedLigatures.has(ligature)}
+		<span class="g" style:height>
+			<EgyptianGlyph g={ligature} {fpx} {fpy} {lineHeight}/>
+		</span>
 	{:else}
 		{@render IncorrectLigature()}
 	{/if}

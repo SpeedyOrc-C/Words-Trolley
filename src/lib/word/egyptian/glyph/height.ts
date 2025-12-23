@@ -5199,7 +5199,7 @@ const UnicodeHeight: Record<number, number> = {
 
 export function HeightOfGlyph(glyph: string)
 {
-	if (glyph == "𓆓𓂧" || glyph == "𓅱𓏏" || glyph == "𓏏𓅱" || glyph == "𓆓𓋴" || glyph == "𓅭𓇳" || glyph == "𓅐𓏏")
+	if (glyph == "𓅧𓈎" || glyph == "𓆓𓂧" || glyph == "𓅱𓏏" || glyph == "𓏏𓅱" || glyph == "𓏏𓅱𓏏" || glyph == "𓆓𓋴" || glyph == "𓅭𓇳" || glyph == "𓅐𓏏")
 		return 1
 
 	const code = glyph.codePointAt(0)

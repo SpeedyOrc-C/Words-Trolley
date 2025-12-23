@@ -17,7 +17,8 @@
 		type EgyptianEditCmd, DumpHieroglyphs,
 		EgyptianEditCmdKind,
 		ExecuteHieroglyphsEditCommand,
-		HieroglyphsEditCommandNoSideEffect
+		HieroglyphsEditCommandNoSideEffect,
+		Structure
 	} from "$lib/word/egyptian/hieroglyphs"
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import RenderEgyptianHieroglyphs from "$lib/components/RenderEgyptianHieroglyphs.svelte"
@@ -66,6 +67,16 @@
 	let imeInput = $state("")
 	let imeInputError = $state(false)
 	let imeWords: EgyptianWordCandidate[] = $state([])
+
+	const cartoucheDisabled = $derived(s.cursor == 0)
+	const rowDisabled = $derived(s.cursor < 2)
+	const columnDisabled = $derived(s.cursor < 2)
+
+	const overlapDisabled = $derived(
+		s.cursor < 2 ||
+		!(s.content[s.cursor - 1][0] == Structure.Glyph || s.content[s.cursor - 1][0] == Structure.Ligature) ||
+		!(s.content[s.cursor - 2][0] == Structure.Glyph || s.content[s.cursor - 2][0] == Structure.Ligature)
+	)
 
 	function Execute(...command: EgyptianEditCmd)
 	{
@@ -514,7 +525,7 @@
 						<TT.Root>
 							<TT.Trigger
 								onclick={() => Execute(EgyptianEditCmdKind.Cartouche)}
-								disabled={s.cursor == 0}
+								disabled={cartoucheDisabled}
 								title={$_.editor.hieroglyphs_editor.add_cartouche}
 								class={buttonVariants({variant: "outline"})}
 							>
@@ -531,7 +542,7 @@
 						<TT.Root>
 							<TT.Trigger
 								onclick={() => Execute(EgyptianEditCmdKind.Overlap)}
-								disabled={s.cursor < 2}
+								disabled={overlapDisabled}
 								title={$_.editor.hieroglyphs_editor.make_ligature}
 								class={buttonVariants({variant: "outline"})}
 							>
@@ -548,7 +559,7 @@
 						<TT.Root>
 							<TT.Trigger
 								onclick={() => Execute(EgyptianEditCmdKind.Row)}
-								disabled={s.cursor < 2}
+								disabled={rowDisabled}
 								title={$_.editor.hieroglyphs_editor.join_horizontally}
 								class={buttonVariants({variant: "outline"})}
 							>
@@ -565,7 +576,7 @@
 						<TT.Root>
 							<TT.Trigger
 								onclick={() => Execute(EgyptianEditCmdKind.Column)}
-								disabled={s.cursor < 2}
+								disabled={columnDisabled}
 								title={$_.editor.hieroglyphs_editor.join_vertically}
 								class={buttonVariants({variant: "outline"})}
 							>

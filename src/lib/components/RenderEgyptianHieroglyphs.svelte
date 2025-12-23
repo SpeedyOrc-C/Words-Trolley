@@ -81,8 +81,6 @@
 	import EgyptianGlyph from "./EgyptianGlyph.svelte"
 	import Render from "./RenderEgyptianHieroglyphs.svelte"
 
-	// [ERROR] V3𓏠𓈖H3𓏌𓏌𓏌𓋴V2𓈖H2𓃀𓇋𓏜V3H2𓐍𓏏𓏛𓏥
-
 	const {
 		hie,
 		fpx = Number.MAX_SAFE_INTEGER,

@@ -125,7 +125,7 @@
 	<title>{$_.set.title(word_set.name)}</title>
 </svelte:head>
 
-<nav class="sticky top-0 z-20 p-2 flex justify-between backdrop-blur-xs">
+<nav class="sticky top-0 z-20 p-2 flex justify-between backdrop-blur-xs print:hidden">
 
 	<div class="flex gap-2">
 
@@ -156,39 +156,39 @@
 
 </nav>
 
-<header class="my-4 px-4 text-center">
+<header class="m-4 text-center flex flex-col gap-1">
 
 	<div class="text-3xl">
 		{word_set.name}
 	</div>
 
-	{#if creator_profile == null}
-		<div class="text-muted-foreground text-sm">
-			{$_.set.creator_profile_missing}
-		</div>
-	{:else}
-		<div>
-			<a href="/creator/{creator_profile.id}" tabindex="0">
-				{$_.set.creator_label(creator_profile.name)}
-			</a>
-		</div>
-	{/if}
-
 	{#if word_set.language == null}
-		<div class="text-muted-foreground text-sm">
+		<div class="text-muted-foreground">
 			{$_.set.main_language_missing}
 		</div>
 	{:else}
 		<div>
-			{$_.language[word_set.language]}
+			{$_.set.main_language_label($_.language[word_set.language])}
 		</div>
 	{/if}
+
+	<div class="print:hidden">
+		{#if creator_profile == null}
+			<span class="text-muted-foreground">
+				{$_.set.creator_profile_missing}
+			</span>
+		{:else}
+			<a href="/creator/{creator_profile.id}" tabindex="0">
+				{$_.set.creator_label(creator_profile.name)}
+			</a>
+		{/if}
+	</div>
 
 </header>
 
 <main>
 
-	<div class="mx-auto my-4 px-2 w-full max-w-md flex gap-4">
+	<div class="mx-auto my-4 px-2 w-full max-w-md flex gap-4 print:hidden">
 
 		<Button class="flex-1" href="/word-set/{word_set.id}/learn" tabindex={0}>
 			<BookOpen />
@@ -244,7 +244,7 @@
 
 	</div>
 
-	<Table class="mx-auto my-4 w-full max-w-md">
+	<Table class="mx-auto my-4 w-full max-w-md print:max-w-full">
 
 		<TableHeader>
 			<TableRow>
@@ -262,7 +262,7 @@
 				<TableRow>
 					<TableCell>
 						{#if word.type === WordType.Egyptian}
-							<EgyptianText t={word.word} />
+							<EgyptianText t={word.word} wrap={false} />
 						{:else}
 							<span lang={LangFromWord(word)}>
 								{word.word}

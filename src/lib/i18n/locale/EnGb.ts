@@ -166,7 +166,7 @@ const EnGb: I18nTemplate = {
 		create_a_new_word_set: "Create a new word set...",
 	},
 	set: {
-		title: name => `Word set -  ${name}`,
+		title: name => `Word Set -  ${name}`,
 		learn: "Learn",
 		test: "Test",
 		preview: "Preview",
@@ -174,9 +174,11 @@ const EnGb: I18nTemplate = {
 		creator_label: name => `Creator: ${name}`,
 		creator_profile_missing: "Creator’s profile is missing",
 		main_language: "Main language",
+		main_language_label: language => `Main Language: ${language}`,
 		main_language_missing: "Word set’s source language is missing",
 		save: "Save",
 		unsave: "Unsave",
+		word_count_label: count => `Word Count: ${count}`,
 	},
 	creator: {
 		title: name => `Word sets by ${name}`,

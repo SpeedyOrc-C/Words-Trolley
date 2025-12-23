@@ -4,9 +4,11 @@
 	import RenderEgyptianHieroglyphs from "./RenderEgyptianHieroglyphs.svelte"
 	import type {Readable} from "svelte/store"
 
-	const {t, updateSignal}: {
+	const {t, updateSignal, wrap = true, class: _class = ""}: {
 		t: readonly Hieroglyphs[]
 		updateSignal?: Readable<unknown>
+		class?: string
+		wrap?: boolean
 	} = $props()
 
 	let lineHeight = $state(16)
@@ -31,7 +33,8 @@
 
 <span
 	bind:this={root}
-	class="p-px inline-flex flex-wrap align-text-bottom overflow-hidden"
+	class="p-px inline-flex align-text-bottom overflow-hidden {_class}"
+	class:flex-wrap={wrap}
 	style:gap="{lineHeight * 0.1}px"
 	lang="egy"
 >

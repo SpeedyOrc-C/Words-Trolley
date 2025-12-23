@@ -501,12 +501,15 @@
 
 <main class="grow overflow-x-clip overflow-y-auto">
 
-	<header class="mx-auto my-4 w-fit">
+	<header class="m-4 text-center">
 		{#if data.online}
-			<h1 class="text-xl px-4 text-center">
+			<h1 class="text-xl">
 				{name}
 			</h1>
 		{/if}
+		<p class="text-muted-foreground">
+			{$_.set.word_count_label(words.length)}
+		</p>
 	</header>
 
 	<div class="w-full max-w-xl mx-auto flex flex-col gap-2">
@@ -534,7 +537,7 @@
 				<Card.Content class="flex flex-col gap-4">
 
 					<div class="absolute top-1 right-2 text-xs font-mono">
-						{i + 1}<span class="text-foreground/50">/{words.length}</span>
+						{i + 1}
 					</div>
 
 					<div class="flex flex-col gap-2">

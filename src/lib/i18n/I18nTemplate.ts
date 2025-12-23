@@ -175,9 +175,11 @@ export type I18nTemplate = {
 		creator_label: (name: s) => s
 		creator_profile_missing: s
 		main_language: s
+		main_language_label: (language: s) => s
 		main_language_missing: s
 		save: s
 		unsave: s
+		word_count_label: (count: number) => s
 	}
 	creator: {
 		title: (name: s) => s

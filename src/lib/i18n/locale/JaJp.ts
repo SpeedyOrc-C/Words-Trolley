@@ -30,6 +30,7 @@ export const JaJp: I18nTemplate = {
 	print: "プリント",
 	not_specified: "未指定",
 	wiktionary: "Wiktionary",
+	word_count: n => `単語数：${n}`,
 	learning_resources: {
 		_: "学習リソース",
 		meta_description: "様々な言語を学ぶためのリソース。",

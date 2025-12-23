@@ -174,9 +174,11 @@ const ZhCn: I18nTemplate = {
 		creator_label: name => `作者：${name}`,
 		creator_profile_missing: "作者个人资料不存在",
 		main_language: "主要语言",
+		main_language_label: language => `主要语言：${language}`,
 		main_language_missing: "单词集源语言信息不存在",
 		save: "收藏",
 		unsave: "取消收藏",
+		word_count_label: count => `单词数量：${count}`,
 	},
 	creator: {
 		title: name => `${name}的单词集`,

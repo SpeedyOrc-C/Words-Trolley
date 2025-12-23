@@ -6,6 +6,7 @@
 	import QSimple from "$lib/components/QSimple.svelte"
 	import QPinyin from "$lib/components/QPinyin.svelte"
 	import {Button} from "$lib/components/ui/button"
+	import {Kbd} from "$lib/components/ui/kbd"
 	import QFrenchNoun from "$lib/components/QFrenchNoun.svelte"
 	import {_} from "$lib/i18n/store"
 	import {French} from "$lib/word"
@@ -47,7 +48,7 @@
 		i += 1
 	}
 
-	function onkeydown(e: KeyboardEvent)
+	async function onkeydown(e: KeyboardEvent)
 	{
 		// Shortcut keys only work when the user isn't focused on anything.
 		if (e.target != document.body)
@@ -65,6 +66,8 @@
 			{
 				if (hasNext)
 					Next()
+				else
+					await goto(`/word-set/${data.word_set.id}`)
 			}
 			else
 				ShowAnswer()
@@ -127,12 +130,14 @@
 
 			<Button onclick={Next} variant="outline" class="w-full text-xl h-24">
 				{$_.test.next}
+				<Kbd>␣ / ⏎</Kbd>
 			</Button>
 
 		{:else}
 
-			<Button href="/word-set/{data.word_set.id}" class="w-full text-xl h-24">
+			<Button href="/word-set/{data.word_set.id}" variant="outline" class="w-full text-xl h-24">
 				{$_.test.finish}
+				<Kbd>␣ / ⏎</Kbd>
 			</Button>
 
 		{/if}

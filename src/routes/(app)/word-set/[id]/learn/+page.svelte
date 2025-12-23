@@ -3,7 +3,7 @@
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
 	import {Button} from "$lib/components/ui/button"
-	import {Kbd, KbdGroup} from "$lib/components/ui/kbd"
+	import {Kbd} from "$lib/components/ui/kbd"
 	import {Language} from "$lib/i18n/Language"
 	import {_, language} from "$lib/i18n/store"
 	import {

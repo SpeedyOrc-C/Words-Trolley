@@ -53,7 +53,6 @@
 
 <script lang="ts">
 	import {Bopomofo, SyllablesEqual, type ISyllable} from "$lib/word/mandarin"
-	import {Input} from "$lib/components/ui/input"
 	import InputWithCustomKeyMapping from "./InputWithCustomKeyMapping.svelte"
 
 	let {

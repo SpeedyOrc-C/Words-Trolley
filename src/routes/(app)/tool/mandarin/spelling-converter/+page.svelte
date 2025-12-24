@@ -8,8 +8,6 @@
    const t = $derived($_.learning_resources.mandarin.spelling_converter)
 
    let value: ISyllable[] = $state([])
-
-   $inspect(value)
 </script>
 
 <svelte:head>

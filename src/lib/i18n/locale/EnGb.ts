@@ -119,7 +119,15 @@ const EnGb: I18nTemplate = {
 	settings: {
 		_: "Settings",
 		follows_your_system: "Follows your system",
-		ui_language: "Language",
+		appearance: {
+			_: "Appearance",
+			ui_language: "Language",
+			colour_scheme: {
+				_: "Colour Scheme",
+				light: "Light",
+				dark: "Dark",
+			}
+		},
 		learning: {
 			_: "Learning",
 			show_meaning_in_the_front: "Show word’s meaning in the front",

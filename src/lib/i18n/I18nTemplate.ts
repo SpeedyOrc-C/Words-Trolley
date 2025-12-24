@@ -120,6 +120,15 @@ export type I18nTemplate = {
 	settings: {
 		_: s
 		follows_your_system: s
+		appearance: {
+			_: s
+			ui_language: s
+			colour_scheme: {
+				_: s
+				light: s
+				dark: s
+			}
+		}
 		learning: {
 			_: s
 			show_meaning_in_the_front: s
@@ -133,7 +142,6 @@ export type I18nTemplate = {
 			_: s
 			spelling_scheme: s
 		}
-		ui_language: s
 		egyptian: {
 			_: s
 			transliteration_scheme: {

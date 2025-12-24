@@ -119,7 +119,15 @@ const ZhCn: I18nTemplate = {
 	settings: {
 		_: "设置",
 		follows_your_system: "跟随系统",
-		ui_language: "语言",
+		appearance: {
+			_: "外观",
+			ui_language: "语言",
+			colour_scheme: {
+				_: "配色方案",
+				light: "浅色",
+				dark: "深色",
+			}
+		},
 		learning: {
 			_: "学习",
 			show_meaning_in_the_front: "在正面显示单词意思",

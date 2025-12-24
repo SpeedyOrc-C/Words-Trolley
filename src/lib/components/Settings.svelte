@@ -3,7 +3,7 @@
 	import {Separator} from "$lib/components/ui/separator"
 	import {Language} from "$lib/i18n/Language"
 	import {_} from "$lib/i18n/store"
-	import {EgyptianTransliteration, HieroglyphsFont, type ISettings, MandarinScript} from "$lib/settings"
+	import {ColourScheme, EgyptianTransliteration, HieroglyphsFont, type ISettings, MandarinScript} from "$lib/settings"
 	import {LivingLanguages} from "$lib/i18n"
 	import * as Dialog from "$lib/components/ui/dialog"
 	import * as NS from "$lib/components/ui/native-select"
@@ -19,6 +19,8 @@
 	import Settings from "@lucide/svelte/icons/settings"
 	import {Phoneme} from "$lib/word/egyptian"
 	import SettingSubList from "./ui/setting/SettingSubList.svelte"
+	import Button from "./ui/button/button.svelte"
+	import ButtonGroup from "./ui/button-group/button-group.svelte"
 
 	let {open = $bindable(false)}: { open: boolean } = $props()
 	let newSettings = $state($settings)
@@ -118,12 +120,14 @@
 
 				<article>
 
+					<header>{$_.settings.appearance._}</header>
+
 					<SettingSubList>
 
 						<div class="flex justify-between gap-2 flex-wrap">
 							<Label for="language">
+								{$_.settings.appearance.ui_language}
 								<Languages/>
-								{$_.settings.ui_language}
 							</Label>
 
 							<NS.Root id="language" bind:value={newSettings.Language}>
@@ -144,6 +148,40 @@
 								</NS.Option>
 							</NS.Root>
 						</div>
+
+						<Separator/>
+
+						<div class="flex justify-between gap-2 flex-wrap">
+							<Label for="colour-scheme">
+								{$_.settings.appearance.colour_scheme._}
+							</Label>
+
+							<ButtonGroup>
+								{@const s = $settings.ColourScheme}
+								<Button
+									onclick={() => newSettings.ColourScheme = ColourScheme.Light}
+									variant={s == ColourScheme.Light ? "default" : "outline"}
+									disabled={s == ColourScheme.Light}
+								>
+									{$_.settings.appearance.colour_scheme.light}
+								</Button>
+								<Button
+									onclick={() => newSettings.ColourScheme = ColourScheme.Dark}
+									variant={s == ColourScheme.Dark ? "default" : "outline"}
+									disabled={s == ColourScheme.Dark}
+								>
+									{$_.settings.appearance.colour_scheme.dark}
+								</Button>
+								<Button
+									onclick={() => newSettings.ColourScheme = ColourScheme.System}
+									variant={s == ColourScheme.System ? "default" : "outline"}
+									disabled={s == ColourScheme.System}
+								>
+									{$_.settings.follows_your_system}
+								</Button>
+							</ButtonGroup>
+						</div>
+
 					</SettingSubList>
 
 				</article>

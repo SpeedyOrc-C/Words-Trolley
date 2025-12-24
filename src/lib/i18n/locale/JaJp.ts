@@ -118,8 +118,16 @@ export const JaJp: I18nTemplate = {
 	},
 	settings: {
 		_: "設定",
-		follows_your_system: "システム設定に従う",
-		ui_language: "言語",
+		follows_your_system: "システムに従う",
+		appearance: {
+			_: "外観",
+			ui_language: "言語",
+			colour_scheme: {
+				_: "カラースキーム",
+				light: "ライト",
+				dark: "ダーク",
+			}
+		},
 		learning: {
 			_: "学習",
 			show_meaning_in_the_front: "正面に単語の意味を表示",

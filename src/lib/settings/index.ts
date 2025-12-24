@@ -6,6 +6,7 @@ export const SettingsKey = "words-trolley-settings"
 
 export interface ISettings
 {
+	ColourScheme: ColourScheme
 	Language: LivingLanguage | "auto"
 	Learning: {
 		ShowMeaningAndWordAtTheSameTime: boolean
@@ -22,6 +23,13 @@ export interface ISettings
 		FuzzySZ: boolean
 	}
 	PreferredVoice: Record<LivingLanguage, string | null>
+}
+
+export enum ColourScheme
+{
+	System = "system",
+	Light = "light",
+	Dark = "dark",
 }
 
 export enum MandarinScript
@@ -46,6 +54,7 @@ export enum HieroglyphsFont
 }
 
 export const defaultSettings: ISettings = {
+	ColourScheme: ColourScheme.System,
 	Language: "auto",
 	Learning: {
 		ShowMeaningAndWordAtTheSameTime: false,
@@ -74,6 +83,7 @@ export const defaultSettings: ISettings = {
 }
 
 export const ParseSettings: Validator<ISettings> = obj({
+	ColourScheme: asum(...Object.values(ColourScheme).map(eq)),
 	Language: asum(...LivingLanguages.map(eq), eq("auto" as const)),
 	Learning: obj({
 		ShowMeaningAndWordAtTheSameTime: bool,

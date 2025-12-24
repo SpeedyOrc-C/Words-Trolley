@@ -6,7 +6,10 @@ import {Service} from '$lib/service'
 
 export const handle: Handle = async ({event, resolve}) =>
 {
-	event.locals.acceptLanguage = event.request.headers.get("Accept-Language")
+	const cookieLanguage = event.cookies.get("language")
+
+	event.locals.acceptLanguage =
+		cookieLanguage ?? event.request.headers.get("Accept-Language")
 
 	if (event.url.pathname.startsWith("/offline"))
 	{
@@ -60,6 +63,8 @@ export const handle: Handle = async ({event, resolve}) =>
 		return {session, user}
 	}
 
+	const cookieColourScheme = event.cookies.get("color-scheme")
+
 	return resolve(event, {
 		filterSerializedResponseHeaders(name)
 		{
@@ -69,5 +74,8 @@ export const handle: Handle = async ({event, resolve}) =>
 			 */
 			return name === 'content-range' || name === 'x-supabase-api-version'
 		},
+		transformPageChunk: ({html}) => html
+			.replace('%ssr.color-scheme%', cookieColourScheme == "dark" ? "dark" : "")
+			.replace("%ssr.language%", cookieLanguage ?? "")
 	})
 }

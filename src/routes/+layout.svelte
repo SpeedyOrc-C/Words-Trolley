@@ -2,20 +2,40 @@
 	import "../app.css"
 	import {AutoDetectLanguage} from "$lib/i18n"
 	import {dir, language} from "$lib/i18n/store"
-	import {ParseSettings} from "$lib/settings"
+	import {ColourScheme, ParseSettings} from "$lib/settings"
 	import {settings, settingsOpened} from "$lib/settings/store"
-	import {ModeWatcher} from "mode-watcher"
 	import {SettingsKey} from "$lib/settings"
 	import {Toaster} from "$lib/components/ui/sonner"
 	import Settings from "$lib/components/Settings.svelte"
 	import {voices} from "$lib/speak"
+	import {prefersDarkScheme, shouldUseDarkScheme} from "$lib/settings/store/colour-scheme"
 
 	const {children} = $props()
 
 	$effect.pre(() =>
 	{
-		const unsubscribeLanguage = language
-			.subscribe(language => document.documentElement.lang = language)
+		prefersDarkScheme.set(window.matchMedia("(prefers-color-scheme: dark)").matches)
+
+		window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e =>
+		{
+			prefersDarkScheme.set(e.matches)
+		})
+
+		const unsubscribeShouldUseDarkScheme = shouldUseDarkScheme.subscribe(isDark =>
+		{
+			if (isDark)
+				document.documentElement.classList.add("dark")
+			else
+				document.documentElement.classList.remove("dark")
+
+			document.cookie = `color-scheme=${isDark ? "dark" : "light"}; path=/; max-age=31536000; SameSite=Lax`
+		})
+
+		const unsubscribeLanguage = language.subscribe(language =>
+		{
+			document.documentElement.lang = language
+			document.cookie = `language=${language}; path=/; max-age=31536000; SameSite=Lax`
+		})
 
 		const unsubscribeDir = dir
 			.subscribe(dir => document.documentElement.dir = dir)
@@ -49,14 +69,19 @@
 				)
 			}
 
-		const unsubscribeSettings = settings.subscribe(set =>
+		const unsubscribeSettings = settings.subscribe(settings =>
 		{
-			localStorage.setItem(SettingsKey, JSON.stringify(set))
+			localStorage.setItem(SettingsKey, JSON.stringify(settings))
 
-			if (set.Language == "auto")
+			if (settings.Language == "auto")
 				AutoDetectLanguage(navigator.language)
 			else
-				language.set(set.Language)
+				language.set(settings.Language)
+
+			if (settings.ColourScheme == ColourScheme.System)
+			{
+
+			}
 		})
 
 		const speechSynthesis = window.speechSynthesis as SpeechSynthesis | undefined
@@ -74,6 +99,7 @@
 
 		return () =>
 		{
+			unsubscribeShouldUseDarkScheme()
 			unsubscribeLanguage()
 			unsubscribeSettings()
 			unsubscribeDir()
@@ -106,6 +132,5 @@
 
 <Settings bind:open={$settingsOpened} />
 <Toaster position="bottom-right" richColors />
-<ModeWatcher />
 
 {@render children()}

@@ -31,6 +31,16 @@ export type I18nTemplate = {
 	print: s
 	not_specified: s
 	wiktionary: s
+	file: {
+		_: s
+		properties: s
+		import: {
+			_: s
+			win: s
+			bad_file_error: s
+		}
+		export: s
+	}
 	learning_resources: {
 		_: s
 		meta_description: s
@@ -221,12 +231,6 @@ export type I18nTemplate = {
 			_: s
 			success: s
 		}
-		export: s
-		import: {
-			_: s
-			win: s
-			bad_file_error: s
-		}
 		delete: s
 		deleting: s
 		delete_confirm: {
@@ -327,7 +331,6 @@ export type I18nTemplate = {
 		furigana: s
 	}
 	egyptian: {
-		identity: s
 		egyptology: s
 		transliteration: {
 			gardiner: s

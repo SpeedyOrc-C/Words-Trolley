@@ -157,6 +157,18 @@ class WordSet
          return error
    }
 
+   async PutMetadata(id: string, meta: { name: string, language: Language | null })
+   {
+      const {error} = await this.db
+         .from("sets")
+         .update(meta)
+         .eq("id", id)
+         .single()
+
+      if (error)
+         return error
+   }
+
    async Rename(id: string, newName: string)
    {
       const {error} = await this.db

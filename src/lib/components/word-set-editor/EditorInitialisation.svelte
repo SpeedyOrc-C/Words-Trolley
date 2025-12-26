@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SelectWordType from "$lib/components/editor/SelectWordType.svelte"
+	import SelectWordType from "$lib/components/word-set-editor/SelectWordType.svelte"
 	import * as Dialog from "$lib/components/ui/dialog"
 	import {Button} from "$lib/components/ui/button"
 	import {Label} from "$lib/components/ui/label"

@@ -30,6 +30,16 @@ export const JaJp: I18nTemplate = {
 	print: "プリント",
 	not_specified: "未指定",
 	wiktionary: "Wiktionary",
+	file: {
+		_: "ファイル",
+		properties: "情報",
+		import: {
+			_: "インポート…",
+			win: "正常にインポートしました。",
+			bad_file_error: "ファイルが破損しています。エラーの詳細についてはコンソールを確認してください。",
+		},
+		export: "エクスポート",
+	},
 	learning_resources: {
 		_: "学習リソース",
 		meta_description: "様々な言語を学ぶためのリソース。",
@@ -220,12 +230,6 @@ export const JaJp: I18nTemplate = {
 			_: "複製を作成",
 			success: "複製を作成しました",
 		},
-		export: "エクスポート",
-		import: {
-			_: "インポート…",
-			win: "単語のインポートに成功しました。",
-			bad_file_error: "単語データが壊れています。詳細はコンソールを確認してください。",
-		},
 		delete: "削除…",
 		deleting: "削除中",
 		delete_confirm: {
@@ -326,7 +330,6 @@ export const JaJp: I18nTemplate = {
 		furigana: "振り仮名",
 	},
 	egyptian: {
-		identity: "音と形が一致",
 		egyptology: "エジプト学",
 		transliteration: {
 			gardiner: "ガーディナー式",

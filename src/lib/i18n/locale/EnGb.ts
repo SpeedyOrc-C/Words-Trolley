@@ -30,6 +30,16 @@ const EnGb: I18nTemplate = {
 	print: "Print",
 	not_specified: "Not specified",
 	wiktionary: "Wiktionary",
+	file: {
+		_: "File",
+		properties: "Properties",
+		import: {
+			_: "Import...",
+			win: "Words imported successfully.",
+			bad_file_error: "The file is corrupted. Please check the console for error details.",
+		},
+		export: "Export",
+	},
 	learning_resources: {
 		_: "Learning Resources",
 		meta_description: "Resources for learning various languages.",
@@ -220,12 +230,6 @@ const EnGb: I18nTemplate = {
 			_: "Fork",
 			success: "Forked successfully",
 		},
-		export: "Export",
-		import: {
-			_: "Import...",
-			win: "Words imported successfully.",
-			bad_file_error: "The words is corrupted. Please check the console for error details.",
-		},
 		delete: "Delete...",
 		deleting: "Deleting",
 		delete_confirm: {
@@ -326,7 +330,6 @@ const EnGb: I18nTemplate = {
 		furigana: "Furigana",
 	},
 	egyptian: {
-		identity: "Identity",
 		egyptology: "Egyptology",
 		transliteration: {
 			gardiner: "Gardiner",

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import InputEgyptianHieroglyphs from "$lib/components/editor/InputEgyptianHieroglyphs.svelte"
+	import InputEgyptianHieroglyphs from "$lib/components/InputEgyptianHieroglyphs.svelte"
 	import GardinerTable from "$lib/components/GardinerTable.svelte"
 	import {Label} from "$lib/components/ui/label"
 	import {Slider} from "$lib/components/ui/slider"

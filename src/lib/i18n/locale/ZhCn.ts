@@ -30,6 +30,16 @@ const ZhCn: I18nTemplate = {
 	print: "打印",
 	not_specified: "未指定",
 	wiktionary: "维基词典",
+	file: {
+		_: "文件",
+		properties: "属性",
+		import: {
+			_: "导入…",
+			win: "成功导入单词。",
+			bad_file_error: "文件已损坏，请前往控制台查看错误详情。",
+		},
+		export: "导出",
+	},
 	learning_resources: {
 		_: "学习资源",
 		meta_description: "学习各种语言的资源。",
@@ -220,12 +230,6 @@ const ZhCn: I18nTemplate = {
 			_: "创建副本",
 			success: "成功创建副本",
 		},
-		export: "导出",
-		import: {
-			_: "导入…",
-			win: "成功导入单词。",
-			bad_file_error: "单词已破损，请前往控制台查看错误详情。",
-		},
 		delete: "删除…",
 		deleting: "删除中",
 		delete_confirm: {
@@ -326,7 +330,6 @@ const ZhCn: I18nTemplate = {
 		furigana: "振假名",
 	},
 	egyptian: {
-		identity: "音形如一",
 		egyptology: "埃及学",
 		transliteration: {
 			gardiner: "高德纳",

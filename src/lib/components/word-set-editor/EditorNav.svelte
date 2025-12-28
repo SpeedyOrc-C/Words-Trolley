@@ -1,13 +1,10 @@
 <script lang="ts">
 	import * as M from "$lib/components/ui/menubar"
-	import {Button} from "$lib/components/ui/button"
 	import {goto} from "$app/navigation"
 	import {_} from "$lib/i18n/store"
 
-	import Home from "@lucide/svelte/icons/home"
 	import BookOpen from "@lucide/svelte/icons/book-open"
 	import BookCheck from "@lucide/svelte/icons/book-check"
-	import Settings from "@lucide/svelte/icons/settings"
 	import SaveIcon from "@lucide/svelte/icons/save"
 	import ListPlus from "@lucide/svelte/icons/list-plus"
 	import FolderInput from "@lucide/svelte/icons/folder-input"
@@ -17,6 +14,7 @@
 	import ArrowBigLeft from "@lucide/svelte/icons/arrow-big-left"
 	import ScanEye from "@lucide/svelte/icons/scan-eye"
 	import Info from "@lucide/svelte/icons/info"
+	import EditorNavRightButtons from "../EditorNavRightButtons.svelte"
 
 	let {
 		OpenSettings,
@@ -208,39 +206,5 @@
 		{/if}
 	</M.Root>
 
-	<div class="hidden sm:block">
-		<Button onclick={OpenSettings} variant="outline">
-			<Settings />
-			{$_.settings._}
-		</Button>
-	</div>
-
-	<div class="hidden sm:block">
-		<Button onclick={() => GuardedGoto("/")} variant="secondary">
-			<Home />
-			{$_.home._}
-		</Button>
-	</div>
-
-	<div class="sm:hidden">
-		<Button
-			aria-label={$_.settings._}
-			onclick={OpenSettings}
-			size="icon"
-			variant="outline"
-		>
-			<Settings />
-		</Button>
-	</div>
-
-	<div class="sm:hidden">
-		<Button
-			aria-label={$_.home._}
-			onclick={() => GuardedGoto("/")}
-			size="icon"
-			variant="secondary"
-		>
-			<Home />
-		</Button>
-	</div>
+	<EditorNavRightButtons {saved} />
 </nav>

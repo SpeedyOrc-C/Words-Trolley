@@ -8,4 +8,23 @@ export namespace BlockEditor
    export type Text = ["text", string]
    export type Void = "br" | "hr"
    export type Egyptian = ["egyptian", Hieroglyphs[]]
+
+   export function DocumentAbstract(x: Document): string
+   {
+      if (x.length == 0)
+         return ""
+
+      return BlockAbstract(x[0])
+   }
+
+   export function BlockAbstract(x: Block): string
+   {
+      if (typeof x == "string" || x[0] == "egyptian")
+         return ""
+
+      if (x[0] == "text")
+         return x[1]
+
+      return DocumentAbstract(x[2])
+   }
 }

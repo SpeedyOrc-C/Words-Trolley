@@ -285,6 +285,18 @@ const EnGb: I18nTemplate = {
 			split: "Split",
 		},
 	},
+	block_editor: {
+		_: "Block Editor",
+		paragraph: "Paragraph",
+		raw_text: "Raw Text",
+		inlined: "Inlined",
+		bold: "Bold",
+		italic: "Italic",
+		subheading: "Subheading",
+		heading: "Heading",
+		new_line: "New Line",
+		divider: "Divider",
+	},
 	WordType: {
 		Simple: "Simple",
 		English: "English",

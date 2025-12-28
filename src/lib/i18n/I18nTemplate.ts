@@ -286,6 +286,18 @@ export type I18nTemplate = {
 			split: s
 		}
 	}
+	block_editor: {
+		_: s
+		paragraph: s
+		raw_text: s
+		inlined: s
+		bold: s
+		italic: s
+		heading: s
+		subheading: s
+		new_line: s
+		divider: s
+	}
 	WordType: {
 		Simple: s
 		English: s

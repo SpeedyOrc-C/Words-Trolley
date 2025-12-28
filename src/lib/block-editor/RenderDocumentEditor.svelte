@@ -15,25 +15,16 @@
 	import Heading1 from "@lucide/svelte/icons/heading-1"
 	import Heading2 from "@lucide/svelte/icons/heading-2"
 
-	let {
-		content = $bindable(),
-	}: {
-		content: BlockEditor.Document
-	} = $props()
+	let {content = $bindable()}: {content: BlockEditor.Document} = $props()
 </script>
 
 {#snippet InsertButton(index: number)}
 	<DM.Root>
 		<DM.Trigger>
 			{#snippet child({props})}
-				<Button
-					{...props}
-					variant="ghost"
-					size="sm"
-					class="w-full opacity-50 hover:opacity-100"
-				>
-					{$_.insert}
-				</Button>
+				<div {...props} class="insert-btn" tabindex={0} role="button" title={$_.insert}>
+					<hr/>
+				</div>
 			{/snippet}
 		</DM.Trigger>
 		<DM.Content>
@@ -43,7 +34,7 @@
 				}}
 			>
 				<Pilcrow />
-				段落
+				{$_.block_editor.paragraph}
 			</DM.Item>
 			<DM.Item
 				onclick={() => {
@@ -51,14 +42,14 @@
 				}}
 			>
 				<TextAlignStart />
-				文本
+				{$_.block_editor.raw_text}
 			</DM.Item>
 			<DM.Item
 				onclick={() => {
 					content.splice(index, 0, ["span", {class: ""}, [["text", ""]]])
 				}}
 			>
-				内联
+				{$_.block_editor.inlined}
 			</DM.Item>
 			<DM.Separator />
 			<DM.Item
@@ -67,7 +58,7 @@
 				}}
 			>
 				<Bold />
-				加粗
+				{$_.block_editor.bold}
 			</DM.Item>
 			<DM.Separator />
 			<DM.Item
@@ -76,7 +67,7 @@
 				}}
 			>
 				<Heading1 />
-				大标题
+				{$_.block_editor.heading}
 			</DM.Item>
 			<DM.Item
 				onclick={() => {
@@ -84,7 +75,7 @@
 				}}
 			>
 				<Heading2 />
-				副标题
+				{$_.block_editor.subheading}
 			</DM.Item>
 			<DM.Separator />
 			<DM.Item
@@ -93,7 +84,7 @@
 				}}
 			>
 				<CornerDownLeft />
-				换行
+				{$_.block_editor.new_line}
 			</DM.Item>
 			<DM.Item
 				onclick={() => {
@@ -101,7 +92,7 @@
 				}}
 			>
 				<Minus />
-				分割线
+				{$_.block_editor.divider}
 			</DM.Item>
 			<DM.Separator></DM.Separator>
 			<DM.Item
@@ -122,7 +113,7 @@
 	{#snippet DeleteButton()}
 		<Button
 			variant="outline"
-			size="icon"
+			size="icon-sm"
 			onclick={() => content?.splice(i, 1)}
 		>
 			<Trash />
@@ -133,3 +124,23 @@
 {/each}
 
 {@render InsertButton(content.length)}
+
+<style lang="postcss">
+	@reference "tailwindcss";
+	@reference "../../app.css";
+
+	.insert-btn {
+		@apply p-1;
+		cursor: copy;
+
+		& > hr {
+			@apply bg-transparent border-transparent;
+		}
+
+		&:focus, &:hover, &:active {
+			& > hr {
+				@apply bg-foreground;
+			}
+		}
+	}
+</style>

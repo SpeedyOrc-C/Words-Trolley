@@ -285,6 +285,18 @@ export const JaJp: I18nTemplate = {
 			split: "分割",
 		},
 	},
+	block_editor: {
+		_: "ブロックエディター",
+		paragraph: "段落",
+		raw_text: "テキスト",
+		inlined: "インライン",
+		bold: "太字",
+		italic: "斜体",
+		heading: "見出し",
+		subheading: "副見出し",
+		new_line: "改行",
+		divider: "区切り",
+	},
 	WordType: {
 		Simple: "通常",
 		English: "英語",

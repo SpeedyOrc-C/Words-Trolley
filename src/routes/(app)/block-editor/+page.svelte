@@ -9,7 +9,10 @@
 
 	import FolderInput from "@lucide/svelte/icons/folder-input"
 	import FolderOutput from "@lucide/svelte/icons/folder-output"
+	import Separator from "$lib/components/ui/separator/separator.svelte"
+	import EditorNavRightButtons from "$lib/components/EditorNavRightButtons.svelte"
 
+	let saved = $state(false)
 	let content: BlockEditor.Document = $state([])
 
 	function Import()
@@ -73,31 +76,40 @@
 	}
 </script>
 
-<div class="box-border p-2 flex flex-col gap-2">
-	<M.Root>
-		<M.Menu>
-			<M.Trigger>
-				{$_.file._}
-			</M.Trigger>
-			<M.Content>
-				<M.Item onclick={Import}>
-					<FolderInput />
-					{$_.file.import._}
-				</M.Item>
-				<M.Item onclick={Export}>
-					<FolderOutput />
-					{$_.file.export}
-				</M.Item>
-			</M.Content>
-		</M.Menu>
-	</M.Root>
+<div class="box-border p-4 pt-2 h-screen flex flex-col gap-4">
 
-	<main class="rounded flex gap-2">
-		<div class="p-2 flex-1 rounded outline-1 overflow-auto h-full">
+	<div class="flex justify-between items-center gap-2">
+
+		<M.Root class="flex-1">
+			<M.Menu>
+				<M.Trigger>
+					{$_.file._}
+				</M.Trigger>
+				<M.Content>
+					<M.Item onclick={Import}>
+						<FolderInput />
+						{$_.file.import._}
+					</M.Item>
+					<M.Item onclick={Export}>
+						<FolderOutput />
+						{$_.file.export}
+					</M.Item>
+				</M.Content>
+			</M.Menu>
+		</M.Root>
+
+		<EditorNavRightButtons {saved} />
+
+	</div>
+
+	<main class="min-h-0 grow rounded outline-1 flex bg-card">
+		<div class="p-2 flex-1 overflow-auto">
 			<RenderBlockEditor bind:content />
 		</div>
 
-		<div class="p-2 flex-1 rounded outline-1 overflow-auto h-full">
+		<Separator orientation="vertical" />
+
+		<div class="p-2 flex-1 overflow-auto">
 			<RenderDocument {content} />
 		</div>
 	</main>

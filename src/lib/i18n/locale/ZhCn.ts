@@ -35,7 +35,7 @@ const ZhCn: I18nTemplate = {
 		properties: "属性",
 		import: {
 			_: "导入…",
-			win: "成功导入单词。",
+			win: "导入成功。",
 			bad_file_error: "文件已损坏，请前往控制台查看错误详情。",
 		},
 		export: "导出",
@@ -284,6 +284,18 @@ const ZhCn: I18nTemplate = {
 			merge_into_below: "合并到下方",
 			split: "拆分",
 		},
+	},
+	block_editor: {
+		_: "块编辑器",
+		paragraph: "段落",
+		raw_text: "文本",
+		inlined: "内联",
+		bold: "加粗",
+		italic: "斜体",
+		heading: "标题",
+		subheading: "副标题",
+		new_line: "换行",
+		divider: "分隔符",
 	},
 	WordType: {
 		Simple: "正常",

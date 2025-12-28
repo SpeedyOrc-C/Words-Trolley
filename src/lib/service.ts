@@ -169,30 +169,6 @@ class WordSet
          return error
    }
 
-   async Rename(id: string, newName: string)
-   {
-      const {error} = await this.db
-         .from("sets")
-         .update({name: newName})
-         .eq("id", id)
-         .single()
-
-      if (error)
-         return error
-   }
-
-   async ChangeMainLanguage(id: string, language: Language | null)
-   {
-      const {error} = await this.db
-         .from("sets")
-         .update({language})
-         .eq("id", id)
-         .single()
-
-      if (error)
-         return error
-   }
-
    /**
     * @returns ID of the new word set
     */

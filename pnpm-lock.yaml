@@ -81,6 +81,9 @@ importers:
       jsdom:
         specifier: ^26.0.0
         version: 26.1.0
+      paneforge:
+        specifier: ^1.0.2
+        version: 1.0.2(svelte@5.43.6)
       prettier:
         specifier: 3.6.2
         version: 3.6.2
@@ -1804,6 +1807,11 @@ packages:
   package-json-from-dist@1.0.1:
     resolution: {integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==}
 
+  paneforge@1.0.2:
+    resolution: {integrity: sha512-KzmIXQH1wCfwZ4RsMohD/IUtEjVhteR+c+ulb/CHYJHX8SuDXoJmChtsc/Xs5Wl8NHS4L5Q7cxL8MG40gSU1bA==}
+    peerDependencies:
+      svelte: ^5.29.0
+
   parchment@3.0.0:
     resolution: {integrity: sha512-HUrJFQ/StvgmXRcQ1ftY6VEZUq3jA2t9ncFN4F84J/vN0/FPpQF+8FKXb3l6fLces6q0uOHj6NJn+2xvZnxO6A==}
 
@@ -1969,8 +1977,18 @@ packages:
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
 
+  runed@0.23.4:
+    resolution: {integrity: sha512-9q8oUiBYeXIDLWNK5DfCWlkL0EW3oGbk845VdKlPeia28l751VpfesaB/+7pI6rnbx1I6rqoZ2fZxptOJLxILA==}
+    peerDependencies:
+      svelte: ^5.7.0
+
   runed@0.28.0:
     resolution: {integrity: sha512-k2xx7RuO9hWcdd9f+8JoBeqWtYrm5CALfgpkg2YDB80ds/QE4w0qqu34A7fqiAwiBBSBQOid7TLxwxVC27ymWQ==}
+    peerDependencies:
+      svelte: ^5.7.0
+
+  runed@0.29.2:
+    resolution: {integrity: sha512-0cq6cA6sYGZwl/FvVqjx9YN+1xEBu9sDDyuWdDW1yWX7JF2wmvmVKfH+hVCZs+csW+P3ARH92MjI3H9QTagOQA==}
     peerDependencies:
       svelte: ^5.7.0
 
@@ -2117,6 +2135,12 @@ packages:
     engines: {node: '>=18', pnpm: '>=8.7.0'}
     peerDependencies:
       svelte: ^5.0.0-next.126
+
+  svelte-toolbelt@0.9.3:
+    resolution: {integrity: sha512-HCSWxCtVmv+c6g1ACb8LTwHVbDqLKJvHpo6J8TaqwUme2hj9ATJCpjCPNISR1OCq2Q4U1KT41if9ON0isINQZw==}
+    engines: {node: '>=18', pnpm: '>=8.7.0'}
+    peerDependencies:
+      svelte: ^5.30.2
 
   svelte2tsx@0.7.42:
     resolution: {integrity: sha512-PSNrKS16aVdAajoFjpF5M0t6TA7ha7GcKbBajD9RG3M+vooAuvLnWAGUSC6eJL4zEOVbOWKtcS2BuY4rxPljoA==}
@@ -4163,6 +4187,12 @@ snapshots:
 
   package-json-from-dist@1.0.1: {}
 
+  paneforge@1.0.2(svelte@5.43.6):
+    dependencies:
+      runed: 0.23.4(svelte@5.43.6)
+      svelte: 5.43.6
+      svelte-toolbelt: 0.9.3(svelte@5.43.6)
+
   parchment@3.0.0: {}
 
   parent-module@1.0.1:
@@ -4323,7 +4353,17 @@ snapshots:
     dependencies:
       queue-microtask: 1.2.3
 
+  runed@0.23.4(svelte@5.43.6):
+    dependencies:
+      esm-env: 1.2.2
+      svelte: 5.43.6
+
   runed@0.28.0(svelte@5.43.6):
+    dependencies:
+      esm-env: 1.2.2
+      svelte: 5.43.6
+
+  runed@0.29.2(svelte@5.43.6):
     dependencies:
       esm-env: 1.2.2
       svelte: 5.43.6
@@ -4489,6 +4529,13 @@ snapshots:
   svelte-toolbelt@0.5.0(svelte@5.43.6):
     dependencies:
       clsx: 2.1.1
+      style-to-object: 1.0.9
+      svelte: 5.43.6
+
+  svelte-toolbelt@0.9.3(svelte@5.43.6):
+    dependencies:
+      clsx: 2.1.1
+      runed: 0.29.2(svelte@5.43.6)
       style-to-object: 1.0.9
       svelte: 5.43.6
 

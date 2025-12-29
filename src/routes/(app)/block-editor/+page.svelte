@@ -2,6 +2,7 @@
 	import type {BlockEditor} from "$lib/block-editor"
 	import RenderDocument from "$lib/block-editor/RenderDocument.svelte"
 	import * as M from "$lib/components/ui/menubar"
+	import * as Resizable from "$lib/components/ui/resizable"
 	import RenderBlockEditor from "$lib/block-editor/RenderDocumentEditor.svelte"
 	import {_} from "$lib/i18n/store"
 	import {Validate} from "$lib/block-editor/validate"
@@ -11,6 +12,7 @@
 	import FolderOutput from "@lucide/svelte/icons/folder-output"
 	import Separator from "$lib/components/ui/separator/separator.svelte"
 	import EditorNavRightButtons from "$lib/components/EditorNavRightButtons.svelte"
+	import EditorPreviewPanes from "$lib/block-editor/EditorPreviewPanes.svelte"
 
 	let saved = $state(false)
 	let content: BlockEditor.Document = $state([])
@@ -102,15 +104,8 @@
 
 	</div>
 
-	<main class="min-h-0 grow rounded outline-1 flex bg-card">
-		<div class="p-2 flex-1 overflow-auto">
-			<RenderBlockEditor bind:content />
-		</div>
-
-		<Separator orientation="vertical" />
-
-		<div class="p-2 flex-1 overflow-auto">
-			<RenderDocument {content} />
-		</div>
+	<main class="min-h-0 grow">
+		<EditorPreviewPanes bind:content />
 	</main>
+
 </div>

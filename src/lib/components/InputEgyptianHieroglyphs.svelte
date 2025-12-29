@@ -365,7 +365,9 @@
 				<span class="word">
 					{#if i > 0}
 						<span class="word-sep">
-							<span></span>
+							{#if (i == s.cursor - 1 || i == s.cursor - 2)}
+								<span></span>
+							{/if}
 						</span>
 					{/if}
 					<RenderEgyptianHieroglyphs {hie} lineHeight={height}/>

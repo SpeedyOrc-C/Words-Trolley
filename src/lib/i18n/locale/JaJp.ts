@@ -296,6 +296,17 @@ export const JaJp: I18nTemplate = {
 		subheading: "副見出し",
 		new_line: "改行",
 		divider: "区切り",
+		view: {
+			left_right: "左右レイアウト",
+			top_bottom: "上下レイアウト",
+			editor_only: "エディターのみ",
+			preview_only: "プレビューのみ",
+		},
+		quick_start: {
+			_: "クイックスタート",
+			detail_fine_pointer: "他のブロックの隙間をクリックしてブロックを挿入できます。隙間にマウスを合わせると表示されます。この段落の下に隙間をクリックして始めましょう。",
+			detail_coarse_pointer: "他のブロックの隙間をタップしてブロックを挿入できます。この段落の下に隙間をタップして始めましょう。",
+		},
 	},
 	WordType: {
 		Simple: "通常",

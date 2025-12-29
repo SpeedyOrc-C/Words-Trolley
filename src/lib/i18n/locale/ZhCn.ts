@@ -296,6 +296,17 @@ const ZhCn: I18nTemplate = {
 		subheading: "副标题",
 		new_line: "换行",
 		divider: "分隔符",
+		view: {
+			left_right: "左右布局",
+			top_bottom: "上下布局",
+			editor_only: "仅编辑器",
+			preview_only: "仅预览",
+		},
+		quick_start: {
+			_: "快速开始",
+			detail_fine_pointer: "您可以点击其他块周围的缝来插入一个块。把鼠标移到缝隙上的时候就可以看到了。这段话的下面就有一条缝，点击它开始吧。",
+			detail_coarse_pointer: "您可以通过点击其他块周围的缝来插入新的块。这段话的下面就有一条缝，点击它开始吧。",
+		},
 	},
 	WordType: {
 		Simple: "正常",

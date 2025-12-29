@@ -15,6 +15,7 @@
 	import BookUser from "@lucide/svelte/icons/book-user"
 	import LibraryBig from "@lucide/svelte/icons/library"
 	import User from "@lucide/svelte/icons/user"
+	import FileText from "@lucide/svelte/icons/file-text"
 	import NotByAiBadge from "$lib/components/not-by-ai/NotByAiBadge.svelte"
 
 	let {data} = $props()
@@ -84,10 +85,16 @@
 
 	</ButtonGroup>
 
-	<Button class="w-full" variant="outline" size="lg" href="/tool" tabindex={0}>
-		<LibraryBig />
-		{$_.learning_resources._}
-	</Button>
+	<ButtonGroup class="w-full" orientation="vertical">
+		<Button variant="outline" size="lg" href="/tool" tabindex={0}>
+			<LibraryBig />
+			{$_.learning_resources._}
+		</Button>
+		<Button variant="outline" size="lg" href="/block-editor" tabindex={0}>
+			<FileText />
+			{$_.block_editor._}
+		</Button>
+	</ButtonGroup>
 
 	{#if data.user && data.profile}
 		<Button disabled={! navigator.onLine} class="w-full" href="/profile" size="lg" variant="outline" tabindex={0}>

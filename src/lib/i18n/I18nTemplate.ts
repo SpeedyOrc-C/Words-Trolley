@@ -297,6 +297,17 @@ export type I18nTemplate = {
 		subheading: s
 		new_line: s
 		divider: s
+		view: {
+			left_right: s
+			top_bottom: s
+			editor_only: s
+			preview_only: s
+		}
+		quick_start: {
+			_: s
+			detail_fine_pointer: s
+			detail_coarse_pointer: s
+		}
 	}
 	WordType: {
 		Simple: s

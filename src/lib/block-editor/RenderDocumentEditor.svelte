@@ -131,6 +131,11 @@
 
 	.insert-btn {
 		@apply p-1;
+
+		@media (pointer: coarse) {
+			@apply p-3;
+		}
+
 		cursor: copy;
 
 		& > hr {

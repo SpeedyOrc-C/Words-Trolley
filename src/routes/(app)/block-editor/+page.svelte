@@ -1,20 +1,20 @@
 <script lang="ts">
 	import type {BlockEditor} from "$lib/block-editor"
-	import RenderDocument from "$lib/block-editor/RenderDocument.svelte"
 	import * as M from "$lib/components/ui/menubar"
-	import * as Resizable from "$lib/components/ui/resizable"
-	import RenderBlockEditor from "$lib/block-editor/RenderDocumentEditor.svelte"
 	import {_} from "$lib/i18n/store"
 	import {Validate} from "$lib/block-editor/validate"
 	import {toast} from "svelte-sonner"
 
 	import FolderInput from "@lucide/svelte/icons/folder-input"
 	import FolderOutput from "@lucide/svelte/icons/folder-output"
-	import Separator from "$lib/components/ui/separator/separator.svelte"
 	import EditorNavRightButtons from "$lib/components/EditorNavRightButtons.svelte"
 	import EditorPreviewPanes from "$lib/block-editor/EditorPreviewPanes.svelte"
 
+	import Columns2 from "@lucide/svelte/icons/columns-2"
+	import Rows2 from "@lucide/svelte/icons/rows-2"
+
 	let saved = $state(false)
+	let direction: "horizontal" | "vertical" = $state("horizontal")
 	let content: BlockEditor.Document = $state([])
 
 	function Import()
@@ -78,7 +78,11 @@
 	}
 </script>
 
-<div class="box-border p-4 pt-2 h-screen flex flex-col gap-4">
+<svelte:head>
+	<title>{$_.block_editor._}</title>
+</svelte:head>
+
+<div class="box-border p-4 pt-2 flex flex-col gap-4" style="height: 100svh">
 
 	<div class="flex justify-between items-center gap-2">
 
@@ -98,6 +102,23 @@
 					</M.Item>
 				</M.Content>
 			</M.Menu>
+			<M.Menu>
+				<M.Trigger>
+					{$_.editor.view._}
+				</M.Trigger>
+				<M.Content>
+					<M.RadioGroup bind:value={direction}>
+						<M.RadioItem value="horizontal">
+							<Columns2 />
+							{$_.block_editor.view.left_right}
+						</M.RadioItem>
+						<M.RadioItem value="vertical">
+							<Rows2 />
+							{$_.block_editor.view.top_bottom}
+						</M.RadioItem>
+					</M.RadioGroup>
+				</M.Content>
+			</M.Menu>
 		</M.Root>
 
 		<EditorNavRightButtons {saved} />
@@ -105,7 +126,7 @@
 	</div>
 
 	<main class="min-h-0 grow">
-		<EditorPreviewPanes bind:content />
+		<EditorPreviewPanes bind:content {direction} />
 	</main>
 
 </div>

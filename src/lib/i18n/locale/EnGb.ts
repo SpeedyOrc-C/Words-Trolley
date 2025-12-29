@@ -296,6 +296,17 @@ const EnGb: I18nTemplate = {
 		heading: "Heading",
 		new_line: "New Line",
 		divider: "Divider",
+		view: {
+			left_right: "Left-Right Layout",
+			top_bottom: "Top-Bottom Layout",
+			editor_only: "Editor Only",
+			preview_only: "Preview Only",
+		},
+		quick_start: {
+			_: "Quick Start",
+			detail_fine_pointer: "You can insert a block by clicking the gaps around other blocks. Those gaps will appear when you move your mouse over them. Click the gap below this paragraph to start.",
+			detail_coarse_pointer: "You can insert a block by tapping the gaps around other blocks. Tap the gap below this paragraph to start."
+		}
 	},
 	WordType: {
 		Simple: "Simple",

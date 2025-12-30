@@ -40,7 +40,7 @@ function ToJsesh_(h: Hieroglyphs): string
       case Structure.Vertical:
          return `(${Intersperse(arg.map(ToJsesh_), ":").join("")})`
       case Structure.Ligature:
-         return `(${ToJsesh_(arg[0])}&${ToJsesh_(arg[1])})`
+         return `(${Intersperse(arg.map(ToJsesh_), "&").join("")})`
       case Structure.Cartouche:
          return `<-${ToJsesh_(arg)}->`
    }

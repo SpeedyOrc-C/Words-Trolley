@@ -38,6 +38,7 @@
 	import Check from "@lucide/svelte/icons/check"
 	import {settings} from "$lib/settings/store"
 	import {QuickSymbols} from "$lib/word/egyptian/IME"
+	import {CandidatesFromGardiner} from "$lib/word/egyptian/gardiner/gardiner-literal"
 
 	const nameLabel: Hieroglyphs[] = [c(h(v(g("𓂋"), g("𓈖")), g("𓀀")))]
 
@@ -216,6 +217,15 @@
 			return
 		}
 
+		// Query by Gardiner code
+		if (imeInput.startsWith("/"))
+		{
+			const input = imeInput.substring(1, imeInput.length).trim()
+			imeWords = CandidatesFromGardiner(input)
+			imeInputError = false
+			return
+		}
+
 		// Query numerical glyphs
 		if (imeInput.startsWith("#"))
 		{
@@ -292,7 +302,7 @@
 		}
 
 		// Select other candidates with numbers
-		if (e.code.startsWith("Digit") && ! imeInput.startsWith("#"))
+		if (e.code.startsWith("Digit") && ! imeInput.startsWith("#") && ! imeInput.startsWith("/"))
 		{
 			const digit = parseInt(e.code.substring(5))
 

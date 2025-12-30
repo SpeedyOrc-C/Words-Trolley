@@ -1,5 +1,7 @@
 import {InverseRecord} from "$lib/utils"
 import type Gardiner from "$lib/word/egyptian/gardiner"
+import type {EgyptianWordCandidate} from "$lib/word/egyptian/dictionary"
+import {g} from "$lib/word/egyptian/hieroglyphs"
 
 export const Gardiner2Literal: Record<Gardiner, string> = {
 	A1: "𓀀",
@@ -1084,3 +1086,25 @@ export const GardinerPrefixes = [
 	"U", "V", "W", "X", "Y", "Z",
 	"Aa"
 ] as const
+
+export function CandidatesFromGardiner(x: string): EgyptianWordCandidate[]
+{
+	x = x.toUpperCase()
+
+	if (x.startsWith("AA"))
+	{
+		const result = Gardiner2Literal[("Aa" + x.slice(2)) as Gardiner]
+
+		if (result == undefined)
+			return []
+
+		return [{Word: g(result)}]
+	}
+
+	const result = Gardiner2Literal[x as Gardiner]
+
+	if (result == undefined)
+		return []
+
+	return [{Word: g(result)}]
+}

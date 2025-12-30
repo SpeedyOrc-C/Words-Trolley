@@ -365,8 +365,6 @@ const EnGb: I18nTemplate = {
 			height: "Height",
 			enable_custom_text_colour: "Enable custom text colour",
 			custom_text_colour: "Custom text colour",
-			hide_cursor: "Hide cursor",
-			hide_input_border: "Hide input border",
 			hide_controls: "Hide controls",
 			number_shortcut: "Number Shortcut",
 			number: "Number",

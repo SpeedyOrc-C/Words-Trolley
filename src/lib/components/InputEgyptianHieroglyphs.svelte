@@ -46,8 +46,6 @@
 		editing = $bindable(false),
 		onchange,
 		InsertSymbolAtCursor = $bindable(() => {}),
-		hideCursor = false,
-		hideInputBorder = false,
 		hideControls = false,
 		color = "inherit",
 		height = 48,
@@ -56,8 +54,6 @@
 		editing?: boolean
 		onchange?: (hie: Hieroglyphs[]) => void
 		InsertSymbolAtCursor?: (symbol: Hieroglyphs) => void
-		hideCursor?: boolean
-		hideInputBorder?: boolean
 		hideControls?: boolean
 		color?: string
 		height?: number
@@ -351,14 +347,13 @@
 	{#if editing}
 
 		<div
-			class="p-2 inline-flex flex-wrap rounded-md overflow-clip"
-			class:outline-1={!hideInputBorder}
+			class="p-2 inline-flex flex-wrap rounded-md overflow-clip outline-1"
 			style:color
 			style:gap="{height * 0.1}px 0"
 		>
 			{#if s.content.length == 0}
 				<span class="relative" style:height="{height}px">
-					<span class="cursor left-0" class:hideCursor></span>
+					<span class="cursor left-0"></span>
 				</span>
 			{/if}
 			{#each s.content as hie, i ([hie])}
@@ -372,10 +367,10 @@
 					{/if}
 					<RenderEgyptianHieroglyphs {hie} lineHeight={height}/>
 					{#if i == 0 && 0 == s.cursor}
-						<span class="cursor left-0" class:hideCursor></span>
+						<span class="cursor left-0"></span>
 					{/if}
 					{#if i == s.cursor - 1}
-						<span class="cursor translate-x-[200%] right-0" class:hideCursor></span>
+						<span class="cursor translate-x-[200%] right-0"></span>
 					{/if}
 				</span>
 			{/each}
@@ -420,6 +415,7 @@
 		<Button
 			onclick={() => {editing = false; onchange?.(s.content)}}
 			size="icon"
+			variant="outline"
 			type="submit"
 		>
 			<Check/>
@@ -627,11 +623,6 @@
 		@apply absolute top-0 h-full w-0.5 rounded;
 		backdrop-filter: invert(100%);
 		animation: blink 1s step-start 0s infinite;
-
-		&.hideCursor {
-			@apply opacity-0;
-			animation: none;
-		}
 	}
 
 	@keyframes blink {

@@ -14,8 +14,6 @@
 
 	let useCustomTextColour = $state(false)
 	let customTextColour = $state("#000000")
-	let hideCursor = $state(false)
-	let hideInputBorder = $state(false)
 	let hideControls = $state(false)
 	let height = $state(48)
 	let InsertSymbolAtCursor: (symbol: Hieroglyphs) => void = $state(() => {})
@@ -87,20 +85,6 @@
 		</div>
 
 		<div class="flex gap-4 items-center">
-			<Switch bind:checked={hideCursor} id="hide-cursor"/>
-			<Label for="hide-cursor">
-				{$_.egyptian.typewriter.hide_cursor}
-			</Label>
-		</div>
-
-		<div class="flex gap-4 items-center">
-			<Switch bind:checked={hideInputBorder} id="hide-input-border"/>
-			<Label for="hide-input-border">
-				{$_.egyptian.typewriter.hide_input_border}
-			</Label>
-		</div>
-
-		<div class="flex gap-4 items-center">
 			<Switch bind:checked={hideControls} id="hide-controls"/>
 			<Label for="hide-controls">
 				{$_.egyptian.typewriter.hide_controls}
@@ -119,8 +103,6 @@
 			color={textColour}
 			{height}
 			{hideControls}
-			{hideCursor}
-			{hideInputBorder}
 			editing
 			bind:InsertSymbolAtCursor
 		/>

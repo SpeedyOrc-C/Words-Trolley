@@ -365,8 +365,6 @@ const ZhCn: I18nTemplate = {
 			height: "高度",
 			enable_custom_text_colour: "启用自定义文字颜色",
 			custom_text_colour: "自定义文字颜色",
-			hide_cursor: "隐藏光标",
-			hide_input_border: "隐藏输入边框",
 			hide_controls: "隐藏控件",
 			number_shortcut: "数字快捷键",
 			number: "数字",

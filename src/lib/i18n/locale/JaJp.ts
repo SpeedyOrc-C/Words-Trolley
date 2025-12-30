@@ -365,8 +365,6 @@ export const JaJp: I18nTemplate = {
 			height: "高さ",
 			enable_custom_text_colour: "文字色をカスタマイズする",
 			custom_text_colour: "カスタム文字色",
-			hide_cursor: "カーソルを非表示",
-			hide_input_border: "入力枠を非表示",
 			hide_controls: "コントロールを非表示",
 			number_shortcut: "数字ショートカット",
 			number: "数字",

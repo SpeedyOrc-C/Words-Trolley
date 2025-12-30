@@ -24,24 +24,49 @@ function Intersperse<T>(arr: T[], sep: T): T[]
 
 export function ToJSesh(text: Hieroglyphs[]): string
 {
-   return Intersperse(text.map(ToJsesh_), "-").join("")
+   return Intersperse(text.map(x => ToJsesh_(x)), "-").join("")
 }
 
-function ToJsesh_(h: Hieroglyphs): string
+const binaryStructurePrecedence = {
+   [Structure.Ligature]: 1,
+   [Structure.Horizontal]: 2,
+   [Structure.Vertical]: 3,
+} as const
+
+function ToJsesh_(
+   h: Hieroglyphs,
+   parent
+      : Structure.Horizontal
+      | Structure.Vertical
+      | Structure.Ligature
+      | null = null
+): string
 {
    const [type, arg] = h
 
    switch (type)
    {
-      case Structure.Glyph:
-         return Literal2Gardiner[arg]
-      case Structure.Horizontal:
-         return `(${Intersperse(arg.map(ToJsesh_), "*").join("")})`
-      case Structure.Vertical:
-         return `(${Intersperse(arg.map(ToJsesh_), ":").join("")})`
-      case Structure.Ligature:
-         return `(${Intersperse(arg.map(ToJsesh_), "&").join("")})`
-      case Structure.Cartouche:
-         return `<-${ToJsesh_(arg)}->`
+   case Structure.Glyph:
+      return Literal2Gardiner[arg]
+   case Structure.Horizontal: {
+      const inner = Intersperse(arg.map(x => ToJsesh_(x, type)), "*").join("")
+      if (parent == null || binaryStructurePrecedence[parent] > binaryStructurePrecedence[type])
+         return inner
+      return `(${inner})`
+   }
+   case Structure.Vertical: {
+      const inner = Intersperse(arg.map(x => ToJsesh_(x, type)), ":").join("")
+      if (parent == null || binaryStructurePrecedence[parent] > binaryStructurePrecedence[type])
+         return inner
+      return `(${inner})`
+   }
+   case Structure.Ligature: {
+      const inner = Intersperse(arg.map(x => ToJsesh_(x, type)), "&").join("")
+      if (parent == null || binaryStructurePrecedence[parent] > binaryStructurePrecedence[type])
+         return inner
+      return `(${inner})`
+   }
+   case Structure.Cartouche:
+      return `<-${ToJsesh_(arg)}->`
    }
 }

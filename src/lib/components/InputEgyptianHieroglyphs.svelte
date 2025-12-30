@@ -1,3 +1,11 @@
+<script lang="ts" module>
+	const BufferPrefix = {
+		Determinative: " ",
+		Gardiner: "/",
+		Number: "#",
+	}
+</script>
+
 <script lang="ts">
 	import {Button, buttonVariants} from "$lib/components/ui/button"
 	import {Input} from "$lib/components/ui/input"
@@ -207,9 +215,8 @@
 			return
 		}
 
-		// Query determinatives
 		// TODO: Add an English input scheme
-		if (imeInput.startsWith(" "))
+		if (imeInput.startsWith(BufferPrefix.Determinative))
 		{
 			const input = imeInput.substring(1, imeInput.length).trim()
 			imeWords = CandidatesFromXiaoheKmt(input)
@@ -217,8 +224,7 @@
 			return
 		}
 
-		// Query by Gardiner code
-		if (imeInput.startsWith("/"))
+		if (imeInput.startsWith(BufferPrefix.Gardiner))
 		{
 			const input = imeInput.substring(1, imeInput.length).trim()
 			imeWords = CandidatesFromGardiner(input)
@@ -226,8 +232,7 @@
 			return
 		}
 
-		// Query numerical glyphs
-		if (imeInput.startsWith("#"))
+		if (imeInput.startsWith(BufferPrefix.Number))
 		{
 			const input = imeInput.substring(1, imeInput.length).trim()
 			const number = parseInt(input)
@@ -302,7 +307,11 @@
 		}
 
 		// Select other candidates with numbers
-		if (e.code.startsWith("Digit") && ! imeInput.startsWith("#") && ! imeInput.startsWith("/"))
+		if (
+			e.code.startsWith("Digit")
+			&& ! imeInput.startsWith(BufferPrefix.Number)
+			&& ! imeInput.startsWith(BufferPrefix.Gardiner)
+		)
 		{
 			const digit = parseInt(e.code.substring(5))
 

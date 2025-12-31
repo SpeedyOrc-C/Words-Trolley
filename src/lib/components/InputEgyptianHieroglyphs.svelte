@@ -12,7 +12,6 @@
 	import {ButtonGroup} from "$lib/components/ui/button-group"
 	import * as TT from "$lib/components/ui/tooltip"
 	import * as DM from "$lib/components/ui/dropdown-menu"
-	import * as Kbd from "$lib/components/ui/kbd"
 
 	import {_} from "$lib/i18n/store"
 	import {preferredEgyptianTransliterationParserForEdit, preferredSentenceTransliterationDumperForEdit} from "$lib/settings/store/egyptian"
@@ -55,7 +54,6 @@
 		editing = $bindable(false),
 		onchange,
 		InsertSymbolAtCursor = $bindable(() => {}),
-		hideControls = false,
 		color = "inherit",
 		height = 48,
 	}: {
@@ -63,7 +61,6 @@
 		editing?: boolean
 		onchange?: (hie: Hieroglyphs[]) => void
 		InsertSymbolAtCursor?: (symbol: Hieroglyphs) => void
-		hideControls?: boolean
 		color?: string
 		height?: number
 	} = $props()
@@ -346,7 +343,7 @@
 
 		if (value instanceof Error)
 		{
-			toast.error($_.editor.hieroglyphs_editor.syntax_error)
+			toast.error($_.input_egyptian.syntax_error)
 			return
 		}
 
@@ -417,7 +414,7 @@
 
 	{/if}
 
-	<div class="relative flex gap-1" class:hidden={hideControls || !editing}>
+	<div class="relative flex gap-1" class:hidden={!editing}>
 
 		<Input
 			aria-invalid={imeInputError}
@@ -478,7 +475,7 @@
 			<Button
 				disabled={s.cursor === 0}
 				onclick={() => Execute(EgyptianEditCmdKind.Left)}
-				size="icon" title={$_.editor.hieroglyphs_editor.move_cursor_left}
+												size="icon" title={$_.input_egyptian.move_cursor_left}
 				variant="outline"
 			>
 				<ArrowLeft/>
@@ -487,7 +484,7 @@
 			<Button
 				disabled={s.cursor === 0}
 				onclick={() => Execute(EgyptianEditCmdKind.Backspace)}
-				size="icon" title={$_.editor.hieroglyphs_editor.backspace}
+												size="icon" title={$_.input_egyptian.backspace}
 				variant="outline"
 			>
 				<Delete/>
@@ -496,7 +493,7 @@
 			<Button
 				disabled={s.cursor === s.content.length}
 				onclick={() => Execute(EgyptianEditCmdKind.Right)}
-				size="icon" title={$_.editor.hieroglyphs_editor.move_cursor_right}
+												size="icon" title={$_.input_egyptian.move_cursor_right}
 				variant="outline"
 			>
 				<ArrowRight/>
@@ -506,7 +503,7 @@
 
 	</div>
 
-	<div class="flex flex-wrap justify-between" class:hidden={hideControls || !editing}>
+	<div class="flex flex-wrap justify-between" class:hidden={!editing}>
 
 		{#if imeWords.length > 0}
 
@@ -536,38 +533,36 @@
 
 			<div class="flex gap-1">
 
+
+				<TT.Provider>
+					<TT.Root>
+						<TT.Trigger
+							onclick={() => Execute(EgyptianEditCmdKind.Cartouche)}
+							disabled={cartoucheDisabled}
+															title={$_.input_egyptian.add_cartouche}
+							class={buttonVariants({variant: "outline"})}
+						>
+							<EgyptianText t={nameLabel}/>
+						</TT.Trigger>
+						<TT.Content>
+														{$_.input_egyptian.add_cartouche}
+						</TT.Content>
+					</TT.Root>
+				</TT.Provider>
+
 				<ButtonGroup>
-
-					<TT.Provider>
-						<TT.Root>
-							<TT.Trigger
-								onclick={() => Execute(EgyptianEditCmdKind.Cartouche)}
-								disabled={cartoucheDisabled}
-								title={$_.editor.hieroglyphs_editor.add_cartouche}
-								class={buttonVariants({variant: "outline"})}
-							>
-								<EgyptianText t={nameLabel}/>
-								<Kbd.Root>)|</Kbd.Root>
-							</TT.Trigger>
-							<TT.Content>
-								{$_.editor.hieroglyphs_editor.add_cartouche}
-							</TT.Content>
-						</TT.Root>
-					</TT.Provider>
-
 					<TT.Provider>
 						<TT.Root>
 							<TT.Trigger
 								onclick={() => Execute(EgyptianEditCmdKind.Overlap)}
 								disabled={overlapDisabled}
-								title={$_.editor.hieroglyphs_editor.make_ligature}
-								class={buttonVariants({variant: "outline"})}
+															title={$_.input_egyptian.make_ligature}
+								class={buttonVariants({variant: "outline", size: "icon"})}
 							>
 								<Blend/>
-								<Kbd.Root>\</Kbd.Root>
 							</TT.Trigger>
 							<TT.Content>
-								{$_.editor.hieroglyphs_editor.make_ligature}
+														{$_.input_egyptian.make_ligature}
 							</TT.Content>
 						</TT.Root>
 					</TT.Provider>
@@ -577,14 +572,13 @@
 							<TT.Trigger
 								onclick={() => Execute(EgyptianEditCmdKind.Row)}
 								disabled={rowDisabled}
-								title={$_.editor.hieroglyphs_editor.join_horizontally}
-								class={buttonVariants({variant: "outline"})}
+															title={$_.input_egyptian.join_horizontally}
+								class={buttonVariants({variant: "outline", size: "icon"})}
 							>
 								<Columns2/>
-								<Kbd.Root>-</Kbd.Root>
 							</TT.Trigger>
 							<TT.Content>
-								{$_.editor.hieroglyphs_editor.join_horizontally}
+														{$_.input_egyptian.join_horizontally}
 							</TT.Content>
 						</TT.Root>
 					</TT.Provider>
@@ -594,14 +588,13 @@
 							<TT.Trigger
 								onclick={() => Execute(EgyptianEditCmdKind.Column)}
 								disabled={columnDisabled}
-								title={$_.editor.hieroglyphs_editor.join_vertically}
-								class={buttonVariants({variant: "outline"})}
+															title={$_.input_egyptian.join_vertically}
+								class={buttonVariants({variant: "outline", size: "icon"})}
 							>
 								<Rows2/>
-								<Kbd.Root>=</Kbd.Root>
 							</TT.Trigger>
 							<TT.Content>
-								{$_.editor.hieroglyphs_editor.join_vertically}
+														{$_.input_egyptian.join_vertically}
 							</TT.Content>
 						</TT.Root>
 					</TT.Provider>

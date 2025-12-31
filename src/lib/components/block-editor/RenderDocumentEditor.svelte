@@ -127,7 +127,7 @@
 
 <style lang="postcss">
 	@reference "tailwindcss";
-	@reference "../../app.css";
+	@reference "$lib/../app.css";
 
 	.insert-btn {
 		@apply p-1;

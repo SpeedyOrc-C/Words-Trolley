@@ -1,4 +1,4 @@
-import {array, asum, eq, sequence, str, type Validator} from "crazy-parser/json/validate"
+import {array, asum, eq, sequence, str, type Validator, lazy} from "crazy-parser/json/validate"
 
 export enum Structure
 {
@@ -17,8 +17,6 @@ export type Hieroglyphs
 	| [Structure.Horizontal, Hieroglyphs[]]
 	| [Structure.Ligature, HieroglyphsGlyph[]]
 	| [Structure.Cartouche, Hieroglyphs]
-
-const lazy = <T>(f: () => Validator<T>) => (input: unknown) => f()(input)
 
 const _ValidateHieroglyphsGlyph = sequence(eq(Structure.Glyph as const), str)
 

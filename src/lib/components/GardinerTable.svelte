@@ -35,8 +35,8 @@
    }
 </script>
 
-<Card.Root class="w-full">
-   <Card.Content class="flex flex-col gap-2">
+<Card.Root class="w-full p-1">
+   <Card.Content class="p-1 flex flex-col gap-2">
 
       <div class="inline-flex flex-wrap">
          {#each GardinerPrefixes as prefix}

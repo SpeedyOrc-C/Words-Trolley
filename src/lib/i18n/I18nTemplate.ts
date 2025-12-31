@@ -269,22 +269,22 @@ export type I18nTemplate = {
 			word_operations: s
 			extra_options: s
 		}
-		hieroglyphs_editor: {
-			move_cursor_left: s
-			move_cursor_right: s
-			backspace: s
-			make_ligature: s
-			ungroup: s
-			add_cartouche: s
-			join_horizontally: s
-			join_vertically: s
-			syntax_error: s
-		}
 		furigana_editor: {
 			merge_into_above: s
 			merge_into_below: s
 			split: s
 		}
+	}
+	input_egyptian: {
+		move_cursor_left: s
+		move_cursor_right: s
+		backspace: s
+		make_ligature: s
+		ungroup: s
+		add_cartouche: s
+		join_horizontally: s
+		join_vertically: s
+		syntax_error: s
 	}
 	block_editor: {
 		_: s
@@ -366,10 +366,14 @@ export type I18nTemplate = {
 			height: s
 			enable_custom_text_colour: s
 			custom_text_colour: s
-			hide_controls: s
 			number_shortcut: s
 			number: s
 			glyph: s
+			other_shortcuts: s
+			key: s
+			action: s
+			gardiner_symbol_table: s
+			quick_reference: s
 		}
 		rte: {
 			title: s

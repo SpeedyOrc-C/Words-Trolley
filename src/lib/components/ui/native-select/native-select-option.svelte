@@ -9,6 +9,6 @@
 	}: WithElementRef<HTMLOptionAttributes> = $props();
 </script>
 
-<option bind:this={ref} data-slot="native-select-option" {...restProps}>
+<option bind:this={ref} data-slot="native-select-option" class="bg-background" {...restProps}>
 	{@render children?.()}
 </option>

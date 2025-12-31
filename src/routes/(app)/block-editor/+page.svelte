@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type {BlockEditor} from "$lib/block-editor"
+	import type {BlockEditor} from "$lib/components/block-editor"
 	import * as M from "$lib/components/ui/menubar"
 	import {_} from "$lib/i18n/store"
-	import {Validate} from "$lib/block-editor/validate"
+	import {Validate} from "$lib/components/block-editor/validate"
 	import {toast} from "svelte-sonner"
 
 	import FolderInput from "@lucide/svelte/icons/folder-input"
 	import FolderOutput from "@lucide/svelte/icons/folder-output"
 	import EditorNavRightButtons from "$lib/components/EditorNavRightButtons.svelte"
-	import EditorPreviewPanes from "$lib/block-editor/EditorPreviewPanes.svelte"
+	import EditorPreviewPanes from "$lib/components/block-editor/EditorPreviewPanes.svelte"
 
 	import Columns2 from "@lucide/svelte/icons/columns-2"
 	import Rows2 from "@lucide/svelte/icons/rows-2"

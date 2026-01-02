@@ -9,6 +9,6 @@
 	}: WithElementRef<HTMLOptgroupAttributes> = $props();
 </script>
 
-<optgroup bind:this={ref} data-slot="native-select-opt-group" {...restProps}>
+<optgroup bind:this={ref} class="bg-foreground/10 dark:bg-background/85" data-slot="native-select-opt-group" {...restProps}>
 	{@render children?.()}
 </optgroup>

@@ -300,7 +300,7 @@ const ZhCn: I18nTemplate = {
 			left_right: "左右布局",
 			top_bottom: "上下布局",
 			editor_only: "仅编辑器",
-			preview_only: "仅预览",
+			preview: "预览",
 		},
 		quick_start: {
 			_: "快速开始",

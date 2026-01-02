@@ -27,4 +27,11 @@ export namespace BlockEditor
 
       return DocumentAbstract(x[2])
    }
+
+   export enum ViewMode
+   {
+      Horizontal = "horizontal",
+      Vertical = "vertical",
+      Preview = "preview",
+   }
 }

@@ -301,7 +301,7 @@ export type I18nTemplate = {
 			left_right: s
 			top_bottom: s
 			editor_only: s
-			preview_only: s
+			preview: s
 		}
 		quick_start: {
 			_: s

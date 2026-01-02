@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {BlockEditor} from "$lib/components/block-editor"
+	import {BlockEditor} from "$lib/components/block-editor"
 	import * as M from "$lib/components/ui/menubar"
 	import {_} from "$lib/i18n/store"
 	import {Validate} from "$lib/components/block-editor/validate"
@@ -9,12 +9,14 @@
 	import FolderOutput from "@lucide/svelte/icons/folder-output"
 	import EditorNavRightButtons from "$lib/components/EditorNavRightButtons.svelte"
 	import EditorPreviewPanes from "$lib/components/block-editor/EditorPreviewPanes.svelte"
+	import RenderDocument from "$lib/components/block-editor/RenderDocument.svelte"
 
 	import Columns2 from "@lucide/svelte/icons/columns-2"
 	import Rows2 from "@lucide/svelte/icons/rows-2"
+	import Eye from "@lucide/svelte/icons/eye"
 
 	let saved = $state(false)
-	let direction: "horizontal" | "vertical" = $state("horizontal")
+	let viewMode = $state(BlockEditor.ViewMode.Horizontal)
 	let content: BlockEditor.Document = $state([])
 
 	function Import()
@@ -84,7 +86,7 @@
 
 <div class="box-border p-4 pt-2 flex flex-col gap-4" style="height: 100svh">
 
-	<div class="flex justify-between items-center gap-2">
+	<nav class="flex justify-between items-center gap-2 print:hidden">
 
 		<M.Root class="flex-1">
 			<M.Menu>
@@ -107,14 +109,19 @@
 					{$_.editor.view._}
 				</M.Trigger>
 				<M.Content>
-					<M.RadioGroup bind:value={direction}>
-						<M.RadioItem value="horizontal">
+					<M.RadioGroup bind:value={viewMode}>
+						<M.RadioItem value={BlockEditor.ViewMode.Horizontal}>
 							<Columns2 />
 							{$_.block_editor.view.left_right}
 						</M.RadioItem>
-						<M.RadioItem value="vertical">
+						<M.RadioItem value={BlockEditor.ViewMode.Vertical}>
 							<Rows2 />
 							{$_.block_editor.view.top_bottom}
+						</M.RadioItem>
+						<M.Separator/>
+						<M.RadioItem value={BlockEditor.ViewMode.Preview}>
+							<Eye />
+							{$_.block_editor.view.preview}
 						</M.RadioItem>
 					</M.RadioGroup>
 				</M.Content>
@@ -123,10 +130,14 @@
 
 		<EditorNavRightButtons {saved} />
 
-	</div>
+	</nav>
 
 	<main class="min-h-0 grow">
-		<EditorPreviewPanes bind:content {direction} />
+		{#if viewMode == BlockEditor.ViewMode.Horizontal || viewMode == BlockEditor.ViewMode.Vertical}
+			<EditorPreviewPanes bind:content direction={viewMode} />
+		{:else if viewMode == BlockEditor.ViewMode.Preview}
+			<RenderDocument {content} />
+		{/if}
 	</main>
 
 </div>

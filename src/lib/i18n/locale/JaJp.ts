@@ -300,7 +300,7 @@ export const JaJp: I18nTemplate = {
 			left_right: "左右レイアウト",
 			top_bottom: "上下レイアウト",
 			editor_only: "エディターのみ",
-			preview_only: "プレビューのみ",
+			preview: "プレビュー",
 		},
 		quick_start: {
 			_: "クイックスタート",

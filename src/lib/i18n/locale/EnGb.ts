@@ -300,7 +300,7 @@ const EnGb: I18nTemplate = {
 			left_right: "Left-Right Layout",
 			top_bottom: "Top-Bottom Layout",
 			editor_only: "Editor Only",
-			preview_only: "Preview Only",
+			preview: "Preview",
 		},
 		quick_start: {
 			_: "Quick Start",

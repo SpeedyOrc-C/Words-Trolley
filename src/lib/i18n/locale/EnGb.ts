@@ -218,6 +218,7 @@ const EnGb: I18nTemplate = {
 		progress: "Test progress",
 	},
 	editor: {
+		_: "Word Set Editor",
 		title: {
 			edit: name => `Edit - ${name}`,
 			unsaved: name => `Unsaved - ${name}`

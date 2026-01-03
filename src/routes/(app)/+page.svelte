@@ -1,4 +1,5 @@
 <script lang="ts">
+	import {online} from "svelte/reactivity/window"
 	import {Button} from "$lib/components/ui/button"
 	import {ButtonGroup} from "$lib/components/ui/button-group"
 	import {_} from "$lib/i18n/store"
@@ -16,12 +17,11 @@
 	import LibraryBig from "@lucide/svelte/icons/library"
 	import User from "@lucide/svelte/icons/user"
 	import FileText from "@lucide/svelte/icons/file-text"
+	import Layers from "@lucide/svelte/icons/layers"
 	import NotByAiBadge from "$lib/components/not-by-ai/NotByAiBadge.svelte"
-	import {onMount} from "svelte"
 
 	let {data} = $props()
 	let loading = $state(false)
-	let online = $state(false)
 
 	async function SignOut()
 	{
@@ -35,23 +35,6 @@
 			alert(error.message)
 		}
 	}
-
-	function Online() { online = true }
-	function Offline() { online = false }
-
-	onMount(() =>
-	{
-		online = navigator.onLine
-
-		window.addEventListener("online", Online)
-		window.addEventListener("offline", Offline)
-
-		return () =>
-		{
-			window.removeEventListener("online", Online)
-			window.removeEventListener("offline", Offline)
-		}
-	})
 </script>
 
 <svelte:head>
@@ -60,7 +43,7 @@
 
 <header class="my-4 text-center text-2xl">
 
-	{#if data.user && online}
+	{#if data.user && online.current}
 
 		{$_.home.welcome_back}
 		<br>
@@ -78,7 +61,7 @@
 
 	<ButtonGroup orientation="vertical" class="w-full">
 
-		{#if online}
+		{#if online.current}
 
 			<Button href="/search" variant="outline" size="lg" tabindex={0}>
 				<Search />
@@ -113,13 +96,17 @@
 			<LibraryBig />
 			{$_.learning_resources._}
 		</Button>
+		<Button variant="outline" size="lg" href="/word-set-editor" tabindex={0}>
+			<Layers />
+			{$_.editor._}
+		</Button>
 		<Button variant="outline" size="lg" href="/block-editor" tabindex={0}>
 			<FileText />
 			{$_.block_editor._}
 		</Button>
 	</ButtonGroup>
 
-	{#if online && data.user && data.profile}
+	{#if online.current && data.user && data.profile}
 		<Button class="w-full" href="/profile" size="lg" variant="outline" tabindex={0}>
 			<User/>
 			{$_.my_profile._}
@@ -133,17 +120,17 @@
 			{$_.settings._}
 		</Button>
 
-		{#if online}
+		{#if online.current}
 			{#if data.user}
 
-				<Button disabled={loading || ! online} onclick={SignOut} size="lg" variant="secondary" class="flex-1">
+				<Button disabled={loading || ! online.current} onclick={SignOut} size="lg" variant="secondary" class="flex-1">
 					<LogOut />
 					{$_.logout}
 				</Button>
 
 			{:else}
 
-				<Button disabled={! online} href="/auth" size="lg" class="flex-1" tabindex={0}>
+				<Button disabled={! online.current} href="/auth" size="lg" class="flex-1" tabindex={0}>
 					<LogIn />
 					{$_.login_and_signup}
 				</Button>

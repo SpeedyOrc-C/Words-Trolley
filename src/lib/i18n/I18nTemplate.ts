@@ -219,6 +219,7 @@ export type I18nTemplate = {
 		progress: s
 	}
 	editor: {
+		_: s
 		title: {
 			edit: (name: s) => s
 			unsaved: (name: s) => s

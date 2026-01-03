@@ -1,5 +1,5 @@
 import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from "$env/static/public"
-import type {Database} from "$lib/database.types"
+import type {Database} from "$lib/service/types"
 import {AutoDetectLanguage} from "$lib/i18n"
 import {createBrowserClient, createServerClient, isBrowser} from "@supabase/ssr"
 import {redirect} from "@sveltejs/kit"

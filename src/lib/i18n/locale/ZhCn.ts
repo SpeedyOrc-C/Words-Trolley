@@ -218,6 +218,7 @@ const ZhCn: I18nTemplate = {
 		progress: "测验进度",
 	},
 	editor: {
+		_: "单词集编辑器",
 		title: {
 			edit: name => `编辑《${name}》`,
 			unsaved: name => `未保存《${name}》`

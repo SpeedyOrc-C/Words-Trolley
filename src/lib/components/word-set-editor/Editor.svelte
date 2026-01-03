@@ -3,7 +3,7 @@
 	import {goto} from "$app/navigation"
 	import type {Language} from "$lib/i18n/Language"
 	import {_} from "$lib/i18n/store"
-	import {autosave, settingsOpened} from "$lib/settings/store"
+	import {autosave} from "$lib/settings/store"
 	import {English, French, German, Japanese, Mandarin, type Word} from "$lib/word"
 	import {FuriganaTemplateFromWord, VerbTypeFromRecursiveForm} from "$lib/word/japanese"
 	import EditorNav from "$lib/components/word-set-editor/EditorNav.svelte"
@@ -30,6 +30,7 @@
 		isMine: boolean
 		words: Word[]
 		language: Language | null
+		OnSavedStatusChange?: (saved: boolean) => void
 	} | {
 		online: false
 	} = $props()
@@ -56,6 +57,12 @@
 	{
 		if (data.online)
 			words = data.words
+	})
+
+	$effect(() =>
+	{
+		if (data.online)
+			data.OnSavedStatusChange?.(saved)
 	})
 
 	onMount(() =>
@@ -413,12 +420,6 @@
 </script>
 
 <svelte:window {onbeforeunload} {onkeydown} />
-
-<svelte:head>
-	<title>
-		{(saved ? $_.editor.title.edit : $_.editor.title.unsaved)(name)}
-	</title>
-</svelte:head>
 
 <EditorNav
 	{Delete} {Export} {Fork} {Import}

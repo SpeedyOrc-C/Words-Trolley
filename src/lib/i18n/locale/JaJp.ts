@@ -218,6 +218,7 @@ export const JaJp: I18nTemplate = {
 		progress: "テストの進捗",
 	},
 	editor: {
+		_: "単語セットエディター",
 		title: {
 			edit: name => `「${name}」を編集`,
 			unsaved: name => `「${name}」（未保存）`,

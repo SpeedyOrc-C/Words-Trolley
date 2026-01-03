@@ -1,5 +1,5 @@
 <script lang="ts">
-	import InputEgyptianHieroglyphs from "$lib/components/InputEgyptianHieroglyphs.svelte"
+	import InputEgyptian from "$lib/components/InputEgyptian.svelte"
 	import GardinerTable from "$lib/components/GardinerTable.svelte"
 	import {Label} from "$lib/components/ui/label"
 	import {Slider} from "$lib/components/ui/slider"
@@ -36,14 +36,14 @@
 </header>
 
 <main class="mx-auto p-4 max-w-3xl flex flex-col space-y-4">
-	<InputEgyptianHieroglyphs
+	<InputEgyptian
 		color={textColour}
 		{height}
 		editing
 		bind:InsertSymbolAtCursor
 	/>
 
-	<A.Root type="single" value="quick-reference">
+	<A.Root type="single">
 		<A.Item>
 			<A.Trigger>{$_.egyptian.typewriter.gardiner_symbol_table}</A.Trigger>
 			<A.Content>

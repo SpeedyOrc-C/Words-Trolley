@@ -97,6 +97,38 @@
 
 	function OnImeInput()
 	{
+		if (imeWords.length > 0)
+		{
+			if (imeInput.endsWith(" "))
+			{
+				Execute(EgyptianEditCmdKind.Insert, imeWords[0].Word)
+				imeInput = ""
+				imeWords = []
+				imeInputError = false
+				return
+			}
+
+			const lastChar = imeInput[imeInput.length - 1]
+
+			if (
+				"0" <= lastChar && lastChar <= "9"
+				&& ! imeInput.startsWith(BufferPrefix.Number)
+				&& ! imeInput.startsWith(BufferPrefix.Gardiner)
+			)
+			{
+				const digit = parseInt(lastChar)
+
+				if (! Number.isNaN(digit) && digit > 0 && digit <= imeWords.length)
+				{
+					_InsertSymbolAtCursor(imeWords[digit - 1].Word)
+					imeInput = ""
+					imeWords = []
+					imeInputError = false
+					return
+				}
+			}
+		}
+
 		if (imeInput.length == 1)
 			for (const quickSymbol in QuickSymbols)
 				if (imeInput == quickSymbol)
@@ -259,67 +291,34 @@
 	function OnImeKeyDown(e: KeyboardEvent & { currentTarget: HTMLInputElement })
 	{
 		const t = e.currentTarget
+		const c = e.code
 
-		if (e.code == "Enter")
+		if (c == "Enter")
 		{
 			editing = false
 			onchange?.(s.content)
 			return
 		}
 
-		// Move the cursor to the left
-		if (e.code == "ArrowLeft" && t.selectionEnd == 0)
+		if (c == "ArrowLeft" && t.selectionEnd == 0)
 		{
 			e.preventDefault()
 			Execute(EgyptianEditCmdKind.Left)
 			return
 		}
 
-		// Move the cursor to the right
-		if (e.code == "ArrowRight" && t.selectionStart == t.value.length)
+		if (c == "ArrowRight" && t.selectionStart == t.value.length)
 		{
 			e.preventDefault()
 			Execute(EgyptianEditCmdKind.Right)
 			return
 		}
 
-		// Delete/split the glyph to the left of the cursor
-		if (e.code == "Backspace" && t.value.length == 0)
+		if (c == "Backspace" && t.value.length == 0)
 		{
 			e.preventDefault()
 			Execute(EgyptianEditCmdKind.Backspace)
 			return
-		}
-
-		// Select 1st candidate
-		if (e.code == "Space" && imeWords.length > 0)
-		{
-			e.preventDefault()
-
-			Execute(EgyptianEditCmdKind.Insert, imeWords[0].Word)
-			imeInput = ""
-			imeWords = []
-			imeInputError = false
-			return
-		}
-
-		// Select other candidates with numbers
-		if (
-			e.code.startsWith("Digit")
-			&& ! imeInput.startsWith(BufferPrefix.Number)
-			&& ! imeInput.startsWith(BufferPrefix.Gardiner)
-		)
-		{
-			const digit = parseInt(e.code.substring(5))
-
-			if (! Number.isNaN(digit) && digit > 0 && digit <= imeWords.length)
-			{
-				e.preventDefault()
-				_InsertSymbolAtCursor(imeWords[digit - 1].Word)
-				imeInput = ""
-				imeWords = []
-				imeInputError = false
-			}
 		}
 	}
 

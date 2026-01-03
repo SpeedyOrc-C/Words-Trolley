@@ -3,7 +3,7 @@
 	import RenderDocumentEditor from "./RenderDocumentEditor.svelte"
 	import Input from "$lib/components/ui/input/input.svelte"
 	import Textarea from "$lib/components/ui/textarea/textarea.svelte"
-	import InputEgyptianHieroglyphs from "$lib/components/InputEgyptianHieroglyphs.svelte"
+	import InputEgyptian from "$lib/components/InputEgyptian.svelte"
 
 	import type {Snippet} from "svelte"
 	import Button from "$lib/components/ui/button/button.svelte"
@@ -42,7 +42,7 @@
 				<header>{$_.language.egy}</header>
 				{@render DeleteButton()}
 			</div>
-			<InputEgyptianHieroglyphs editing height={20} bind:value={block[1]}/>
+			<InputEgyptian editing height={20} bind:value={block[1]}/>
 		</section>
 	{:else if !showFullControls && block[2] instanceof Array && block[2].length == 1 && block[2][0][0] == "text"}
 		<section class="flex justify-between items-center gap-2">

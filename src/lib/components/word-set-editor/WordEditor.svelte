@@ -2,7 +2,7 @@
 	import {LangFromWord, UsesStringInput, CanSpeak} from "$lib"
 	import InputEgyptianTransliteration from "$lib/components/InputEgyptianTransliteration.svelte"
 	import InputFurigana from "$lib/components/InputFurigana.svelte"
-	import InputEgyptianHieroglyphs from "$lib/components/InputEgyptianHieroglyphs.svelte"
+	import InputEgyptian from "$lib/components/InputEgyptian.svelte"
 	import {_} from "$lib/i18n/store"
 	import {settings} from "$lib/settings/store"
 	import {
@@ -115,7 +115,7 @@
 			{/if}
 
 			{#if word.type == WordType.Egyptian}
-				<InputEgyptianHieroglyphs
+				<InputEgyptian
 					bind:value={word.word}
 					onchange={() => (saved = false)}
 				/>

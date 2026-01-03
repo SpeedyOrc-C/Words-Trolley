@@ -285,6 +285,11 @@ const ZhCn: I18nTemplate = {
 		join_horizontally: "横向连接",
 		join_vertically: "纵向连接",
 		syntax_error: "语法错误",
+		mode: {
+			determinative: "意符",
+			gardiner: "高德纳",
+			number: "数字",
+		},
 	},
 	block_editor: {
 		_: "块编辑器",
@@ -362,7 +367,7 @@ const ZhCn: I18nTemplate = {
 			mdc: "Manuel de Codage",
 		},
 		typewriter: {
-			title: "圣书字打字机",
+			title: "埃及语打字机",
 			height: "高度",
 			enable_custom_text_colour: "启用自定义文字颜色",
 			custom_text_colour: "自定义文字颜色",

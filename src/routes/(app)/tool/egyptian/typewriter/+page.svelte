@@ -94,6 +94,9 @@
 							["=", $_.input_egyptian.join_vertically],
 							["\\", $_.input_egyptian.make_ligature],
 							[")|", $_.input_egyptian.add_cartouche],
+							["␣", $_.input_egyptian.mode.determinative],
+							["/", $_.input_egyptian.mode.gardiner],
+							["#", $_.input_egyptian.mode.number],
 						]}
 						{#each rows as [key, action]}
 							<T.Row>

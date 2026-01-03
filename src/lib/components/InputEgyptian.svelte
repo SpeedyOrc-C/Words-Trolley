@@ -462,7 +462,7 @@
 						JSesh
 					</DM.Label>
 				</DM.Group>
-				<DM.Item onclick={() => navigator.clipboard.writeText(ToJSesh(value))} >
+				<DM.Item onclick={() => navigator.clipboard.writeText(ToJSesh(value))}>
 					<Copy/>
 					{$_.copy}
 				</DM.Item>
@@ -474,7 +474,8 @@
 			<Button
 				disabled={s.cursor === 0}
 				onclick={() => Execute(EgyptianEditCmdKind.Left)}
-												size="icon" title={$_.input_egyptian.move_cursor_left}
+				size="icon"
+				title={$_.input_egyptian.move_cursor_left}
 				variant="outline"
 			>
 				<ArrowLeft/>
@@ -483,7 +484,8 @@
 			<Button
 				disabled={s.cursor === 0}
 				onclick={() => Execute(EgyptianEditCmdKind.Backspace)}
-												size="icon" title={$_.input_egyptian.backspace}
+				size="icon"
+				title={$_.input_egyptian.backspace}
 				variant="outline"
 			>
 				<Delete/>
@@ -492,7 +494,8 @@
 			<Button
 				disabled={s.cursor === s.content.length}
 				onclick={() => Execute(EgyptianEditCmdKind.Right)}
-												size="icon" title={$_.input_egyptian.move_cursor_right}
+				size="icon"
+				title={$_.input_egyptian.move_cursor_right}
 				variant="outline"
 			>
 				<ArrowRight/>
@@ -504,26 +507,58 @@
 
 	<div class="flex flex-wrap justify-between" class:hidden={!editing}>
 
-		{#if imeWords.length > 0}
+		{#if imeInput.length > 0}
 
-			<div class="flex flex-wrap">
-				{#each imeWords as hie, i (hie)}
-					<Button
-						onclick={() => OnClickImeWord(hie.Word)}
-						variant="ghost"
-						class="inline-flex items-center"
-					>
-						<code class="text-orange-700 dark:text-orange-300">{i + 1}</code>
-						<span class="text-xl egyptian">
-							<EgyptianText t={[hie.Word]}/>
+			{#snippet CandidateButton(hie: EgyptianWordCandidate, i: number | null = null)}
+				<Button
+					onclick={() => OnClickImeWord(hie.Word)}
+					variant="ghost"
+					class="inline-flex items-center"
+				>
+					{#if i != null}
+						<code class="text-orange-700 dark:text-orange-300">
+							{i + 1}
+						</code>
+					{/if}
+					<span class="text-xl egyptian">
+						<EgyptianText t={[hie.Word]}/>
+					</span>
+					{#if hie.Tail != undefined}
+						<span class="text-foreground/50">
+							{$preferredSentenceTransliterationDumperForEdit(hie.Tail)}
 						</span>
-						{#if hie.Tail != undefined}
-							<span class="text-foreground/50">
-								{$preferredSentenceTransliterationDumperForEdit(hie.Tail)}
-							</span>
-						{/if}
-					</Button>
-				{/each}
+					{/if}
+				</Button>
+			{/snippet}
+
+			<div class="flex flex-wrap items-center min-h-9">
+				{#if imeInput.startsWith(BufferPrefix.Determinative)}
+					<div class="ml-4">
+						{$_.input_egyptian.mode.determinative}
+					</div>
+					{#each imeWords as hie, i (hie)}
+						{@render CandidateButton(hie, i)}
+					{/each}
+				{:else if imeInput.startsWith(BufferPrefix.Gardiner)}
+					<div class="ml-4">
+						{$_.input_egyptian.mode.gardiner}
+					</div>
+					{#if imeWords.length == 1}
+						{@render CandidateButton(imeWords[0])}
+					{/if}
+				{:else if imeInput.startsWith(BufferPrefix.Number)}
+					<div class="ml-4">
+						{$_.input_egyptian.mode.number}
+					</div>
+					{#if imeWords.length == 1}
+						{@render CandidateButton(imeWords[0])}
+					{/if}
+				{:else}
+					{#each imeWords as hie, i (hie)}
+						{@render CandidateButton(hie, i)}
+					{/each}
+				{/if}
+
 			</div>
 
 		{:else}
@@ -532,19 +567,18 @@
 
 			<div class="flex gap-1">
 
-
 				<TT.Provider>
 					<TT.Root>
 						<TT.Trigger
 							onclick={() => Execute(EgyptianEditCmdKind.Cartouche)}
 							disabled={cartoucheDisabled}
-															title={$_.input_egyptian.add_cartouche}
+							title={$_.input_egyptian.add_cartouche}
 							class={buttonVariants({variant: "outline"})}
 						>
 							<EgyptianText t={nameLabel}/>
 						</TT.Trigger>
 						<TT.Content>
-														{$_.input_egyptian.add_cartouche}
+							{$_.input_egyptian.add_cartouche}
 						</TT.Content>
 					</TT.Root>
 				</TT.Provider>
@@ -555,13 +589,13 @@
 							<TT.Trigger
 								onclick={() => Execute(EgyptianEditCmdKind.Overlap)}
 								disabled={overlapDisabled}
-															title={$_.input_egyptian.make_ligature}
+								title={$_.input_egyptian.make_ligature}
 								class={buttonVariants({variant: "outline", size: "icon"})}
 							>
 								<Blend/>
 							</TT.Trigger>
 							<TT.Content>
-														{$_.input_egyptian.make_ligature}
+								{$_.input_egyptian.make_ligature}
 							</TT.Content>
 						</TT.Root>
 					</TT.Provider>
@@ -571,13 +605,13 @@
 							<TT.Trigger
 								onclick={() => Execute(EgyptianEditCmdKind.Row)}
 								disabled={rowDisabled}
-															title={$_.input_egyptian.join_horizontally}
+								title={$_.input_egyptian.join_horizontally}
 								class={buttonVariants({variant: "outline", size: "icon"})}
 							>
 								<Columns2/>
 							</TT.Trigger>
 							<TT.Content>
-														{$_.input_egyptian.join_horizontally}
+								{$_.input_egyptian.join_horizontally}
 							</TT.Content>
 						</TT.Root>
 					</TT.Provider>
@@ -587,17 +621,16 @@
 							<TT.Trigger
 								onclick={() => Execute(EgyptianEditCmdKind.Column)}
 								disabled={columnDisabled}
-															title={$_.input_egyptian.join_vertically}
+								title={$_.input_egyptian.join_vertically}
 								class={buttonVariants({variant: "outline", size: "icon"})}
 							>
 								<Rows2/>
 							</TT.Trigger>
 							<TT.Content>
-														{$_.input_egyptian.join_vertically}
+								{$_.input_egyptian.join_vertically}
 							</TT.Content>
 						</TT.Root>
 					</TT.Provider>
-
 				</ButtonGroup>
 
 			</div>

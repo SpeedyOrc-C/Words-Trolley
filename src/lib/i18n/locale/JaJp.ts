@@ -285,6 +285,11 @@ export const JaJp: I18nTemplate = {
 		join_horizontally: "横に結合",
 		join_vertically: "縦に結合",
 		syntax_error: "構文エラー",
+		mode: {
+			determinative: "限定符",
+			gardiner: "ガーディナー",
+			number: "数字",
+		},
 	},
 	block_editor: {
 		_: "ブロックエディター",
@@ -362,7 +367,7 @@ export const JaJp: I18nTemplate = {
 			mdc: "Manuel de Codage 式",
 		},
 		typewriter: {
-			title: "ヒエログリフタイプライター",
+			title: "エジプト語タイプライター",
 			height: "高さ",
 			enable_custom_text_colour: "文字色をカスタマイズする",
 			custom_text_colour: "カスタム文字色",

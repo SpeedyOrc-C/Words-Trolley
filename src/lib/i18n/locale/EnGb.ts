@@ -285,6 +285,11 @@ const EnGb: I18nTemplate = {
 		join_horizontally: "Join horizontally",
 		join_vertically: "Join vertically",
 		syntax_error: "Syntax error",
+		mode: {
+			determinative: "Determinative",
+			gardiner: "Gardiner",
+			number: "Number",
+		}
 	},
 	block_editor: {
 		_: "Block Editor",
@@ -362,7 +367,7 @@ const EnGb: I18nTemplate = {
 			mdc: "Manuel de Codage",
 		},
 		typewriter: {
-			title: "Egyptian Hieroglyphs Typewriter",
+			title: "Egyptian Typewriter",
 			height: "Height",
 			enable_custom_text_colour: "Enable custom text colour",
 			custom_text_colour: "Custom text colour",

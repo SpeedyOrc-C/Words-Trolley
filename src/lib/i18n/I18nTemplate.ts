@@ -286,6 +286,11 @@ export type I18nTemplate = {
 		join_horizontally: s
 		join_vertically: s
 		syntax_error: s
+		mode: {
+			determinative: s
+			gardiner: s
+			number: s
+		}
 	}
 	block_editor: {
 		_: s

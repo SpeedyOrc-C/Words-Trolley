@@ -423,7 +423,6 @@
 <EditorNav
 	{Delete} {Export} {Fork} {Import}
 	OpenInitialisation={() => initialisationOpened = true}
-	OpenSettings={() => settingsOpened.set(true)}
 	{Save}
 	bind:showExtraOptions
 	bind:showWordOperations

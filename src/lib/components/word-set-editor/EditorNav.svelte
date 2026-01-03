@@ -17,7 +17,6 @@
 	import EditorNavRightButtons from "../EditorNavRightButtons.svelte"
 
 	let {
-		OpenSettings,
 		OpenInitialisation,
 		showWordOperations = $bindable(),
 		showExtraOptions = $bindable(),
@@ -47,7 +46,6 @@
 		showWordOperations: boolean
 		showExtraOptions: boolean
 		propertiesSheetOpen: boolean
-		OpenSettings: () => any
 		OpenInitialisation: () => any
 		Save: () => any
 		Fork: () => any
@@ -85,24 +83,28 @@
 			</M.Trigger>
 
 			<M.Content>
-				<M.Item
-					disabled={saving || saved || !online || !isMine}
-					onclick={Save}
-				>
-					<SaveIcon />
-					{#if saving}
-						{$_.editor.saving}
-					{:else if saved}
-						{$_.editor.saved}
-					{:else}
-						{$_.editor.save}
-					{/if}
-				</M.Item>
+				{#if online}
+					<M.Item
+						disabled={saving || saved || !online || !isMine}
+						onclick={Save}
+					>
+						<SaveIcon />
+						{#if saving}
+							{$_.editor.saving}
+						{:else if saved}
+							{$_.editor.saved}
+						{:else}
+							{$_.editor.save}
+						{/if}
+					</M.Item>
+				{/if}
 
-				<M.Item onclick={() => propertiesSheetOpen = true}>
-					<Info />
-					{$_.file.properties}
-				</M.Item>
+				{#if online}
+					<M.Item onclick={() => propertiesSheetOpen = true}>
+						<Info />
+						{$_.file.properties}
+					</M.Item>
+				{/if}
 
 				<M.Item onclick={OpenInitialisation}>
 					<ListPlus />
@@ -111,13 +113,15 @@
 
 				<M.Separator />
 
-				<M.Item
-					disabled={!online || forking}
-					onclick={() => GuardedAction(Fork)}
-				>
-					<Copy />
-					{$_.editor.fork._}
-				</M.Item>
+				{#if online}
+					<M.Item
+						disabled={forking}
+						onclick={() => GuardedAction(Fork)}
+					>
+						<Copy />
+						{$_.editor.fork._}
+					</M.Item>
+				{/if}
 
 				<M.Item onclick={Import}>
 					<FolderInput />
@@ -129,16 +133,18 @@
 					{$_.file.export}
 				</M.Item>
 
-				<M.Separator />
+				{#if online}
+					<M.Separator />
 
-				<M.Item
-					disabled={deleting || !online}
-					onclick={Delete}
-					variant="destructive"
-				>
-					<Trash2 />
-					{$_.editor.delete}
-				</M.Item>
+					<M.Item
+						disabled={deleting}
+						onclick={Delete}
+						variant="destructive"
+					>
+						<Trash2 />
+						{$_.editor.delete}
+					</M.Item>
+				{/if}
 			</M.Content>
 		</M.Menu>
 
@@ -193,9 +199,9 @@
 			</M.Menu>
 		{/if}
 
-		{#if !saved && isMine}
+		{#if online && !saved && isMine}
 			<M.Menu>
-				<M.Trigger disabled={saving || saved || !online} onclick={Save}>
+				<M.Trigger disabled={saving || saved} onclick={Save}>
 					{#if saving}
 						{$_.editor.saving}
 					{:else}

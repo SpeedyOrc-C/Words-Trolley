@@ -17,9 +17,11 @@
 	import User from "@lucide/svelte/icons/user"
 	import FileText from "@lucide/svelte/icons/file-text"
 	import NotByAiBadge from "$lib/components/not-by-ai/NotByAiBadge.svelte"
+	import {onMount} from "svelte"
 
 	let {data} = $props()
 	let loading = $state(false)
+	let online = $state(false)
 
 	async function SignOut()
 	{
@@ -33,6 +35,23 @@
 			alert(error.message)
 		}
 	}
+
+	function Online() { online = true }
+	function Offline() { online = false }
+
+	onMount(() =>
+	{
+		online = navigator.onLine
+
+		window.addEventListener("online", Online)
+		window.addEventListener("offline", Offline)
+
+		return () =>
+		{
+			window.removeEventListener("online", Online)
+			window.removeEventListener("offline", Offline)
+		}
+	})
 </script>
 
 <svelte:head>
@@ -41,7 +60,7 @@
 
 <header class="my-4 text-center text-2xl">
 
-	{#if data.user && navigator.onLine}
+	{#if data.user && online}
 
 		{$_.home.welcome_back}
 		<br>
@@ -59,27 +78,31 @@
 
 	<ButtonGroup orientation="vertical" class="w-full">
 
-		<Button disabled={! navigator.onLine} href="/search" variant="outline" size="lg" tabindex={0}>
-			<Search />
-			{$_.search}
-		</Button>
+		{#if online}
 
-		{#if data.user && navigator.onLine}
-
-			<Button href="/new" size="lg" variant="outline" tabindex={0}>
-				<Plus/>
-				{$_.home.create_a_word_set}
+			<Button href="/search" variant="outline" size="lg" tabindex={0}>
+				<Search />
+				{$_.search}
 			</Button>
 
-			<Button href="/creator/{data.user.id}" size="lg" variant="outline" tabindex={0}>
-				<BookUser />
-				{$_.home.created_by_me}
-			</Button>
+			{#if data.user}
 
-			<Button href="/saved" size="lg" variant="outline" tabindex={0}>
-				<Bookmark />
-				{$_.home.saved_by_me}
-			</Button>
+				<Button href="/new" size="lg" variant="outline" tabindex={0}>
+					<Plus/>
+					{$_.home.create_a_word_set}
+				</Button>
+
+				<Button href="/creator/{data.user.id}" size="lg" variant="outline" tabindex={0}>
+					<BookUser />
+					{$_.home.created_by_me}
+				</Button>
+
+				<Button href="/saved" size="lg" variant="outline" tabindex={0}>
+					<Bookmark />
+					{$_.home.saved_by_me}
+				</Button>
+
+			{/if}
 
 		{/if}
 
@@ -96,8 +119,8 @@
 		</Button>
 	</ButtonGroup>
 
-	{#if data.user && data.profile}
-		<Button disabled={! navigator.onLine} class="w-full" href="/profile" size="lg" variant="outline" tabindex={0}>
+	{#if online && data.user && data.profile}
+		<Button class="w-full" href="/profile" size="lg" variant="outline" tabindex={0}>
 			<User/>
 			{$_.my_profile._}
 		</Button>
@@ -110,20 +133,22 @@
 			{$_.settings._}
 		</Button>
 
-		{#if data.user}
+		{#if online}
+			{#if data.user}
 
-			<Button disabled={loading || ! navigator.onLine} onclick={SignOut} size="lg" variant="secondary" class="flex-1">
-				<LogOut />
-				{$_.logout}
-			</Button>
+				<Button disabled={loading || ! online} onclick={SignOut} size="lg" variant="secondary" class="flex-1">
+					<LogOut />
+					{$_.logout}
+				</Button>
 
-		{:else}
+			{:else}
 
-			<Button disabled={! navigator.onLine} href="/auth" size="lg" class="flex-1" tabindex={0}>
-				<LogIn />
-				{$_.login_and_signup}
-			</Button>
+				<Button disabled={! online} href="/auth" size="lg" class="flex-1" tabindex={0}>
+					<LogIn />
+					{$_.login_and_signup}
+				</Button>
 
+			{/if}
 		{/if}
 
 	</div>

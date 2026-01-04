@@ -1,5 +1,6 @@
 import {type LivingLanguage, LivingLanguages} from "$lib/i18n"
 import {Language} from "$lib/i18n/Language"
+import {EgyptianDeterminativeScheme} from "$lib/word/egyptian/IME/determinative"
 import {str, bool, obj, asum, type Validator, eq} from "crazy-parser/json/validate"
 
 export const SettingsKey = "words-trolley-settings"
@@ -20,6 +21,7 @@ export interface ISettings
 		HieroglyphsFont: HieroglyphsFont
 		TransliterationForRead: EgyptianTransliteration
 		TransliterationForEdit: EgyptianTransliteration
+		DeterminativeScheme: EgyptianDeterminativeScheme
 		FuzzySZ: boolean
 	}
 	PreferredVoice: Record<LivingLanguage, string | null>
@@ -68,6 +70,7 @@ export const defaultSettings: ISettings = {
 		HieroglyphsFont: HieroglyphsFont.NewGardiner,
 		TransliterationForRead: EgyptianTransliteration.Egyptology,
 		TransliterationForEdit: EgyptianTransliteration.ManuelDeCodage,
+		DeterminativeScheme: EgyptianDeterminativeScheme.Xiaohuan,
 		FuzzySZ: false,
 	},
 	PreferredVoice: {
@@ -97,6 +100,7 @@ export const ParseSettings: Validator<ISettings> = obj({
 		HieroglyphsFont: asum(...Object.values(HieroglyphsFont).map(eq)),
 		TransliterationForRead: asum(...Object.values(EgyptianTransliteration).map(eq)),
 		TransliterationForEdit: asum(...Object.values(EgyptianTransliteration).map(eq)),
+		DeterminativeScheme: asum(...Object.values(EgyptianDeterminativeScheme).map(eq)),
 		FuzzySZ: bool,
 	}, defaultSettings.Egyptian),
 	PreferredVoice: obj({

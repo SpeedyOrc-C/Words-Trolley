@@ -109,6 +109,7 @@ https://funtranslations.com/hieroglyphics
 https://github.com/AndriiVal/hieroglyphic-name
 https://guardians.net/egypt/hieroglyphs/hiero-translator.htm
 https://hieroglyphicstranslator.net
+https://lingofreak.com/Hiero/hiero5.html
 https://lingojam.com/HieroglyphicsTranslator
 https://lingojam.com/EnglishtoEgyptianHieroglyphics
 https://shakespearean-translator.com/hieroglyphics

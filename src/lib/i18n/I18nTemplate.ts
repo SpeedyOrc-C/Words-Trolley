@@ -159,6 +159,9 @@ export type I18nTemplate = {
 				fuzzy_sz: s
 				when_read: s
 				when_edit: s
+				determinative_scheme: {
+					_: s
+				}
 			}
 			hieroglyphs_font: s
 		}

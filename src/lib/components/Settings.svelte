@@ -21,6 +21,7 @@
 	import SettingSubList from "./ui/setting/SettingSubList.svelte"
 	import Button from "./ui/button/button.svelte"
 	import ButtonGroup from "./ui/button-group/button-group.svelte"
+	import { EgyptianDeterminativeScheme } from "$lib/word/egyptian/IME/determinative"
 
 	let {open = $bindable(false)}: { open: boolean } = $props()
 	let newSettings = $state($settings)
@@ -127,7 +128,7 @@
 						<div class="flex justify-between gap-2 flex-wrap">
 							<Label for="language">
 								{$_.settings.appearance.ui_language}
-								<Languages/>
+								<Languages class="stroke-muted-foreground"/>
 							</Label>
 
 							<NS.Root id="language" bind:value={newSettings.Language}>
@@ -409,6 +410,23 @@
 
 						<div class="text-2xl text-center">
 							{$egyptianTransliterationSampleTextForEdit}
+						</div>
+
+						<Separator/>
+
+						<div class="flex justify-between gap-2">
+							<Label for="egyptian-determinative-scheme">
+								{$_.settings.egyptian.transliteration_scheme.determinative_scheme._}
+							</Label>
+
+							<NS.Root bind:value={newSettings.Egyptian.DeterminativeScheme} id="egyptian-determinative-scheme">
+								<NS.Option value={EgyptianDeterminativeScheme.Xiaohuan}>
+									小缳
+								</NS.Option>
+								<NS.Option value={EgyptianDeterminativeScheme.Thomas}>
+									Thomas
+								</NS.Option>
+							</NS.Root>
 						</div>
 
 					</SettingSubList>

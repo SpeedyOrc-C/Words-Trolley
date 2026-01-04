@@ -158,6 +158,9 @@ const EnGb: I18nTemplate = {
 				fuzzy_sz: "Sound change: /z/ becomes /s/",
 				when_read: "When reading",
 				when_edit: "When editing",
+				determinative_scheme: {
+					_: "Determinative Scheme",
+				}
 			},
 			hieroglyphs_font: "Hieroglyphs Font",
 		},

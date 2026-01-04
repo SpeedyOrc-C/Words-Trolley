@@ -1,6 +1,7 @@
 import {settings} from "$lib/settings/store"
 import {Equal} from "$lib/utils"
 import {Phoneme, PhonemeEqual_FuzzySs} from "$lib/word/egyptian"
+import { EgyptianDeterminativeSchemes } from "$lib/word/egyptian/IME/determinative"
 import
 {
 	Punctuation,
@@ -71,3 +72,5 @@ export const egyptianSoundChanger = derived(settings, s =>
 })
 
 export const preferredPhonemeEqual = derived(settings, s => s.Egyptian.FuzzySZ ? PhonemeEqual_FuzzySs : Equal)
+
+export const preferredDeterminativeScheme = derived(settings, s => EgyptianDeterminativeSchemes[s.Egyptian.DeterminativeScheme])

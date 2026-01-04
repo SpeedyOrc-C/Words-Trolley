@@ -158,6 +158,9 @@ export const JaJp: I18nTemplate = {
 				fuzzy_sz: "音変化：/z/ を /s/ に",
 				when_read: "閲覧時",
 				when_edit: "編集時",
+				determinative_scheme: {
+					_: "定符スキーム",
+				}
 			},
 			hieroglyphs_font: "ヒエログリフのフォント",
 		},

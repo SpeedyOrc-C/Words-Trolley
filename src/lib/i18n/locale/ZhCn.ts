@@ -158,6 +158,9 @@ const ZhCn: I18nTemplate = {
 				fuzzy_sz: "音变：/z/ 归入 /s/",
 				when_read: "阅读时",
 				when_edit: "编辑时",
+				determinative_scheme: {
+					_: "定符方案",
+				}
 			},
 			hieroglyphs_font: "圣书字字体",
 		},
@@ -286,7 +289,7 @@ const ZhCn: I18nTemplate = {
 		join_vertically: "纵向连接",
 		syntax_error: "语法错误",
 		mode: {
-			determinative: "意符",
+			determinative: "定符",
 			gardiner: "高德纳",
 			number: "数字",
 		},

@@ -14,10 +14,9 @@
 	import * as DM from "$lib/components/ui/dropdown-menu"
 
 	import {_} from "$lib/i18n/store"
-	import {preferredEgyptianTransliterationParserForEdit, preferredSentenceTransliterationDumperForEdit} from "$lib/settings/store/egyptian"
+	import {preferredDeterminativeScheme, preferredEgyptianTransliterationParserForEdit, preferredSentenceTransliterationDumperForEdit} from "$lib/settings/store/egyptian"
 	import {CandidatesFromPhonemes, type EgyptianWordCandidate} from "$lib/word/egyptian/dictionary"
 	import {CandidatesFromNumber} from "$lib/word/egyptian/dictionary/numbers"
-	import {CandidatesFromXiaoheKmt} from "$lib/word/egyptian/dictionary/xiaohe-kmt"
 	import {
 		type Hieroglyphs, g, h, v, c,
 		type HieroglyphsEditorState,
@@ -46,6 +45,7 @@
 	import {settings} from "$lib/settings/store"
 	import {QuickSymbols} from "$lib/word/egyptian/IME"
 	import {CandidatesFromGardiner} from "$lib/word/egyptian/gardiner/gardiner-literal"
+	import { CandidatesFromDeterminativeScheme } from "$lib/word/egyptian/IME/determinative"
 
 	const nameLabel: Hieroglyphs[] = [c(h(v(g("𓂋"), g("𓈖")), g("𓀀")))]
 
@@ -248,7 +248,7 @@
 		if (imeInput.startsWith(BufferPrefix.Determinative))
 		{
 			const input = imeInput.substring(1, imeInput.length).trim()
-			imeWords = CandidatesFromXiaoheKmt(input)
+			imeWords = CandidatesFromDeterminativeScheme($preferredDeterminativeScheme, input)
 			imeInputError = false
 			return
 		}

@@ -3,7 +3,7 @@
    import Quill from "quill"
 	import { g, JoinVertically, JoinHorizontally, Ungroup, Structure } from "$lib/word/egyptian/hieroglyphs"
 	import {onMount} from "svelte"
-	import {preferredEgyptianTransliterationParserForEdit, preferredSentenceTransliterationDumperForEdit} from "$lib/settings/store/egyptian"
+	import {preferredDeterminativeScheme, preferredEgyptianTransliterationParserForEdit, preferredSentenceTransliterationDumperForEdit} from "$lib/settings/store/egyptian"
 	import {CandidatesFromPhonemes} from "$lib/word/egyptian/dictionary"
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
 	import {QuickSymbols} from "$lib/word/egyptian/IME"
@@ -11,11 +11,11 @@
 	import Switch from "$lib/components/ui/switch/switch.svelte"
 	import Label from "$lib/components/ui/label/label.svelte"
 	import Button from "$lib/components/ui/button/button.svelte"
-	import {CandidatesFromXiaoheKmt} from "$lib/word/egyptian/dictionary/xiaohe-kmt"
    import ButtonGroup from "$lib/components/ui/button-group/button-group.svelte"
    import * as NS from "$lib/components/ui/native-select"
    import Bold from "@lucide/svelte/icons/bold"
    import Italic from "@lucide/svelte/icons/italic"
+	import { CandidatesFromDeterminativeScheme } from "$lib/word/egyptian/IME/determinative"
 
    let quill: Quill
    let editor: HTMLDivElement | undefined = $state(undefined)
@@ -37,7 +37,7 @@
       {
          const determinativeSearchString = keyboardBuffer.join("").substring(1)
 
-         return CandidatesFromXiaoheKmt(determinativeSearchString)
+         return CandidatesFromDeterminativeScheme($preferredDeterminativeScheme, determinativeSearchString)
       }
 
       if (phonemeBuffer instanceof Error)

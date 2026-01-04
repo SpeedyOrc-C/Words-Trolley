@@ -97,7 +97,7 @@
 
 	function OnImeInput()
 	{
-		if (imeWords.length > 0)
+		if (imeWords.length > 0 && imeInput.length > 1)
 		{
 			if (imeInput.endsWith(" "))
 			{

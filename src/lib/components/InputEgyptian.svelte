@@ -1,61 +1,22 @@
-<script lang="ts" module>
-	const BufferPrefix = {
-		Determinative: " ",
-		Gardiner: "/",
-		Number: "#",
-	}
-</script>
-
 <script lang="ts">
-	import {Button, buttonVariants} from "$lib/components/ui/button"
-	import {Input} from "$lib/components/ui/input"
-	import {ButtonGroup} from "$lib/components/ui/button-group"
-	import * as TT from "$lib/components/ui/tooltip"
-	import * as DM from "$lib/components/ui/dropdown-menu"
-
 	import {_} from "$lib/i18n/store"
-	import {preferredDeterminativeScheme, preferredEgyptianTransliterationParserForEdit, preferredSentenceTransliterationDumperForEdit} from "$lib/settings/store/egyptian"
-	import {CandidatesFromPhonemes, type EgyptianWordCandidate} from "$lib/word/egyptian/dictionary"
-	import {CandidatesFromNumber} from "$lib/word/egyptian/dictionary/numbers"
-	import {
-		type Hieroglyphs, g, h, v, c,
-		type HieroglyphsEditorState,
-		type EgyptianEditCmd, DumpHieroglyphs,
-		EgyptianEditCmdKind,
-		ExecuteHieroglyphsEditCommand,
-		HieroglyphsEditCommandNoSideEffect,
-		Structure
-	} from "$lib/word/egyptian/hieroglyphs"
-	import EgyptianText from "$lib/components/EgyptianText.svelte"
-	import RenderEgyptianHieroglyphs from "$lib/components/RenderEgyptianHieroglyphs.svelte"
-	import {pHieroglyphs} from "$lib/word/egyptian/hieroglyphs/parser"
-	import {ToJSesh} from "$lib/word/egyptian/hieroglyphs/jsesh"
-	import {toast} from "svelte-sonner"
+	import {type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
+	import * as IME from "$lib/word/egyptian/IME"
+	import {onMount} from "svelte"
 
-	import Columns2 from "@lucide/svelte/icons/columns-2"
-	import Rows2 from "@lucide/svelte/icons/rows-2"
-	import Blend from "@lucide/svelte/icons/blend"
-	import ArrowLeft from "@lucide/svelte/icons/arrow-left"
-	import ArrowRight from "@lucide/svelte/icons/arrow-right"
-	import Delete from "@lucide/svelte/icons/delete"
-	import Copy from "@lucide/svelte/icons/copy"
-	import ClipboardPaste from "@lucide/svelte/icons/clipboard-paste"
-	import Ellipsis from "@lucide/svelte/icons/ellipsis"
-	import Check from "@lucide/svelte/icons/check"
+	import EgyptianEditorView from "./EgyptianEditorView.svelte"
+	import InputEgyptianTextField from "./InputEgyptianTextField.svelte"
 	import {settings} from "$lib/settings/store"
-	import {QuickSymbols} from "$lib/word/egyptian/IME"
-	import {CandidatesFromGardiner} from "$lib/word/egyptian/gardiner/gardiner-literal"
-	import { CandidatesFromDeterminativeScheme } from "$lib/word/egyptian/IME/determinative"
-
-	const nameLabel: Hieroglyphs[] = [c(h(v(g("𓂋"), g("𓈖")), g("𓀀")))]
+	import {EgyptianImeMode} from "$lib/settings"
+	import {focusedEgyptianInput, FocusedEgyptianInput as FocusedEgyptianInputProxy} from "$lib/word/egyptian/IME/store"
 
 	let {
 		value = $bindable([]),
-		editing = $bindable(false),
 		onchange,
+		editing: _editing = false,
 		InsertSymbolAtCursor = $bindable(() => {}),
 		color = "inherit",
-		height = 48,
+		height = 26,
 	}: {
 		value?: Hieroglyphs[]
 		editing?: boolean
@@ -65,292 +26,51 @@
 		height?: number
 	} = $props()
 
-	let s: HieroglyphsEditorState = $state({cursor: value.length, content: value})
-	let imeInput = $state("")
-	let imeInputError = $state(false)
-	let imeWords: EgyptianWordCandidate[] = $state([])
+	const symbol = Symbol()
 
-	const cartoucheDisabled = $derived(s.cursor == 0)
-	const rowDisabled = $derived(s.cursor < 2)
-	const columnDisabled = $derived(s.cursor < 2)
+	let editing = $state(_editing)
+	let ctx: IME.State = $state({cursor: value.length, value: value})
 
-	const overlapDisabled = $derived(
-		s.cursor < 2 ||
-		!(s.content[s.cursor - 1][0] == Structure.Glyph || s.content[s.cursor - 1][0] == Structure.Ligature) ||
-		!(s.content[s.cursor - 2][0] == Structure.Glyph || s.content[s.cursor - 2][0] == Structure.Ligature)
-	)
+	const proxy = new FocusedEgyptianInputProxy(symbol, () => ctx, _ctx => (ctx = _ctx))
 
-	function Execute(...command: EgyptianEditCmd)
+	$effect(() => {value = ctx.value})
+
+	// TODO)) Insert symbol at cursor
+
+	onMount(() =>
 	{
-		try
+		const unsubscribe = focusedEgyptianInput.subscribe(OnFocusedEgyptianInputChange)
+
+		return () =>
 		{
-			s = ExecuteHieroglyphsEditCommand(s, command)
+			unsubscribe()
 
-			if (HieroglyphsEditCommandNoSideEffect(command))
-				return
-
-			value = s.content
+			if ($focusedEgyptianInput == proxy)
+				focusedEgyptianInput.set(null)
 		}
-		catch (e)
-		{}
-	}
+	})
 
-	function OnImeInput()
+	function OnFocusedEgyptianInputChange(newProxy: null | FocusedEgyptianInputProxy)
 	{
-		if (imeWords.length > 0 && imeInput.length > 1)
-		{
-			if (imeInput.endsWith(" "))
-			{
-				Execute(EgyptianEditCmdKind.Insert, imeWords[0].Word)
-				imeInput = ""
-				imeWords = []
-				imeInputError = false
-				return
-			}
-
-			const lastChar = imeInput[imeInput.length - 1]
-
-			if (
-				"0" <= lastChar && lastChar <= "9"
-				&& ! imeInput.startsWith(BufferPrefix.Number)
-				&& ! imeInput.startsWith(BufferPrefix.Gardiner)
-			)
-			{
-				const digit = parseInt(lastChar)
-
-				if (! Number.isNaN(digit) && digit > 0 && digit <= imeWords.length)
-				{
-					_InsertSymbolAtCursor(imeWords[digit - 1].Word)
-					imeInput = ""
-					imeWords = []
-					imeInputError = false
-					return
-				}
-			}
-		}
-
-		if (imeInput.length == 1)
-			for (const quickSymbol in QuickSymbols)
-				if (imeInput == quickSymbol)
-				{
-					_InsertSymbolAtCursor(g(QuickSymbols[quickSymbol]))
-					imeInput = ""
-					imeWords = []
-					imeInputError = false
-					return
-				}
-
-		if (imeInput.startsWith(")"))
-		{
-			if (imeInput == ")|")
-			{
-				Execute(EgyptianEditCmdKind.Cartouche)
-				imeInput = ""
-				imeInputError = false
-				return
-			}
-			return
-		}
-
-		if (imeInput == ";")
-		{
-			Execute(EgyptianEditCmdKind.DuplicateLast)
-			imeInput = ""
-			imeInputError = false
-			return
-		}
-
-		if (imeInput == "\\")
-		{
-			Execute(EgyptianEditCmdKind.Overlap)
-			imeInput = ""
-			imeInputError = false
-			return
-		}
-
-		if (imeInput == "-")
-		{
-			Execute(EgyptianEditCmdKind.Row)
-			imeInput = ""
-			imeInputError = false
-			return
-		}
-
-		if (imeInput == "=")
-		{
-			Execute(EgyptianEditCmdKind.Column)
-			imeInput = ""
-			imeInputError = false
-			return
-		}
-
-		if (imeInput == "[" && s.cursor > 0)
-		{
-			Execute(EgyptianEditCmdKind.DuplicateLast)
-			Execute(EgyptianEditCmdKind.Row)
-			imeInput = ""
-			imeWords = []
-			imeInputError = false
-			return
-		}
-
-		if (imeInput == "]" && s.cursor > 0)
-		{
-			Execute(EgyptianEditCmdKind.DuplicateLast)
-			Execute(EgyptianEditCmdKind.Column)
-			imeInput = ""
-			imeWords = []
-			imeInputError = false
-			return
-		}
-
-		if (imeInput.endsWith("\\") && imeWords.length > 0)
-		{
-			Execute(EgyptianEditCmdKind.Insert, imeWords[0].Word)
-			Execute(EgyptianEditCmdKind.Overlap)
-			imeInput = ""
-			imeWords = []
-			imeInputError = false
-			return
-		}
-
-		if (imeInput.endsWith(";") && imeWords.length > 0)
-		{
-			Execute(EgyptianEditCmdKind.Insert, imeWords[0].Word)
-			Execute(EgyptianEditCmdKind.DuplicateLast)
-			imeInput = ""
-			imeWords = []
-			imeInputError = false
-			return
-		}
-
-		if (imeInput.endsWith("-") && imeWords.length > 0)
-		{
-			Execute(EgyptianEditCmdKind.Insert, imeWords[0].Word)
-			Execute(EgyptianEditCmdKind.Row)
-			imeInput = ""
-			imeWords = []
-			imeInputError = false
-			return
-		}
-
-		if (imeInput.endsWith("=") && imeWords.length > 0)
-		{
-			Execute(EgyptianEditCmdKind.Insert, imeWords[0].Word)
-			Execute(EgyptianEditCmdKind.Column)
-			imeInput = ""
-			imeWords = []
-			imeInputError = false
-			return
-		}
-
-		// TODO: Add an English input scheme
-		if (imeInput.startsWith(BufferPrefix.Determinative))
-		{
-			const input = imeInput.substring(1, imeInput.length).trim()
-			imeWords = CandidatesFromDeterminativeScheme($preferredDeterminativeScheme, input)
-			imeInputError = false
-			return
-		}
-
-		if (imeInput.startsWith(BufferPrefix.Gardiner))
-		{
-			const input = imeInput.substring(1, imeInput.length).trim()
-			imeWords = CandidatesFromGardiner(input)
-			imeInputError = false
-			return
-		}
-
-		if (imeInput.startsWith(BufferPrefix.Number))
-		{
-			const input = imeInput.substring(1, imeInput.length).trim()
-			const number = parseInt(input)
-
-			if (Number.isNaN(number))
-			{
-				imeWords = []
-				return
-			}
-
-			imeWords = CandidatesFromNumber(number)
-			imeInputError = false
-			return
-		}
-
-		const newImeInput = $preferredEgyptianTransliterationParserForEdit.eval(imeInput)
-
-		if (newImeInput instanceof Error)
-			imeInputError = true
-		else
-		{
-			imeInputError = false
-			imeWords = CandidatesFromPhonemes(newImeInput, $settings.Egyptian.FuzzySZ)
-		}
-	}
-
-	function OnImeKeyDown(e: KeyboardEvent & { currentTarget: HTMLInputElement })
-	{
-		const t = e.currentTarget
-		const c = e.code
-
-		if (c == "Enter")
+		if (newProxy == null)
 		{
 			editing = false
-			onchange?.(s.content)
 			return
 		}
 
-		if (c == "ArrowLeft" && t.selectionEnd == 0)
-		{
-			e.preventDefault()
-			Execute(EgyptianEditCmdKind.Left)
-			return
-		}
-
-		if (c == "ArrowRight" && t.selectionStart == t.value.length)
-		{
-			e.preventDefault()
-			Execute(EgyptianEditCmdKind.Right)
-			return
-		}
-
-		if (c == "Backspace" && t.value.length == 0)
-		{
-			e.preventDefault()
-			Execute(EgyptianEditCmdKind.Backspace)
-			return
-		}
+		editing = newProxy.Symbol == proxy.Symbol
 	}
 
-	function OnClickImeWord(hie: Hieroglyphs)
+	function OnFocus()
 	{
-		Execute(EgyptianEditCmdKind.Insert, hie)
-		imeInput = ""
-		imeWords = []
-		imeInputError = false
+		focusedEgyptianInput.set(proxy)
 	}
 
-	function _InsertSymbolAtCursor(symbol: Hieroglyphs)
+	function OnSubmit()
 	{
-		Execute(EgyptianEditCmdKind.Insert, symbol)
+		focusedEgyptianInput.set(null)
+		onchange?.(ctx.value)
 	}
-
-	async function PasteRawHieroglyphs()
-	{
-		const text = await navigator.clipboard.readText()
-		const value = pHieroglyphs.eval(text)
-
-		if (value instanceof Error)
-		{
-			toast.error($_.input_egyptian.syntax_error)
-			return
-		}
-
-		Execute(EgyptianEditCmdKind.Replace, value)
-		toast.success($_.pasted)
-	}
-
-	InsertSymbolAtCursor = _InsertSymbolAtCursor
 </script>
 
 <div
@@ -358,326 +78,9 @@
 	style:--height-10="{height * 0.1}px"
 	style:--height="{height}px"
 >
+	<EgyptianEditorView {editing} {ctx} {height} {color} {OnFocus} />
 
-	{#if editing}
-
-		<div
-			class="p-2 inline-flex flex-wrap rounded-md overflow-clip outline-1"
-			style:color
-			style:gap="{height * 0.1}px 0"
-		>
-			{#if s.content.length == 0}
-				<span class="relative" style:height="{height}px">
-					<span class="cursor left-0"></span>
-				</span>
-			{/if}
-			{#each s.content as hie, i ([hie])}
-				<span class="word">
-					{#if i > 0}
-						<span class="word-sep">
-							{#if (i == s.cursor - 1 || i == s.cursor - 2)}
-								<span></span>
-							{/if}
-						</span>
-					{/if}
-					<RenderEgyptianHieroglyphs {hie} lineHeight={height}/>
-					{#if i == 0 && 0 == s.cursor}
-						<span class="cursor left-0"></span>
-					{/if}
-					{#if i == s.cursor - 1}
-						<span class="cursor translate-x-[200%] right-0"></span>
-					{/if}
-				</span>
-			{/each}
-		</div>
-
-	{:else}
-
-		<!-- TODO)) Magic number 0.1  -->
-		<div
-			class="inline-flex flex-wrap overflow-hidden p-px"
-			style:color
-			style:min-height="{height}px"
-			style:gap="{height * 0.1}px"
-			onclick={() => {editing = true}}
-			onkeydown={e => { if (e.code == "Enter" || e.code == "Space") editing = true}}
-			tabindex=0
-			role="textbox"
-		>
-			{#each s.content as hie ([hie])}
-				<span class="relative inline-flex" style:height="{height}px">
-					<RenderEgyptianHieroglyphs {hie} lineHeight={height}/>
-				</span>
-			{/each}
-		</div>
-
+	{#if $settings.Egyptian.Mode == EgyptianImeMode.TextField && editing}
+		<InputEgyptianTextField bind:ctx {OnSubmit} />
 	{/if}
-
-	<div class="relative flex gap-1" class:hidden={!editing}>
-
-		<Input
-			aria-invalid={imeInputError}
-			autocapitalize="off"
-			autocomplete="off"
-			autocorrect="off"
-			bind:value={imeInput}
-			oninput={OnImeInput}
-			onkeydown={OnImeKeyDown}
-			placeholder={$_.linguistics.transliteration}
-			spellcheck="false"
-		/>
-
-		<Button
-			onclick={() => {editing = false; onchange?.(s.content)}}
-			size="icon"
-			variant="outline"
-			type="submit"
-		>
-			<Check/>
-		</Button>
-
-		<DM.Root>
-			<DM.Trigger>
-				{#snippet child({props})}
-					<Button {...props} size="icon" variant="outline" title={$_.more}>
-						<Ellipsis />
-					</Button>
-				{/snippet}
-			</DM.Trigger>
-			<DM.Content>
-				<DM.Item
-					disabled={value.length === 0}
-					onclick={() => navigator.clipboard.writeText(DumpHieroglyphs(value))}
-				>
-					<Copy/>
-					{$_.copy}
-				</DM.Item>
-				<DM.Item onclick={PasteRawHieroglyphs}>
-					<ClipboardPaste/>
-					{$_.paste}
-				</DM.Item>
-				<DM.Separator/>
-				<DM.Group>
-					<DM.Label>
-						JSesh
-					</DM.Label>
-				</DM.Group>
-				<DM.Item onclick={() => navigator.clipboard.writeText(ToJSesh(value))}>
-					<Copy/>
-					{$_.copy}
-				</DM.Item>
-			</DM.Content>
-		</DM.Root>
-
-		<ButtonGroup>
-
-			<Button
-				disabled={s.cursor === 0}
-				onclick={() => Execute(EgyptianEditCmdKind.Left)}
-				size="icon"
-				title={$_.input_egyptian.move_cursor_left}
-				variant="outline"
-			>
-				<ArrowLeft/>
-			</Button>
-
-			<Button
-				disabled={s.cursor === 0}
-				onclick={() => Execute(EgyptianEditCmdKind.Backspace)}
-				size="icon"
-				title={$_.input_egyptian.backspace}
-				variant="outline"
-			>
-				<Delete/>
-			</Button>
-
-			<Button
-				disabled={s.cursor === s.content.length}
-				onclick={() => Execute(EgyptianEditCmdKind.Right)}
-				size="icon"
-				title={$_.input_egyptian.move_cursor_right}
-				variant="outline"
-			>
-				<ArrowRight/>
-			</Button>
-
-		</ButtonGroup>
-
-	</div>
-
-	<div class="flex flex-wrap justify-between" class:hidden={!editing}>
-
-		{#if imeInput.length > 0}
-
-			{#snippet CandidateButton(hie: EgyptianWordCandidate, i: number | null = null)}
-				<Button
-					onclick={() => OnClickImeWord(hie.Word)}
-					variant="ghost"
-					class="inline-flex items-center"
-				>
-					{#if i != null}
-						<code class="text-orange-700 dark:text-orange-300">
-							{i + 1}
-						</code>
-					{/if}
-					<span class="text-xl egyptian">
-						<EgyptianText t={[hie.Word]}/>
-					</span>
-					{#if hie.Tail != undefined}
-						<span class="text-foreground/50">
-							{$preferredSentenceTransliterationDumperForEdit(hie.Tail)}
-						</span>
-					{/if}
-				</Button>
-			{/snippet}
-
-			<div class="flex flex-wrap items-center min-h-9">
-				{#if imeInput.startsWith(BufferPrefix.Determinative)}
-					<div class="ml-4">
-						{$_.input_egyptian.mode.determinative}
-					</div>
-					{#each imeWords as hie, i (hie)}
-						{@render CandidateButton(hie, i)}
-					{/each}
-				{:else if imeInput.startsWith(BufferPrefix.Gardiner)}
-					<div class="ml-4">
-						{$_.input_egyptian.mode.gardiner}
-					</div>
-					{#if imeWords.length == 1}
-						{@render CandidateButton(imeWords[0])}
-					{/if}
-				{:else if imeInput.startsWith(BufferPrefix.Number)}
-					<div class="ml-4">
-						{$_.input_egyptian.mode.number}
-					</div>
-					{#if imeWords.length == 1}
-						{@render CandidateButton(imeWords[0])}
-					{/if}
-				{:else}
-					{#each imeWords as hie, i (hie)}
-						{@render CandidateButton(hie, i)}
-					{/each}
-				{/if}
-
-			</div>
-
-		{:else}
-
-			<div></div>
-
-			<div class="flex gap-1">
-
-				<TT.Provider>
-					<TT.Root>
-						<TT.Trigger
-							onclick={() => Execute(EgyptianEditCmdKind.Cartouche)}
-							disabled={cartoucheDisabled}
-							title={$_.input_egyptian.add_cartouche}
-							class={buttonVariants({variant: "outline"})}
-						>
-							<EgyptianText t={nameLabel}/>
-						</TT.Trigger>
-						<TT.Content>
-							{$_.input_egyptian.add_cartouche}
-						</TT.Content>
-					</TT.Root>
-				</TT.Provider>
-
-				<ButtonGroup>
-					<TT.Provider>
-						<TT.Root>
-							<TT.Trigger
-								onclick={() => Execute(EgyptianEditCmdKind.Overlap)}
-								disabled={overlapDisabled}
-								title={$_.input_egyptian.make_ligature}
-								class={buttonVariants({variant: "outline", size: "icon"})}
-							>
-								<Blend/>
-							</TT.Trigger>
-							<TT.Content>
-								{$_.input_egyptian.make_ligature}
-							</TT.Content>
-						</TT.Root>
-					</TT.Provider>
-
-					<TT.Provider>
-						<TT.Root>
-							<TT.Trigger
-								onclick={() => Execute(EgyptianEditCmdKind.Row)}
-								disabled={rowDisabled}
-								title={$_.input_egyptian.join_horizontally}
-								class={buttonVariants({variant: "outline", size: "icon"})}
-							>
-								<Columns2/>
-							</TT.Trigger>
-							<TT.Content>
-								{$_.input_egyptian.join_horizontally}
-							</TT.Content>
-						</TT.Root>
-					</TT.Provider>
-
-					<TT.Provider>
-						<TT.Root>
-							<TT.Trigger
-								onclick={() => Execute(EgyptianEditCmdKind.Column)}
-								disabled={columnDisabled}
-								title={$_.input_egyptian.join_vertically}
-								class={buttonVariants({variant: "outline", size: "icon"})}
-							>
-								<Rows2/>
-							</TT.Trigger>
-							<TT.Content>
-								{$_.input_egyptian.join_vertically}
-							</TT.Content>
-						</TT.Root>
-					</TT.Provider>
-				</ButtonGroup>
-
-			</div>
-
-		{/if}
-
-	</div>
-
 </div>
-
-<style lang="postcss">
-	@reference "tailwindcss";
-
-	.egyptian {
-		@apply w-fit flex items-center flex-wrap select-none;
-	}
-
-	.word {
-		@apply relative inline-flex items-center;
-		height: var(--height);
-	}
-
-	.word-sep {
-		@apply inline-flex items-center justify-around h-full;
-		width: var(--height-10);
-
-		& span {
-			@apply h-full bg-yellow-700/50 dark:bg-yellow-500/50;
-			width: 1px;
-		}
-	}
-
-	.cursor {
-		@apply absolute top-0 h-full w-0.5 rounded;
-		backdrop-filter: invert(100%);
-		animation: blink 1s step-start 0s infinite;
-	}
-
-	@keyframes blink {
-		0% {
-			opacity: 0;
-		}
-		50% {
-			opacity: 1;
-		}
-		100% {
-			opacity: 0;
-		}
-	}
-</style>

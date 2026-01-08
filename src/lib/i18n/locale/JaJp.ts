@@ -160,7 +160,15 @@ export const JaJp: I18nTemplate = {
 				when_edit: "編集時",
 				determinative_scheme: {
 					_: "定符スキーム",
-				}
+				},
+			},
+			input_method: {
+				_: "インプットメソッド",
+				mode: {
+					_: "モード",
+					text_field: "テキストボックス",
+					virtual_keyboard: "ソフトウェアキーボード",
+				},
 			},
 			hieroglyphs_font: "ヒエログリフのフォント",
 		},
@@ -288,6 +296,7 @@ export const JaJp: I18nTemplate = {
 		join_horizontally: "横に結合",
 		join_vertically: "縦に結合",
 		syntax_error: "構文エラー",
+		determinative_label: "定",
 		mode: {
 			determinative: "限定符",
 			gardiner: "ガーディナー",

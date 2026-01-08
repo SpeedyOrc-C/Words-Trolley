@@ -36,12 +36,7 @@
 </header>
 
 <main class="mx-auto p-4 max-w-3xl flex flex-col space-y-4">
-	<InputEgyptian
-		color={textColour}
-		{height}
-		editing
-		bind:InsertSymbolAtCursor
-	/>
+	<InputEgyptian bind:InsertSymbolAtCursor editing {height} color={textColour} />
 
 	<A.Root type="single">
 		<A.Item>
@@ -147,4 +142,4 @@
 	</A.Root>
 </main>
 
-<div class="h-100 md:hidden"></div>
+<div class="h-50 md:hidden"></div>

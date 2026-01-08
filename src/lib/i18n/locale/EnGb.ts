@@ -160,7 +160,15 @@ const EnGb: I18nTemplate = {
 				when_edit: "When editing",
 				determinative_scheme: {
 					_: "Determinative Scheme",
-				}
+				},
+			},
+			input_method: {
+				_: "Input Method",
+				mode: {
+					_: "Mode",
+					text_field: "Text Field",
+					virtual_keyboard: "Virtual Keyboard",
+				},
 			},
 			hieroglyphs_font: "Hieroglyphs Font",
 		},
@@ -288,6 +296,7 @@ const EnGb: I18nTemplate = {
 		join_horizontally: "Join horizontally",
 		join_vertically: "Join vertically",
 		syntax_error: "Syntax error",
+		determinative_label: "Det",
 		mode: {
 			determinative: "Determinative",
 			gardiner: "Gardiner",

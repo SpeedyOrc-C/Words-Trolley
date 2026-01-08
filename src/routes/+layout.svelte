@@ -9,6 +9,7 @@
 	import Settings from "$lib/components/Settings.svelte"
 	import {voices} from "$lib/speak"
 	import {prefersDarkScheme, shouldUseDarkScheme} from "$lib/settings/store/colour-scheme"
+	import VirtualEgyptianKeyboard from "$lib/components/VirtualEgyptianKeyboard.svelte"
 
 	const {children} = $props()
 
@@ -132,5 +133,6 @@
 
 <Settings bind:open={$settingsOpened} />
 <Toaster position="bottom-right" richColors />
+<VirtualEgyptianKeyboard />
 
 {@render children()}

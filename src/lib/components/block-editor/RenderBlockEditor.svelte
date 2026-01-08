@@ -42,7 +42,7 @@
 				<header>{$_.language.egy}</header>
 				{@render DeleteButton()}
 			</div>
-			<InputEgyptian editing height={20} bind:value={block[1]}/>
+			<InputEgyptian height={20} bind:value={block[1]}/>
 		</section>
 	{:else if !showFullControls && block[2] instanceof Array && block[2].length == 1 && block[2][0][0] == "text"}
 		<section class="flex justify-between items-center gap-2">

@@ -22,6 +22,7 @@ export interface ISettings
 		TransliterationForRead: EgyptianTransliteration
 		TransliterationForEdit: EgyptianTransliteration
 		DeterminativeScheme: EgyptianDeterminativeScheme
+		Mode: EgyptianImeMode
 		FuzzySZ: boolean
 	}
 	PreferredVoice: Record<LivingLanguage, string | null>
@@ -55,6 +56,12 @@ export enum HieroglyphsFont
 	SemiessessiColourful = "semiessessi-colourful",
 }
 
+export enum EgyptianImeMode
+{
+	TextField = "text-field",
+	VirtualKeyboard = "virtual-keyboard",
+}
+
 export const defaultSettings: ISettings = {
 	ColourScheme: ColourScheme.System,
 	Language: "auto",
@@ -71,6 +78,7 @@ export const defaultSettings: ISettings = {
 		TransliterationForRead: EgyptianTransliteration.Egyptology,
 		TransliterationForEdit: EgyptianTransliteration.ManuelDeCodage,
 		DeterminativeScheme: EgyptianDeterminativeScheme.Xiaohuan,
+		Mode: EgyptianImeMode.TextField,
 		FuzzySZ: false,
 	},
 	PreferredVoice: {
@@ -101,6 +109,7 @@ export const ParseSettings: Validator<ISettings> = obj({
 		TransliterationForRead: asum(...Object.values(EgyptianTransliteration).map(eq)),
 		TransliterationForEdit: asum(...Object.values(EgyptianTransliteration).map(eq)),
 		DeterminativeScheme: asum(...Object.values(EgyptianDeterminativeScheme).map(eq)),
+		Mode: asum(...Object.values(EgyptianImeMode).map(eq)),
 		FuzzySZ: bool,
 	}, defaultSettings.Egyptian),
 	PreferredVoice: obj({

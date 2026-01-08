@@ -163,6 +163,14 @@ export type I18nTemplate = {
 					_: s
 				}
 			}
+			input_method: {
+				_: s
+				mode: {
+					_: s
+					text_field: s
+					virtual_keyboard: s
+				}
+			}
 			hieroglyphs_font: s
 		}
 		hieroglyphs_style: {
@@ -289,6 +297,7 @@ export type I18nTemplate = {
 		join_horizontally: s
 		join_vertically: s
 		syntax_error: s
+		determinative_label: s
 		mode: {
 			determinative: s
 			gardiner: s

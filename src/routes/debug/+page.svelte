@@ -4,6 +4,8 @@
 	import {onMount} from "svelte"
 	import {Checkbox} from "$lib/components/ui/checkbox"
 	import {voices} from "$lib/speak"
+	import InputEgyptian from "$lib/components/InputEgyptian.svelte"
+	import Input from "$lib/components/ui/input/input.svelte"
 
 	onMount(() =>
 	{
@@ -19,6 +21,16 @@
 </svelte:head>
 
 <main class="p-2">
+
+	<section>
+		<h1>Egyptian Input</h1>
+
+		<div class="flex flex-col gap-4">
+			<InputEgyptian />
+			<InputEgyptian />
+		</div>
+
+	</section>
 
 	<section>
 		<h1>Settings</h1>

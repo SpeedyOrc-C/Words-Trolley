@@ -160,6 +160,14 @@ const ZhCn: I18nTemplate = {
 				when_edit: "编辑时",
 				determinative_scheme: {
 					_: "定符方案",
+				},
+			},
+			input_method: {
+				_: "输入法",
+				mode: {
+					_: "模式",
+					text_field: "文本框",
+					virtual_keyboard: "虚拟键盘",
 				}
 			},
 			hieroglyphs_font: "圣书字字体",
@@ -288,6 +296,7 @@ const ZhCn: I18nTemplate = {
 		join_horizontally: "横向连接",
 		join_vertically: "纵向连接",
 		syntax_error: "语法错误",
+		determinative_label: "定",
 		mode: {
 			determinative: "定符",
 			gardiner: "高德纳",

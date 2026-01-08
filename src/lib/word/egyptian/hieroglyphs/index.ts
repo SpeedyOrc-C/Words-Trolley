@@ -1,4 +1,6 @@
 import {array, asum, eq, sequence, str, type Validator, lazy} from "crazy-parser/json/validate"
+import {HeightOfGlyph} from "../glyph/height"
+import type {Phoneme} from ".."
 
 export enum Structure
 {
@@ -35,6 +37,48 @@ export const h = (...h: Hieroglyphs[]): Hieroglyphs => [Structure.Horizontal, h]
 export const l = (...l: HieroglyphsGlyph[]): Hieroglyphs => [Structure.Ligature, l]
 export const c = (hie: Hieroglyphs): Hieroglyphs => [Structure.Cartouche, hie]
 
+export function RoughAutoStackPhonemes(ps: Phoneme[]): Hieroglyphs[]
+{
+	const result: Hieroglyphs[] = []
+
+	const buffer: HieroglyphsGlyph[] = []
+	let bufferHeight = 0
+
+	for (const p of ps)
+	{
+		const height = HeightOfGlyph(p)
+
+		if (height + bufferHeight <= 1 && buffer.length < 3)
+		{
+			buffer.push(g(p))
+			bufferHeight += height
+		}
+		else if (buffer.length > 1)
+		{
+			result.push(v(...buffer))
+			buffer.length = 0
+			buffer.push(g(p))
+			bufferHeight = height
+		} else if (buffer.length == 1)
+		{
+			result.push(buffer[0])
+			buffer.length = 0
+			buffer.push(g(p))
+			bufferHeight = height
+		} else
+		{
+			result.push(g(p))
+		}
+	}
+
+	if (buffer.length > 1)
+		result.push(v(...buffer))
+	else if (buffer.length == 1)
+		result.push(buffer[0])
+
+	return result
+}
+
 export function Split(hie: Hieroglyphs): Hieroglyphs[]
 {
 	switch (hie[0])
@@ -48,219 +92,6 @@ export function Split(hie: Hieroglyphs): Hieroglyphs[]
 		return hie[1]
 	case Structure.Cartouche:
 		return [hie[1]]
-	}
-}
-
-export type HieroglyphsEditorState = {
-	cursor: number
-	content: Hieroglyphs[]
-}
-
-export enum EgyptianEditCmdKind
-{
-	Column,
-	Row,
-	Overlap,
-	Cartouche,
-	Split,
-	DuplicateLast,
-	Jump,
-	Left,
-	Right,
-	Backspace,
-	Insert,
-	Replace,
-}
-
-export type EgyptianEditCmd
-	= [EgyptianEditCmdKind.Column]
-	| [EgyptianEditCmdKind.Row]
-	| [EgyptianEditCmdKind.Overlap]
-	| [EgyptianEditCmdKind.Cartouche]
-	| [EgyptianEditCmdKind.Split]
-	| [EgyptianEditCmdKind.DuplicateLast]
-	| [EgyptianEditCmdKind.Jump, number]
-	| [EgyptianEditCmdKind.Left]
-	| [EgyptianEditCmdKind.Right]
-	| [EgyptianEditCmdKind.Backspace]
-	| [EgyptianEditCmdKind.Insert, Hieroglyphs]
-	| [EgyptianEditCmdKind.Replace, Hieroglyphs[]]
-
-export function HieroglyphsEditCommandNoSideEffect(command: EgyptianEditCmd): boolean
-{
-	const [type] = command
-	return type === EgyptianEditCmdKind.Jump || type === EgyptianEditCmdKind.Left || type === EgyptianEditCmdKind.Right
-}
-
-export function ExecuteHieroglyphsEditCommand
-(
-	state: HieroglyphsEditorState,
-	command: EgyptianEditCmd,
-): HieroglyphsEditorState
-{
-	const {cursor, content} = state
-	const {length} = content
-	const [kind, arg] = command
-
-	switch (kind)
-	{
-	case EgyptianEditCmdKind.Column:
-	{
-		if (cursor < 2)
-			throw "Not enough characters."
-
-		const left = content.slice(0, cursor - 2)
-		const middle = content.slice(cursor - 2, cursor)
-		const right = content.slice(cursor)
-
-		return {
-			cursor: cursor - 1,
-			content: [...left, JoinVertically(middle[0], middle[1]), ...right]
-		}
-	}
-	case EgyptianEditCmdKind.Row:
-	{
-		if (cursor < 2)
-			throw "Not enough characters."
-
-		const left = content.slice(0, cursor - 2)
-		const middle = content.slice(cursor - 2, cursor)
-		const right = content.slice(cursor)
-
-		return {
-			cursor: cursor - 1,
-			content: [...left, JoinHorizontally(middle[0], middle[1]), ...right]
-		}
-	}
-	case EgyptianEditCmdKind.Overlap:
-	{
-		if (cursor < 2)
-			throw "Not enough characters."
-
-		const left = content.slice(0, cursor - 2)
-		const middle = content.slice(cursor - 2, cursor)
-		const right = content.slice(cursor)
-
-		return {
-			cursor: cursor - 1,
-			content: [...left, Overlap(middle[0], middle[1]), ...right]
-		}
-	}
-	case EgyptianEditCmdKind.Cartouche:
-	{
-		if (cursor == 0)
-			throw "No character to enclose."
-
-		const hie = content[cursor - 1]
-		const left = content.slice(0, cursor - 1)
-		const right = content.slice(cursor)
-
-		return {
-			cursor: cursor,
-			content: [...left, c(hie), ...right]
-		}
-	}
-	case EgyptianEditCmdKind.Split:
-	{
-		if (cursor == 0)
-			throw "No character to split."
-
-		const hie = content[cursor - 1]
-		const split = Split(hie)
-		const left = content.slice(0, cursor - 1)
-		const right = content.slice(cursor)
-
-		return {
-			cursor: cursor + split.length - 1,
-			content: [...left, ...split, ...right]
-		}
-	}
-	case EgyptianEditCmdKind.DuplicateLast:
-	{
-		if (cursor == 0)
-			throw "No character to duplicate."
-
-		const hie = content[cursor - 1]
-		const left = content.slice(0, cursor)
-		const right = content.slice(cursor)
-
-		return {
-			cursor: cursor + 1,
-			content: [...left, hie, ...right]
-		}
-	}
-	case EgyptianEditCmdKind.Jump:
-	{
-		if (arg < 0 || arg > content.length)
-			throw "Out of range."
-
-		return {
-			cursor: arg,
-			content,
-		}
-	}
-	case EgyptianEditCmdKind.Left:
-	{
-		if (cursor == 0)
-			throw "Already at the beginning."
-
-		return {
-			cursor: cursor - 1,
-			content,
-		}
-	}
-	case EgyptianEditCmdKind.Right:
-	{
-		if (cursor == length)
-			throw "Already at the end."
-
-		return {
-			cursor: cursor + 1,
-			content,
-		}
-	}
-	case EgyptianEditCmdKind.Backspace:
-	{
-		if (cursor == 0)
-			throw "No character to delete."
-
-		const left = content.slice(0, cursor - 1)
-		const right = content.slice(cursor)
-
-		if (content[cursor - 1][0] == Structure.Glyph)
-		{
-			return {
-				cursor: cursor - 1,
-				content: [...left, ...right]
-			}
-		}
-		else
-		{
-			const split = Split(content[cursor - 1])
-
-			return {
-				cursor: cursor + split.length - 1,
-				content: [...left, ...split, ...right]
-			}
-		}
-	}
-	case EgyptianEditCmdKind.Insert:
-	{
-		const left = content.slice(0, cursor)
-		const right = content.slice(cursor)
-
-		return {
-			cursor: cursor + 1,
-			content: [...left, arg, ...right]
-		}
-	}
-	case EgyptianEditCmdKind.Replace:
-	{
-		return {
-			cursor: arg.length,
-			content: arg,
-		}
-	}
 	}
 }
 

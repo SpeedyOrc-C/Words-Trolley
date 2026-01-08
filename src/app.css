@@ -136,6 +136,10 @@
 	font-feature-settings: "rlig" on;
 }
 
+.font-egy-hie {
+	font-family: Font_Egyptian;
+}
+
 .font-pinyin {
 	font-family: CharisW, serif;
 

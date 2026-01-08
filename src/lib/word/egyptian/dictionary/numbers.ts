@@ -1,7 +1,7 @@
 import {g, v, h, type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
 import type {EgyptianWordCandidate} from "."
 
-function FromPower0(d: number): string
+export function FromPower0(d: number): string
 {
 	switch (d)
 	{
@@ -28,7 +28,7 @@ function FromPower0(d: number): string
 	}
 }
 
-function FromPower1(d: number): string
+export function FromPower1(d: number): string
 {
 	switch (d)
 	{
@@ -55,7 +55,7 @@ function FromPower1(d: number): string
 	}
 }
 
-function FromPower2(d: number): string
+export function FromPower2(d: number): string
 {
 	switch (d)
 	{
@@ -82,7 +82,7 @@ function FromPower2(d: number): string
 	}
 }
 
-function FromPower3(d: number): string
+export function FromPower3(d: number): string
 {
 	switch (d)
 	{

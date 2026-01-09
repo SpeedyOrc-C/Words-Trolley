@@ -2,7 +2,7 @@
 	import {_} from "$lib/i18n/store"
 	import Check from "@lucide/svelte/icons/check"
 	import {Phoneme as P} from "$lib/word/egyptian"
-	import {g, RoughAutoStackPhonemes, v} from "$lib/word/egyptian/hieroglyphs"
+	import {DumpHieroglyphs, g, RoughAutoStackPhonemes, v} from "$lib/word/egyptian/hieroglyphs"
 	import {View} from "$lib/word/egyptian/IME/virtual-keyboard"
 	import * as IME from "$lib/word/egyptian/IME"
 	import EgyptianText from "./EgyptianText.svelte"
@@ -12,6 +12,9 @@
 	import Columns2 from "@lucide/svelte/icons/columns-2"
 	import Rows2 from "@lucide/svelte/icons/rows-2"
 	import Blend from "@lucide/svelte/icons/blend"
+	import Copy from "@lucide/svelte/icons/copy"
+	import ClipboardPaste from "@lucide/svelte/icons/clipboard-paste"
+
 	import {CandidatesFromPhonemes} from "$lib/word/egyptian/dictionary"
 	import {settings} from "$lib/settings/store"
 	import {focusedEgyptianInput} from "$lib/word/egyptian/IME/store"
@@ -22,6 +25,8 @@
 		FromPower3,
 	} from "$lib/word/egyptian/dictionary/numbers"
 	import {EgyptianImeMode} from "$lib/settings"
+	import {pHieroglyphs} from "$lib/word/egyptian/hieroglyphs/parser"
+	import {toast} from "svelte-sonner"
 
 	const row0 = [
 		IME.QuickSymbols["1"],
@@ -69,12 +74,27 @@
 		$focusedEgyptianInput.Set(IME.Execute(ctx, [IME.CommandKind.Backspace]))
 	}
 
-	function Execute(cmd: IME.Command): void
+	function Execute(...cmd: IME.Command): void
 	{
 		if ($focusedEgyptianInput == null)
 			return
 
 		$focusedEgyptianInput.Set(IME.Execute($focusedEgyptianInput.Get(), cmd))
+	}
+
+	async function Paste()
+	{
+		const text = await navigator.clipboard.readText()
+		const newValue = pHieroglyphs.eval(text)
+
+		if (newValue instanceof Error)
+		{
+			toast.error($_.input_egyptian.syntax_error)
+			return
+		}
+
+		Execute(IME.CommandKind.Replace, newValue)
+		toast.success($_.pasted)
 	}
 </script>
 
@@ -82,7 +102,7 @@
 	<Button
 		variant="outline"
 		size="lg"
-		class="p-0 text-2xl"
+		class="border-none p-0 text-2xl"
 		style="width: {keyWidth}"
 		{onclick}
 	>
@@ -94,7 +114,7 @@
 	{#if buffer.length == 0}
 		<div class="row">
 			{#each row0 as p}
-				{@render KeyBtn(p, () => Execute([IME.CommandKind.Insert, g(p)]))}
+				{@render KeyBtn(p, () => Execute(IME.CommandKind.Insert, g(p)))}
 			{/each}
 		</div>
 	{:else}
@@ -112,7 +132,7 @@
 						class="text-xl"
 						onclick={() => {
 							buffer = []
-							Execute([IME.CommandKind.Insert, candidate.Word])
+							Execute(IME.CommandKind.Insert, candidate.Word)
 						}}
 					>
 						<EgyptianText t={[candidate.Word]} />
@@ -130,7 +150,7 @@
 				<Button
 					variant="outline"
 					size="lg"
-					class="p-0 text-lg"
+					class="border-none p-0 text-lg"
 					style="width: {keyWidth}"
 				/>
 			{/if}
@@ -179,7 +199,7 @@
 			size="lg"
 			class="p-0 w-[12%]"
 			disabled={!IME.CanMakeColumnOrRow(state)}
-			onclick={() => Execute([IME.CommandKind.Row])}
+			onclick={() => Execute(IME.CommandKind.Row)}
 		>
 			<Columns2 style="width: 20px; height: 20px" />
 		</Button>
@@ -190,7 +210,7 @@
 			class="p-0 w-[45%]"
 			disabled={candidates.length == 0}
 			onclick={() => {
-				Execute([IME.CommandKind.Insert, candidates[0].Word])
+				Execute(IME.CommandKind.Insert, candidates[0].Word)
 				buffer = []
 			}}
 		/>
@@ -200,7 +220,7 @@
 			size="lg"
 			class="p-0 w-[12%]"
 			disabled={!IME.CanMakeLigature(state)}
-			onclick={() => Execute([IME.CommandKind.Ligature])}
+			onclick={() => Execute(IME.CommandKind.Ligature)}
 		>
 			<Blend style="width: 20px; height: 20px" />
 		</Button>
@@ -210,7 +230,7 @@
 			size="lg"
 			class="p-0 w-[12%]"
 			disabled={!IME.CanMakeColumnOrRow(state)}
-			onclick={() => Execute([IME.CommandKind.Column])}
+			onclick={() => Execute(IME.CommandKind.Column)}
 		>
 			<Rows2 style="width: 20px; height: 20px" />
 		</Button>
@@ -221,7 +241,7 @@
 	<Button
 		variant="outline"
 		size="lg"
-		class="p-0 text-2xl"
+		class="border-none p-0 text-2xl"
 		style="width: {numWidth}"
 		{onclick}
 	>
@@ -232,25 +252,25 @@
 {#snippet NumberLayout(state: IME.State)}
 	<div class="row">
 		{#each [1, 2, 3, 4, 5, 6, 7, 8, 9].map(FromPower0) as d}
-			{@render NumBtn(d, () => Execute([IME.CommandKind.Insert, g(d)]))}
+			{@render NumBtn(d, () => Execute(IME.CommandKind.Insert, g(d)))}
 		{/each}
 	</div>
 
 	<div class="row">
 		{#each [1, 2, 3, 4, 5, 6, 7, 8, 9].map(FromPower1) as d}
-			{@render NumBtn(d, () => Execute([IME.CommandKind.Insert, g(d)]))}
+			{@render NumBtn(d, () => Execute(IME.CommandKind.Insert, g(d)))}
 		{/each}
 	</div>
 
 	<div class="row">
 		{#each [1, 2, 3, 4, 5, 6, 7, 8, 9].map(FromPower2) as d}
-			{@render NumBtn(d, () => Execute([IME.CommandKind.Insert, g(d)]))}
+			{@render NumBtn(d, () => Execute(IME.CommandKind.Insert, g(d)))}
 		{/each}
 	</div>
 
 	<div class="row">
 		{#each [1, 2, 3, 4, 5, 6, 7, 8, 9].map(FromPower3) as d}
-			{@render NumBtn(d, () => Execute([IME.CommandKind.Insert, g(d)]))}
+			{@render NumBtn(d, () => Execute(IME.CommandKind.Insert, g(d)))}
 		{/each}
 	</div>
 
@@ -269,7 +289,7 @@
 			size="lg"
 			class="p-0 w-[12%]"
 			disabled={!IME.CanMakeColumnOrRow(state)}
-			onclick={() => Execute([IME.CommandKind.Row])}
+			onclick={() => Execute(IME.CommandKind.Row)}
 		>
 			<Columns2 style="width: 20px; height: 20px" />
 		</Button>
@@ -280,7 +300,7 @@
 			class="p-0 w-[45%]"
 			disabled={candidates.length == 0}
 			onclick={() => {
-				Execute([IME.CommandKind.Insert, candidates[0].Word])
+				Execute(IME.CommandKind.Insert, candidates[0].Word)
 				buffer = []
 			}}
 		/>
@@ -299,7 +319,7 @@
 			size="lg"
 			class="p-0 w-[12%]"
 			disabled={!IME.CanMakeColumnOrRow(state)}
-			onclick={() => Execute([IME.CommandKind.Column])}
+			onclick={() => Execute(IME.CommandKind.Column)}
 		>
 			<Rows2 style="width: 20px; height: 20px" />
 		</Button>
@@ -312,13 +332,24 @@
 		class="fixed z-100 w-full left-0 touch-none flex flex-col"
 		style="bottom: env(safe-area-inset-bottom)"
 	>
-		<div class="mx-4 mb-3 p-1 rounded-full shadow bg-card/50 border-card border backdrop-blur-xs flex items-center justify-between">
-			<div></div>
-			<Button variant="ghost" size="icon-lg" class="mr-1" onclick={() => focusedEgyptianInput.set(null)}>
-				<Check size={48} />
-			</Button>
+		<div class="px-4 py-3 bg-linear-to-b from-transparent to-background/90">
+			<div class="p-1 rounded-full border border-foreground/10 drop-shadow-2xl bg-card/50 backdrop-blur-xs flex items-center justify-between">
+				<div class="min-w-0 text-nowrap flex-nowrap overflow-auto flex items-center gap-4">
+					<Button variant="ghost" size="icon-lg" class="rounded-full" title={$_.copy}
+						onclick={() => navigator.clipboard.writeText(DumpHieroglyphs($focusedEgyptianInput.Get().value))}
+					>
+						<Copy style="width: 22px; height: 22px" />
+					</Button>
+					<Button variant="ghost" size="icon-lg" class="rounded-full" title={$_.paste} onclick={Paste}>
+						<ClipboardPaste style="width: 22px; height: 22px" />
+					</Button>
+				</div>
+				<Button variant="ghost" size="icon-lg" class="rounded-full" onclick={() => focusedEgyptianInput.set(null)}>
+					<Check style="width: 26px; height: 26px" />
+				</Button>
+			</div>
 		</div>
-		<div class="p-2 rounded-xl shadow bg-card/95 border-card border backdrop-blur-xs flex flex-col gap-2">
+		<div class="p-2 rounded-t-xl shadow bg-neutral-100/90 dark:bg-neutral-950/90 border-t border-foreground/10 backdrop-blur-md flex flex-col gap-2">
 			{#if view == View.Letter}
 				{@render LetterLayout($focusedEgyptianInput.Get())}
 			{:else if view == View.Number}
@@ -338,6 +369,7 @@
 		}
 	}
 
+	/* TODO)) Add leaving animation */
 	#virtual-egyptian-keyboard {
 		animation: slide-up 0.4s cubic-bezier(0,1,.4,1);
 	}

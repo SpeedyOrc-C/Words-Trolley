@@ -15,6 +15,8 @@
 		color?: string
 		OnFocus?: () => void
 	} = $props()
+
+	// TODO)) Add click to set cursor position
 </script>
 
 {#if editing}

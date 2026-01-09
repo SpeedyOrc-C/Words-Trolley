@@ -18,7 +18,7 @@
 </script>
 
 <Dialog.Root open={$gardinerTablePromptOnSelect != null} {onOpenChange}>
-   <Dialog.Content class="px-0 pb-0">
+   <Dialog.Content class="max-h-1/1 max-w-1/1 overflow-y-auto px-0 pb-0">
       <Dialog.Header class="px-6">
          {$_.input_egyptian.gardiner_table._}
       </Dialog.Header>

@@ -301,7 +301,11 @@ const EnGb: I18nTemplate = {
 			determinative: "Determinative",
 			gardiner: "Gardiner",
 			number: "Number",
-		}
+		},
+		gardiner_symbol_table: {
+			_: "Gardiner Symbol Table",
+			abbr: "G",
+		},
 	},
 	block_editor: {
 		_: "Block Editor",
@@ -389,7 +393,6 @@ const EnGb: I18nTemplate = {
 			other_shortcuts: "Other Shortcuts",
 			key: "Key",
 			action: "Action",
-			gardiner_symbol_table: "Gardiner Symbol Table",
 			quick_reference: "Quick Reference",
 		},
 		rte: {

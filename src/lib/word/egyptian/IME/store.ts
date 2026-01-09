@@ -16,3 +16,5 @@ export class FocusedEgyptianInput
 }
 
 export const focusedEgyptianInput = writable<null | FocusedEgyptianInput>(null)
+
+export const gardinerTablePromptOnSelect = writable<null | ((symbol: string) => void)>(null)

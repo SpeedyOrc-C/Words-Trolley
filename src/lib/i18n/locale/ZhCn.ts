@@ -302,6 +302,10 @@ const ZhCn: I18nTemplate = {
 			gardiner: "高德纳",
 			number: "数字",
 		},
+		gardiner_symbol_table: {
+			_: "高德纳符号表",
+			abbr: "高",
+		}
 	},
 	block_editor: {
 		_: "块编辑器",
@@ -389,7 +393,6 @@ const ZhCn: I18nTemplate = {
 			other_shortcuts: "其他快捷键",
 			key: "按键",
 			action: "操作",
-			gardiner_symbol_table: "高德纳符号表",
 			quick_reference: "快速参考",
 		},
 		rte: {

@@ -9,11 +9,7 @@
 <script lang="ts">
 	import Separator from "./ui/separator/separator.svelte"
 
-   const {
-      OnClickSymbol
-   }: {
-      OnClickSymbol?: (symbol: string) => void
-   } = $props()
+   const {OnSelect}: {OnSelect?: (symbol: string) => void} = $props()
 
    let selectedPrefix: typeof GardinerPrefixes[number] = $state("A")
 
@@ -27,12 +23,6 @@
             return gardiner.startsWith(selectedPrefix)
          })
    )
-
-   async function _OnClickSymbol(symbol: string)
-   {
-      OnClickSymbol?.(symbol)
-      await navigator.clipboard.writeText(symbol)
-   }
 </script>
 
 <Card.Root class="w-full p-1">
@@ -58,7 +48,7 @@
             <Button
                size="icon-lg"
                variant="ghost"
-               onclick={() => _OnClickSymbol(symbol)}
+               onclick={() => OnSelect?.(symbol)}
                class="text-2xl"
                title={code}
             >

@@ -10,6 +10,7 @@
 	import {voices} from "$lib/speak"
 	import {prefersDarkScheme, shouldUseDarkScheme} from "$lib/settings/store/colour-scheme"
 	import VirtualEgyptianKeyboard from "$lib/components/VirtualEgyptianKeyboard.svelte"
+	import GardinerTablePrompt from "$lib/components/GardinerTablePrompt.svelte"
 
 	const {children} = $props()
 
@@ -131,8 +132,9 @@
 	<link href="/manifest.json" rel="manifest">
 </svelte:head>
 
-<Settings bind:open={$settingsOpened} />
+<Settings />
 <Toaster position="bottom-right" richColors />
 <VirtualEgyptianKeyboard />
+<GardinerTablePrompt />
 
 {@render children()}

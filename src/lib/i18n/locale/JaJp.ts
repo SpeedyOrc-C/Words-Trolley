@@ -302,6 +302,10 @@ export const JaJp: I18nTemplate = {
 			gardiner: "ガーディナー",
 			number: "数字",
 		},
+		gardiner_symbol_table: {
+			_: "ガーディナー記号表",
+			abbr: "ガ",
+		}
 	},
 	block_editor: {
 		_: "ブロックエディター",
@@ -389,7 +393,6 @@ export const JaJp: I18nTemplate = {
 			other_shortcuts: "その他のショートカット",
 			key: "キー",
 			action: "操作",
-			gardiner_symbol_table: "ガーディナー記号表",
 			quick_reference: "クイックリファレンス",
 		},
 		rte: {

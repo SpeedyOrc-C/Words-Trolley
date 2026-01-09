@@ -39,6 +39,8 @@
 </script>
 
 <script lang="ts">
+	import {gardinerTablePromptOnSelect} from "$lib/word/egyptian/IME/store"
+
 	let {
 		ctx = $bindable(),
 		OnSubmit
@@ -474,6 +476,15 @@
 					</TT.Content>
 				</TT.Root>
 			</TT.Provider>
+
+			<Button
+				variant="outline"
+				size="icon"
+				onclick={() => gardinerTablePromptOnSelect.set(symbol => Execute(IME.CommandKind.Insert, g(symbol)))}
+				title={$_.input_egyptian.gardiner_symbol_table._}
+			>
+				{$_.input_egyptian.gardiner_symbol_table.abbr}
+			</Button>
 
 			<ButtonGroup>
 				<TT.Provider>

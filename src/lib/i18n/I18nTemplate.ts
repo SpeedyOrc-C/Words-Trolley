@@ -303,6 +303,10 @@ export type I18nTemplate = {
 			gardiner: s
 			number: s
 		}
+		gardiner_symbol_table: {
+			_: s
+			abbr: s
+		}
 	}
 	block_editor: {
 		_: s
@@ -390,7 +394,6 @@ export type I18nTemplate = {
 			other_shortcuts: s
 			key: s
 			action: s
-			gardiner_symbol_table: s
 			quick_reference: s
 		}
 		rte: {

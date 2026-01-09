@@ -39,14 +39,6 @@
 	<InputEgyptian bind:InsertSymbolAtCursor editing {height} color={textColour} />
 
 	<A.Root type="single">
-		<A.Item>
-			<A.Trigger>{$_.egyptian.typewriter.gardiner_symbol_table}</A.Trigger>
-			<A.Content>
-				<GardinerTable
-					OnClickSymbol={symbol => InsertSymbolAtCursor(g(symbol))}
-				/>
-			</A.Content>
-		</A.Item>
 
 		<A.Item value="quick-reference">
 			<A.Trigger>{$_.egyptian.typewriter.quick_reference}</A.Trigger>

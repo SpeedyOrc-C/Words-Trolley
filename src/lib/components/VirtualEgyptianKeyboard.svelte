@@ -17,7 +17,7 @@
 
 	import {CandidatesFromPhonemes} from "$lib/word/egyptian/dictionary"
 	import {settings} from "$lib/settings/store"
-	import {focusedEgyptianInput} from "$lib/word/egyptian/IME/store"
+	import {focusedEgyptianInput, gardinerTablePromptOnSelect} from "$lib/word/egyptian/IME/store"
 	import {
 		FromPower0,
 		FromPower1,
@@ -334,13 +334,13 @@
 {#if $focusedEgyptianInput != null && $settings.Egyptian.Mode == EgyptianImeMode.VirtualKeyboard}
 	<div
 		id="virtual-egyptian-keyboard"
-		class="fixed z-100 w-full left-0 touch-none flex flex-col"
+		class="fixed z-10 w-full left-0 touch-none flex flex-col"
 		style="bottom: env(safe-area-inset-bottom)"
 		out:duration400
 	>
 		<div class="px-4 py-3 bg-linear-to-b from-transparent to-background/90">
 			<div class="p-1 rounded-full border border-foreground/10 drop-shadow-2xl bg-card/50 backdrop-blur-xs flex items-center justify-between">
-				<div class="min-w-0 text-nowrap flex-nowrap overflow-auto flex items-center gap-4">
+				<div class="min-w-0 text-nowrap flex-nowrap overflow-auto flex items-center gap-2">
 					<Button variant="ghost" size="icon-lg" class="rounded-full" title={$_.copy}
 						onclick={() => navigator.clipboard.writeText(DumpHieroglyphs($focusedEgyptianInput.Get().value))}
 					>
@@ -354,6 +354,11 @@
 						onclick={() => Execute(IME.CommandKind.Cartouche)}
 					>
 						<EgyptianText t={[c(h(v(g("𓂋"), g("𓈖")), g("𓀀")))]} />
+					</Button>
+					<Button variant="ghost" size="icon-lg" class="px-3 rounded-full text-xl" title={$_.input_egyptian.gardiner_symbol_table._}
+						onclick={() => gardinerTablePromptOnSelect.set(symbol => Execute(IME.CommandKind.Insert, g(symbol)))}
+					>
+						{$_.input_egyptian.gardiner_symbol_table.abbr}
 					</Button>
 				</div>
 				<Button variant="ghost" size="icon-lg" class="rounded-full" onclick={() => focusedEgyptianInput.set(null)}>

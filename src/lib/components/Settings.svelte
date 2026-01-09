@@ -16,7 +16,7 @@
 	import * as NS from "$lib/components/ui/native-select"
 	import {Switch} from "$lib/components/ui/switch"
 	import {Label} from "$lib/components/ui/label"
-	import {settings} from "$lib/settings/store"
+	import {settings, settingsOpened} from "$lib/settings/store"
 	import {
 		egyptianTransliterationSampleTextForRead,
 		egyptianTransliterationSampleTextForEdit,
@@ -35,7 +35,7 @@
 	import ButtonGroup from "./ui/button-group/button-group.svelte"
 	import {EgyptianDeterminativeScheme} from "$lib/word/egyptian/IME/determinative"
 
-	let {open = $bindable(false)}: {open: boolean} = $props()
+	let {open = $bindable(false)}: {open?: boolean} = $props()
 	let newSettings = $state($settings)
 
 	function UpdateSettings() {
@@ -104,7 +104,7 @@
 	}
 </script>
 
-<Dialog.Root bind:open>
+<Dialog.Root bind:open={$settingsOpened}>
 	<Dialog.Content
 		class="max-h-1/1 max-w-1/1 overflow-y-auto p-3 sm:p-6 bg-gray-100 dark:bg-background"
 	>

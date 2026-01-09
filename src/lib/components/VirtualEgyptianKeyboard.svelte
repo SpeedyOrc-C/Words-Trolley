@@ -355,10 +355,10 @@
 					>
 						<EgyptianText t={[c(h(v(g("𓂋"), g("𓈖")), g("𓀀")))]} />
 					</Button>
-					<Button variant="ghost" size="icon-lg" class="px-3 rounded-full text-xl" title={$_.input_egyptian.gardiner_symbol_table._}
+					<Button variant="ghost" size="icon-lg" class="px-3 rounded-full text-xl" title={$_.input_egyptian.gardiner_table._}
 						onclick={() => gardinerTablePromptOnSelect.set(symbol => Execute(IME.CommandKind.Insert, g(symbol)))}
 					>
-						{$_.input_egyptian.gardiner_symbol_table.abbr}
+						{$_.input_egyptian.gardiner_table.abbr}
 					</Button>
 				</div>
 				<Button variant="ghost" size="icon-lg" class="rounded-full" onclick={() => focusedEgyptianInput.set(null)}>

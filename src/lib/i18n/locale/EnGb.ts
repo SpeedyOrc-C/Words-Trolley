@@ -302,7 +302,7 @@ const EnGb: I18nTemplate = {
 			gardiner: "Gardiner",
 			number: "Number",
 		},
-		gardiner_symbol_table: {
+		gardiner_table: {
 			_: "Gardiner Symbol Table",
 			abbr: "G",
 		},

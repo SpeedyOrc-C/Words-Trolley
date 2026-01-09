@@ -303,7 +303,7 @@ export type I18nTemplate = {
 			gardiner: s
 			number: s
 		}
-		gardiner_symbol_table: {
+		gardiner_table: {
 			_: s
 			abbr: s
 		}

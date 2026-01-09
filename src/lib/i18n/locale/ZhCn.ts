@@ -302,7 +302,7 @@ const ZhCn: I18nTemplate = {
 			gardiner: "高德纳",
 			number: "数字",
 		},
-		gardiner_symbol_table: {
+		gardiner_table: {
 			_: "高德纳符号表",
 			abbr: "高",
 		}

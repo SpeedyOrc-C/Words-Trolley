@@ -481,9 +481,9 @@
 				variant="outline"
 				size="icon"
 				onclick={() => gardinerTablePromptOnSelect.set(symbol => Execute(IME.CommandKind.Insert, g(symbol)))}
-				title={$_.input_egyptian.gardiner_symbol_table._}
+				title={$_.input_egyptian.gardiner_table._}
 			>
-				{$_.input_egyptian.gardiner_symbol_table.abbr}
+				{$_.input_egyptian.gardiner_table.abbr}
 			</Button>
 
 			<ButtonGroup>

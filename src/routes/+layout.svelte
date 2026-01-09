@@ -10,7 +10,7 @@
 	import {voices} from "$lib/speak"
 	import {prefersDarkScheme, shouldUseDarkScheme} from "$lib/settings/store/colour-scheme"
 	import VirtualEgyptianKeyboard from "$lib/components/VirtualEgyptianKeyboard.svelte"
-	import GardinerTablePrompt from "$lib/components/GardinerTablePrompt.svelte"
+	import GardinerTableDialog from "$lib/components/GardinerTableDialog.svelte"
 
 	const {children} = $props()
 
@@ -135,6 +135,6 @@
 <Settings />
 <Toaster position="bottom-right" richColors />
 <VirtualEgyptianKeyboard />
-<GardinerTablePrompt />
+<GardinerTableDialog />
 
 {@render children()}

@@ -302,7 +302,7 @@ export const JaJp: I18nTemplate = {
 			gardiner: "ガーディナー",
 			number: "数字",
 		},
-		gardiner_symbol_table: {
+		gardiner_table: {
 			_: "ガーディナー記号表",
 			abbr: "ガ",
 		}

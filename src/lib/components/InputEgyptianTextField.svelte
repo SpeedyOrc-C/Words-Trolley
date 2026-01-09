@@ -280,7 +280,7 @@
 			return
 		}
 
-		if (c == "Backspace" && IME.CanBackspace(ctx))
+		if (c == "Backspace" && IME.CanBackspace(ctx) && buffer.length == 0)
 		{
 			e.preventDefault()
 			Execute(IME.CommandKind.Backspace)

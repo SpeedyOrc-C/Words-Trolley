@@ -1,6 +1,5 @@
 <script lang="ts">
 	import InputEgyptian from "$lib/components/InputEgyptian.svelte"
-	import GardinerTable from "$lib/components/GardinerTable.svelte"
 	import {Label} from "$lib/components/ui/label"
 	import {Slider} from "$lib/components/ui/slider"
 	import {Switch} from "$lib/components/ui/switch"
@@ -12,6 +11,8 @@
 	import {_} from "$lib/i18n/store"
 	import type {Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
 	import EgyptianText from "$lib/components/EgyptianText.svelte"
+	import {settings} from "$lib/settings/store"
+	import {EgyptianImeMode} from "$lib/settings"
 
 	let useCustomTextColour = $state(false)
 	let customTextColour = $state("#000000")
@@ -40,61 +41,63 @@
 
 	<A.Root type="single">
 
-		<A.Item value="quick-reference">
-			<A.Trigger>{$_.egyptian.typewriter.quick_reference}</A.Trigger>
-			<A.Content class="flex justify-between">
-				<T.Root class="w-fit caption-top text-center">
-					<T.Caption>{$_.egyptian.typewriter.number_shortcut}</T.Caption>
+		{#if $settings.Egyptian.Mode == EgyptianImeMode.TextField}
+			<A.Item value="quick-reference">
+				<A.Trigger>{$_.egyptian.typewriter.quick_reference}</A.Trigger>
+				<A.Content class="flex justify-between">
+					<T.Root class="w-fit caption-top text-center">
+						<T.Caption>{$_.egyptian.typewriter.number_shortcut}</T.Caption>
 
-					<T.Header>
-						<T.Row>
-							<T.Head>{$_.egyptian.typewriter.number}</T.Head>
-							<T.Head>{$_.egyptian.typewriter.glyph}</T.Head>
-						</T.Row>
-					</T.Header>
-
-					<T.Body class="text-xl font-mono">
-						{#each ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"] as key}
+						<T.Header>
 							<T.Row>
-								<T.Cell class="p-0">{key}</T.Cell>
-								<T.Cell class="p-0">
-									<EgyptianText t={[g(QuickSymbols[key])]} />
-								</T.Cell>
+								<T.Head>{$_.egyptian.typewriter.number}</T.Head>
+								<T.Head>{$_.egyptian.typewriter.glyph}</T.Head>
 							</T.Row>
-						{/each}
-					</T.Body>
-				</T.Root>
+						</T.Header>
 
-				<T.Root class="w-fit caption-top">
-					<T.Caption>{$_.egyptian.typewriter.other_shortcuts}</T.Caption>
+						<T.Body class="text-xl font-mono">
+							{#each ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"] as key}
+								<T.Row>
+									<T.Cell class="p-0">{key}</T.Cell>
+									<T.Cell class="p-0">
+										<EgyptianText t={[g(QuickSymbols[key])]} />
+									</T.Cell>
+								</T.Row>
+							{/each}
+						</T.Body>
+					</T.Root>
 
-					<T.Header>
-						<T.Row>
-							<T.Head>{$_.egyptian.typewriter.key}</T.Head>
-							<T.Head>{$_.egyptian.typewriter.action}</T.Head>
-						</T.Row>
-					</T.Header>
+					<T.Root class="w-fit caption-top">
+						<T.Caption>{$_.egyptian.typewriter.other_shortcuts}</T.Caption>
 
-					<T.Body>
-						{@const rows = [
-							["-", $_.input_egyptian.join_horizontally],
-							["=", $_.input_egyptian.join_vertically],
-							["\\", $_.input_egyptian.make_ligature],
-							[")|", $_.input_egyptian.add_cartouche],
-							["␣", $_.input_egyptian.mode.determinative],
-							["/", $_.input_egyptian.mode.gardiner],
-							["#", $_.input_egyptian.mode.number],
-						]}
-						{#each rows as [key, action]}
+						<T.Header>
 							<T.Row>
-								<T.Cell class="font-mono">{key}</T.Cell>
-								<T.Cell>{action}</T.Cell>
+								<T.Head>{$_.egyptian.typewriter.key}</T.Head>
+								<T.Head>{$_.egyptian.typewriter.action}</T.Head>
 							</T.Row>
-						{/each}
-					</T.Body>
-				</T.Root>
-			</A.Content>
-		</A.Item>
+						</T.Header>
+
+						<T.Body>
+							{@const rows = [
+								["-", $_.input_egyptian.join_horizontally],
+								["=", $_.input_egyptian.join_vertically],
+								["\\", $_.input_egyptian.make_ligature],
+								[")|", $_.input_egyptian.add_cartouche],
+								["␣", $_.input_egyptian.mode.determinative],
+								["/", $_.input_egyptian.mode.gardiner],
+								["#", $_.input_egyptian.mode.number],
+							]}
+							{#each rows as [key, action]}
+								<T.Row>
+									<T.Cell class="font-mono">{key}</T.Cell>
+									<T.Cell>{action}</T.Cell>
+								</T.Row>
+							{/each}
+						</T.Body>
+					</T.Root>
+				</A.Content>
+			</A.Item>
+		{/if}
 
 		<A.Item>
 			<A.Trigger>{$_.settings.appearance._}</A.Trigger>

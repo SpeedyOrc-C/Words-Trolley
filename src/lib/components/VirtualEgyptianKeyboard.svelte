@@ -45,6 +45,11 @@
 	const row3 = [P.z, P.x, P.c, P.C, P.b, P.n, P.m]
 	const keyWidth = "8.5%"
 	const numWidth = "9.5%"
+
+	function duration400(...args: any)
+	{
+		return { duration: 400 }
+	}
 </script>
 
 <script lang="ts">
@@ -331,6 +336,7 @@
 		id="virtual-egyptian-keyboard"
 		class="fixed z-100 w-full left-0 touch-none flex flex-col"
 		style="bottom: env(safe-area-inset-bottom)"
+		out:duration400
 	>
 		<div class="px-4 py-3 bg-linear-to-b from-transparent to-background/90">
 			<div class="p-1 rounded-full border border-foreground/10 drop-shadow-2xl bg-card/50 backdrop-blur-xs flex items-center justify-between">
@@ -349,7 +355,7 @@
 				</Button>
 			</div>
 		</div>
-		<div class="p-2 rounded-t-xl shadow bg-neutral-100/90 dark:bg-neutral-950/90 border-t border-foreground/10 backdrop-blur-md flex flex-col gap-2">
+		<div class="p-2 rounded-t-xl shadow bg-neutral-200/80 dark:bg-neutral-950/90 border-t border-foreground/10 backdrop-blur-md flex flex-col gap-2">
 			{#if view == View.Letter}
 				{@render LetterLayout($focusedEgyptianInput.Get())}
 			{:else if view == View.Number}
@@ -369,10 +375,22 @@
 		}
 	}
 
-	/* TODO)) Add leaving animation */
+	@keyframes slide-down {
+		from {
+			bottom: env(safe-area-inset-bottom);
+		}
+		to {
+			bottom: -100%;
+		}
+	}
+
 	#virtual-egyptian-keyboard {
 		animation: slide-up 0.4s cubic-bezier(0,1,.4,1);
+		&:global([inert]) {
+			animation: slide-down 0.4s cubic-bezier(0,.2,.8,1);
+		}
 	}
+
 
 	.row {
 		display: flex;

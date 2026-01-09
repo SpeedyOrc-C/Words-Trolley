@@ -4,7 +4,7 @@
 	import * as IME from "$lib/word/egyptian/IME"
 	import {onMount} from "svelte"
 
-	import EgyptianEditorView from "./EgyptianEditorView.svelte"
+	import InputEgyptianBox from "./InputEgyptianBox.svelte"
 	import InputEgyptianTextField from "./InputEgyptianTextField.svelte"
 	import {settings} from "$lib/settings/store"
 	import {EgyptianImeMode} from "$lib/settings"
@@ -76,7 +76,7 @@
 	style:--height-10="{height * 0.1}px"
 	style:--height="{height}px"
 >
-	<EgyptianEditorView {editing} {ctx} {height} {color} {OnFocus} />
+	<InputEgyptianBox {editing} {ctx} {height} {color} {OnFocus} />
 
 	{#if $settings.Egyptian.Mode == EgyptianImeMode.TextField && editing}
 		<InputEgyptianTextField bind:ctx {OnSubmit} />

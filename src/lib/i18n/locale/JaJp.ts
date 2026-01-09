@@ -395,10 +395,6 @@ export const JaJp: I18nTemplate = {
 			action: "操作",
 			quick_reference: "クイックリファレンス",
 		},
-		rte: {
-			title: "エジプト語リッチテキストエディター",
-			enable_ime: "IME を有効に",
-		}
 	},
 	stack: {
 		vertical: "上下",

@@ -395,10 +395,6 @@ const ZhCn: I18nTemplate = {
 			action: "操作",
 			quick_reference: "快速参考",
 		},
-		rte: {
-			title: "埃及文富文本编辑器",
-			enable_ime: "启用输入法",
-		},
 	},
 	stack: {
 		vertical: "上下",

@@ -395,10 +395,6 @@ const EnGb: I18nTemplate = {
 			action: "Action",
 			quick_reference: "Quick Reference",
 		},
-		rte: {
-			title: "Egyptian RTE",
-			enable_ime: "Enable IME",
-		},
 	},
 	stack: {
 		vertical: "Vertical",

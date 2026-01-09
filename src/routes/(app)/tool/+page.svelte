@@ -161,22 +161,6 @@ https://www.transmonkey.ai/hieroglyphics-translator
 
       <Item.Root variant="outline">
          {#snippet child({props})}
-            <a href="/tool/egyptian/rte" {...props} tabindex={0}>
-               <Item.Media style="font-size: 28px" aria-hidden>
-                  <EgyptianText t={[g("𓏞")]}/>
-               </Item.Media>
-               <Item.Content>
-                  <Item.Title>
-                     {$_.egyptian.rte.title}
-                  </Item.Title>
-               </Item.Content>
-            </a>
-         {/snippet}
-
-      </Item.Root>
-
-      <Item.Root variant="outline">
-         {#snippet child({props})}
             <a href="/tool/egyptian/transliteration-converter" {...props} tabindex={0}>
                <Item.Media class="text-2xl" aria-hidden>
                   <span>A ꜣ</span>

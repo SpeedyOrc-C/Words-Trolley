@@ -1,7 +1,7 @@
 import type {I18nTemplate} from "$lib/i18n/I18nTemplate"
 import {Language} from "$lib/i18n/Language"
 
-const Ar: I18nTemplate = {
+const Ar: any = {
    return: "عودة",
 	learning_resources: {
 		_: "مصادر التعلّم",

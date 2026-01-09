@@ -35,8 +35,6 @@
 
 	$effect(() => {value = ctx.value})
 
-	// TODO)) Insert symbol at cursor
-
 	onMount(() =>
 	{
 		const unsubscribe = focusedEgyptianInput.subscribe(OnFocusedEgyptianInputChange)

@@ -396,10 +396,6 @@ export type I18nTemplate = {
 			action: s
 			quick_reference: s
 		}
-		rte: {
-			title: s
-			enable_ime: s
-		}
 	}
 	stack: {
 		vertical: s

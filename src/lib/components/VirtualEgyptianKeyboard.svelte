@@ -2,7 +2,7 @@
 	import {_} from "$lib/i18n/store"
 	import Check from "@lucide/svelte/icons/check"
 	import {Phoneme as P} from "$lib/word/egyptian"
-	import {DumpHieroglyphs, g, RoughAutoStackPhonemes, v} from "$lib/word/egyptian/hieroglyphs"
+	import {g, v, c, h, DumpHieroglyphs, RoughAutoStackPhonemes} from "$lib/word/egyptian/hieroglyphs"
 	import {View} from "$lib/word/egyptian/IME/virtual-keyboard"
 	import * as IME from "$lib/word/egyptian/IME"
 	import EgyptianText from "./EgyptianText.svelte"
@@ -349,6 +349,12 @@
 					<Button variant="ghost" size="icon-lg" class="rounded-full" title={$_.paste} onclick={Paste}>
 						<ClipboardPaste style="width: 22px; height: 22px" />
 					</Button>
+					<Button variant="ghost" size="lg" class="px-3 rounded-full text-xl" title={$_.input_egyptian.add_cartouche}
+						disabled={!IME.CanMakeCartouche($focusedEgyptianInput.Get())}
+						onclick={() => Execute(IME.CommandKind.Cartouche)}
+					>
+						<EgyptianText t={[c(h(v(g("𓂋"), g("𓈖")), g("𓀀")))]} />
+					</Button>
 				</div>
 				<Button variant="ghost" size="icon-lg" class="rounded-full" onclick={() => focusedEgyptianInput.set(null)}>
 					<Check style="width: 26px; height: 26px" />
@@ -390,7 +396,6 @@
 			animation: slide-down 0.4s cubic-bezier(0,.2,.8,1);
 		}
 	}
-
 
 	.row {
 		display: flex;

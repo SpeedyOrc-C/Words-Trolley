@@ -36,8 +36,6 @@
 		Gardiner: "/",
 		Number: "#",
 	}
-
-	const nameLabel: Hieroglyphs[] = [c(h(v(g("𓂋"), g("𓈖")), g("𓀀")))]
 </script>
 
 <script lang="ts">
@@ -469,7 +467,7 @@
 						title={$_.input_egyptian.add_cartouche}
 						class={buttonVariants({variant: "outline"})}
 					>
-						<EgyptianText t={nameLabel}/>
+						<EgyptianText t={[c(h(v(g("𓂋"), g("𓈖")), g("𓀀")))]}/>
 					</TT.Trigger>
 					<TT.Content>
 						{$_.input_egyptian.add_cartouche}

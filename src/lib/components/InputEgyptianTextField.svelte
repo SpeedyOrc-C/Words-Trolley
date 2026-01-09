@@ -212,7 +212,6 @@
 			return
 		}
 
-		// TODO)) Add an English input scheme
 		if (buffer.startsWith(BufferPrefix.Determinative))
 		{
 			const input = buffer.substring(1, buffer.length).trim()

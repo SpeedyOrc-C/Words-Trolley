@@ -76,7 +76,7 @@
 	style:--height-10="{height * 0.1}px"
 	style:--height="{height}px"
 >
-	<InputEgyptianBox {editing} {ctx} {height} {color} {OnFocus} />
+	<InputEgyptianBox bind:ctx {editing} {height} {color} {OnFocus} />
 
 	{#if $settings.Egyptian.Mode == EgyptianImeMode.TextField && editing}
 		<InputEgyptianTextField bind:ctx {OnSubmit} />

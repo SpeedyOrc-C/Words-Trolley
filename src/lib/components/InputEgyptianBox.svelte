@@ -3,7 +3,7 @@
 	import * as IME from "$lib/word/egyptian/IME"
 
 	let {
-		ctx,
+		ctx = $bindable(),
 		editing = $bindable(),
 		height,
 		color,
@@ -15,8 +15,6 @@
 		color?: string
 		OnFocus?: () => void
 	} = $props()
-
-	// TODO)) Add click to set cursor position
 </script>
 
 {#if editing}
@@ -24,6 +22,8 @@
 		class="border-ring ring-ring/50 ring-[3px]"
 		style:color
 		style:gap="{height * 0.1}px 0"
+		onclick={() => ctx.cursor = ctx.value.length}
+		role="none"
 	>
 		{#if ctx.value.length == 0}
 			<span class="relative" style:height="{height}px">
@@ -31,7 +31,7 @@
 			</span>
 		{/if}
 		{#each ctx.value as hie, i ([hie])}
-			<span class="word">
+			<span class="word" onclick={e => {ctx.cursor = i; e.stopPropagation()}} role="none">
 				{#if i > 0}
 					<span class="word-sep">
 						{#if i == ctx.cursor - 1 || i == ctx.cursor - 2}

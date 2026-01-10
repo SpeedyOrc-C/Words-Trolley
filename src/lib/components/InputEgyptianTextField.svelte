@@ -115,8 +115,7 @@
 			return
 		}
 
-		// FIXME))
-		if (buffer == ";")
+		if (buffer == ";" && ctx.cursor > 0)
 		{
 			Execute(IME.CommandKind.DuplicateLast)
 			buffer = ""
@@ -179,7 +178,6 @@
 			return
 		}
 
-		// FIXME))
 		if (buffer.endsWith(";") && candidates.length > 0)
 		{
 			Execute(IME.CommandKind.Insert, candidates[0].Word)
@@ -190,8 +188,7 @@
 			return
 		}
 
-		// FIXME))
-		if (buffer.endsWith("-") && candidates.length > 0)
+		if (buffer.endsWith("-") && candidates.length > 0 && ctx.cursor > 0)
 		{
 			Execute(IME.CommandKind.Insert, candidates[0].Word)
 			Execute(IME.CommandKind.Row)
@@ -201,8 +198,7 @@
 			return
 		}
 
-		// FIXME))
-		if (buffer.endsWith("=") && candidates.length > 0)
+		if (buffer.endsWith("=") && candidates.length > 0 && ctx.cursor > 0)
 		{
 			Execute(IME.CommandKind.Insert, candidates[0].Word)
 			Execute(IME.CommandKind.Column)

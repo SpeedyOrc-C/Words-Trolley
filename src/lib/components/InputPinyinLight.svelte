@@ -1,3 +1,4 @@
+<!-- FIXME)) Don’t use textbox to hold pinyin with tone marks -->
 <script lang="ts" module>
 	import {pPinyinWithToneNumber} from "$lib/word/mandarin/parser/pinyin-with-tone-number"
 	import {eof, space} from "crazy-parser"
@@ -17,7 +18,7 @@
 		id,
 		class: _class = ""
 	}: {
-		value: ISyllable[]
+		value?: ISyllable[]
 		onchange?: () => void
 		id?: string
 		class?: string

@@ -61,7 +61,7 @@
 		id,
 		class: _class = "",
 	}: {
-		value: ISyllable[]
+		value?: ISyllable[]
 		onchange?: () => void
 		id?: string
 		class?: string

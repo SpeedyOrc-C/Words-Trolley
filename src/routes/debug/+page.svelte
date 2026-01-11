@@ -5,7 +5,10 @@
 	import {Checkbox} from "$lib/components/ui/checkbox"
 	import {voices} from "$lib/speak"
 	import InputEgyptian from "$lib/components/InputEgyptian.svelte"
-	import Input from "$lib/components/ui/input/input.svelte"
+	import RenderMayaHieroglyphs from "$lib/components/RenderMayaHieroglyphs.svelte"
+	import {Structure} from "$lib/word/maya/hieroglyphs"
+	import JsonEditor from "$lib/components/ui/json-editor/json-editor.svelte"
+	import {Glyph, Subfix, Superfix} from "$lib/word/maya/glyph"
 
 	onMount(() =>
 	{
@@ -17,13 +20,65 @@
 </script>
 
 <svelte:head>
-	<title>DEBUG - Words Trolley</title>
+	<title>Diagnosis - Words Trolley</title>
 </svelte:head>
 
-<main class="p-2">
+<header class="m-2 text-3xl text-center font-bold">
+	DIAGNOSIS
+</header>
+
+<main class="m-auto w-fit">
 
 	<section>
-		<h1>Egyptian Input</h1>
+		<header>Maya Hieroglyphs</header>
+
+		<RenderMayaHieroglyphs
+			lineHeight={96}
+			hie={
+				[Structure.Vertical, [
+					[Structure.Horizontal, [
+						[Structure.Vertical, [
+							[Structure.Vertical, [
+								[Structure.Horizontal, [
+									[Structure.Glyph, Glyph.Placeholder],
+									[Structure.Glyph, Glyph.Placeholder],
+								]],
+								[Structure.Subfix, Subfix.Placeholder],
+								[Structure.Subfix, Subfix.Placeholder],
+							]],
+						]],
+						[Structure.Vertical, [
+							[Structure.Vertical, [
+								[Structure.Superfix, Superfix.Placeholder],
+								[Structure.Horizontal, [
+									[Structure.Glyph, Glyph.Placeholder],
+									[Structure.Glyph, Glyph.Placeholder],
+								]],
+								[Structure.Superfix, Superfix.Placeholder],
+							]],
+						]],
+					]],
+					[Structure.Horizontal, [
+						[Structure.Vertical, [
+							[Structure.Horizontal, [
+								[Structure.Glyph, Glyph.Placeholder],
+								[Structure.Glyph, Glyph.Placeholder],
+							]],
+						]],
+						[Structure.Vertical, [
+							[Structure.Vertical, [
+								[Structure.Glyph, Glyph.Placeholder],
+								[Structure.Glyph, Glyph.Placeholder],
+							]],
+						]],
+					]],
+				]]
+			}
+		/>
+	</section>
+
+	<section>
+		<header>Egyptian Input</header>
 
 		<div class="flex flex-col gap-4">
 			<InputEgyptian />
@@ -33,32 +88,7 @@
 	</section>
 
 	<section>
-		<h1>Settings</h1>
-
-		<T.Root>
-
-			<T.Header>
-				<T.Row>
-					<T.Head>Key</T.Head>
-					<T.Head>Value</T.Head>
-				</T.Row>
-			</T.Header>
-
-			<T.Body>
-				{#each Object.entries($settings) as [key, value]}
-					<T.Row>
-						<T.Cell><code>{key}</code></T.Cell>
-						<T.Cell><code>{JSON.stringify(value)}</code></T.Cell>
-					</T.Row>
-				{/each}
-			</T.Body>
-
-		</T.Root>
-
-	</section>
-
-	<section>
-		<h1>Navigator Languages</h1>
+		<header>Navigator Languages</header>
 
 		<p class="inline-flex gap-4 flex-wrap">
 			{#each navigator.languages as lang}
@@ -68,7 +98,31 @@
 	</section>
 
 	<section>
-		<h1>Available TTS Voices</h1>
+		<header>Feature Availability</header>
+
+		<ul class="flex flex-col gap-2">
+			<li class="flex gap-2 items-center">
+				<Checkbox checked={window.navigator.clipboard != undefined} readonly/>
+				<span>Clipboard</span>
+			</li>
+			<li class="flex gap-2 items-center">
+				<Checkbox checked={window.navigator.virtualKeyboard != undefined} readonly />
+				<span>Virtual Keyboard</span>
+			</li>
+			<li class="flex gap-2 items-center">
+				<Checkbox checked={window.EditContext != undefined} readonly />
+				<span>Edit Context</span>
+			</li>
+		</ul>
+	</section>
+
+	<section>
+		<header>JSON of Settings</header>
+		<JsonEditor value={$settings} />
+	</section>
+
+	<section>
+		<header>Available TTS Voices</header>
 
 		<T.Root>
 
@@ -93,7 +147,7 @@
 						<T.Cell>
 							<code>{voice.lang}</code>
 						</T.Cell>
-						<T.Cell>
+						<T.Cell lang={voice.lang}>
 							{voice.name}
 						</T.Cell>
 					</T.Row>
@@ -116,8 +170,12 @@
 <style lang="postcss">
 	@reference "tailwindcss";
 
-	h1 {
-		@apply text-xl font-bold mb-2;
+	main {
+		& > section {
+			& > header {
+				@apply text-2xl mb-2;
+			}
+		}
 	}
 
 	section {

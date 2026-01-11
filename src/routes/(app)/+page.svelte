@@ -149,7 +149,7 @@
 
 		<Button href="/debug" variant="ghost" size="lg" tabindex={0} class="flex-1">
 			<Bug/>
-			Debug
+			Diagnosis
 		</Button>
 
 	</div>

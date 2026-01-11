@@ -27,7 +27,7 @@
 	DIAGNOSIS
 </header>
 
-<main class="m-auto w-fit">
+<main class="m-auto p-2 w-fit">
 
 	<section>
 		<header>Maya Hieroglyphs</header>

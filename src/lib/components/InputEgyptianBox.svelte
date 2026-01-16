@@ -30,7 +30,7 @@
 				<span class="cursor left-0"></span>
 			</span>
 		{/if}
-		{#each ctx.value as hie, i ([hie])}
+		{#each ctx.value as hie, i}
 			<span class="word" onclick={e => {ctx.cursor = i; e.stopPropagation()}} role="none">
 				{#if i > 0}
 					<span class="word-sep">
@@ -68,7 +68,7 @@
       {#if ctx.value.length == 0}
          <span style="height: {height}px"></span>
       {/if}
-		{#each ctx.value as hie ([hie])}
+		{#each ctx.value as hie}
 			<span class="relative inline-flex" style:height="{height}px">
 				<RenderEgyptianHieroglyphs {hie} lineHeight={height} />
 			</span>

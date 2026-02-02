@@ -78,7 +78,7 @@
 
 <style lang="postcss">
    @reference "tailwindcss";
-	@reference "$lib/../app.css";
+	@reference "$lib/../routes/layout.css";
 
 	div {
 		@apply inline-flex flex-wrap overflow-hidden;

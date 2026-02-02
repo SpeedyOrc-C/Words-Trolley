@@ -1,5 +1,5 @@
 <script lang="ts">
-	import "../app.css"
+	import "./layout.css"
 	import {AutoDetectLanguage} from "$lib/i18n"
 	import {dir, language} from "$lib/i18n/store"
 	import {ColourScheme, ParseSettings} from "$lib/settings"
@@ -129,6 +129,7 @@
 <svelte:head>
 	<meta content="LgylSiIsanuhSU46lPG1N7luYA1a1b8Q0qcaoD8xdhM" name="google-site-verification">
 	<meta content="6E969809D470884D99DD8C78AE56BBF7" name="msvalidate.01">
+	<link rel="icon" href="/favicon.png"/>
 	<link href="/manifest.json" rel="manifest">
 </svelte:head>
 

@@ -41,7 +41,6 @@
 		wordCount,
 		typing,
 		showExtraOptions,
-		showWordOperations,
 		ondragstart,
 		ondragend,
 		ondrop,
@@ -57,7 +56,6 @@
 		wordCount: number
 		typing: boolean
 		showExtraOptions: boolean
-		showWordOperations: boolean
 		ondragstart: (index: number) => void
 		ondragend: () => void
 		ondrop: (index: number) => void
@@ -94,205 +92,208 @@
 	ondrop={() => ondrop(index)}
 	class="relative flex flex-col"
 >
-	<Card.Content class="flex flex-col gap-4">
-		<div class="absolute top-1 right-2 text-xs font-mono">
-			{index + 1}
-		</div>
+	<Card.Content class="flex gap-2 items-center pr-2">
+		<div class="flex flex-col gap-4 flex-1">
 
-		<div class="flex flex-col gap-2">
-			{#if UsesStringInput(word.type)}
-				<Input
-					type="text"
-					value={word.word}
-					onfocusin={() => (typing = true)}
-					onfocusout={() => (typing = false)}
-					onchange={e => OnWordChange(e, index)}
-					id="word-{index}"
-					lang={LangFromWord(word)}
-					style="font-size: 1.5rem"
-					placeholder={$_.editor.word}
-				/>
-			{/if}
+			<div class="absolute top-1 right-2 text-xs font-mono">
+				{index + 1}
+			</div>
 
-			{#if word.type == WordType.Egyptian}
-				<InputEgyptian
-					bind:value={word.word}
-					onchange={() => (saved = false)}
-				/>
-			{/if}
+			<div class="flex flex-col gap-2">
+				{#if UsesStringInput(word.type)}
+					<Input
+						type="text"
+						value={word.word}
+						onfocusin={() => (typing = true)}
+						onfocusout={() => (typing = false)}
+						onchange={e => OnWordChange(e, index)}
+						id="word-{index}"
+						lang={LangFromWord(word)}
+						style="font-size: 1.5rem"
+						placeholder={$_.editor.word}
+					/>
+				{/if}
 
-			<Input
-				type="text"
-				bind:value={word.meaning}
-				onfocusin={() => (typing = true)}
-				onfocusout={() => (typing = false)}
-				onchange={() => (saved = false)}
-				id="meaning-{index}"
-				name="meaning-{index}"
-				placeholder={$_.editor.meaning}
-			/>
-		</div>
-
-		{#if showExtraOptions}
-			{#if word.type == WordType.French && word.category == French.Category.Noun}
-				<RadioGroup.Root
-					bind:value={word.gender}
-					name="gender-{index}"
-					onValueChange={() => (saved = false)}
-					class="w-full flex items-center gap-4"
-				>
-					<Label>{$_.linguistics.gender}</Label>
-
-					<div class="flex items-center">
-						<RadioGroup.Item id="m" value={French.Gender.M} />
-						<Label class="pl-2" for="m"
-							>{$_.linguistics.abbr.masculine}</Label
-						>
-					</div>
-
-					<div class="flex items-center">
-						<RadioGroup.Item id="f" value={French.Gender.F} />
-						<Label class="pl-2" for="f"
-							>{$_.linguistics.abbr.feminine}</Label
-						>
-					</div>
-				</RadioGroup.Root>
-			{:else if word.type == WordType.German && word.category == German.Category.Noun}
-				<RadioGroup.Root
-					bind:value={word.gender}
-					name="gender-{index}"
-					onValueChange={() => (saved = false)}
-					class="w-full flex items-center gap-4"
-				>
-					<Label>{$_.linguistics.gender}</Label>
-
-					<div class="flex items-center">
-						<RadioGroup.Item id="m" value={German.Gender.M} />
-						<label class="pl-2" for="m"
-							>{$_.linguistics.abbr.masculine}</label
-						>
-					</div>
-
-					<div class="flex items-center">
-						<RadioGroup.Item id="n" value={German.Gender.N} />
-						<label class="pl-2" for="n"
-							>{$_.linguistics.abbr.neutral}</label
-						>
-					</div>
-
-					<div class="flex items-center">
-						<RadioGroup.Item id="f" value={German.Gender.F} />
-						<label class="pl-2" for="f"
-							>{$_.linguistics.abbr.feminine}</label
-						>
-					</div>
-				</RadioGroup.Root>
-			{:else if word.type == WordType.Japanese}
-				<div class="flex flex-col gap-2">
-					<Label>{$_.japanese.furigana}</Label>
-
-					<InputFurigana
-						text={word.word}
-						bind:value={word.furi}
+				{#if word.type == WordType.Egyptian}
+					<InputEgyptian
+						bind:value={word.word}
 						onchange={() => (saved = false)}
 					/>
-				</div>
+				{/if}
 
-				{#if word.category == Japanese.Category.Verb}
+				<Input
+					type="text"
+					bind:value={word.meaning}
+					onfocusin={() => (typing = true)}
+					onfocusout={() => (typing = false)}
+					onchange={() => (saved = false)}
+					id="meaning-{index}"
+					name="meaning-{index}"
+					placeholder={$_.editor.meaning}
+				/>
+			</div>
+
+			{#if showExtraOptions}
+				{#if word.type == WordType.French && word.category == French.Category.Noun}
 					<RadioGroup.Root
-						bind:value={word.verb_type}
-						name="jvt-{index}"
+						bind:value={word.gender}
+						name="gender-{index}"
 						onValueChange={() => (saved = false)}
 						class="w-full flex items-center gap-4"
 					>
-						<Label>{$_.linguistics.verb_group}</Label>
+						<Label>{$_.linguistics.gender}</Label>
 
 						<div class="flex items-center">
-							<RadioGroup.Item
-								id="jvt-c-{index}"
-								value={Japanese.VerbType.Consonant}
-							/>
-							<Label class="pl-2" for="jvt-c-{index}">1</Label>
+							<RadioGroup.Item id="m" value={French.Gender.M} />
+							<Label class="pl-2" for="m"
+								>{$_.linguistics.abbr.masculine}</Label
+							>
 						</div>
 
 						<div class="flex items-center">
-							<RadioGroup.Item
-								id="jvt-v-{index}"
-								value={Japanese.VerbType.Vowel}
-							/>
-							<Label class="pl-2" for="jvt-v-{index}">2</Label>
-						</div>
-
-						<div class="flex items-center">
-							<RadioGroup.Item
-								id="jvt-n-{index}"
-								value={Japanese.VerbType.Noun}
-							/>
-							<Label class="pl-2" for="jvt-n-{index}">3</Label>
-						</div>
-
-						<div class="flex items-center">
-							<RadioGroup.Item
-								id="jvt-ir-{index}"
-								value={Japanese.VerbType.Irregular}
-							/>
-							<Label class="pl-2" for="jvt-ir-{index}">?</Label>
+							<RadioGroup.Item id="f" value={French.Gender.F} />
+							<Label class="pl-2" for="f"
+								>{$_.linguistics.abbr.feminine}</Label
+							>
 						</div>
 					</RadioGroup.Root>
-				{/if}
-			{:else if word.type == WordType.Mandarin}
-				{#if $settings.MandarinScript == MandarinScript.Pinyin}
-					<div class="flex flex-col gap-2">
-						<Label>{$_.linguistics.pinyin}</Label>
-						<InputPinyinLight
-							bind:value={word.syllables}
-							onchange={() => (saved = false)}
-						/>
-					</div>
-				{:else if $settings.MandarinScript == MandarinScript.Bopomofo}
-					<div class="flex flex-col gap-2">
-						<Label>{$_.linguistics.bopomofo}</Label>
-						<InputBopomofoLight
-							bind:value={word.syllables}
-							onchange={() => (saved = false)}
-						/>
-					</div>
-				{/if}
-			{:else if word.type == WordType.Egyptian}
-				<div class="inline-flex gap-2">
-					<Label for="e-trans-{index}">
-						{$_.linguistics.transliteration}
-					</Label>
-					<InputEgyptianTransliteration
-						bind:value={word.trans}
-						id="e-trans-{index}"
-						oninput={() => (saved = false)}
-						class="flex-1"
-						style="font-size: 1.25rem"
-					/>
-				</div>
-			{/if}
-		{/if}
+				{:else if word.type == WordType.German && word.category == German.Category.Noun}
+					<RadioGroup.Root
+						bind:value={word.gender}
+						name="gender-{index}"
+						onValueChange={() => (saved = false)}
+						class="w-full flex items-center gap-4"
+					>
+						<Label>{$_.linguistics.gender}</Label>
 
-		{#if showWordOperations}
-			<ButtonGroup class="w-full">
+						<div class="flex items-center">
+							<RadioGroup.Item id="m" value={German.Gender.M} />
+							<label class="pl-2" for="m"
+								>{$_.linguistics.abbr.masculine}</label
+							>
+						</div>
+
+						<div class="flex items-center">
+							<RadioGroup.Item id="n" value={German.Gender.N} />
+							<label class="pl-2" for="n"
+								>{$_.linguistics.abbr.neutral}</label
+							>
+						</div>
+
+						<div class="flex items-center">
+							<RadioGroup.Item id="f" value={German.Gender.F} />
+							<label class="pl-2" for="f"
+								>{$_.linguistics.abbr.feminine}</label
+							>
+						</div>
+					</RadioGroup.Root>
+				{:else if word.type == WordType.Japanese}
+					<div class="flex flex-col gap-2">
+						<Label>{$_.japanese.furigana}</Label>
+
+						<InputFurigana
+							text={word.word}
+							bind:value={word.furi}
+							onchange={() => (saved = false)}
+						/>
+					</div>
+
+					{#if word.category == Japanese.Category.Verb}
+						<RadioGroup.Root
+							bind:value={word.verb_type}
+							name="jvt-{index}"
+							onValueChange={() => (saved = false)}
+							class="w-full flex items-center gap-4"
+						>
+							<Label>{$_.linguistics.verb_group}</Label>
+
+							<div class="flex items-center">
+								<RadioGroup.Item
+									id="jvt-c-{index}"
+									value={Japanese.VerbType.Consonant}
+								/>
+								<Label class="pl-2" for="jvt-c-{index}">1</Label>
+							</div>
+
+							<div class="flex items-center">
+								<RadioGroup.Item
+									id="jvt-v-{index}"
+									value={Japanese.VerbType.Vowel}
+								/>
+								<Label class="pl-2" for="jvt-v-{index}">2</Label>
+							</div>
+
+							<div class="flex items-center">
+								<RadioGroup.Item
+									id="jvt-n-{index}"
+									value={Japanese.VerbType.Noun}
+								/>
+								<Label class="pl-2" for="jvt-n-{index}">3</Label>
+							</div>
+
+							<div class="flex items-center">
+								<RadioGroup.Item
+									id="jvt-ir-{index}"
+									value={Japanese.VerbType.Irregular}
+								/>
+								<Label class="pl-2" for="jvt-ir-{index}">?</Label>
+							</div>
+						</RadioGroup.Root>
+					{/if}
+				{:else if word.type == WordType.Mandarin}
+					{#if $settings.MandarinScript == MandarinScript.Pinyin}
+						<div class="flex flex-col gap-2">
+							<Label>{$_.linguistics.pinyin}</Label>
+							<InputPinyinLight
+								bind:value={word.syllables}
+								onchange={() => (saved = false)}
+							/>
+						</div>
+					{:else if $settings.MandarinScript == MandarinScript.Bopomofo}
+						<div class="flex flex-col gap-2">
+							<Label>{$_.linguistics.bopomofo}</Label>
+							<InputBopomofoLight
+								bind:value={word.syllables}
+								onchange={() => (saved = false)}
+							/>
+						</div>
+					{/if}
+				{:else if word.type == WordType.Egyptian}
+					<div class="inline-flex gap-2">
+						<Label for="e-trans-{index}">
+							{$_.linguistics.transliteration}
+						</Label>
+						<InputEgyptianTransliteration
+							bind:value={word.trans}
+							id="e-trans-{index}"
+							oninput={() => (saved = false)}
+							class="flex-1"
+							style="font-size: 1.25rem"
+						/>
+					</div>
+				{/if}
+			{/if}
+
+		</div>
+
+		<div class="">
+			<ButtonGroup orientation="vertical">
 				<Button
 					onclick={() => MoveUp(index)}
 					disabled={index == 0}
-					class="flex-1"
-					variant="outline"
+					class=""
+					variant="ghost"
+					size="icon"
 					title={$_.editor.move_up}
 				>
 					<MoveUpIcon />
-					{$_.editor.move_up}
 				</Button>
 
 				<DM.Root>
 					<DM.Trigger>
 						{#snippet child({props})}
-							<Button {...props} variant="outline">
+							<Button {...props} variant="ghost" size="icon" title={$_.more}>
 								<Ellipsis />
-								{$_.more}
 							</Button>
 						{/snippet}
 					</DM.Trigger>
@@ -537,14 +538,14 @@
 				<Button
 					onclick={() => MoveDown(index)}
 					disabled={index == wordCount - 1}
-					class="flex-1"
-					variant="outline"
+					class=""
+					variant="ghost"
+					size="icon"
 					title={$_.editor.move_down}
 				>
 					<MoveDownIcon />
-					{$_.editor.move_down}
 				</Button>
 			</ButtonGroup>
-		{/if}
+		</div>
 	</Card.Content>
 </Card.Root>

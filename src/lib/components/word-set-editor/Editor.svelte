@@ -470,7 +470,6 @@
 				wordCount={words.length}
 				{typing}
 				{showExtraOptions}
-				{showWordOperations}
 				{ondragstart}
 				{ondragend}
 				{ondrop}

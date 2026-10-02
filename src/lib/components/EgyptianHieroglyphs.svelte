@@ -21,49 +21,49 @@
 	])
 
 	function PessimisticHeight([structure, arg]: Hieroglyphs): number
+	function NaiveHeightOf([structure, arg]: Hieroglyphs): number
 	{
 		switch (structure)
 		{
 		case Structure.Glyph:
 			return HeightOfGlyph(arg)
 		case Structure.Vertical:
-			return L.sum(arg.map(PessimisticHeight)) + verticalGap * (arg.length - 1)
+			return L.sum(arg.map(NaiveHeightOf)) + verticalGap * (arg.length - 1)
 		case Structure.Horizontal:
-			return L.max(arg.map(PessimisticHeight))!
+			return L.max(arg.map(NaiveHeightOf))!
 		case Structure.Cartouche:
 			return 1
 		case Structure.Ligature:
 			if (arg[0][0] == Structure.Glyph && arg[1][0] == Structure.Glyph)
 				return HeightOfGlyph(arg[0][1] + arg[1][1])
-			throw PessimisticHeight(arg[0])
+			throw NaiveHeightOf(arg[0])
 		}
 	}
 
-	function PessimisticWidth([structure, arg]: Hieroglyphs): number
+	function NaiveWidthOf([structure, arg]: Hieroglyphs): number
 	{
 		switch (structure)
 		{
 		case Structure.Glyph:
 			return WidthOfGlyph(arg)
 		case Structure.Vertical:
-			return Math.max(...arg.map(PessimisticWidth))
+			return Math.max(...arg.map(NaiveWidthOf))
 		case Structure.Horizontal:
-			return arg.map(PessimisticWidth).reduce((a, b) => a + b, 0)
+			return arg.map(NaiveWidthOf).reduce((a, b) => a + b, 0)
 				+ horizontalGap * (arg.length - 1)
 		case Structure.Cartouche:
-			return PessimisticWidth(arg) + cartoucheOverallHorizontalSize * 2
+			return NaiveWidthOf(arg) + cartoucheOverallHorizontalSize * 2
 		case Structure.Ligature:
 			if (arg[0][0] == Structure.Glyph && arg[1][0] == Structure.Glyph)
 				return WidthOfGlyph(arg[0][1] + arg[1][1])
-			throw PessimisticWidth(arg[0])
+			throw NaiveWidthOf(arg[0])
 		}
 	}
 
 	function ScaleSegments(xs: number[], max: number, gap: number): number
 	{
-		const xsSum = xs.reduce((a, b) => a + b, 0)
-
-		const sum = xsSum + gap * (xs.length - 1)
+		const xsSum = L.sum(xs)
+		const sum = xsSum + max * gap * (xs.length - 1)
 		const excess = sum - max
 
 		if (excess <= 0)
@@ -106,22 +106,22 @@
 
 {:else if struct == Structure.Vertical}
 
-	{@const pessimisticHeights = arg.map(PessimisticHeight)}
-	{@const pessimisticWidth = Math.max(...arg.map(PessimisticWidth))}
-	{@const scale = ScaleSegments(pessimisticHeights, fpy, verticalGap)}
-	{@const adjustedHeights = pessimisticHeights.map(h => h * scale)}
+	{@const naiveHeights = arg.map(NaiveHeightOf)}
+	{@const naiveWidths = L.max(arg.map(NaiveWidthOf))!}
+	{@const scale = ScaleSegments(naiveHeights, fpy, verticalGap)}
+	{@const adjustedHeights = naiveHeights.map(h => h * scale)}
 
 	<span class="v" style:height>
 		{#each arg as hie, i}
-			<Self {hie} fpx={1.2} fpy={adjustedHeights[i]} {lineHeight} parentWidth={scale * Math.min(1, pessimisticWidth)}/>
+			<Self {hie} {fpx} fpy={adjustedHeights[i]} {lineHeight} parentWidth={scale * Math.min(1, naiveWidths)}/>
 		{/each}
 	</span>
 
 {:else if struct == Structure.Horizontal}
 
-	{@const pessimisticWidths = arg.map(PessimisticWidth)}
-	{@const scale = ScaleSegments(pessimisticWidths, fpx, horizontalGap)}
-	{@const adjustedWidths = pessimisticWidths.map(w => w * scale)}
+	{@const naiveWidths = arg.map(NaiveWidthOf)}
+	{@const scale = ScaleSegments(naiveWidths, fpx, horizontalGap)}
+	{@const adjustedWidths = naiveWidths.map(w => w * scale)}
 	{@const minWidth = parentWidth == undefined ? 0 : lineHeight * parentWidth}
 
 	<span class="h" style:height="{heightPx * scale}px" style:min-width="{minWidth}px" style:gap>
@@ -183,6 +183,6 @@
 	}
 
 	.h {
-		@apply inline-flex items-center justify-between;
+		@apply inline-flex items-center justify-center;
 	}
 </style>

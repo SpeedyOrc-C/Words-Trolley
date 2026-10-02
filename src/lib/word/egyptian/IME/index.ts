@@ -81,11 +81,7 @@ export function CanMoveRight(state: State): boolean
    return state.cursor < state.value.length
 }
 
-export function Execute
-   (
-      state: State,
-      command: Command,
-   ): State
+export function Execute(state: State, command: Command): State
 {
    const {cursor, value: content} = state
    const [kind, arg] = command

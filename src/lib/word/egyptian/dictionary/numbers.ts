@@ -1,5 +1,5 @@
-import {g, v, h, type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
-import type {EgyptianWordCandidate} from "$lib/word/egyptian/IME"
+import {g, v, h, type Hieroglyphs} from "../hieroglyphs"
+import type {EgyptianWordCandidate} from "../IME"
 
 export function FromPower0(d: number): string
 {

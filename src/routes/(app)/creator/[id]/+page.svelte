@@ -1,13 +1,13 @@
 <script lang="ts">
-	import {Button} from "$lib/components/ui/button"
-	import {_} from "$lib/i18n/store"
-	import {settingsOpened} from "$lib/settings/store"
+	import {Button} from "#lib/components/ui/button/index.ts"
+	import {_} from "#lib/i18n/store.ts"
+	import {settingsOpened} from "#lib/settings/store/index.ts"
 
 	import House from "@lucide/svelte/icons/house"
 	import Settings from "@lucide/svelte/icons/settings"
 	import Plus from "@lucide/svelte/icons/plus"
 	import Search from "@lucide/svelte/icons/search"
-	import WordSetEntry from "$lib/components/WordSetEntry.svelte"
+	import WordSetEntry from "#lib/components/WordSetEntry.svelte"
 
 	const {data} = $props()
 

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import InputBopomofoLight from "$lib/components/InputBopomofoLight.svelte"
-	import InputPinyinLight from "$lib/components/InputPinyinLight.svelte"
-   import * as Field from "$lib/components/ui/field"
-   import {_} from "$lib/i18n/store"
-	import type {ISyllable} from "$lib/word/mandarin"
+	import InputBopomofoLight from "#lib/components/InputBopomofoLight.svelte"
+	import InputPinyinLight from "#lib/components/InputPinyinLight.svelte"
+   import * as Field from "#lib/components/ui/field/index.ts"
+   import {_} from "#lib/i18n/store.ts"
+   import type {ISyllable} from "#lib/word/mandarin/index.ts"
 
    const t = $derived($_.learning_resources.mandarin.spelling_converter)
 

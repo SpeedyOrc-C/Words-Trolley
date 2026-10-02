@@ -1,10 +1,10 @@
 <script lang="ts">
-	import EgyptianText from "$lib/components/EgyptianText.svelte"
-	import * as Item from "$lib/components/ui/item"
-   import * as A from "$lib/components/ui/accordion"
-   import {_} from "$lib/i18n/store"
-	import * as Egyptian from "$lib/word/egyptian"
-	import {g} from "$lib/word/egyptian/hieroglyphs"
+	import EgyptianText from "#lib/components/EgyptianText.svelte"
+   import * as Item from "#lib/components/ui/item/index.ts"
+   import * as A from "#lib/components/ui/accordion/index.ts"
+   import {_} from "#lib/i18n/store.ts"
+   import * as Egyptian from "#lib/word/egyptian/index.ts"
+   import {g} from "#lib/word/egyptian/hieroglyphs/index.ts"
 </script>
 
 <svelte:head>

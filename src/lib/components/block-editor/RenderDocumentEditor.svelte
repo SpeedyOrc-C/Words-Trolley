@@ -1,7 +1,7 @@
 <script lang="ts">
-	import {_} from "$lib/i18n/store"
-	import * as DM from "$lib/components/ui/dropdown-menu"
-	import Button from "$lib/components/ui/button/button.svelte"
+	import {_} from "../../i18n/store"
+	import * as DM from "../../components/ui/dropdown-menu"
+	import Button from "../../components/ui/button/button.svelte"
 	import type {BlockEditor} from "."
 
 	import Trash from "@lucide/svelte/icons/trash"
@@ -127,7 +127,7 @@
 
 <style lang="postcss">
 	@reference "tailwindcss";
-	@reference "$lib/../routes/layout.css";
+	@reference "../../../routes/layout.css";
 
 	.insert-btn {
 		@apply p-1;

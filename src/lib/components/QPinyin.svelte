@@ -1,7 +1,7 @@
 <script lang="ts">
-	import {Mandarin, type Word} from "$lib/word"
+	import {Mandarin, type Word} from "../word"
 	import {onMount} from "svelte"
-	import InputPinyin from "$lib/components/InputPinyin.svelte"
+	import InputPinyin from "./InputPinyin.svelte"
 	import {type Writable, writable} from "svelte/store"
 
 	const {word, OnWin}: { word: Word & Mandarin.Word, OnWin: () => any } = $props()

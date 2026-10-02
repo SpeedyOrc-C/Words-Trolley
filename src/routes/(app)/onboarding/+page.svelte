@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {Button} from "$lib/components/ui/button"
-	import {CardContent, CardHeader, CardTitle} from "$lib/components/ui/card"
-	import {Input} from "$lib/components/ui/input"
-	import {Card} from "$lib/components/ui/card"
-	import {Label} from "$lib/components/ui/label"
-	import {_} from "$lib/i18n/store"
+	import {Button} from "#lib/components/ui/button/index.ts"
+	import {CardContent, CardHeader, CardTitle} from "#lib/components/ui/card/index.ts"
+	import {Input} from "#lib/components/ui/input/index.ts"
+	import {Card} from "#lib/components/ui/card/index.ts"
+	import {Label} from "#lib/components/ui/label/index.ts"
+	import {_} from "#lib/i18n/store.ts"
 </script>
 
 <svelte:head>

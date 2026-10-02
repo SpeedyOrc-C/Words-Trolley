@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EgyptianText from "$lib/components/EgyptianText.svelte"
+	import EgyptianText from "../EgyptianText.svelte"
 	import type {BlockEditor} from "."
 	import RenderDocument from "./RenderDocument.svelte"
 

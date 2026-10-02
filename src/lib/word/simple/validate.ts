@@ -1,4 +1,4 @@
-import {WordType} from "$lib/word/types"
+import {WordType} from "../types"
 import {eq, obj, str} from "crazy-parser/json/validate"
 
 export const Validate = obj({

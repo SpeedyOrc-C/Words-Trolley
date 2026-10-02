@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {Input} from "$lib/components/ui/input"
-	import * as Mandarin from "$lib/word/mandarin"
+	import {Input} from "./ui/input"
+	import * as Mandarin from "../word/mandarin"
 	import {onMount} from "svelte"
-	import {pinyinSingleSyllableOverrider as overrider} from "$lib/word/mandarin/MandarinInputOverrider"
+	import {pinyinSingleSyllableOverrider as overrider} from "../word/mandarin/MandarinInputOverrider"
 	import {writable, type Writable} from "svelte/store"
-	import {Pinyin, Tone} from "$lib/word/mandarin"
+	import {Pinyin, Tone} from "../word/mandarin"
 
 	let {
 		value = $bindable([]),

@@ -1,14 +1,14 @@
 <script lang="ts">
-	import * as T from "$lib/components/ui/table"
-	import {settings} from "$lib/settings/store"
+	import InputEgyptian from "#lib/components/InputEgyptian.svelte"
+	import MayaHieroglyphs from "#lib/components/MayaHieroglyphs.svelte"
+	import {Checkbox} from "#lib/components/ui/checkbox/index.ts"
+	import JsonEditor from "#lib/components/ui/json-editor/json-editor.svelte"
+	import * as T from "#lib/components/ui/table/index.ts"
+	import {settings} from "#lib/settings/store/index.ts"
+	import {voices} from "#lib/speak.ts"
+	import {Glyph, Subfix, Superfix} from "#lib/word/maya/glyph/index.ts"
+	import {Structure} from "#lib/word/maya/hieroglyphs/index.ts"
 	import {onMount} from "svelte"
-	import {Checkbox} from "$lib/components/ui/checkbox"
-	import {voices} from "$lib/speak"
-	import InputEgyptian from "$lib/components/InputEgyptian.svelte"
-	import MayaHieroglyphs from "$lib/components/MayaHieroglyphs.svelte"
-	import {Structure} from "$lib/word/maya/hieroglyphs"
-	import JsonEditor from "$lib/components/ui/json-editor/json-editor.svelte"
-	import {Glyph, Subfix, Superfix} from "$lib/word/maya/glyph"
 
 	onMount(() =>
 	{
@@ -33,7 +33,6 @@
 		<header>Maya Hieroglyphs</header>
 
 		<MayaHieroglyphs
-			lineHeight={96}
 			hie={
 				[Structure.Vertical, [
 					[Structure.Horizontal, [
@@ -74,6 +73,7 @@
 					]],
 				]]
 			}
+			lineHeight={96}
 		/>
 	</section>
 
@@ -102,17 +102,9 @@
 
 		<ul class="flex flex-col gap-2">
 			<li class="flex gap-2 items-center">
-				<Checkbox checked={window.navigator.clipboard != undefined} readonly/>
+				<Checkbox checked={window.navigator.clipboard != undefined} readonly />
 				<span>Clipboard</span>
 			</li>
-<!--			<li class="flex gap-2 items-center">-->
-<!--				<Checkbox checked={window.navigator.virtualKeyboard != undefined} readonly />-->
-<!--				<span>Virtual Keyboard</span>-->
-<!--			</li>-->
-<!--			<li class="flex gap-2 items-center">-->
-<!--				<Checkbox checked={window.EditContext != undefined} readonly />-->
-<!--				<span>Edit Context</span>-->
-<!--			</li>-->
 		</ul>
 	</section>
 
@@ -139,10 +131,10 @@
 				{#each $voices as voice}
 					<T.Row>
 						<T.Cell>
-							<Checkbox readonly checked={voice.default}/>
+							<Checkbox readonly checked={voice.default} />
 						</T.Cell>
 						<T.Cell>
-							<Checkbox readonly checked={voice.localService}/>
+							<Checkbox readonly checked={voice.localService} />
 						</T.Cell>
 						<T.Cell>
 							<code>{voice.lang}</code>

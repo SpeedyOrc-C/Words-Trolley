@@ -1,8 +1,8 @@
 <script lang="ts" module>
-	import {pBopomofo} from "$lib/word/mandarin/parser/bopomofo"
+	import {pBopomofo} from "../word/mandarin/parser/bopomofo"
 	import {eof, space} from "crazy-parser"
 	import {some} from "crazy-parser/prefix"
-	import {ParseSep} from "$lib/utils"
+	import {ParseSep} from "../utils"
 
 	const parser = ParseSep(pBopomofo, some(space))._$(eof)
 
@@ -52,7 +52,7 @@
 </script>
 
 <script lang="ts">
-	import {Bopomofo, SyllablesEqual, type ISyllable} from "$lib/word/mandarin"
+	import {Bopomofo, SyllablesEqual, type ISyllable} from "../word/mandarin"
 	import InputWithCustomKeyMapping from "./InputWithCustomKeyMapping.svelte"
 
 	let {

@@ -1,5 +1,5 @@
-import {Category, Gender, type Noun, type Word} from "$lib/word/german"
-import {WordType} from "$lib/word/types"
+import {Category, Gender, type Noun, type Word} from "."
+import {WordType} from "../types"
 import {asum, eq, obj, str, type Validator} from "crazy-parser/json/validate"
 
 const ValidateWord: Validator<Word> = obj({

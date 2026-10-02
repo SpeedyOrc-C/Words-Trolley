@@ -1,5 +1,5 @@
-import type {I18nTemplate} from "$lib/i18n/I18nTemplate"
-import {Language} from "$lib/i18n/Language"
+import type {I18nTemplate} from "../I18nTemplate"
+import {Language} from "../Language"
 
 const Ar = {
    return: "عودة",

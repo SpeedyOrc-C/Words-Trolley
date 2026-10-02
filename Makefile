@@ -1,6 +1,6 @@
 # Fetch the latest database schema in TypeScript
 types:
-	supabase gen types --project-id ckifwtkgzuuqejctmixv > ./src/lib/database.types.ts
+	supabase gen types --project-id ckifwtkgzuuqejctmixv > ./src/lib/service/types.ts
 
 website:
 	pnpm run build

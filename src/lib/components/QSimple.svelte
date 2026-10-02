@@ -1,7 +1,7 @@
 <script lang="ts">
-	import {Input} from "$lib/components/ui/input"
+	import {Input} from "./ui/input"
 
-	import type {Word} from "$lib/word"
+	import type {Word} from "../word"
 
 	const {word, OnWin}: { word: Word, OnWin: () => any } = $props()
 

@@ -1,8 +1,8 @@
 <script lang="ts">
-   import {_} from "$lib/i18n/store"
-   import {settingsOpened} from "$lib/settings/store"
+   import {_} from "#lib/i18n/store.ts"
+   import {settingsOpened} from "#lib/settings/store/index.ts"
 
-   import {Button} from "$lib/components/ui/button"
+   import {Button} from "#lib/components/ui/button/index.ts"
    import ArrowBigLeft from "@lucide/svelte/icons/arrow-big-left"
    import Settings from "@lucide/svelte/icons/settings"
 

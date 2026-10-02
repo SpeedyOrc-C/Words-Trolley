@@ -1,5 +1,5 @@
-import {Category, type Verb, VerbType, type Word} from "$lib/word/japanese"
-import {WordType} from "$lib/word/types"
+import {Category, type Verb, VerbType, type Word} from "."
+import {WordType} from "../types"
 import {array, asum, eq, num, obj, sequence, str, type Validator} from "crazy-parser/json/validate"
 
 const ValidateFuri: Validator<[number, number, string][]> =

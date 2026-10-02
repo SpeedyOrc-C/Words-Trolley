@@ -1,9 +1,9 @@
 <script lang="ts">
-   import * as Field from "$lib/components/ui/field"
-   import {_} from "$lib/i18n/store"
-	import InputEgyptianTransliteration from "$lib/components/InputEgyptianTransliteration.svelte"
-	import {EgyptianTransliteration} from "$lib/settings"
-   import type {SentenceTransliteration} from "$lib/word/egyptian/transliteration"
+   import * as Field from "#lib/components/ui/field/index.ts"
+   import {_} from "#lib/i18n/store.ts"
+	import InputEgyptianTransliteration from "#lib/components/InputEgyptianTransliteration.svelte"
+	import {EgyptianTransliteration} from "#lib/settings/index.ts"
+   import type {SentenceTransliteration} from "#lib/word/egyptian/transliteration/index.ts"
 
    const t = $derived($_.learning_resources.egyptian.transliteration_converter)
    let value: SentenceTransliteration = $state([])

@@ -1,19 +1,19 @@
 <script lang="ts" module>
-	import {Button, buttonVariants} from "$lib/components/ui/button"
-	import {Input} from "$lib/components/ui/input"
-	import {ButtonGroup} from "$lib/components/ui/button-group"
-	import * as TT from "$lib/components/ui/tooltip"
-	import * as DM from "$lib/components/ui/dropdown-menu"
+	import {Button, buttonVariants} from "./ui/button"
+	import {Input} from "./ui/input"
+	import {ButtonGroup} from "./ui/button-group"
+	import * as TT from "./ui/tooltip"
+	import * as DM from "./ui/dropdown-menu"
 
-	import {_} from "$lib/i18n/store"
-	import {preferredDeterminativeScheme, preferredEgyptianTransliterationParserForEdit, preferredSentenceTransliterationDumperForEdit} from "$lib/settings/store/egyptian"
-	import {CandidatesFromPhonemes} from "$lib/word/egyptian/dictionary"
-	import {CandidatesFromNumber} from "$lib/word/egyptian/dictionary/numbers"
-	import { type Hieroglyphs, g, h, v, c, DumpHieroglyphs, DumpHieroglyphsNoStructure} from "$lib/word/egyptian/hieroglyphs"
-	import * as IME from "$lib/word/egyptian/IME"
-	import EgyptianText from "$lib/components/EgyptianText.svelte"
-	import {pHieroglyphs} from "$lib/word/egyptian/hieroglyphs/parser"
-	import {ToJSesh} from "$lib/word/egyptian/hieroglyphs/jsesh"
+	import {_} from "../i18n/store"
+	import {preferredDeterminativeScheme, preferredEgyptianTransliterationParserForEdit, preferredSentenceTransliterationDumperForEdit} from "../settings/store/egyptian"
+	import {CandidatesFromPhonemes} from "../word/egyptian/dictionary"
+	import {CandidatesFromNumber} from "../word/egyptian/dictionary/numbers"
+	import { type Hieroglyphs, g, h, v, c, DumpHieroglyphs, DumpHieroglyphsNoStructure} from "../word/egyptian/hieroglyphs"
+	import * as IME from "../word/egyptian/IME"
+	import EgyptianText from "./EgyptianText.svelte"
+	import {pHieroglyphs} from "../word/egyptian/hieroglyphs/parser"
+	import {ToJSesh} from "../word/egyptian/hieroglyphs/jsesh"
 	import {toast} from "svelte-sonner"
 
 	import Columns2 from "@lucide/svelte/icons/columns-2"
@@ -26,10 +26,10 @@
 	import ClipboardPaste from "@lucide/svelte/icons/clipboard-paste"
 	import Ellipsis from "@lucide/svelte/icons/ellipsis"
 	import Check from "@lucide/svelte/icons/check"
-	import {settings} from "$lib/settings/store"
-	import {type EgyptianWordCandidate, QuickSymbols} from "$lib/word/egyptian/IME"
-	import {CandidatesFromGardiner} from "$lib/word/egyptian/gardiner/gardiner-literal"
-	import {CandidatesFromDeterminativeScheme} from "$lib/word/egyptian/IME/determinative"
+	import {settings} from "../settings/store"
+	import {type EgyptianWordCandidate, QuickSymbols} from "../word/egyptian/IME"
+	import {CandidatesFromGardiner} from "../word/egyptian/gardiner/gardiner-literal"
+	import {CandidatesFromDeterminativeScheme} from "../word/egyptian/IME/determinative"
 
 	const BufferPrefix = {
 		Determinative: " ",
@@ -39,7 +39,7 @@
 </script>
 
 <script lang="ts">
-	import {gardinerTablePromptOnSelect} from "$lib/word/egyptian/IME/store"
+	import {gardinerTablePromptOnSelect} from "../word/egyptian/IME/store"
 
 	let {
 		ctx = $bindable(),

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {_} from "$lib/i18n/store"
+	import {_} from "#lib/i18n/store.ts"
 
 	const {data} = $props()
 	const {errorCode} = $derived(data)

@@ -1,5 +1,5 @@
-import type {Word} from "$lib/word"
-import {defaultSettings} from "$lib/settings"
+import type {Word} from "../../word"
+import {defaultSettings} from ".."
 import {derived, writable} from "svelte/store"
 import L from "lodash/fp"
 

@@ -1,11 +1,11 @@
 <script lang="ts">
 	import {goto, invalidate} from "$app/navigation"
 	import {enhance} from "$app/forms"
-	import * as Card from "$lib/components/ui/card"
-	import {Input} from "$lib/components/ui/input"
-	import {Button} from "$lib/components/ui/button"
-	import {Label} from "$lib/components/ui/label"
-	import {_} from "$lib/i18n/store"
+	import * as Card from "#lib/components/ui/card/index.ts"
+	import {Input} from "#lib/components/ui/input/index.ts"
+	import {Button} from "#lib/components/ui/button/index.ts"
+	import {Label} from "#lib/components/ui/label/index.ts"
+	import {_} from "#lib/i18n/store.ts"
 
 	import House from "@lucide/svelte/icons/house"
 

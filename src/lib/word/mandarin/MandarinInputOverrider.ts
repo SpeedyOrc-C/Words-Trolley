@@ -1,6 +1,6 @@
-import {Final, type ISyllable} from "$lib/word/mandarin"
-import {pPinyinWithToneNumber} from "$lib/word/mandarin/parser/pinyin-with-tone-number"
-import {pBopomofo} from "$lib/word/mandarin/parser/bopomofo"
+import {Final, type ISyllable} from "."
+import {pPinyinWithToneNumber} from "./parser/pinyin-with-tone-number"
+import {pBopomofo} from "./parser/bopomofo"
 
 export type ShouldConfirm = boolean
 

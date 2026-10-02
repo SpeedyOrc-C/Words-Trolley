@@ -1,5 +1,5 @@
-import {Final, Initial, type ISyllable, Region, Tone, type Word} from "$lib/word/mandarin"
-import {WordType} from "$lib/word/types"
+import {Final, Initial, type ISyllable, Region, Tone, type Word} from "."
+import {WordType} from "../types"
 import {array, asum, eq, nil, obj, str, type Validator} from "crazy-parser/json/validate"
 
 const ValidateSyllable: Validator<ISyllable> = obj({

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {LangFromWord, UsesStringInput, CanSpeak} from "$lib"
-	import InputEgyptianTransliteration from "$lib/components/InputEgyptianTransliteration.svelte"
-	import InputFurigana from "$lib/components/InputFurigana.svelte"
-	import InputEgyptian from "$lib/components/InputEgyptian.svelte"
-	import {_} from "$lib/i18n/store"
-	import {settings} from "$lib/settings/store"
+	import {LangFromWord, UsesStringInput, CanSpeak} from "../.."
+	import InputEgyptianTransliteration from "../InputEgyptianTransliteration.svelte"
+	import InputFurigana from "../InputFurigana.svelte"
+	import InputEgyptian from "../InputEgyptian.svelte"
+	import {_} from "../../i18n/store"
+	import {settings} from "../../settings/store"
 	import {
 		English,
 		French,
@@ -12,19 +12,19 @@
 		Japanese,
 		Mandarin,
 		type Word,
-	} from "$lib/word"
-	import InputPinyinLight from "$lib/components/InputPinyinLight.svelte"
-	import {MandarinScript} from "$lib/settings"
-	import InputBopomofoLight from "$lib/components/InputBopomofoLight.svelte"
-	import {Button} from "$lib/components/ui/button"
-	import {Label} from "$lib/components/ui/label"
-	import {Input} from "$lib/components/ui/input"
-	import {WordType} from "$lib/word/types"
-	import {Speak} from "$lib/speak"
-	import * as Card from "$lib/components/ui/card"
-	import * as RadioGroup from "$lib/components/ui/radio-group"
-	import * as DM from "$lib/components/ui/dropdown-menu"
-	import {ButtonGroup} from "$lib/components/ui/button-group"
+	} from "../../word"
+	import InputPinyinLight from "../InputPinyinLight.svelte"
+	import {MandarinScript} from "../../settings"
+	import InputBopomofoLight from "../InputBopomofoLight.svelte"
+	import {Button} from "../ui/button"
+	import {Label} from "../ui/label"
+	import {Input} from "../ui/input"
+	import {WordType} from "../../word/types"
+	import {Speak} from "../../speak"
+	import * as Card from "../ui/card"
+	import * as RadioGroup from "../ui/radio-group"
+	import * as DM from "../ui/dropdown-menu"
+	import {ButtonGroup} from "../ui/button-group"
 
 	import Trash2 from "@lucide/svelte/icons/trash-2"
 	import MoveUpIcon from "@lucide/svelte/icons/arrow-up"

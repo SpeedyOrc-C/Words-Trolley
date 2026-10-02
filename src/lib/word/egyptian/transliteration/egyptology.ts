@@ -6,8 +6,8 @@ Must not use this system for exchanging data.
 Try to avoid it in UI as some characters are poorly supported by common fonts.
 */
 
-import {ParserFromInvertedRecord} from "$lib/utils"
-import {Phoneme as P} from "$lib/word/egyptian"
+import {ParserFromInvertedRecord} from "../../../utils"
+import {Phoneme as P} from ".."
 
 export const Phoneme2Egyptology = {
 	[P.a]: "ꜣ",

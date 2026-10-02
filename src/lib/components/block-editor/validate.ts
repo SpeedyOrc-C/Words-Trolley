@@ -8,7 +8,7 @@ import
    lazy,
    sequence
 } from "crazy-parser/json/validate"
-import {Validate as _ValidateEgyptian} from "$lib/word/egyptian/hieroglyphs"
+import {Validate as _ValidateEgyptian} from "../../word/egyptian/hieroglyphs"
 import type {BlockEditor} from "."
 
 const ValidateText = sequence(eq("text" as const), str)
@@ -37,4 +37,3 @@ const ValidateBlock = () => lazy<Validator<BlockEditor.Block>>(() => asum(
 const ValidateDocument = () => lazy<Validator<BlockEditor.Document>>(() => array(ValidateBlock()))
 
 export const Validate = ValidateDocument()
-

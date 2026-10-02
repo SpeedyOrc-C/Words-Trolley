@@ -1,13 +1,13 @@
 <script lang="ts">
-	import {Button} from "$lib/components/ui/button"
-	import {Progress} from "$lib/components/ui/progress"
+	import {Button} from "./ui/button"
+	import {Progress} from "./ui/progress"
 
-	import {_} from "$lib/i18n/store"
-	import {EgyptianTransliteration} from "$lib/settings"
-	import {settingsOpened} from "$lib/settings/store"
-	import type {Word} from "$lib/word"
-	import {SentenceTransliterationDumperOf} from "$lib/word/egyptian/transliteration"
-	import {WordType} from "$lib/word/types"
+	import {_} from "../i18n/store"
+	import {EgyptianTransliteration} from "../settings"
+	import {settingsOpened} from "../settings/store"
+	import type {Word} from "../word"
+	import {SentenceTransliterationDumperOf} from "../word/egyptian/transliteration"
+	import {WordType} from "../word/types"
 
 	const {
 		index,

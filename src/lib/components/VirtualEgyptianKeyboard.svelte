@@ -1,10 +1,10 @@
 <script lang="ts" module>
-	import {_} from "$lib/i18n/store"
+	import {_} from "../i18n/store"
 	import Check from "@lucide/svelte/icons/check"
-	import {Phoneme as P} from "$lib/word/egyptian"
-	import {g, v, c, h, DumpHieroglyphs, RoughAutoStackPhonemes} from "$lib/word/egyptian/hieroglyphs"
-	import {View} from "$lib/word/egyptian/IME/virtual-keyboard"
-	import * as IME from "$lib/word/egyptian/IME"
+	import {Phoneme as P} from "../word/egyptian"
+	import {g, v, c, h, DumpHieroglyphs, RoughAutoStackPhonemes} from "../word/egyptian/hieroglyphs"
+	import {View} from "../word/egyptian/IME/virtual-keyboard"
+	import * as IME from "../word/egyptian/IME"
 	import EgyptianText from "./EgyptianText.svelte"
 	import Button from "./ui/button/button.svelte"
 
@@ -15,17 +15,17 @@
 	import Copy from "@lucide/svelte/icons/copy"
 	import ClipboardPaste from "@lucide/svelte/icons/clipboard-paste"
 
-	import {CandidatesFromPhonemes} from "$lib/word/egyptian/dictionary"
-	import {settings} from "$lib/settings/store"
-	import {focusedEgyptianInput, gardinerTablePromptOnSelect} from "$lib/word/egyptian/IME/store"
+	import {CandidatesFromPhonemes} from "../word/egyptian/dictionary"
+	import {settings} from "../settings/store"
+	import {focusedEgyptianInput, gardinerTablePromptOnSelect} from "../word/egyptian/IME/store"
 	import {
 		FromPower0,
 		FromPower1,
 		FromPower2,
 		FromPower3,
-	} from "$lib/word/egyptian/dictionary/numbers"
-	import {EgyptianImeMode} from "$lib/settings"
-	import {pHieroglyphs} from "$lib/word/egyptian/hieroglyphs/parser"
+	} from "../word/egyptian/dictionary/numbers"
+	import {EgyptianImeMode} from "../settings"
+	import {pHieroglyphs} from "../word/egyptian/hieroglyphs/parser"
 	import {toast} from "svelte-sonner"
 
 	const row0 = [

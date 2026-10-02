@@ -1,4 +1,4 @@
-import {WordType} from "$lib/word/types"
+import {WordType} from "../types"
 
 export enum Gender { M = "M", F = "F" }
 

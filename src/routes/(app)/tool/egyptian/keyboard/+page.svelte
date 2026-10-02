@@ -1,8 +1,8 @@
 <script lang="ts">
-	import EgyptianText from "$lib/components/EgyptianText.svelte"
-	import {preferredEgyptianTransliterationDumperForRead} from "$lib/settings/store/egyptian"
-	import {g} from "$lib/word/egyptian/hieroglyphs"
-	import {QuickSymbols} from "$lib/word/egyptian/IME"
+	import EgyptianText from "#lib/components/EgyptianText.svelte"
+	import {preferredEgyptianTransliterationDumperForRead} from "#lib/settings/store/egyptian.ts"
+	import {g} from "#lib/word/egyptian/hieroglyphs/index.ts"
+	import {QuickSymbols} from "#lib/word/egyptian/IME/index.ts"
 
 	const numbers = [
 		"1",

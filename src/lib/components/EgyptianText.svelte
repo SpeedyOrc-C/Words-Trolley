@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
+	import type {Hieroglyphs} from "../word/egyptian/hieroglyphs"
 	import {onMount} from "svelte"
 	import EgyptianHieroglyphs from "./EgyptianHieroglyphs.svelte"
 	import type {Readable} from "svelte/store"

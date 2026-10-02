@@ -1,8 +1,8 @@
 <script lang="ts">
-   import {_} from "$lib/i18n/store"
-   import * as T from "$lib/components/ui/table"
-   import Switch from "$lib/components/ui/switch/switch.svelte"
-	import Label from "$lib/components/ui/label/label.svelte"
+   import {_} from "#lib/i18n/store.ts"
+   import * as T from "#lib/components/ui/table/index.ts"
+   import Switch from "#lib/components/ui/switch/switch.svelte"
+	import Label from "#lib/components/ui/label/label.svelte"
 
    const t = $derived($_.learning_resources.mandarin.alphabet)
 

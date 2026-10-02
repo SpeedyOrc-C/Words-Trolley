@@ -1,14 +1,14 @@
 <script lang="ts">
 	import {invalidate} from "$app/navigation"
-	import {_} from "$lib/i18n/store"
-	import {Button} from "$lib/components/ui/button"
+	import {_} from "#lib/i18n/store.ts"
+	import {Button} from "#lib/components/ui/button/index.ts"
 	import House from "@lucide/svelte/icons/house"
 	import Settings from "@lucide/svelte/icons/settings"
-	import {settingsOpened} from "$lib/settings/store"
-	import {Input} from "$lib/components/ui/input"
-	import {ButtonGroup} from "$lib/components/ui/button-group"
+	import {settingsOpened} from "#lib/settings/store/index.ts"
+	import {Input} from "#lib/components/ui/input/index.ts"
+	import {ButtonGroup} from "#lib/components/ui/button-group/index.ts"
 	import {toast} from "svelte-sonner"
-	import * as Field from "$lib/components/ui/field"
+	import * as Field from "#lib/components/ui/field/index.ts"
 
 	const {data} = $props()
 

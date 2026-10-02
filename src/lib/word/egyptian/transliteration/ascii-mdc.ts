@@ -7,8 +7,8 @@ This is ASCII-only, good for typing and exchanging data.
 Uses 6 capital letters.
 */
 
-import {ParserFromInvertedRecord} from "$lib/utils"
-import {Phoneme as P} from "$lib/word/egyptian"
+import {ParserFromInvertedRecord} from "../../../utils"
+import {Phoneme as P} from ".."
 
 export const Phoneme2AsciiMdc = {
 	[P.a]: "A",

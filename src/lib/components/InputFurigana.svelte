@@ -18,11 +18,11 @@
 </script>
 
 <script lang="ts">
-	import {Button} from "$lib/components/ui/button"
-	import {Input} from "$lib/components/ui/input"
-	import {ButtonGroup} from "$lib/components/ui/button-group"
-	import {_} from "$lib/i18n/store"
-	import {type Furigana, FuriganaTemplateFromWord} from "$lib/word/japanese"
+	import {Button} from "./ui/button"
+	import {Input} from "./ui/input"
+	import {ButtonGroup} from "./ui/button-group"
+	import {_} from "../i18n/store"
+	import {type Furigana, FuriganaTemplateFromWord} from "../word/japanese"
 
 	import SeparatorHorizontal from "@lucide/svelte/icons/separator-horizontal"
 	import ArrowUpToLine from "@lucide/svelte/icons/arrow-up-to-line"

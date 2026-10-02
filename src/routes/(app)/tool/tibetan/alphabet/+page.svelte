@@ -1,6 +1,6 @@
 <script lang=ts>
-   import {_} from "$lib/i18n/store"
-   import * as T from "$lib/components/ui/table"
+   import {_} from "#lib/i18n/store.ts"
+   import * as T from "#lib/components/ui/table/index.ts"
 
    const t = $derived($_.learning_resources.tibetan.alphabet.inner)
 

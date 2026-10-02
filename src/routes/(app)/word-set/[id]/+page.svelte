@@ -1,16 +1,16 @@
 <script lang="ts">
 	import {goto} from "$app/navigation"
-	import {LangFromWord} from "$lib"
-	import EgyptianText from "$lib/components/EgyptianText.svelte"
-	import {Button} from "$lib/components/ui/button"
-	import {_} from "$lib/i18n/store"
-	import {settings, settingsOpened} from "$lib/settings/store"
+	import {LangFromWord} from "#lib/index.ts"
+	import EgyptianText from "#lib/components/EgyptianText.svelte"
+	import {Button} from "#lib/components/ui/button/index.ts"
+	import {_} from "#lib/i18n/store.ts"
+	import {settings, settingsOpened} from "#lib/settings/store/index.ts"
 	import {
 		DropdownMenu,
 		DropdownMenuTrigger,
 		DropdownMenuContent,
 		DropdownMenuItem
-	} from "$lib/components/ui/dropdown-menu"
+	} from "#lib/components/ui/dropdown-menu/index.ts"
 	import {
 		Table,
 		TableHeader,
@@ -18,8 +18,8 @@
 		TableRow,
 		TableHead,
 		TableCell
-	} from "$lib/components/ui/table"
-	import {WordType} from "$lib/word/types"
+	} from "#lib/components/ui/table/index.ts"
+	import {WordType} from "#lib/word/types.ts"
 	import {toast} from "svelte-sonner"
 
 	import House from "@lucide/svelte/icons/house"
@@ -34,9 +34,9 @@
 	import Trash2 from "@lucide/svelte/icons/trash-2"
 	import Bookmark from "@lucide/svelte/icons/bookmark"
 	import BookmarkX from "@lucide/svelte/icons/bookmark-x"
-	import {preferredSentenceTransliterationDumperForRead, preferredSentenceTransliterationParserForRead} from "$lib/settings/store/egyptian"
-	import {preferredMandarinDumper} from "$lib/settings/store/mandarin"
-	import {MandarinScript} from "$lib/settings"
+	import {preferredSentenceTransliterationDumperForRead} from "#lib/settings/store/egyptian.ts"
+	import {preferredMandarinDumper} from "#lib/settings/store/mandarin.ts"
+	import {MandarinScript} from "#lib/settings/index.ts"
 
 	const {data} = $props()
 

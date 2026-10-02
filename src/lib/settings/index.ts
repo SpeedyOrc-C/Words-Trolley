@@ -1,6 +1,6 @@
-import {type LivingLanguage, LivingLanguages} from "$lib/i18n"
-import {Language} from "$lib/i18n/Language"
-import {EgyptianDeterminativeScheme} from "$lib/word/egyptian/IME/determinative"
+import {type LivingLanguage, LivingLanguages} from "../i18n"
+import {Language} from "../i18n/Language"
+import {EgyptianDeterminativeScheme} from "../word/egyptian/IME/determinative"
 import {str, bool, obj, asum, type Validator, eq} from "crazy-parser/json/validate"
 
 export const SettingsKey = "words-trolley-settings"

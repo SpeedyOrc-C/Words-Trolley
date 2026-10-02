@@ -1,6 +1,6 @@
 <script lang="ts">
-	import {_} from "$lib/i18n/store"
-	import * as Resizable from "$lib/components/ui/resizable"
+	import {_} from "../../i18n/store"
+	import * as Resizable from "../ui/resizable"
 	import RenderBlockEditor from "./RenderDocumentEditor.svelte"
 	import RenderDocument from "./RenderDocument.svelte"
 	import {BlockEditor} from "."

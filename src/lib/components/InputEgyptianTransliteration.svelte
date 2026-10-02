@@ -1,8 +1,8 @@
 <script lang="ts">
-	import {Input} from "$lib/components/ui/input"
-	import {SentenceTransliterationDumperOf, SentenceTransliterationParserOf, type SentenceTransliteration} from "$lib/word/egyptian/transliteration"
-	import {EgyptianTransliteration} from "$lib/settings"
-	import {settings} from "$lib/settings/store"
+	import {Input} from "./ui/input"
+	import {SentenceTransliterationDumperOf, SentenceTransliterationParserOf, type SentenceTransliteration} from "../word/egyptian/transliteration"
+	import {EgyptianTransliteration} from "../settings"
+	import {settings} from "../settings/store"
 
 	let {
 		value = $bindable([]),

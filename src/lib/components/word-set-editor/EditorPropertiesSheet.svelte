@@ -1,12 +1,12 @@
 <script lang="ts">
-   import {_} from "$lib/i18n/store"
-	import * as Sheet from "$lib/components/ui/sheet"
-	import * as Field from "$lib/components/ui/field"
-   import * as NS from "$lib/components/ui/native-select"
-   import Input from "$lib/components/ui/input/input.svelte"
-   import Button from "$lib/components/ui/button/button.svelte"
-   import type {Service} from "$lib/service"
-	import {Language} from "$lib/i18n/Language"
+   import {_} from "../../i18n/store"
+	import * as Sheet from "../ui/sheet"
+	import * as Field from "../ui/field"
+   import * as NS from "../ui/native-select"
+   import Input from "../ui/input/input.svelte"
+   import Button from "../ui/button/button.svelte"
+   import type {Service} from "../../service"
+	import {Language} from "../../i18n/Language"
 	import {toast} from "svelte-sonner"
 
    let {

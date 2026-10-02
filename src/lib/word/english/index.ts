@@ -1,5 +1,5 @@
-import {English} from "$lib/word"
-import {WordType} from "$lib/word/types"
+import {English} from ".."
+import {WordType} from "../types"
 
 export enum Region
 {

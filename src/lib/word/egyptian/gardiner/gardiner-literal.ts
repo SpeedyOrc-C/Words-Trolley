@@ -1,7 +1,7 @@
-import {InverseRecord} from "$lib/utils"
-import type Gardiner from "$lib/word/egyptian/gardiner"
-import {g} from "$lib/word/egyptian/hieroglyphs"
-import type {EgyptianWordCandidate} from "$lib/word/egyptian/IME"
+import {InverseRecord} from "../../../utils"
+import type Gardiner from "."
+import {g} from "../hieroglyphs"
+import type {EgyptianWordCandidate} from "../IME"
 
 export const Gardiner2Literal: Record<Gardiner, string> = {
 	A1: "𓀀",

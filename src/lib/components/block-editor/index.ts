@@ -1,4 +1,4 @@
-import type {Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
+import type {Hieroglyphs} from "../../word/egyptian/hieroglyphs"
 
 export namespace BlockEditor
 {

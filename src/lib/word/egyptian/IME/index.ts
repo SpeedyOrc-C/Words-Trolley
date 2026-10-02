@@ -1,4 +1,4 @@
-import {Phoneme} from "$lib/word/egyptian"
+import {Phoneme} from ".."
 import {c, type Hieroglyphs, JoinHorizontally, JoinVertically, Overlap, Split, Structure} from "../hieroglyphs"
 
 export type EgyptianWordCandidate = {

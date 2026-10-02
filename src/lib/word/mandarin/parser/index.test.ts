@@ -1,5 +1,5 @@
 import {test} from "vitest"
-import {pBopomofo} from "$lib/word/mandarin/parser/bopomofo"
+import {pBopomofo} from "./bopomofo"
 
 test("", () =>
 {

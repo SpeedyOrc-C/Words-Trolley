@@ -1,6 +1,6 @@
-import {g, h, type Hieroglyphs, v} from "$lib/word/egyptian/hieroglyphs"
-import type {Punctuation, SentenceTransliteration} from "$lib/word/egyptian/transliteration"
-import {WordType} from "$lib/word/types"
+import {g, h, type Hieroglyphs, v} from "./hieroglyphs"
+import type {Punctuation, SentenceTransliteration} from "./transliteration"
+import {WordType} from "../types"
 
 export enum Phoneme
 {

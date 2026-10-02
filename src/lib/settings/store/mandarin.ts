@@ -1,6 +1,6 @@
-import {MandarinScript} from "$lib/settings"
-import {settings} from "$lib/settings/store/index"
-import {BopomofoStrict, Final, Initial, Pinyin, type ISyllable} from "$lib/word/mandarin"
+import {MandarinScript} from ".."
+import {settings} from "./index"
+import {BopomofoStrict, Final, Initial, Pinyin, type ISyllable} from "../../word/mandarin"
 import {derived} from "svelte/store"
 
 const MandarinDumperOf = {

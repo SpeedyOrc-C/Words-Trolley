@@ -1,11 +1,11 @@
 <script lang="ts">
-	import {_, language} from "$lib/i18n/store"
-	import EgyptianText from "$lib/components/EgyptianText.svelte"
-	import * as T from "$lib/components/ui/table"
-	import {Phoneme} from "$lib/word/egyptian"
-	import {g} from "$lib/word/egyptian/hieroglyphs"
-	import {Phoneme2Egyptology} from "$lib/word/egyptian/transliteration/egyptology"
-	import {Language} from "$lib/i18n/Language"
+	import {_, language} from "#lib/i18n/store.ts"
+	import EgyptianText from "#lib/components/EgyptianText.svelte"
+	import * as T from "#lib/components/ui/table/index.ts"
+	import {Phoneme} from "#lib/word/egyptian/index.ts"
+	import {g} from "#lib/word/egyptian/hieroglyphs/index.ts"
+	import {Phoneme2Egyptology} from "#lib/word/egyptian/transliteration/egyptology.ts"
+	import {Language} from "#lib/i18n/Language.ts"
 
 	const pronunciations = [
 		"ʔ", "j", "j", "ʕ", "w", "b", "p", "f", "m", "n", "r",

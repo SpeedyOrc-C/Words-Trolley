@@ -1,5 +1,5 @@
-import {ValidateMaybeLanguage} from "$lib/i18n/Language"
-import {ValidateWords} from "$lib/word/validate"
+import {ValidateMaybeLanguage} from "#lib/i18n/Language.ts"
+import {ValidateWords} from "#lib/word/validate.ts"
 import * as kit from "@sveltejs/kit"
 
 export async function load({locals: {db}, params: {id}, depends})

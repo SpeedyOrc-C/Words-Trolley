@@ -1,8 +1,8 @@
 import {createServerClient} from '@supabase/ssr'
-import {type Handle} from '@sveltejs/kit'
-import {PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY} from '$env/static/public'
-import type {Database} from "$lib/service/types"
-import {Service} from '$lib/service'
+import type {Handle} from '@sveltejs/kit/hooks'
+import {PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY} from '$app/env/public'
+import type {Database} from "#lib/service/types.ts"
+import {Service} from '#lib/service/index.ts'
 
 export const handle: Handle = async ({event, resolve}) =>
 {

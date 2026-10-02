@@ -1,7 +1,7 @@
-import {Phoneme} from "$lib/word/egyptian"
-import * as Content from "$lib/word/egyptian/dictionary/content"
-import {g, type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
-import type {EgyptianWordCandidate} from "$lib/word/egyptian/IME"
+import {Phoneme} from ".."
+import * as Content from "./content"
+import {g, type Hieroglyphs} from "../hieroglyphs"
+import type {EgyptianWordCandidate} from "../IME"
 
 type Dictionary = Map<Phoneme, [Hieroglyphs[], null | Dictionary]>
 

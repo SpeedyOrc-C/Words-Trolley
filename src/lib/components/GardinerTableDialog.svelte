@@ -1,8 +1,8 @@
 <script lang="ts">
-   import {_} from "$lib/i18n/store"
-	import {gardinerTablePromptOnSelect} from "$lib/word/egyptian/IME/store"
+   import {_} from "../i18n/store"
+	import {gardinerTablePromptOnSelect} from "../word/egyptian/IME/store"
    import GardinerTable from "./GardinerTable.svelte"
-   import * as Dialog from "$lib/components/ui/dialog"
+   import * as Dialog from "./ui/dialog"
 
    function OnSelect(symbol: string)
    {

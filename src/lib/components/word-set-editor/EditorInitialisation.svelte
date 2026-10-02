@@ -1,12 +1,12 @@
 <script lang="ts">
-	import SelectWordType from "$lib/components/word-set-editor/SelectWordType.svelte"
-	import * as Dialog from "$lib/components/ui/dialog"
-	import {Button} from "$lib/components/ui/button"
-	import {Label} from "$lib/components/ui/label"
-	import {Input} from "$lib/components/ui/input"
-	import {_} from "$lib/i18n/store"
-	import type {Word} from "$lib/word"
-	import {WordType} from "$lib/word/types"
+	import SelectWordType from "./SelectWordType.svelte"
+	import * as Dialog from "../ui/dialog"
+	import {Button} from "../ui/button"
+	import {Label} from "../ui/label"
+	import {Input} from "../ui/input"
+	import {_} from "../../i18n/store"
+	import type {Word} from "../../word"
+	import {WordType} from "../../word/types"
 
 	let {
 		open = $bindable(false),

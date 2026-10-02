@@ -1,7 +1,7 @@
-import type {EgyptianWordCandidate} from "$lib/word/egyptian/IME"
+import type {EgyptianWordCandidate} from ".."
 import { Xiaohuan } from "./xiaohuan"
 import { Thomas } from "./thomas"
-import { g } from "$lib/word/egyptian/hieroglyphs"
+import { g } from "../../hieroglyphs"
 
 export enum EgyptianDeterminativeScheme
 {

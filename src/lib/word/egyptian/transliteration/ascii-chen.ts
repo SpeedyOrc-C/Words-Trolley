@@ -5,8 +5,8 @@ This is ASCII-only and similar to that by Manuel de Codage.
 Uses 3 capital letters.
 */
 
-import {ParserFromInvertedRecord} from "$lib/utils"
-import {Phoneme as P} from "$lib/word/egyptian"
+import {ParserFromInvertedRecord} from "../../../utils"
+import {Phoneme as P} from ".."
 
 export const Phoneme2AsciiChen = {
 	[P.a]: "a",

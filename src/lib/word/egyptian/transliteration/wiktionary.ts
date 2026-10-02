@@ -6,8 +6,8 @@ https://en.wiktionary.org/wiki/Wiktionary:Egyptian_entry_guidelines#Romanization
 This is mainly for quick navigation to Egyptian words on Wiktionary.
 */
 
-import {ParserFromInvertedRecord} from "$lib/utils"
-import {Phoneme as P} from "$lib/word/egyptian"
+import {ParserFromInvertedRecord} from "../../../utils"
+import {Phoneme as P} from ".."
 
 export const Phoneme2Wiktionary = {
    [P.a]: "ꜣ",

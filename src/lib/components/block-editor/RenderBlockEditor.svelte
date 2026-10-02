@@ -1,16 +1,16 @@
 <script lang="ts">
 	import {BlockEditor} from "."
 	import RenderDocumentEditor from "./RenderDocumentEditor.svelte"
-	import Input from "$lib/components/ui/input/input.svelte"
-	import Textarea from "$lib/components/ui/textarea/textarea.svelte"
-	import InputEgyptian from "$lib/components/InputEgyptian.svelte"
+	import Input from "../ui/input/input.svelte"
+	import Textarea from "../ui/textarea/textarea.svelte"
+	import InputEgyptian from "../InputEgyptian.svelte"
 
 	import type {Snippet} from "svelte"
-	import Button from "$lib/components/ui/button/button.svelte"
+	import Button from "../ui/button/button.svelte"
 
 	import ChevronUp from "@lucide/svelte/icons/chevron-up"
 	import ChevronDown from "@lucide/svelte/icons/chevron-down"
-	import {_} from "$lib/i18n/store"
+	import {_} from "../../i18n/store"
 
 	let {
 		block = $bindable(),

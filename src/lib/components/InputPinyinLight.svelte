@@ -1,6 +1,6 @@
 <!-- FIXME)) Don’t use textbox to hold pinyin with tone marks -->
 <script lang="ts" module>
-	import {pPinyinWithToneNumber} from "$lib/word/mandarin/parser/pinyin-with-tone-number"
+	import {pPinyinWithToneNumber} from "../word/mandarin/parser/pinyin-with-tone-number"
 	import {eof, space} from "crazy-parser"
 	import {some} from "crazy-parser/prefix"
 
@@ -8,9 +8,9 @@
 </script>
 
 <script lang="ts">
-	import {type ISyllable, Pinyin, PinyinWithToneNumber, SyllablesEqual} from "$lib/word/mandarin"
+	import {type ISyllable, Pinyin, PinyinWithToneNumber, SyllablesEqual} from "../word/mandarin"
 	import InputWithCustomKeyMapping from "./InputWithCustomKeyMapping.svelte"
-	import {ParseSep} from "$lib/utils"
+	import {ParseSep} from "../utils"
 
 	let {
 		value = $bindable([]),

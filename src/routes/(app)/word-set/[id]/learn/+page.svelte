@@ -1,23 +1,23 @@
 <script lang="ts">
-	import {CanSpeak, LangFromWord} from "$lib"
-	import EgyptianText from "$lib/components/EgyptianText.svelte"
-	import WordProgressNav from "$lib/components/WordProgressNav.svelte"
-	import {Button} from "$lib/components/ui/button"
-	import {Kbd} from "$lib/components/ui/kbd"
-	import {Language} from "$lib/i18n/Language"
-	import {_, language} from "$lib/i18n/store"
+	import {CanSpeak, LangFromWord} from "#lib/index.ts"
+	import EgyptianText from "#lib/components/EgyptianText.svelte"
+	import WordProgressNav from "#lib/components/WordProgressNav.svelte"
+	import {Button} from "#lib/components/ui/button/index.ts"
+	import {Kbd} from "#lib/components/ui/kbd/index.ts"
+	import {Language} from "#lib/i18n/Language.ts"
+	import {_, language} from "#lib/i18n/store.ts"
 	import {
 		settings,
 		showMeaningWhileLearning,
 		showPronunciation,
-	} from "$lib/settings/store"
-	import {egyptianSoundChanger, preferredSentenceTransliterationDumperForRead} from "$lib/settings/store/egyptian"
-	import {French, German} from "$lib/word"
-	import {BopomofoStrict, type ISyllable, Pinyin} from "$lib/word/mandarin"
-	import {MandarinScript} from "$lib/settings"
-	import {ReorderWords} from "$lib/settings/store"
-	import {Speak} from "$lib/speak"
-	import {WordType} from "$lib/word/types"
+	} from "#lib/settings/store/index.ts"
+	import {egyptianSoundChanger, preferredSentenceTransliterationDumperForRead} from "#lib/settings/store/egyptian.ts"
+	import {French, German} from "#lib/word/index.ts"
+	import {BopomofoStrict, type ISyllable, Pinyin} from "#lib/word/mandarin/index.ts"
+	import {MandarinScript} from "#lib/settings/index.ts"
+	import {ReorderWords} from "#lib/settings/store/index.ts"
+	import {Speak} from "#lib/speak.ts"
+	import {WordType} from "#lib/word/types.ts"
 
 	import Circle from "@lucide/svelte/icons/circle"
 	import Mars from "@lucide/svelte/icons/mars"

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import {online} from "svelte/reactivity/window"
-	import {Button} from "$lib/components/ui/button"
-	import {ButtonGroup} from "$lib/components/ui/button-group"
-	import {_} from "$lib/i18n/store"
-	import {settingsOpened} from "$lib/settings/store"
+   import {Button} from "#lib/components/ui/button/index.ts"
+   import {ButtonGroup} from "#lib/components/ui/button-group/index.ts"
+   import {_} from "#lib/i18n/store.ts"
+   import {settingsOpened} from "#lib/settings/store/index.ts"
 
 	import Settings from "@lucide/svelte/icons/settings"
 	import Plus from "@lucide/svelte/icons/plus"

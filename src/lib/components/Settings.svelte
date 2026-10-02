@@ -1,8 +1,8 @@
 <script lang="ts">
-	import EgyptianText from "$lib/components/EgyptianText.svelte"
-	import {Separator} from "$lib/components/ui/separator"
-	import {Language} from "$lib/i18n/Language"
-	import {_} from "$lib/i18n/store"
+	import EgyptianText from "./EgyptianText.svelte"
+	import {Separator} from "./ui/separator"
+	import {Language} from "../i18n/Language"
+	import {_} from "../i18n/store"
 	import {
 		ColourScheme,
 		EgyptianImeMode,
@@ -10,30 +10,30 @@
 		HieroglyphsFont,
 		type ISettings,
 		MandarinScript
-	} from "$lib/settings"
-	import {LivingLanguages} from "$lib/i18n"
-	import * as Dialog from "$lib/components/ui/dialog"
-	import * as NS from "$lib/components/ui/native-select"
-	import {Switch} from "$lib/components/ui/switch"
-	import {Label} from "$lib/components/ui/label"
-	import {settings, settingsOpened} from "$lib/settings/store"
+	} from "../settings"
+	import {LivingLanguages} from "../i18n"
+	import * as Dialog from "./ui/dialog"
+	import * as NS from "./ui/native-select"
+	import {Switch} from "./ui/switch"
+	import {Label} from "./ui/label"
+	import {settings, settingsOpened} from "../settings/store"
 	import {
 		egyptianTransliterationSampleTextForRead,
 		egyptianTransliterationSampleTextForEdit,
 		preferredSentenceTransliterationDumperForRead,
 		egyptianSoundChanger
-	} from "$lib/settings/store/egyptian"
-	import {mandarinSpellingSampleText} from "$lib/settings/store/mandarin"
+	} from "../settings/store/egyptian"
+	import {mandarinSpellingSampleText} from "../settings/store/mandarin"
 	import Languages from "@lucide/svelte/icons/languages"
-	import {voices} from "$lib/speak"
-	import {Checkbox} from "$lib/components/ui/checkbox"
-	import {g, v, h} from "$lib/word/egyptian/hieroglyphs"
+	import {voices} from "../speak"
+	import {Checkbox} from "./ui/checkbox"
+	import {g, v, h} from "../word/egyptian/hieroglyphs"
 	import Settings from "@lucide/svelte/icons/settings"
-	import {Phoneme} from "$lib/word/egyptian"
+	import {Phoneme} from "../word/egyptian"
 	import SettingSubList from "./ui/setting/SettingSubList.svelte"
 	import Button from "./ui/button/button.svelte"
 	import ButtonGroup from "./ui/button-group/button-group.svelte"
-	import {EgyptianDeterminativeScheme} from "$lib/word/egyptian/IME/determinative"
+	import {EgyptianDeterminativeScheme} from "../word/egyptian/IME/determinative"
 
 	let {open = $bindable(false)}: {open?: boolean} = $props()
 	let newSettings = $state($settings)

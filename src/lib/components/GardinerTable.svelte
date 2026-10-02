@@ -1,9 +1,9 @@
 <script lang="ts" module>
-   import * as Card from "$lib/components/ui/card"
-   import {GardinerPrefixes, Gardiner2Literal} from "$lib/word/egyptian/gardiner/gardiner-literal"
+   import * as Card from "./ui/card"
+   import {GardinerPrefixes, Gardiner2Literal} from "../word/egyptian/gardiner/gardiner-literal"
    import Button from "./ui/button/button.svelte"
-   import EgyptianText from "$lib/components/EgyptianText.svelte"
-   import {g} from "$lib/word/egyptian/hieroglyphs"
+   import EgyptianText from "./EgyptianText.svelte"
+   import {g} from "../word/egyptian/hieroglyphs"
 </script>
 
 <script lang="ts">

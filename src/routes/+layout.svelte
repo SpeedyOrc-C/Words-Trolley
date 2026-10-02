@@ -1,16 +1,16 @@
 <script lang="ts">
 	import "./layout.css"
-	import {AutoDetectLanguage} from "$lib/i18n"
-	import {dir, language} from "$lib/i18n/store"
-	import {ColourScheme, ParseSettings} from "$lib/settings"
-	import {settings, settingsOpened} from "$lib/settings/store"
-	import {SettingsKey} from "$lib/settings"
-	import {Toaster} from "$lib/components/ui/sonner"
-	import Settings from "$lib/components/Settings.svelte"
-	import {voices} from "$lib/speak"
-	import {prefersDarkScheme, shouldUseDarkScheme} from "$lib/settings/store/colour-scheme"
-	import VirtualEgyptianKeyboard from "$lib/components/VirtualEgyptianKeyboard.svelte"
-	import GardinerTableDialog from "$lib/components/GardinerTableDialog.svelte"
+	import {AutoDetectLanguage} from "#lib/i18n/index.ts"
+	import {dir, language} from "#lib/i18n/store.ts"
+	import {ColourScheme, ParseSettings} from "#lib/settings/index.ts"
+	import {settings, settingsOpened} from "#lib/settings/store/index.ts"
+	import {SettingsKey} from "#lib/settings/index.ts"
+	import {Toaster} from "#lib/components/ui/sonner/index.ts"
+	import Settings from "#lib/components/Settings.svelte"
+	import {voices} from "#lib/speak.ts"
+	import {prefersDarkScheme, shouldUseDarkScheme} from "#lib/settings/store/colour-scheme.ts"
+	import VirtualEgyptianKeyboard from "#lib/components/VirtualEgyptianKeyboard.svelte"
+	import GardinerTableDialog from "#lib/components/GardinerTableDialog.svelte"
 
 	const {children} = $props()
 

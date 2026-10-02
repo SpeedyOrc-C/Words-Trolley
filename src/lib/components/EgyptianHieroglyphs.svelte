@@ -1,7 +1,7 @@
 <script lang="ts" module>
-	import {HeightOfGlyph} from "$lib/word/egyptian/hieroglyphs/glyph/height"
-	import {WidthOfGlyph} from "$lib/word/egyptian/hieroglyphs/glyph/width"
-	import {h, type Hieroglyphs, Structure} from "$lib/word/egyptian/hieroglyphs"
+	import {HeightOfGlyph} from "../word/egyptian/hieroglyphs/glyph/height"
+	import {WidthOfGlyph} from "../word/egyptian/hieroglyphs/glyph/width"
+	import {h, type Hieroglyphs, Structure} from "../word/egyptian/hieroglyphs"
 	import L from "lodash"
 
 	const verticalGap = 0.05

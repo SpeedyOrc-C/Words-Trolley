@@ -1,4 +1,4 @@
-import {Final, Initial, IsLabial, Tone} from "$lib/word/mandarin"
+import {Final, Initial, IsLabial, Tone} from ".."
 import {asum, char, Nothing, pure} from "crazy-parser"
 import {optional} from "crazy-parser/prefix"
 

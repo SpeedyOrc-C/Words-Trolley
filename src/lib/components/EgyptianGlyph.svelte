@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {HieroglyphsFont} from "$lib/settings"
-	import {settings} from "$lib/settings/store"
-	import type Gardiner from "$lib/word/egyptian/gardiner"
-	import {Literal2Gardiner} from "$lib/word/egyptian/gardiner/gardiner-literal"
-	import {HeightOfGlyph} from "$lib/word/egyptian/hieroglyphs/glyph/height"
-	import {WidthOfGlyph} from "$lib/word/egyptian/hieroglyphs/glyph/width"
+	import {HieroglyphsFont} from "../settings"
+	import {settings} from "../settings/store"
+	import type Gardiner from "../word/egyptian/gardiner"
+	import {Literal2Gardiner} from "../word/egyptian/gardiner/gardiner-literal"
+	import {HeightOfGlyph} from "../word/egyptian/hieroglyphs/glyph/height"
+	import {WidthOfGlyph} from "../word/egyptian/hieroglyphs/glyph/width"
 
 	const {
 		g,

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {Structure, type Hieroglyphs} from "$lib/word/maya/hieroglyphs"
+   import {Structure, type Hieroglyphs} from "../word/maya/hieroglyphs"
    import Self from "./MayaHieroglyphs.svelte"
 
    const {

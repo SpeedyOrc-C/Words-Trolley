@@ -1,4 +1,4 @@
-import {WordType} from "$lib/word/types"
+import {WordType} from "../types"
 import {Nothing} from "crazy-parser"
 
 export enum Region

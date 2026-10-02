@@ -1,10 +1,10 @@
-import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from "$env/static/public"
-import type {Database} from "$lib/service/types"
-import {AutoDetectLanguage} from "$lib/i18n"
+import {PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL} from "$app/env/public"
+import type {Database} from "#lib/service/types.ts"
+import {AutoDetectLanguage} from "#lib/i18n/index.ts"
 import {createBrowserClient, createServerClient, isBrowser} from "@supabase/ssr"
 import {redirect} from "@sveltejs/kit"
 import type {LayoutLoad} from "./$types"
-import {Service} from "$lib/service"
+import {Service} from "#lib/service/index.ts"
 
 export const load: LayoutLoad = async ({url, data, depends, fetch}) =>
 {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import EgyptianHieroglyphs from "./EgyptianHieroglyphs.svelte"
-	import * as IME from "$lib/word/egyptian/IME"
+	import * as IME from "../word/egyptian/IME"
 
 	let {
 		ctx = $bindable(),
@@ -79,7 +79,7 @@
 
 <style lang="postcss">
    @reference "tailwindcss";
-	@reference "$lib/../routes/layout.css";
+	@reference "../../routes/layout.css";
 
 	div {
 		@apply inline-flex flex-wrap overflow-hidden;

@@ -1,5 +1,5 @@
-import {Language} from "$lib/i18n/Language"
-import {language} from "$lib/i18n/store"
+import {Language} from "./Language"
+import {language} from "./store"
 
 export type LivingLanguage
 	= Language.ZhCn

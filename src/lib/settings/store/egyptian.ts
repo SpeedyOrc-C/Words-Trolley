@@ -1,7 +1,7 @@
-import {settings} from "$lib/settings/store"
+import {settings} from "./index"
 import L from "lodash"
-import {Phoneme, PhonemeEqual_FuzzySs} from "$lib/word/egyptian"
-import { EgyptianDeterminativeSchemes } from "$lib/word/egyptian/IME/determinative"
+import {Phoneme, PhonemeEqual_FuzzySs} from "../../word/egyptian"
+import { EgyptianDeterminativeSchemes } from "../../word/egyptian/IME/determinative"
 import
 {
 	Punctuation,
@@ -9,7 +9,7 @@ import
 	SentenceTransliterationParserOf,
 	TransliterationDumperOf,
 	TransliterationParserOf
-} from "$lib/word/egyptian/transliteration"
+} from "../../word/egyptian/transliteration"
 import {derived} from "svelte/store"
 
 const sampleText = [

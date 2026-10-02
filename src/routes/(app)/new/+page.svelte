@@ -1,9 +1,9 @@
 <script lang="ts">
 	import {goto} from "$app/navigation"
-	import {Button} from "$lib/components/ui/button"
-	import {Input} from "$lib/components/ui/input"
-	import * as Field from "$lib/components/ui/field"
-	import {_} from "$lib/i18n/store"
+	import {Button} from "#lib/components/ui/button/index.ts"
+	import {Input} from "#lib/components/ui/input/index.ts"
+	import * as Field from "#lib/components/ui/field/index.ts"
+	import {_} from "#lib/i18n/store.ts"
 
 	import HouseIcon from "@lucide/svelte/icons/house"
 

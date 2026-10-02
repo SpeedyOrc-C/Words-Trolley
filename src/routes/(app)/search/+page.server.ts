@@ -1,4 +1,4 @@
-import {Service} from '$lib/service'
+import {Service} from '#lib/service/index.ts'
 
 export async function load({url, locals: {db}})
 {

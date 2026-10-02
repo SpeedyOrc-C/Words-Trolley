@@ -1,7 +1,7 @@
 <script lang="ts">
-   import {_} from "$lib/i18n/store"
-   import * as Item from "$lib/components/ui/item"
-	import type {Database} from "$lib/service/types"
+   import {_} from "../i18n/store"
+   import * as Item from "./ui/item"
+	import type {Database} from "../service/types"
 
    const {id, name, language}: {
       id: string

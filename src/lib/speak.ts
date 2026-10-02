@@ -1,7 +1,6 @@
-import {LangFromWord} from "$lib"
-
-import {settings} from "$lib/settings/store"
-import type {Word} from "$lib/word"
+import {LangFromWord} from "."
+import {settings} from "./settings/store"
+import type {Word} from "./word"
 import {derived, writable} from "svelte/store"
 
 export const voices = writable<SpeechSynthesisVoice[]>([])

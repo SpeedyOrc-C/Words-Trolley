@@ -1,8 +1,8 @@
 <script lang="ts">
    import {goto} from "$app/navigation"
-   import {_} from "$lib/i18n/store"
-   import Button from "$lib/components/ui/button/button.svelte"
-   import {settingsOpened} from "$lib/settings/store"
+	import {_} from "../i18n/store"
+	import Button from "./ui/button/button.svelte"
+	import {settingsOpened} from "../settings/store"
    import Settings from "@lucide/svelte/icons/settings"
    import Home from "@lucide/svelte/icons/home"
 

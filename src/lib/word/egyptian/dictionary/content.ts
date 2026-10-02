@@ -1,4 +1,4 @@
-import {g, h, type Hieroglyphs, l, v} from "$lib/word/egyptian/hieroglyphs"
+import {g, h, type Hieroglyphs, l, v} from "../hieroglyphs"
 
 export const Important: [Hieroglyphs, string][] = [
 	[g("𓏭"), "𓇌"],

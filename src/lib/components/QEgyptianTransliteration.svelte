@@ -1,7 +1,7 @@
 <script lang="ts">
-	import InputEgyptianTransliteration from "$lib/components/InputEgyptianTransliteration.svelte"
-	import {preferredPhonemeEqual} from "$lib/settings/store/egyptian"
-	import {Egyptian, type Word} from "$lib/word"
+	import InputEgyptianTransliteration from "./InputEgyptianTransliteration.svelte"
+	import {preferredPhonemeEqual} from "../settings/store/egyptian"
+	import {Egyptian, type Word} from "../word"
 
 	const {word, OnWin}: { word: Word & Egyptian.Word, OnWin: () => any } = $props()
 

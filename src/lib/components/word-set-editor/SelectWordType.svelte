@@ -1,7 +1,7 @@
 <script lang="ts">
-	import * as Select from "$lib/components/ui/select"
-	import {_} from "$lib/i18n/store"
-	import {WordType} from "$lib/word/types"
+	import * as Select from "../ui/select"
+	import {_} from "../../i18n/store"
+	import {WordType} from "../../word/types"
 
 	let {value = $bindable(), onchange = undefined}: {
 		value: WordType

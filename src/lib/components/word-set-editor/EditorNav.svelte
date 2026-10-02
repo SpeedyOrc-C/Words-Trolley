@@ -1,7 +1,7 @@
 <script lang="ts">
-	import * as M from "$lib/components/ui/menubar"
+	import * as M from "../ui/menubar"
 	import {goto} from "$app/navigation"
-	import {_} from "$lib/i18n/store"
+	import {_} from "../../i18n/store"
 
 	import BookOpen from "@lucide/svelte/icons/book-open"
 	import BookCheck from "@lucide/svelte/icons/book-check"

@@ -1,4 +1,4 @@
-import {Language} from "$lib/i18n/Language"
+import {Language} from "./Language"
 
 type s = string
 

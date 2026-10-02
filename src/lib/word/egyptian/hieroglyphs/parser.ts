@@ -1,4 +1,4 @@
-import {h, v, l, g, c, type Hieroglyphs} from "$lib/word/egyptian/hieroglyphs"
+import {h, v, l, g, c, type Hieroglyphs} from "."
 import {asum, char, digit, eof, lazy, one, type Parser} from "crazy-parser"
 import {many} from "crazy-parser/prefix"
 

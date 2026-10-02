@@ -1,6 +1,6 @@
-import type {Session, SupabaseClient, User} from '@supabase/supabase-js'
-import type {Database} from '$lib/service/types'
-import type {Service} from '$lib/service'
+import type {Service} from "#lib/service/index.ts"
+import type {Database} from "#lib/service/types.ts"
+import type {Session, SupabaseClient, User} from "@supabase/supabase-js"
 
 declare global
 {
@@ -12,7 +12,7 @@ declare global
 		{
 			db: SupabaseClient<Database>
 			service: Service
-			safeGetSession: () => Promise<{ session: Session | null; user: User | null }>
+			safeGetSession: () => Promise<{session: Session | null; user: User | null}>
 			session: Session | null
 			user: User | null
 			acceptLanguage: string | null

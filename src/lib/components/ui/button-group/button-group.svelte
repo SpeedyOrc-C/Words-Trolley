@@ -20,7 +20,7 @@
 </script>
 
 <script lang="ts">
-	import {cn} from "$lib/utils.js"
+	import {cn} from "../../../utils"
 	import type {HTMLAttributes} from "svelte/elements"
 
 	let {
